@@ -181,3 +181,43 @@ main {
     text-align: center;
     padding-top: 2.5rem;
 }
+
+/*  */
+.language-setting-button {
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.languages-button {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row-reverse;
+}
+
+.globe-icon {
+    width: 45px;
+    height: 45px;
+    background-color: #1a4d1a;
+    border-radius: 50%;
+}
+
+.languages-icon {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row-reverse;
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flag {
+    width: 40px;
+    height: 40px;
+    background-color: #1a4d1a;
+    border-radius: 50%;
+}
