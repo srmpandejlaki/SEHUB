@@ -55,3 +55,57 @@ main {
     font-weight: bold;
     font-size: 1rem;
 }
+
+.form-section {
+    border: 1px solid white;
+    border-radius: 0.5rem;
+    height: 70vh;
+    display: flex;
+}
+
+.form {
+    padding: 1rem;
+}
+
+.form-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    
+}
+
+/* didalam .form */
+.form-input {
+    display: flex;
+    padding: 0 0.2rem;
+    width: 400px;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+}
+
+input {
+    width: 250px;
+    height: 30px;
+    background-color: white;
+    color: black;
+}
+
+.form-button {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    justify-content: end;
+    width: 400px;
+}
+
+.cancel-button, .save-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 30px;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+}
