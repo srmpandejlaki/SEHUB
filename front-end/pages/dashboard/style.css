@@ -2,18 +2,23 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background: linear-gradient(90deg, #1a4d1a, #4d774d, #9cada0);
-    background-size: cover;
+    background-color: #118800;
+    /* background: linear-gradient(90deg, #1a4d1a, #4d774d, #9cada0);
+    background-size: cover; */
     font-family: "Poppins", sans-serif;
     color: white;
 }
 
 header {
-    display: flex;
     padding: 0 2rem;
-    justify-content: space-between;
-    align-items: center;
     height: 50px;
+    display: flex;
+}
+
+.logo-larbre {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 main {
@@ -29,203 +34,3 @@ main {
 }
 
 /*  */
-.intro {
-    width: 65%;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.text h2 {
-    font-size: 2.2rem;
-}
-
-.text h3 {
-    font-size: 1.5rem;
-    margin-top: -1rem;
-}
-
-.opsi {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    background-color: white;
-    padding: 1.5rem 3rem;
-    border-radius: 1.5rem;
-}
-
-.opsi button {
-    padding: 1rem 0;
-    border: 1px solid rgb(154, 154, 154);
-    font-size: 1.2rem;
-    background-color: white;
-    color: rgb(154, 154, 154);
-    margin: 0 1rem;
-}
-
-/*  */
-.review {
-    width: 100%; /*penting*/
-}
-
-.hari-tgl {
-    text-align: end;
-    padding-right: 1.5rem;
-    height: 50px;
-}
-
-.hari-tgl p {
-    font-size: 1.2rem;
-}
-
-.info-board {
-    padding: 0 1rem;
-    border-radius: 0.5rem;
-    border: 2px solid white;
-    display: flex;
-    gap: 2rem;
-}
-
-/* didalam info-board */
-.main-info h3 {
-    font-size: 1.5rem;
-}
-
-.main-product {
-    display: flex;
-    flex-direction: column;
-    font-size: 1.2rem;
-    margin-top: -1.5rem;
-}
-
-.main-product .text {
-    display: flex;
-    justify-content: space-between;
-}
-
-.volume {
-    text-align: end;
-}
-
-.main-product .img-product {
-    width: 300px;
-    height: 200px;
-    border-radius: 0.5rem;
-    background-color: white;
-    color: black; 
-}
-
-.main-product .img-product p {
-    font-size: 1rem;
-    text-align: center;
-    padding-top: 5rem;
-}
-
-/* didalam main-info */
-.product-count {
-    display: flex;
-    justify-content: space-around;
-    font-size: 1.2rem;
-    border: 1px solid white;
-    border-radius: 0.2rem;
-    margin-top: 1.5rem;
-}
-
-.product-count div {
-    display: flex;
-    gap: 0.5rem;
-}
-
-/* didalam info-board*/
-.other-product {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 1rem;
-    padding: 0 0.5rem 0 0;
-    overflow-y: scroll;
-    height: 60vh;
-}
-
-/* khusus scroll */
-.other-product::-webkit-scrollbar {
-  width: 8px; /* ukuran batang */
-}
-.other-product::-webkit-scrollbar-track {
-  background: transparent; /* track jadi transparan */
-}
-
-.other-product::-webkit-scrollbar-thumb {
-  background: #ededed;   /* warna batang scroll */
-  border-radius: 10px;   /* biar bulat */
-}
-/* khusus scroll */
-
-.product {
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-}
-
-.product .img-product {
-    width: 120px;
-    height: 80px;
-    border-radius: 0.5rem;
-    background-color: white;
-    color: black; 
-}
-
-.product .text {
-    display: flex;
-    flex-direction: column;
-}
-
-.product .img-product p {
-    font-size: 0.8rem;
-    text-align: center;
-    padding-top: 1.3rem;
-}
-
-/*  */
-.language-setting-button {
-    display: flex;
-    justify-content: end;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.languages-button {
-    display: flex;
-    gap: 1rem;
-    flex-direction: row-reverse;
-}
-
-.globe-icon, .setting-icon {
-    width: 45px;
-    height: 45px;
-    background-color: #1a4d1a;
-    border-radius: 50%;
-}
-
-.languages-icon {
-    display: flex;
-    gap: 1rem;
-    flex-direction: row-reverse;
-}
-
-.icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.icon p {
-    margin-top: 0;
-}
-
-.flag {
-    width: 40px;
-    height: 40px;
-    background-color: #1a4d1a;
-    border-radius: 50%;
-}
