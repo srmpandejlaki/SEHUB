@@ -113,10 +113,48 @@ main {
     background-color: white;
     border-radius: 12px;
     color: #2B2B2B;
+
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    grid-template-rows: 50px;
+
+    grid-template-areas:
+        "title title title"
+        "form form img-product";
 }
 
 .main-section a {
     text-decoration: none;
     color: #118800;
     font-weight: bolder;
+}
+
+.main-section h3 {
+    grid-area: title;
+    text-align: center;
+    font-weight: bolder;
+}
+
+/* form */
+input {
+    width: 250px;
+    height: 25px;
+    border-radius: 4px;
+    background-color: #2B2B2B;
+    color: white;
+}
+
+.inputan p {
+    padding-inline: 1rem;
+}
+
+form {
+    grid-area: form;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.img-product {
+    grid-area: img-product;
 }
