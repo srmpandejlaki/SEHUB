@@ -1,0 +1,28 @@
+.base-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  color: white;
+}
+
+.base-btn:hover {
+  cursor: pointer;
+} 
+
+.black {
+  background-color: #2B2B2B;
+}
+
+.yellow {
+  background-color: #EFAC00;
+}
+
+.green {
+  background-color: #118800;
+}
+
+.red {
+  background-color: #D20000;
+}
