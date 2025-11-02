@@ -25,7 +25,7 @@ function AsideBar() {
           </div>
           <div className="nav-item">
             <img src={iconAdd} alt="" /> 
-            <Link>Tambah Data</Link>
+            <Link to="/form-add-data">Tambah Data</Link>
           </div>
           <div className="nav-item">
             <img src={iconHistory} alt="" /> 
