@@ -29,11 +29,11 @@ function AsideBar() {
           </div>
           <div className="nav-item">
             <img src={iconHistory} alt="" /> 
-            <Link> Riwayat</Link>
+            <Link>Riwayat</Link>
           </div>
           <div className="nav-item">
             <img src={iconSetting} alt="" /> 
-            <Link> Pengaturan</Link>
+            <Link>Pengaturan</Link>
           </div>
         </div>
       </div>

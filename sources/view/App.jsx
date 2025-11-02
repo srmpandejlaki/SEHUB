@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Header from '../components/main/headerBar';
-import AsideBar from '../components/main/asideBar';
+import Header from '../components/base/headerBar';
+import AsideBar from '../components/base/asideBar';
 import DashboardPage from '../view/pages/dashboard';
 import OptionForm from './pages/form-add-data/option-form';
 
