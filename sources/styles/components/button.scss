@@ -9,6 +9,12 @@
   font-weight: bold;
 }
 
+.button-side {
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+}
+
 .base-btn:hover {
   cursor: pointer;
 } 

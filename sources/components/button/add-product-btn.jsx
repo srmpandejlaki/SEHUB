@@ -1,11 +1,11 @@
 import React from "react";
 
-function BackBtn() {
+function AddProductBtn() {
   return (
     <div className="base-btn black">
-      <p>kembali</p>
+      <p>tambah produk</p>
     </div>
   );
 }
 
-export default BackBtn;
+export default AddProductBtn;
