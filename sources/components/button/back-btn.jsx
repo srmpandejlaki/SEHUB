@@ -2,8 +2,8 @@ import React from "react";
 
 function BackBtn() {
   return (
-    <div className="base-btn black">
-      <p>kembali</p>
+    <div className="">
+      <button className="base-btn black">kembali</button>
     </div>
   );
 }

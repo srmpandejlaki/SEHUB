@@ -7,17 +7,17 @@
   border: none;
   color: white;
   font-weight: bold;
+
+  :hover {
+    cursor: pointer;
+  } 
 }
 
 .button-side {
   display: flex;
   justify-content: space-between;
-  height: 35px;
+  align-items: center;
 }
-
-.base-btn:hover {
-  cursor: pointer;
-} 
 
 .black {
   background-color: #2B2B2B;

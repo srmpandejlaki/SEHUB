@@ -2,8 +2,8 @@ import React from "react";
 
 function AddProductBtn() {
   return (
-    <div className="base-btn black">
-      <p>tambah produk</p>
+    <div className="">
+      <button className="base-btn black">tambah produk</button>
     </div>
   );
 }

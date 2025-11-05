@@ -8,7 +8,7 @@ function SettingPage() {
   return (
     <div className="content setting">
       <div className="product-display">
-        <h2>PRODUK</h2>
+        <h4>PRODUK</h4>
         <div className="product-items">
           <div className="product">
             <p>Produk 1</p>
