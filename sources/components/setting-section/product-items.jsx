@@ -9,24 +9,24 @@ function ProductItems() {
   return (
     <div className="product-items">
       <div className="product">
-        <p>Produk 1</p>
         <img src={Sirop1Img} alt="" />
+        <p>Seho Sirop<br/>330ml</p>
         <div className="button-side">
           <EditBtn /> 
           <DeleteBtn />
         </div>
       </div>
       <div className="product">
-        <p>Produk 2</p>
         <img src={Granule1Img} alt="" />
+        <p>Seho Granule<br/>150g</p>
         <div className="button-side">
           <EditBtn /> 
           <DeleteBtn />
         </div>
       </div>
       <div className="product">
-        <p>Produk 3</p>
         <img src={DefaultImg} alt="" />
+        <p>Seho Block<br/>500g</p>
         <div className="button-side">
           <EditBtn /> 
           <DeleteBtn />

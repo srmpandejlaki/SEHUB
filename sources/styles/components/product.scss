@@ -1,4 +1,13 @@
 .product-items {
   display: flex;
   gap: 1rem;
+  text-align: center;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
 }
