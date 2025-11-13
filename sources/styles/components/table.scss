@@ -2,29 +2,30 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    font-size: 0.8rem;
 }
 
-th, td {
+thead th {
+    border-bottom: #2B2B2B 1px solid;
+    position: sticky;
+    top: 0;
+    background: #fff; /* beri background biar tidak transparan saat scroll */
+    z-index: 2;
     padding: 10px;
-    text-align: center;
 }
 
-td {
-    color: white;
+tbody td {
+    border-bottom: #2B2B2B 1px solid;
+    padding: 10px;
+
 }
 
 // tabel dashboard
 .table-dashboard {
     border-radius: 12px 12px 0 0;
-    overflow: hidden;
-
-    thead {
-        border-bottom: #118800 2px solid;
-    }
-
-    tbody {
-        border: white 3px solid;
-    }
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
 
     a {
         text-decoration: none;
@@ -44,12 +45,12 @@ td {
     width: 100px;
 }
 
-/* Baris ganjil */
-tbody tr:nth-child(odd) {
-  background-color: #343434; /* misal abu gelap */
-}
+// /* Baris ganjil */
+// tbody tr:nth-child(odd) {
+//   background-color: #343434; /* misal abu gelap */
+// }
 
-/* Baris genap */
-tbody tr:nth-child(even) {
-  background-color: #2B2B2B; /* sedikit lebih gelap */
-}
+// /* Baris genap */
+// tbody tr:nth-child(even) {
+//   background-color: #2B2B2B; /* sedikit lebih gelap */
+// }

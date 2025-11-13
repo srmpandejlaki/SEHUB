@@ -16,10 +16,18 @@ function ProductItems() {
       <div className="product">
         <p>Produk 2</p>
         <img src="" alt="" />
+        <div className="button-side">
+          <EditBtn /> 
+          <DeleteBtn />
+        </div>
       </div>
       <div className="product">
         <p>Produk 3</p>
         <img src="" alt="" />
+        <div className="button-side">
+          <EditBtn /> 
+          <DeleteBtn />
+        </div>
       </div>
     </div>
   );

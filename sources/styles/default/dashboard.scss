@@ -1,0 +1,40 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "short-panel notification-side"
+    "dashboard-table notification-side"
+    "dashboard-table notification-side";
+}
+
+.table {
+  grid-area: dashboard-table;
+  padding: 1rem;
+}
+
+.notification-side {
+  grid-area: notification-side;
+  padding: 1rem;
+}
+
+.short-panel {
+  grid-area: short-panel;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
+}
+
+.panel {
+  min-width: 200px;
+  max-height: 80px;
+  border-radius: 8px;
+  padding: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.text {
+  .number {
+    font-size: 1.5rem;
+  }
+}
