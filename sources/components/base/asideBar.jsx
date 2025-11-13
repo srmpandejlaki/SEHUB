@@ -4,7 +4,6 @@ import logoSehub from "../../assets/public/sehub.png";
 import iconMenu from "../../assets/icon/menu-g.png";
 import iconHome from "../../assets/icon/home-g.png";
 import iconAdd from "../../assets/icon/add-g.png";
-import iconHistory from "../../assets/icon/history-g.png";
 import iconSetting from "../../assets/icon/gear-g.png";
 
 function AsideBar() {
@@ -25,11 +24,7 @@ function AsideBar() {
           </div>
           <div className="nav-item">
             <img src={iconAdd} alt="" /> 
-            <Link to="/form-add-data">Tambah Data</Link>
-          </div>
-          <div className="nav-item">
-            <img src={iconHistory} alt="" /> 
-            <Link to="/history-data">Riwayat</Link>
+            <Link to="/product">Produk</Link>
           </div>
           <div className="nav-item">
             <img src={iconSetting} alt="" /> 

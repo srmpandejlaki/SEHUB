@@ -2,9 +2,9 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #118800;
+    background-color: white;
     font-family: "Poppins", sans-serif;
-    color: white;
+    color: #2B2B2B;
 }
 
 .main-side {
@@ -41,13 +41,15 @@ aside {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #2B2B2B;
-    background-color: white;
+    color: white;
+    background-color: #118800;
     padding-inline: 1rem;
     
     img {
         width: 50px;
         height: auto;
+        background-color: white;
+        border-radius: 4px;
     }
 }
 
@@ -59,6 +61,7 @@ aside {
     p {
         font-size: 1.5rem;
         font-weight: bolder;
+        color: white;
     }
 }
 

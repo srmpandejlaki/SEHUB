@@ -3,8 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Header from '../components/base/headerBar';
 import AsideBar from '../components/base/asideBar';
 import DashboardPage from '../view/pages/dashboard';
-import OptionForm from './pages/form-add-data/option-form';
-import OptionHistory from './pages/history-data/option-history-data';
+import ProductPage from './pages/product';
 import SettingPage from './pages/setting';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
@@ -38,8 +37,7 @@ class App extends React.Component {
           <AsideBar />
           <Routes>
             <Route path="/" element={<DashboardPage />} />
-            <Route path="/form-add-data" element={<OptionForm />} />
-            <Route path="/history-data" element={<OptionHistory />} />
+            <Route path="/product" element={<ProductPage />} />
             <Route path="/setting" element={<SettingPage />} />
           </Routes>
         </main>
