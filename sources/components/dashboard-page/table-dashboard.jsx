@@ -20,7 +20,7 @@ function DashboardTable() {
           </thead>
           <tbody>
               <tr>
-                  <td>1</td>
+                  <td className="center">1</td>
                   <td>23 Oktober 2025</td>
                   <td>Budiono</td>
                   <td>
@@ -29,15 +29,15 @@ function DashboardTable() {
                       <p className="name">Seho Granule 150g</p>
                     </div>
                   </td>
-                  <td>15</td>
-                  <td>15</td>
+                  <td className="center">15</td>
+                  <td className="center">15</td>
                   <td>Cristiano</td>
                   <td>
                       <a href="">lihat detail</a>
                   </td>
               </tr>
               <tr>
-                  <td>1</td>
+                  <td className="center">1</td>
                   <td>23 Oktober 2025</td>
                   <td>Budiono</td>
                   <td>
@@ -46,15 +46,15 @@ function DashboardTable() {
                       <p className="name">Seho Granule 150g</p>
                     </div>
                   </td>
-                  <td>15</td>
-                  <td>15</td>
+                  <td className="center">15</td>
+                  <td className="center">15</td>
                   <td>Cristiano</td>
                   <td>
                       <a href="">lihat detail</a>
                   </td>
               </tr>
               <tr>
-                  <td>1</td>
+                  <td className="center">1</td>
                   <td>23 Oktober 2025</td>
                   <td>Budiono</td>
                   <td>
@@ -63,15 +63,15 @@ function DashboardTable() {
                       <p className="name">Seho Granule 150g</p>
                     </div>
                   </td>
-                  <td>15</td>
-                  <td>15</td>
+                  <td className="center">15</td>
+                  <td className="center">15</td>
                   <td>Cristiano</td>
                   <td>
                       <a href="">lihat detail</a>
                   </td>
               </tr>
               <tr>
-                  <td>1</td>
+                  <td className="center">1</td>
                   <td>23 Oktober 2025</td>
                   <td>Budiono</td>
                   <td>
@@ -80,8 +80,25 @@ function DashboardTable() {
                       <p className="name">Seho Granule 150g</p>
                     </div>
                   </td>
-                  <td>15</td>
-                  <td>15</td>
+                  <td className="center">15</td>
+                  <td className="center">15</td>
+                  <td>Cristiano</td>
+                  <td>
+                      <a href="">lihat detail</a>
+                  </td>
+              </tr>
+              <tr>
+                  <td className="center">1</td>
+                  <td>23 Oktober 2025</td>
+                  <td>Budiono</td>
+                  <td>
+                    <div className="produk-code">
+                      <p className="code">LS-001</p>
+                      <p className="name">Seho Granule 150g</p>
+                    </div>
+                  </td>
+                  <td className="center">15</td>
+                  <td className="center">15</td>
                   <td>Cristiano</td>
                   <td>
                       <a href="">lihat detail</a>

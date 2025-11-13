@@ -16,7 +16,7 @@ thead th {
 
 tbody td {
     border-bottom: #2B2B2B 1px solid;
-    padding: 10px;
+    padding-inline: 10px;
 
 }
 
@@ -39,6 +39,19 @@ tbody td {
             border-radius: 4px;
             transition: all 0.2s ease-in-out;
         }
+    }
+
+    .name {
+        margin-top: 0;
+    }
+    
+    .code {
+        color: #8D8D8D;
+        margin-bottom: 0;
+    }
+
+    .center {
+        text-align: center;
     }
 }
 
