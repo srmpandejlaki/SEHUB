@@ -18,18 +18,20 @@ function AsideBar() {
               <img src={iconMenu} alt="" /> 
               <p>MENU</p>
           </div>
-          <div className="nav-item">
-            <img src={iconHome} alt="" />
-            <Link to="/">Beranda</Link>
-          </div>
-          <div className="nav-item">
-            <img src={iconAdd} alt="" /> 
-            <Link to="/product">Produk</Link>
-          </div>
-          <div className="nav-item">
-            <img src={iconSetting} alt="" /> 
-            <Link to="/setting">Pengaturan</Link>
-          </div>
+          <ul>
+            <li>
+              <img src={iconHome} alt="" />
+              <Link to="/">Beranda</Link>
+            </li>
+            <li>
+              <img src={iconAdd} alt="" />
+              <Link to="/product">Produk</Link>
+            </li>
+            <li>
+              <img src={iconSetting} alt="" />
+              <Link to="/setting">Pengaturan</Link>
+            </li>
+          </ul>
         </div>
       </div>
       <div className="companies-name">

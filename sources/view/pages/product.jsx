@@ -2,8 +2,8 @@ import React from "react";
 
 function ProductPage() {
   return(
-    <div>
-      <h1>Product Page</h1>
+    <div className="content product">
+      <h2>Product Page</h2>
     </div>
   );
 }
