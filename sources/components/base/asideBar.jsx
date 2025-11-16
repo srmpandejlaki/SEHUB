@@ -15,20 +15,20 @@ function AsideBar() {
         </div>
         <div className="nav">
           <div className="menu">
-              <IconMenu className="icon side" /> 
+              <IconMenu className="icon greenIcon" /> 
               <p>MENU</p>
           </div>
           <ul>
             <li>
-              <IconHome className="icon side" /> 
+              <IconHome className="icon greenIcon" /> 
               <Link to="/">Beranda</Link>
             </li>
             <li>
-              <IconProduct className="icon side" /> 
+              <IconProduct className="icon greenIcon" /> 
               <Link to="/product">Produk</Link>
             </li>
             <li>
-              <IconSetting className="icon side" /> 
+              <IconSetting className="icon greenIcon" /> 
               <Link to="/setting">Pengaturan</Link>
             </li>
           </ul>

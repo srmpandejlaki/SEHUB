@@ -7,6 +7,16 @@ table {
     font-size: 0.8rem;
 }
 
+.descTable {
+    @include custom.flex-align-center();
+    justify-content: space-between
+}
+
+.title-table {
+    @include custom.flex-align-center();
+    gap: 0.3rem;
+}
+
 thead th {
     border-bottom: custom.$color-secondary 1px solid;
     position: sticky;
@@ -26,7 +36,7 @@ tbody td {
 .table-dashboard {
     width: 100%;
     border-radius: 12px;
-    max-height: 250px;
+    max-height: 350px;
     overflow-y: auto;
     // border: 1px solid custom.$code-product;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

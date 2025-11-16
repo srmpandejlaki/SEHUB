@@ -35,3 +35,29 @@ $dark-green: #0C6400;
   flex-direction: column;
   align-items: center;
 }
+
+
+/* icon color */
+.whiteIcon {
+  color: $color-primary;
+}
+
+.blackIcon {
+  color: $color-secondary;
+}
+
+.yellowIcon {
+  color: $warning;
+}
+
+.redIcon {
+  color: $danger;
+}
+
+.greenIcon {
+  color: $color-tertiary;
+}
+
+.darkGreenIcon {
+  color: $dark-green;
+}

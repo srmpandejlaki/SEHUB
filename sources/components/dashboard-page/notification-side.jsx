@@ -5,7 +5,7 @@ function NotificationSide() {
   return(
     <div className="notification-side">
       <div className="notif-title">
-        <IconReminder className="icon onPanel" />
+        <IconReminder className="icon onPanel blackIcon" />
         <p>Notifikasi</p>
       </div>
       <div className="notif-content">
