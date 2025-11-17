@@ -168,6 +168,15 @@ a {
   position: relative;
 }
 
+.form-overlay, .checking-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 2; /* sangat penting */
+}
+
+
 .product-display, .inventory-display {
   height: 70vh;
   background-color: #e4e3e3;

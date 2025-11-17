@@ -2,6 +2,7 @@ import React from "react";
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import InventoryProduct from "../../../components/product-page/inventory-items";
+import CheckStock from "../../../components/product-page/check-stock";
 
 function HistoryInventoryData() {
   return(
@@ -14,6 +15,9 @@ function HistoryInventoryData() {
           </div>
           <SearchFilter />
           <InventoryProduct />
+        </div>
+        <div className="checking-overlay">
+          <CheckStock />
         </div>
       </div>
     </div>

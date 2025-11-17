@@ -3,102 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>SEHUB+</title>
 </head>
 <body>
-    <header>
-        <div class="logo-larbre">
-            <h2>Tambah Data Distribusi Produk</h2>
-            <img src="../../public/logo-larbreseho.png" alt="">
-        </div>
-    </header>
+    <style>
+        .stock-check-container {
+            width: 90%;
+            margin: auto;
+            font-family: "Poppins", sans-serif;
+            color: #333;
+            }
 
-    <aside>
-        <div class="aside">
-            <nav>
-                <div class="logo-sehub">
-                    <img src="../../public/sehub.png" alt="">
-                </div>
-                <div class="navigation">
-                    <div class="menu">
-                        <img class="icon" src="../../public/menu-g.png" alt="">
-                        <p>MENU</p>
-                    </div>
-                    <div class="nav">
-                        <img class="icon" src="../../public/home-g.png" alt="">
-                        <a href="">Beranda</a>
-                    </div>
-                    <div class="nav">
-                        <img class="icon" src="../../public/add-g.png" alt="">
-                        <a href="">Tambah Data</a>
-                    </div>
-                    <div class="nav">
-                        <img class="icon" src="../../public/history-g.png" alt="">
-                        <a href="">Riwayat</a>
-                    </div>
-                    <div class="nav">
-                        <img class="icon" src="../../public/gear-g.png" alt="">
-                        <a href="">Pengaturan</a>
-                    </div>
-                </div>
-            </nav>
-            <div class="companies-name">
-                <p>PT. Rumah Seho Nusantara</p>
-            </div>
-        </div>
-    </aside>
+            .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            }
 
+            .subtitle {
+            font-size: 20px;
+            margin-bottom: 20px;
+            }
+
+            .product-card {
+            border: 2px solid #444;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            }
+
+            .product-header {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            }
+
+            .product-header .code {
+            font-weight: 700;
+            margin-right: 10px;
+            }
+
+            .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            }
+
+            .product-table th {
+            text-align: left;
+            font-weight: 600;
+            padding-bottom: 10px;
+            }
+
+            .product-table td {
+            padding: 8px 0;
+            }
+
+            .status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: #118c16;
+            }
+
+            .check {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid #118c16;
+            display: inline-block;
+            position: relative;
+            }
+
+            .check::after {
+            content: "✔";
+            font-size: 12px;
+            color: #118c16;
+            position: absolute;
+            top: -2px;
+            left: 2px;
+            }
+
+            .total {
+            text-align: right;
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: 500;
+            }
+
+    </style>
+    
     <main>
-        <div class="mainn">
-            <div class="hari-tgl">
-                <p>20 September 2025</p>
+        <div class="stock-check-container">
+            <h2 class="title">🔄 Cek Stok Gudang</h2>
+            <p class="subtitle">Cek Kembali Produk Berikut</p>
+
+            <!-- CARD PRODUK -->
+            <div class="product-card">
+                <div class="product-header">
+                <span class="code">LS01330</span>
+                <span class="name">Seho Sirop 330ml</span>
+                </div>
+
+                <table class="product-table">
+                <thead>
+                    <tr>
+                    <th>No</th>
+                    <th>Tanggal Masuk</th>
+                    <th>Tanggal Kadaluwarsa</th>
+                    <th>Data Inventori</th>
+                    <th>Stok Gudang</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                    <td>01.</td>
+                    <td>13 September 2025</td>
+                    <td>12 Desember 2025</td>
+                    <td>8 botol</td>
+                    <td class="status">
+                        <span class="check"></span> <span class="text">SESUAI</span>
+                    </td>
+                    </tr>
+
+                    <tr>
+                    <td>02.</td>
+                    <td>Seho Sirop 330ml</td>
+                    <td>27 Desember 2025</td>
+                    <td>15 botol</td>
+                    <td class="status">
+                        <span class="check"></span> <span class="text">SESUAI</span>
+                    </td>
+                    </tr>
+
+                    <tr>
+                    <td>03.</td>
+                    <td>Seho Sirop 330ml</td>
+                    <td>1 Januari 2026</td>
+                    <td>24 botol</td>
+                    <td class="status">
+                        <span class="check"></span> <span class="text">SESUAI</span>
+                    </td>
+                    </tr>
+                </tbody>
+                </table>
+
+                <div class="total">
+                Total Produk <strong>47 botol</strong>
+                </div>
             </div>
-            <div class="main-section">
-                <h3>Form Tambah Data Distribusi</h3>
-                <form>
-                    <div class="inputan">
-                        <label for="hari-tgl">Hari/Tanggal</label>
-                        <input type="date" placeholder="Hari/Tanggal">
-                    </div>
-                    <div class="inputan">
-                        <label for="nama-pemesan">Nama Pemesan</label>
-                        <input type="text" placeholder="Nama Pemesan">
-                    </div>
-                    <div class="inputan">
-                        <label for="jenis-produk">Jenis Produk</label>
-                        <select name="Jenis Produk" id="jenis-produk" placeholder="Jenis Produk">
-                            <option value="Seho Sirop">Seho Sirop</option>
-                            <option value="Seho Granule">Seho Granule</option>
-                            <option value="Seho Block">Seho Block</option>
-                        </select>
-                    </div>
-                    <div class="inputan">
-                        <label for="kuantitas">Kuantitas</label>
-                        <input type="text" placeholder="Kuantitas">
-                    </div>
-                    <div class="inputan">
-                        <label for="metode-pengiriman">Metode Pengiriman</label>
-                        <select name="Jenis Produk" id="metode-pengiriman" placeholder="Metode Pengiriman">
-                            <option value="Seho Sirop">Pengantaran Langsung</option>
-                            <option value="Seho Granule">Jasa Kurir</option>
-                            <option value="Seho Block">Ambil Di tempat</option>
-                        </select>
-                    </div>
-                    <div class="inputan">
-                        <label for="keterangan">Keterangan</label>
-                        <input type="text" placeholder="Keterangan">
-                    </div>
-                    <div class="inputan">
-                        <label for="status">Status</label>
-                        <select name="Jenis Produk" id="status" placeholder="Status">
-                            <option value="Seho Sirop">Pengemasan</option>
-                            <option value="Seho Granule">Sedang Dikirim</option>
-                            <option value="Seho Block">Sudah Diterima</option>
-                        </select>
-                    </div>
-                </form>
-                <div class="img-product"></div>
+
+            <!-- CARD KEDUA (contoh) -->
+            <div class="product-card">
+                <div class="product-header">
+                <span class="code">LS01480</span>
+                <span class="name">Seho Sirop 480ml</span>
+                </div>
+
+                <table class="product-table">
+                <thead>
+                    <tr>
+                    <th>No</th>
+                    <th>Tanggal Masuk</th>
+                    <th>Tanggal Kadaluwarsa</th>
+                    <th>Data Inventori</th>
+                    <th>Stok Gudang</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                    <td>01.</td>
+                    <td>13 September 2025</td>
+                    <td>12 Desember 2025</td>
+                    <td>4 botol</td>
+                    <td class="status">
+                        <span class="check"></span> <span class="text">SESUAI</span>
+                    </td>
+                    </tr>
+                </tbody>
+                </table>
+
+                <div class="total">
+                Total Produk <strong>4 botol</strong>
+                </div>
             </div>
         </div>
     </main>
