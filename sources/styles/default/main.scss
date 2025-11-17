@@ -163,3 +163,21 @@ a {
     }
 }
 
+/* product page */
+.main-product, .main-inventory {
+  position: relative;
+}
+
+.product-display, .inventory-display {
+  height: 70vh;
+  background-color: #e4e3e3;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+/* scroll */ 
+.table-dashboard, .product-items, .inventory-items { 
+  /* opsional biar halus */
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}

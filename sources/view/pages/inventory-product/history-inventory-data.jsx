@@ -1,10 +1,21 @@
 import React from "react";
 import NavProduct from "../../../components/base/nav-product";
+import SearchFilter from "../../../components/base/search-filter";
+import InventoryProduct from "../../../components/product-page/inventory-items";
 
 function HistoryInventoryData() {
   return(
-    <div className="content">
+    <div className="content product-page">
       <NavProduct />
+      <div className="main-inventory">
+        <div className="inventory-display">
+          <div className="header-inventory">
+            <p>Pratinjau Data Inventori Produk</p>
+          </div>
+          <SearchFilter />
+          <InventoryProduct />
+        </div>
+      </div>
     </div>
   );
 }

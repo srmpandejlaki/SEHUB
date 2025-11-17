@@ -1,0 +1,74 @@
+@use '../default/custom.scss';
+
+.inventory-items {
+  display: grid;
+  grid-auto-flow: column;      /* SUSUN KOLOM KE KANAN */
+  grid-auto-columns: 320px;    /* lebar setiap card */
+  grid-template-rows: repeat(2, auto);   /* 2 baris */
+  gap: 1.5rem;
+
+  overflow-x: auto;
+  // overflow-y: hidden;
+  padding: 1rem;
+}
+
+.items {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  height: 150px;
+
+  border-radius: 8px;
+  background-color: custom.$color-primary;
+
+  &:hover {
+    cursor: pointer;
+    width: 330px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  img {
+    border-radius: 8px 0 0 8px;
+  }
+}
+
+.item-desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-block: 0.5rem;
+
+  span {
+    color: #8D8D8D;
+    font-size: 1rem;
+  }
+
+  .title, .number, .product-name {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.counting {
+  width: 100%;
+  display: flex;
+  gap: 2rem;
+
+  .number {
+    font-size: 1.5rem;
+  }
+  .title {
+    font-size: 0.8rem;
+  }
+}
+
+.product-name {
+  font-size: 1.2rem;
+  font-weight: bolder;
+}
+
+.stock-now {
+  .number {
+    color: custom.$color-tertiary;
+  }
+}
