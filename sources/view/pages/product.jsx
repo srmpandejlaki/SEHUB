@@ -9,15 +9,19 @@ function ProductPage() {
   return(
     <div className="content product-page">
       <NavProduct />
-      <div className="product-display">
-        <div className="header-product-page">
-          <p>Daftar Produk</p>
-          <AddProductBtn />
+      <div className="main-product">
+        <div className="product-display">
+          <div className="header-product-page">
+            <p>Daftar Produk L' Arbre Seho</p>
+            <AddProductBtn />
+          </div>
+          <SearchFilter />  
+          <ProductItems />
         </div>
-        <SearchFilter />  
-        <ProductItems />
+        <div className="form-overlay">
+          <FormProduct />
+        </div>
       </div>
-      <FormProduct />
     </div>
   );
 }

@@ -7,24 +7,27 @@ function FormProduct() {
     <div className="form-product">
       <div className="form-header">
         <div>
-          <IconEditProduct className="icon" />
+          <IconEditProduct className="icon darkGreenIcon" />
           <p>Tambah Produk</p>
         </div>
         <IconCancel className="icon" />
       </div>
-      <form action="">
-        <select name="Nama Produk" id="">
-          <option value="Seho Sirop">Seho Sirop</option>
-          <option value="Seho Granule">Seho Granule</option>
-          <option value="Seho Block">Seho Block</option>
-          <option value="Seho Block">+ Produk Baru</option>
-        </select>
+      <form action="" className="main-form">
+        <div className="inputan product-name">
+          <label htmlFor="">Nama Produk</label>
+          <select name="Nama Produk" id="">
+            <option value="Seho Sirop">Seho Sirop</option>
+            <option value="Seho Granule">Seho Granule</option>
+            <option value="Seho Block">Seho Block</option>
+            <option value="Seho Block">+ Produk Baru</option>
+          </select>
+        </div>
         <div className="double-form">
-          <div>
+          <div className="inputan">
             <label htmlFor="">Ukuran</label>
             <input type="text" placeholder="0" />
           </div>
-          <div>
+          <div className="inputan">
             <label htmlFor="">Ukuran Satuan</label>
             <select name="Ukuran Satuan" id="">
               <option value="mililiter">ml</option>
@@ -35,7 +38,7 @@ function FormProduct() {
           </div>
         </div>
         <div className="double-form">
-          <div>
+          <div className="inputan">
             <label htmlFor="">Kemasan</label>
             <select name="Kemasan" id="">
               <option value="botol">botol</option>
@@ -44,13 +47,13 @@ function FormProduct() {
               <option value="">+ kemasan</option>
             </select>
           </div>
-          <div>
+          <div className="inputan">
             <label htmlFor="">Gambar</label>
             <input type="image" placeholder="unggah" />
           </div>
         </div>
         <div className="button">
-          <button className="btn-base green">Simpan</button>
+          <button className="base-btn green">Simpan</button>
         </div>
       </form>
     </div>

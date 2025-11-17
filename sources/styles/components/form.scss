@@ -2,19 +2,18 @@
 
 /* form */
 input, select {
-    width: 250px;
-    height: 25px;
-    border-radius: 16px;
-    color: custom.$color-secondary;
-    padding: 0 0.5rem;
+  color: custom.$color-secondary;
+  padding: 0 0.5rem;
+  border: custom.$color-secondary 1px solid;
+}
+
+label {
+  padding-inline: 0.5rem;
 }
 
 .inputan {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    
-    label {
-        padding-inline: 1rem;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
