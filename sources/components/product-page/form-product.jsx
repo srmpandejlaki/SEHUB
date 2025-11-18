@@ -13,7 +13,7 @@ function FormProduct() {
         <IconCancel className="icon" />
       </div>
       <form action="" className="main-form">
-        <div className="inputan product-name">
+        <div className="inputan">
           <label htmlFor="">Nama Produk</label>
           <select name="Nama Produk" id="">
             <option value="Seho Sirop">Seho Sirop</option>

@@ -37,10 +37,11 @@
   }
 }
 
-.header-product-page {
+.header-product-page, .header-inventory {
   display: flex;
   justify-content: space-between;
   height: 35px;
+  font-size: 0.8rem;
 }
 
 .search-filter {
@@ -135,7 +136,6 @@
 .form-header {
   @include custom.flex-center;
   justify-content: space-between;
-  gap: 1rem;
   padding-block: 0.5rem;
 
   div {
@@ -156,7 +156,7 @@
 
   input, select {   
     height: 30px;
-    border-radius: 8px;
+    border-radius: 4px;
   }
 
   .button {

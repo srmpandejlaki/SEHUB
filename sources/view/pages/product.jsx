@@ -2,8 +2,9 @@ import React from "react";
 import SearchFilter from "../../components/base/search-filter";
 import ProductItems from "../../components/product-page/product-items";
 import NavProduct from "../../components/base/nav-product";
-import AddProductBtn from "../../components/button/add-product-btn";
 import FormProduct from "../../components/product-page/form-product";
+
+import IconAddProduct from "../../assets/icon/Vector-3.svg?react";
 
 function ProductPage() {
   return(
@@ -13,7 +14,10 @@ function ProductPage() {
         <div className="product-display">
           <div className="header-product-page">
             <p>Daftar Produk L' Arbre Seho</p>
-            <AddProductBtn />
+            <div className="base-btn black">
+              <IconAddProduct className="icon" />
+              <p>tambah produk</p>
+            </div>
           </div>
           <SearchFilter />  
           <ProductItems />

@@ -19,7 +19,6 @@ table {
 
 thead th {
     border-bottom: custom.$color-secondary 1px solid;
-    position: sticky;
     top: 0;
     background: custom.$color-primary;
     z-index: 2;
@@ -65,6 +64,10 @@ tbody td {
 
     .center {
         text-align: center;
+    }
+
+    thead th {
+        position: sticky;
     }
 }
 
