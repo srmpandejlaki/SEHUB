@@ -142,12 +142,6 @@ a {
 
 // base-setting
 .setting {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: 2fr;
-    grid-template-areas:
-        "product-display other-setting";
-
     h4 {
         font-weight: bolder;
         font-size: 1.2rem;

@@ -8,7 +8,9 @@ function LanguageSetting() {
   return(
     <div className="languages-setting">
       <div className="text">
-        <h4>BAHASA</h4>
+        <div className="title">
+          <h4>BAHASA</h4>
+        </div>
         <p>Bahasa yang digunakan saat ini :</p>
       </div>
       <div className="icon-languages">

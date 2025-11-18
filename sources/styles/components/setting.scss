@@ -1,17 +1,29 @@
 @use '../default/custom.scss';
 
-.product-display {
-  grid-area: product-display;
-  padding: 0 1rem 1rem 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.other-setting {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 50px 1fr;
+  grid-template-areas:
+    "headerSetting clearDataSetting"
+    "languagesSetting clearDataSetting";
+  gap: 1rem;
 }
 
-.other-setting {
-  grid-area: other-setting;
-  border-left: 2px solid custom.$color-tertiary;
+.other-setting-header {
+  grid-area: headerSetting;
+  @include custom.flex-align-center;
+  gap: 1rem;
   padding-left: 1rem;
+}
+
+.languages-setting {
+  grid-area: languagesSetting;
+  background-color: #e4e3e3;
+  padding: 1rem;
+}
+.clear-data-setting {
+  grid-area: clearDataSetting;
 }
 
 .icon-languages {
