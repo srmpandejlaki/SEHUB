@@ -33,12 +33,19 @@ tbody td {
 
 // tabel dashboard
 .table-dashboard {
+    max-height: 350px;
+}
+.table-user {
+    max-height: 150px;
+}
+
+.table-dashboard, .table-user {
     width: 100%;
     border-radius: 12px;
-    max-height: 350px;
     overflow-y: auto;
     // border: 1px solid custom.$code-product;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: custom.$color-primary;
 
     a {
         text-decoration: none;

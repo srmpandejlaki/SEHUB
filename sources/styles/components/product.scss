@@ -32,12 +32,15 @@
   }
 }
 
+.header-product-page, .header-inventory, .header-distribution {
+  padding-block: 1rem;
+}
+
 .header-product-page, .header-inventory, .header-distribution, .header-user-setting {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 35px;
-  padding-block: 1rem;
   font-weight: bolder;
 
   .button {

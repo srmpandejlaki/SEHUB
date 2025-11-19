@@ -5,13 +5,32 @@
   border-radius: 8px;
 }
 
+.user-display {
+  padding: 1rem;
+}
+
 .header-user-setting {
-  padding-inline: 1rem;
-  
+  padding: 1rem;
+
   .title {
     @include custom.flex-align-center;
     gap: 1rem;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
   }
+}
+
+.status-column, .password-column, .buttons-column {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.password-column {
+  width: 100px;
+  justify-content: space-between;
 }
 
 .other-setting {
@@ -62,9 +81,8 @@
 
 .btn-setting {
   @include custom.flex-between;
-  padding-right: 1rem;
 
-  p {
-    width: 200px;
+  button {
+    width: 150px;
   }
 }

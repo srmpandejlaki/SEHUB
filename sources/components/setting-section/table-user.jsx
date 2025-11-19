@@ -28,12 +28,20 @@ function TableUser() {
             <td>cristian01@gmail.com</td>
             <td>Karyawan</td>
             <td>
-                <p><IconAdmin className="icon greenIcon" /> Admin</p>
+              <div className="status-column">
+                <IconAdmin className="icon greenIcon" /> <p>Admin</p>
+              </div>
             </td>
-            <td>admin123 <IconOpenEye className="icon blackIcon" /></td>
             <td>
-              <IconEdit className="icon greenIcon" />
-              <IconDelete className="icon redIcon" />
+              <div className="password-column">
+                <p>admin123</p> <IconOpenEye className="icon blackIcon" />
+              </div>
+            </td>
+            <td>
+              <div className="buttons-column">
+                <IconEdit className="icon greenIcon" />
+                <IconDelete className="icon redIcon" />
+              </div>
             </td>
           </tr>
           <tr>
@@ -42,12 +50,42 @@ function TableUser() {
             <td>jonathan02@gmail.com</td>
             <td>Pemilik Perusahaan</td>
             <td>
-                <p><IconOwner className="icon greenIcon" /> Pemilik</p>
+              <div className="status-column">
+                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
+              </div>
             </td>
-            <td>****** <IconCloseEye className="icon blackIcon" /></td>
             <td>
-              <IconEdit className="icon greenIcon" />
-              <IconDelete className="icon redIcon" />
+              <div className="password-column">
+                <p>******</p> <IconCloseEye className="icon blackIcon" />
+              </div>
+            </td>
+            <td>
+              <div className="buttons-column">
+                <IconEdit className="icon greenIcon" />
+                <IconDelete className="icon redIcon" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>2.</td>
+            <td>Jonathan</td>
+            <td>jonathan02@gmail.com</td>
+            <td>Pemilik Perusahaan</td>
+            <td>
+              <div className="status-column">
+                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
+              </div>
+            </td>
+            <td>
+              <div className="password-column">
+                <p>******</p> <IconCloseEye className="icon blackIcon" />
+              </div>
+            </td>
+            <td>
+              <div className="buttons-column">
+                <IconEdit className="icon greenIcon" />
+                <IconDelete className="icon redIcon" />
+              </div>
             </td>
           </tr>
         </tbody>
