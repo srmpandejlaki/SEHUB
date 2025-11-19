@@ -5,8 +5,8 @@ import AsideBar from '../components/base/asideBar';
 import DashboardPage from '../view/pages/dashboard';
 import ProductPage from './pages/product';
 import SettingPage from './pages/setting';
-import HistoryInventoryData from './pages/inventory-product/inventory-data-history';
-import DataDistributionHistory from './pages/distribution-product/data-distribution-history';
+import InventoryPage from './pages/inventory-product/inventory-page';
+import DistributionPage from './pages/distribution-product/distribution-page';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
 
@@ -41,8 +41,8 @@ class App extends React.Component {
             <Route path="/" element={<DashboardPage />} />
             <Route path="/product" element={<ProductPage />} />
             <Route path="/setting" element={<SettingPage />} />
-            <Route path="/product/inventory" element={<HistoryInventoryData />} />
-            <Route path="/product/distribution" element={<DataDistributionHistory />} />
+            <Route path="/product/inventory" element={<InventoryPage />} />
+            <Route path="/product/distribution" element={<DistributionPage />} />
           </Routes>
         </main>
       </LocaleProvider>

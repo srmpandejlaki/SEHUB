@@ -7,7 +7,7 @@ import CheckStock from "../../../components/product-page/check-stock";
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconChecking from "../../../assets/icon/ci_checking.svg?react";
 
-function HistoryInventoryData() {
+function InventoryPage() {
   return(
     <div className="content product-page">
       <NavProduct />
@@ -37,4 +37,4 @@ function HistoryInventoryData() {
   );
 }
 
-export default HistoryInventoryData;
+export default InventoryPage;

@@ -5,7 +5,7 @@ import DistributionProduct from "../../../components/product-page/distribution-i
 
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 
-function DataDistributionHistory() {
+function DistributionPage() {
   return(
     <div className="content product-page">
       <NavProduct />
@@ -30,4 +30,4 @@ function DataDistributionHistory() {
   );
 }
 
-export default DataDistributionHistory;
+export default DistributionPage;
