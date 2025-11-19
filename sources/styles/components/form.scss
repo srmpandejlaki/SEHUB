@@ -11,6 +11,9 @@ label {
   // padding-inline: 0.5rem;
   font-size: 0.8rem;
   font-weight: bolder;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .inputan {
@@ -67,7 +70,6 @@ label {
 
   .button {
     @include custom.flex-center;
-    margin: 2rem 0 0.8rem 0;
   }
 }
 
@@ -79,8 +81,16 @@ label {
 
 .form-product .main-form {
   gap: 2rem;
+
+  .button {
+    margin: 2rem 0 0.8rem 0;
+  }
 }
 
 .form-user .main-form {
   gap: 1rem;
+
+  label {
+    padding-inline: 0.5rem;
+  }
 }
