@@ -8,9 +8,6 @@
   padding: 1rem;
 
   .title {
-    @include custom.flex-align-center;
-    gap: 1rem;
-
     p {
       margin: 0;
       padding: 0;
@@ -101,5 +98,12 @@
 
   button {
     width: 150px;
+  }
+}
+
+.header-user-setting, .languages-setting, .clear-data-setting {
+  .title {
+    @include custom.flex-align-center;
+    gap: 1rem;
   }
 }

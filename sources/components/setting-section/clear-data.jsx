@@ -1,9 +1,11 @@
 import React from "react";
+import IconClearData from "../../assets/icon/ant-design_clear-outlined.svg?react";
 
 function ClearDataSetting() {
   return(
     <div className="clear-data-setting">
-      <div className="text">
+      <div className="title">
+        <IconClearData className="icon greenIcon" />
         <h4>PEMBERSIHAN DATA</h4>
       </div>
       <div className="sub-setting">
