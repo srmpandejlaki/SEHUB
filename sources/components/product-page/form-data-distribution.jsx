@@ -4,6 +4,12 @@ import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
 import IconKalender from "../../assets/icon/mdi_calendar-outline.svg?react";
 import IconPerson from "../../assets/icon/Vector-9.svg?react";
 import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?react";
+import IconDistributor from "../../assets/icon/streamline-ultimate_delivery-package-person.svg?react";
+import IconStatus from "../../assets/icon/fluent_status-12-regular.svg?react";
+import IconBotol1 from "../../assets/icon/icon-park-outline_bottle-two.svg?react";
+import IconBotol2 from "../../assets/icon/Frame 27.svg?react";
+import IconKeterangan from "../../assets/icon/fluent_text-description-ltr-20-filled.svg?react";
+import IconDropDown from "../../assets/icon/material-symbols_arrow-drop-down-rounded.svg?react";
 
 function FormDataDistribution() {
   return(
@@ -35,11 +41,11 @@ function FormDataDistribution() {
             </select>
           </div>
           <div className="inputan">
-            <label htmlFor="">Nama Pengirim</label>
+            <label htmlFor=""><IconDistributor className="greenIcon" /> Nama Pengirim</label>
             <input type="text" placeholder="Masukkan nama pengirim" />
           </div>
           <div className="inputan">
-            <label htmlFor="">Status</label>
+            <label htmlFor=""><IconStatus className="greenIcon" /> Status</label>
             <select name="Status" id="">
               <option value="Seho Sirop">Pengemasan</option>
               <option value="Seho Granule">Dalam Pengantaran</option>
@@ -51,43 +57,47 @@ function FormDataDistribution() {
         <div className="right-side">
           <div className="the-right-form">
             <div className="double-form">
-              <div className="inputan">
-                <label htmlFor="">Nama Produk</label>
+              <div className="inputan-double">
+                <label htmlFor=""><IconBotol1 className="greenIcon" /> Nama Produk</label>
                 <select name="Nama Produk" id="">
                   <option value="Seho Sirop">Seho Sirop</option>
                   <option value="Seho Granule">Seho Granule</option>
                   <option value="Seho Block">Seho Block</option>
                   <option value="Seho Block">+ Produk Baru</option>
                 </select>
+                <p>+ Tambah Produk</p>
               </div>
               <div className="inputan">
-                <label htmlFor="">Ukuran</label>
+                <label htmlFor=""><IconBotol2 className="greenIcon" /> Ukuran</label>
                 <input type="text" placeholder="0" />
               </div>
             </div>
             <div className="detail-product">
-              <div className="head-detail">
-                <p>Detail Produk</p>
-              </div>
-              <div className="display-detail">
-                <div className="products">
-                  <div className="product-names">
-                    <p>Seho Granule 250g <br /> <span>25 Desember 2025</span></p>
-                    <p>Seho Granule 250g <br /> <span>4 Januari 2026</span></p>
-                  </div>
-                  <div className="count-product">
-                    <p>3</p>
-                    <p>4</p>
-                  </div>
+              <div className="detail-container">
+                <div className="head-detail">
+                  <p>Detail Produk</p>
+                  <IconDropDown className="blackIcon" /> 
                 </div>
-                <div className="total">
-                  <p>Total</p>
-                  <p>7</p>
+                <div className="display-detail">
+                  <div className="products">
+                    <div className="product-names">
+                      <p>Seho Granule 250g <br /> <span>25 Desember 2025</span></p>
+                      <p>Seho Granule 250g <br /> <span>4 Januari 2026</span></p>
+                    </div>
+                    <div className="count-product">
+                      <p>3</p>
+                      <p>4</p>
+                    </div>
+                  </div>
+                  <div className="total">
+                    <p>Total</p>
+                    <p>7</p>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="inputan">
-              <label htmlFor="">Keterangan</label>
+              <label htmlFor=""><IconKeterangan className="greenIcon" /> Keterangan</label>
               <input type="text" placeholder="Ketik sesuatu.." />
             </div>
           </div>

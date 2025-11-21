@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import IconInfoTable from "../../assets/icon/mdi_information-outline.svg?react";
 
 function DashboardTable() {
@@ -10,7 +11,7 @@ function DashboardTable() {
           <p>Informasi Distribusi Produk</p>
         </div>
         <div className="btn-tbl-detail base-btn">
-          <p>Selengkapnya</p>
+          <Link to="/product/distribution-history" >Selengkapnya</Link>
         </div>
       </div>
       <div className="table-dashboard">

@@ -14,6 +14,10 @@
     cursor: pointer;
     color: custom.$color-primary;
     transition: all 0.2s ease-in-out;
+
+    a {
+      color: custom.$color-primary;
+    }
   } 
 }
 
@@ -54,14 +58,13 @@
   height: 10px;
   width: 85px;
 
-  color: custom.$color-secondary;
-
   &:hover {
     background-color: custom.$dark-green;
   }
 
-  p {
+  a {
     font-size: 0.7rem;
     font-weight: bolder;
+    color: custom.$color-secondary;
   }
 }
