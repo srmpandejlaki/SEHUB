@@ -33,7 +33,7 @@ tbody td {
 
 // tabel dashboard
 .table-dashboard, .table-display {
-    max-height: 350px;
+    max-height: 320px;
 }
 .table-user {
     max-height: 150px;
@@ -96,6 +96,11 @@ tbody td {
 .left, .right {
     @include custom.flex-center();
     gap: 0.3rem;
+
+    // p {
+    //     margin: 0;
+    //     padding: 0;
+    // }
 }
 
 .pagination {

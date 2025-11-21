@@ -14,7 +14,7 @@ body {
     min-height: 100vh;
     display: grid;
     grid-template-columns: 200px 1fr 1fr;
-    grid-template-rows: 80px auto;
+    grid-template-rows: 60px auto;
 
     grid-template-areas:
         "sidebar header header"
@@ -135,7 +135,7 @@ a {
 }
 
 .content {
-    margin: 1rem;
+    padding: 1rem;
     border-radius: 12px;
     color: custom.$color-secondary;
 }
@@ -155,7 +155,7 @@ a {
 
 
 .product-display, .inventory-display, .main-distribution {
-  height: 72vh;
+  height: max-content;
   background-color: #e4e3e3;
   padding: 0.5rem 1rem;
   border-radius: 8px;

@@ -1,6 +1,9 @@
 import React from "react";
 import IconEditProduct from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
+import IconKalender from "../../assets/icon/mdi_calendar-outline.svg?react";
+import IconPerson from "../../assets/icon/Vector-9.svg?react";
+import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?react";
 
 function FormDataDistribution() {
   return(
@@ -15,15 +18,15 @@ function FormDataDistribution() {
       <form action="" className="main-form">
         <div className="left-side">
           <div className="inputan">
-            <label htmlFor="">Hari/Tanggal</label>
+            <label htmlFor=""><IconKalender className="greenIcon" /> Hari/Tanggal</label>
             <input type="date" placeholder="Masukkan tanggal" />
           </div>
           <div className="inputan">
-            <label htmlFor="">Nama Pemesan</label>
+            <label htmlFor=""><IconPerson className="greenIcon" /> Nama Pemesan</label>
             <input type="text" placeholder="Masukkan nama pemesan" />
           </div>
           <div className="inputan">
-            <label htmlFor="">Metode Pengiriman</label>
+            <label htmlFor=""><IconDistribution className="greenIcon" /> Metode Pengiriman</label>
             <select name="Metode Pengiriman" id="">
               <option value="Seho Sirop">Pengantaran Langsung</option>
               <option value="Seho Granule">Jasa Kurir</option>

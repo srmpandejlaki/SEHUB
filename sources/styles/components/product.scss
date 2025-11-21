@@ -1,13 +1,13 @@
 @use '../default/custom.scss';
 
-.product-page, .distribution-history {
+.product-page, .distribution-history, .dashboard {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  justify-content: space-around;
 }
 
 .inventory-display, .product-display .title, .header-distribution-history {
-  font-weight: bolder
+  font-weight: bolder;
 }
 
 .nav-product {

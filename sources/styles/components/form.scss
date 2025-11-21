@@ -51,6 +51,10 @@ label {
 
   .inputan {
     padding-bottom: 1rem;
+
+    label {
+      padding-left: 0.5rem;
+    }
   }
 
   .right-side {
@@ -75,8 +79,6 @@ label {
 .form-header {
   @include custom.flex-center;
   justify-content: space-between;
-  padding-block: 0.5rem;
-
   div {
     @include custom.flex-center;
     gap: 0.5rem;
@@ -122,6 +124,10 @@ label {
   label {
     padding-inline: 0.5rem;
   }
+}
+
+.form-user {
+  height: max-content;
 }
 
 .detail-product {

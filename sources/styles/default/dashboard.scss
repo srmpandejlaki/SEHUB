@@ -1,18 +1,16 @@
 @use '../default/custom.scss';
 
-.dashboard {
+.container-dashboard {
   gap: 1rem;
   display: grid;
   grid-template-columns: 3fr 1fr;
   grid-template-rows: 1fr 4fr;
   grid-template-areas:
-    "opening opening"
     "short-panel notification-side"
     "dashboard-table notification-side";
 }
 
 .opening {
-  grid-area: opening;
   @include custom.flex-space-between;
 
   h3, p {

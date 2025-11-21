@@ -10,9 +10,11 @@ function DashboardPage() {
         <h3>Selamat Datang Admin!</h3>
         <p>20 September 2025</p>
       </div>
-      <ShortPanel />
-      <NotificationSide />
-      <DashboardTable />
+      <div className="container-dashboard">
+        <ShortPanel />
+        <NotificationSide />
+        <DashboardTable />
+      </div>
     </div>
   );
 }
