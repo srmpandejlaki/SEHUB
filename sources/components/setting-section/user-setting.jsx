@@ -3,7 +3,7 @@ import IconUserSetting from "../../assets/icon/tdesign_user-setting.svg?react";
 import IconAddUser from "../../assets/icon/material-symbols_person-add-outline.svg?react";
 import TableUser from "./table-user";
 
-function UserSetting() {
+function UserSetting({ openFormUser }) {
   return(
     <div className="user-setting">
       <div className="header-user-setting">
@@ -12,7 +12,7 @@ function UserSetting() {
           <p>Pengaturan Pengguna</p>
         </div>
         <div className="button">
-          <div className="base-btn black">
+          <div className="base-btn black" onClick={openFormUser} >
             <IconAddUser className="icon" />
             <p>tambah pengguna</p>
           </div>

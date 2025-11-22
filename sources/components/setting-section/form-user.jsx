@@ -7,7 +7,7 @@ import IconPassword from "../../assets/icon/mdi_password-outline.svg?react";
 import IconPosition from "../../assets/icon/icon-park-outline_user-positioning.svg?react";
 import IconStatus from "../../assets/icon/eos-icons_role-binding-outlined.svg?react";
 
-function FormUser() {
+function FormUser({ closeFormUser }) {
   return(
     <div className="form-user">
       <div className="form-header">
@@ -15,7 +15,7 @@ function FormUser() {
           <IconAddUser className="icon darkGreenIcon" />
           <p>Tambah Pengguna</p>
         </div>
-        <IconCancel className="icon blackIcon" />
+        <IconCancel className="icon blackIcon" onClick={closeFormUser} />
       </div>
       <form action="" className="main-form">
         <div className="inputan">
