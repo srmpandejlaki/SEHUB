@@ -79,20 +79,22 @@ function FormDataDistribution() {
                   <IconDropDown className="blackIcon" /> 
                 </div>
                 <div className="display-detail">
-                  <div className="products">
-                    <div className="product-names">
-                      <p>Seho Granule 250g <br /> <span>25 Desember 2025</span></p>
-                      <p>Seho Granule 250g <br /> <span>4 Januari 2026</span></p>
-                    </div>
-                    <div className="count-product">
-                      <p>3</p>
-                      <p>4</p>
-                    </div>
-                  </div>
-                  <div className="total">
-                    <p>Total</p>
-                    <p>7</p>
-                  </div>
+                  <table className="products">
+                    <tbody>
+                      <tr>
+                        <td>Seho Granule 250g <br/><span>25 Desember 2025</span></td>
+                        <td className="counting">4</td>
+                      </tr>
+                      <tr>
+                        <td>Seho Granule 250g <br/><span>4 Januari 2026</span></td>
+                        <td className="counting">3</td>
+                      </tr>
+                      <tr className="total">
+                        <td className="text-end">Total</td>
+                        <td>7</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

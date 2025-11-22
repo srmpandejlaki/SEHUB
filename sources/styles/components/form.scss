@@ -74,6 +74,24 @@ label {
     justify-content: space-between;
     align-items: center;
   }
+
+  span {
+    font-size: 0.6rem;
+    color: #8D8D8D;
+  }
+  
+  tbody td {
+    border-top: 0;
+    padding-block: 0.3rem;
+  }
+
+  .total {
+    border-top: 1px solid #8D8D8D;
+  }
+
+  .text-end {
+    text-align: end;
+  }
 }
 
 .form-product, .form-user, .form-data-distribution {
@@ -156,10 +174,4 @@ label {
 .display-detail {
   border: 1px solid custom.$color-secondary;
   border-radius: 4px;
-  padding: 0.5rem;
-}
-
-.products, .total {
-  display: flex;
-  gap: 0.5rem;
 }
