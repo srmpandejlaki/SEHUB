@@ -1,7 +1,7 @@
 import React from "react";
 import IconChecking from "../../assets/icon/uim_process.svg?react";
 
-function CheckStock() {
+function CheckStock({ openCekStok }) {
   return(
     <div className="check-stock">
       <div className="header">
@@ -96,7 +96,7 @@ function CheckStock() {
           </div>
         </div>
       </div>
-      <div className="button">
+      <div className="button" onClick={openCekStok} >
         <button className="base-btn black">Selesai</button>
       </div>
     </div>

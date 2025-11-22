@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import InventoryProduct from "../../../components/product-page/inventory-items";
@@ -8,6 +8,16 @@ import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconChecking from "../../../assets/icon/ci_checking.svg?react";
 
 function InventoryPage() {
+  const [showFormCekStock, setFormCekStock] = useState(false);
+
+  const handleOpenFormStock = () => {
+    setFormCekStock(true);
+  };
+
+  const handleCloseFormStock = () => {
+    setFormCekStock(false);
+  };
+
   return(
     <div className="content product-page">
       <NavProduct />
@@ -16,7 +26,7 @@ function InventoryPage() {
           <div className="header-inventory">
             <p>Pratinjau Data Inventori Produk</p>
             <div className="button">
-              <div className="base-btn black">
+              <div className="base-btn black" onClick={handleOpenFormStock} >
                 <IconChecking className="icon" />
                 <p>Cek Stok Gudang</p>
               </div>
@@ -29,9 +39,11 @@ function InventoryPage() {
           <SearchFilter />
           <InventoryProduct />
         </div>
-        <div className="checking-overlay">
-          <CheckStock />
-        </div>
+        {showFormCekStock && (
+          <div className="checking-overlay">
+            <CheckStock openCekStok={handleCloseFormStock}  />
+          </div>
+        )}
       </div>
     </div>
   );
