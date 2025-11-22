@@ -34,6 +34,20 @@ label {
   width: 300px;
 }
 
+.form-data-inventori {
+  width: 350px;
+
+  .main-form {
+    gap: 1rem;
+  }
+
+  .inputan-double p {
+    margin: 0;
+    padding-bottom: 1rem;
+    font-size: 0.8rem;
+  }
+}
+
 .form-data-distribution {
   width: 500px;
 
@@ -102,7 +116,7 @@ label {
   }
 }
 
-.form-product, .form-user, .form-data-distribution {
+.form-product, .form-user, .form-data-distribution, .form-data-inventori {
   background-color: #FAFAFA;
   @include custom.flex-space-between;
   flex-direction: column;
@@ -141,7 +155,7 @@ label {
   }
 }
 
-.form-product .double-form {
+.double-form {
   display: grid;
   grid-template-columns: 150px 1fr;
   gap: 1rem;

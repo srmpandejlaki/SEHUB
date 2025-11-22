@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import InventoryProduct from "../../../components/product-page/inventory-items";
 import CheckStock from "../../../components/product-page/check-stock";
-
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconChecking from "../../../assets/icon/ci_checking.svg?react";
 
@@ -31,8 +31,9 @@ function InventoryPage() {
                 <p>Cek Stok Gudang</p>
               </div>
               <div className="base-btn black">
-                <IconHistory className="icon" />
-                <p>Riwayat Tambah Data</p>
+                <Link to="/product/inventory-history" >
+                  <IconHistory className="icon" /> <p>Riwayat Tambah Data</p>
+                </Link>
               </div>
             </div>
           </div>

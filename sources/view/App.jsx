@@ -6,6 +6,7 @@ import DashboardPage from '../view/pages/dashboard';
 import ProductPage from './pages/product';
 import SettingPage from './pages/setting';
 import InventoryPage from './pages/inventory-product/inventory-page';
+import InventoryHistoryPage from './pages/inventory-product/inventory-history';
 import DistributionPage from './pages/distribution-product/distribution-page';
 import DistributionHistoryPage from './pages/distribution-product/distribution-history';
 
@@ -43,6 +44,7 @@ class App extends React.Component {
             <Route path="/product" element={<ProductPage />} />
             <Route path="/setting" element={<SettingPage />} />
             <Route path="/product/inventory" element={<InventoryPage />} />
+            <Route path="/product/inventory-history" element={<InventoryHistoryPage />} />
             <Route path="/product/distribution" element={<DistributionPage />} />
             <Route path="/product/distribution-history" element={<DistributionHistoryPage />} />
           </Routes>
