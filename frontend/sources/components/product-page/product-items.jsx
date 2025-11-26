@@ -1,47 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import ProductItem from "../../view/templates/product";
 import Sirop1Img from "../../assets/public/gambar-produk/seho-sirop1.png";
-import DefaultImg from "../../assets/public/gambar-produk/default-img.png";
-import Granule1Img from "../../assets/public/gambar-produk/seho-granule1.png";
+// import DefaultImg from "../../assets/public/gambar-produk/default-img.png";
+// import Granule1Img from "../../assets/public/gambar-produk/seho-granule1.png";
 
 function ProductItems() {
+  const [product, setproduct] = useState([]);
+  
+  const handleAddProduct = (newProduct) => {
+    setproduct([...product, newProduct]);
+  };
   return (
     <div className="product-items">
-      <div className="product">
-        <img src={Sirop1Img} alt="" />
-        <div className="product-desc">
-          <p>Seho Sirop<br/><br/>330ml</p>
-        </div>
-      </div>
-      <div className="product">
-        <img src={Sirop1Img} alt="" />
-        <div className="product-desc">
-          <p>Seho Sirop<br/><br/>330ml</p>
-        </div>
-      </div>
-      <div className="product">
-        <img src={Granule1Img} alt="" />
-        <div className="product-desc">
-          <p>Seho Granule<br/><br/>150g</p>
-        </div>
-      </div>
-      <div className="product">
-        <img src={Granule1Img} alt="" />
-        <div className="product-desc">
-          <p>Seho Granule<br/><br/>150g</p>
-        </div>
-      </div>
-      <div className="product">
-        <img src={DefaultImg} alt="" />
-        <div className="product-desc">
-          <p>Seho Block<br/><br/>500g</p>
-        </div>
-      </div>
-      <div className="product">
-        <img src={DefaultImg} alt="" />
-        <div className="product-desc">
-          <p>Seho Block<br/><br/>500g</p>
-        </div>
-      </div>
+      <button
+        onClick={() => handleAddProduct({
+            name:"seho sirop",
+            size:"330",
+            unit:"ml",
+            img:Sirop1Img,
+          })
+        }
+      >Tambah</button>
+      {product.map((item, index) => (
+        <ProductItem 
+          key={index}
+          name={item.name}
+          size={item.size}
+          unit={item.unit}
+          img={item.img}/>
+      ))}
     </div>
   );
 }
