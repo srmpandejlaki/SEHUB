@@ -1,11 +1,12 @@
 import React from "react";
 
-function ProductItem({ productName, productSize, productUnit, productImg }) {
+function ProductItem({ namaProduk, ukuranProduk, ukuranSatuan, gambarProduk }) {
+
   return(
     <div className="product">
-      <img src={productImg} alt="" />
+      <img src={gambarProduk} alt="" />
       <div className="product-desc">
-        <p>{productName}<br/><br/>{productSize}{productUnit}</p>
+        <p>{namaProduk}<br/><br/>{ukuranProduk}{ukuranSatuan}</p>
       </div>
     </div>
   );
