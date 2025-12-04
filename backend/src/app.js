@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // register routes
-app.use('/api/products', productRoutes);
+app.use('/api/sehub', productRoutes);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log("Server berjalan di port", process.env.PORT || 5000);
