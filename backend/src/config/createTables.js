@@ -32,7 +32,7 @@ async function createTables() {
     // Tabel Product
     await pool.query(`
       CREATE TABLE IF NOT EXISTS product (
-        id_product VARCHAR(100) PRIMARY KEY,
+        id_product VARCHAR(30) PRIMARY KEY,
         nama_product VARCHAR(100) NOT NULL,
         ukuran_product VARCHAR(20) NOT NULL,
         ukuran_satuan VARCHAR(20) NOT NULL,
@@ -46,7 +46,7 @@ async function createTables() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS product_code (
         kode_produk VARCHAR(3) PRIMARY KEY,
-        nama_product VARCHAR(100) UNIQUE
+        nama_product VARCHAR(100) NOT NULL UNIQUE
       );
     `);
 

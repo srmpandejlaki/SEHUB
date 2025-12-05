@@ -1,8 +1,11 @@
-const { Pool } = require("pg");
-require("dotenv").config();
+import pkg from 'pg';
+const { Pool } = pkg;
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 async function initDatabase() {
-  const dbName = "tess_db";
+  const dbName = "sehub_db";
 
   // Koneksi ke database default (postgres)
   const pool = new Pool({
