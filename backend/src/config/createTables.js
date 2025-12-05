@@ -32,13 +32,21 @@ async function createTables() {
     // Tabel Product
     await pool.query(`
       CREATE TABLE IF NOT EXISTS product (
-        id_product SERIAL PRIMARY KEY,
+        id_product VARCHAR(100) PRIMARY KEY,
         nama_product VARCHAR(100) NOT NULL,
         ukuran_product VARCHAR(20) NOT NULL,
         ukuran_satuan VARCHAR(20) NOT NULL,
         kemasan_product VARCHAR(20) NOT NULL,
         img_product VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Tabel Product Code
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS product_code (
+        kode_produk VARCHAR(3) PRIMARY KEY,
+        nama_product VARCHAR(100) UNIQUE
       );
     `);
 

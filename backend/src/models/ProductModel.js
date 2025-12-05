@@ -1,4 +1,5 @@
 import db from "../config/db.js";
+import generateId from "../utils/generateId.js";
 
 const ProductModel = {
   getAll: async () => {
@@ -7,9 +8,13 @@ const ProductModel = {
   },
 
   create: async (nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product) => {
+    const kode_produk = await generateId(nama_product);
+
+    const id_product = `LS${kode_produk}${ukuran_product}`;
+
     const result = await db.query(
-      "INSERT INTO product (nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product]
+      "INSERT INTO product (id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      [id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product]
     );
     return result.rows[0];
   },
