@@ -64,3 +64,50 @@ export const createProduct = async (productData) => {
   }
 };
 
+export const updateProduct = async (id, productData) => {
+  try {
+    const formData = new FormData();
+
+    // append text fields
+    formData.append("nama_product", productData.nama_product);
+    formData.append("ukuran_product", productData.ukuran_product);
+    formData.append("ukuran_satuan", productData.ukuran_satuan);
+    formData.append("kemasan_product", productData.kemasan_product);
+
+    // append file only if exists
+    if (productData.img_product instanceof File) {
+      formData.append("img_product", productData.img_product);
+    }
+
+    const response = await fetch(`${BASE_URL}products/${id}`, {
+      method: "PUT",
+      body: formData, // jangan pakai headers Content-Type
+    });
+
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error updateProduct:", error);
+    return null;
+  }
+};
+
+export const deleteProduct = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}products/${id}`, {
+      method: "DELETE",
+    });
+
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error deleteProduct:", error);
+    return null;
+  }
+};
+
+export const deleteAllProduct = async () => {
+  return fetch(`${BASE_URL}products/`, {
+    method: "DELETE",
+  })
+};
