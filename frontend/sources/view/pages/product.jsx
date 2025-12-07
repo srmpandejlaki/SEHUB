@@ -19,6 +19,8 @@ function ProductPage() {
     try {
       const response = await fetchAllProducts();
 
+      console.log(response);
+
       if (!response || !Array.isArray(response)) {
         console.error("Data produk tidak valid:", response);
         return;
