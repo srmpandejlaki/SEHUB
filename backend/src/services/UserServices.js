@@ -11,12 +11,12 @@ const UserService = {
     return result;
   },
 
-  createUser: async (name, email, jabatan, status, password) => {
-    const result = await UserModel.create(name, email, jabatan, status, password);
+  createUser: async (id_user, name, email, jabatan, status, password) => {
+    const result = await UserModel.create(id_user, name, email, jabatan, status, password);
     return result;
   },
 
-  updateUser: async (name, email, jabatan, status, password, id_user) => {
+  updateUser: async (id_user, name, email, jabatan, status, password ) => {
     const result = await UserModel.update(name, email, jabatan, status, password, id_user);
     return result;
   },

@@ -11,17 +11,17 @@ const UserModel = {
     return result.rows[0];
   },
 
-  create: async (name, email, jabatan, status, password) => {
+  create: async (id_user, name, email, jabatan, status, password) => {
     const result = await db.query(
-      "INSERT INTO users (id_product, name, email, jabatan, status, password) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [id_product, name, email, jabatan, status, password]
+      "INSERT INTO users (id_user, name, email, jabatan, status, password) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      [id_user, name, email, jabatan, status, password]
     );
     return result.rows[0];
   },
 
   update: async(name, email, jabatan, status, password, id_user) => {
     const result = await db.query(
-      "UPDATE product SET name = $1, email = $2, jabatan = $3, status = $4, password = $5 WHERE id_user = $6 RETURNING *",
+      "UPDATE users SET name = $1, email = $2, jabatan = $3, status = $4, password = $5 WHERE id_user = $6 RETURNING *",
       [name, email, jabatan, status, password, id_user]
     );
     return result.rows[0];

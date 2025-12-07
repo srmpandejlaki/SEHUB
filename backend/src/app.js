@@ -11,8 +11,8 @@ app.use(cors());
 app.use(express.json());
 
 // register routes
-app.use('/api/sehub/products', routerUsers);
-app.use('/api/sehub/users', routerProducts);
+app.use('/api/sehub/products', routerProducts);
+app.use('/api/sehub/users', routerUsers);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log("Server berjalan di port", process.env.PORT || 5000);

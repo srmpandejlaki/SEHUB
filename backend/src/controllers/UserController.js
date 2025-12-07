@@ -10,25 +10,23 @@ const UserController = {
     res.json(result);
   },
   createUser: async (req, res) => {
-    const result = await UserServices.createUser(
-      req.body.name,
-      req.body.email,
-      req.body.jabatan,
-      req.body.status,
-      req.body.password
-    );
-    res.json(result);
+    try {
+      const { id_user, name, email, jabatan, status, password } = req.body;
+      const newUser = await UserServices.createUser(id_user, name, email, jabatan, status, password);
+      res.json({ success: true, message: "User created", data: newUser });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
   },
   updateUser: async (req, res) => {
-    const result = await UserServices.updateUser(
-      req.body.name,
-      req.body.email,
-      req.body.jabatan,
-      req.body.status,
-      req.body.password,
-      req.params.id_user
-    );
-    res.json(result);
+    try {
+      const { id_user } = req.params;
+      const { name, email, jabatan, status, password } = req.body;
+      const updatedUser = await UserServices.updateUser(id_user, name, email, jabatan, status, password);
+      res.json({ success: true, message: "User updated", data: updatedUser });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
   },
   deleteUser: async (req, res) => {
     const result = await UserServices.deleteUser(req.params.id_user);
