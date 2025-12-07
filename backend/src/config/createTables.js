@@ -37,7 +37,7 @@ async function createTables() {
         ukuran_product VARCHAR(20) NOT NULL,
         ukuran_satuan VARCHAR(20) NOT NULL,
         kemasan_product VARCHAR(20) NOT NULL,
-        img_product VARCHAR(255) NOT NULL,
+        img_product VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
