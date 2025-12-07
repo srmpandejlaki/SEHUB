@@ -9,21 +9,52 @@ const ProductModel = {
 
   create: async (nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product) => {
     const kode_produk = await generateId(nama_product);
-
     const id_product = `LS${kode_produk}${ukuran_product}`;
 
     const result = await db.query(
-      "INSERT INTO product (id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      `INSERT INTO product (
+        id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product
+      ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product]
     );
+
     return result.rows[0];
   },
 
-  update: async(nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product, id_product) => {
-    const result = await db.query(
-      "UPDATE product SET nama_product = $1, ukuran_product = $2, ukuran_satuan = $3, kemasan_product = $4, img_product = $5 WHERE id_product = $6 RETURNING *",
-      [nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product, id_product]
+  update: async (id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product) => {
+    // 1. ambil data lama
+    const oldData = await db.query(
+      "SELECT * FROM product WHERE id_product = $1",
+      [id_product]
     );
+
+    if (oldData.rows.length === 0) return null;
+
+    const old = oldData.rows[0];
+
+    // 2. tentukan gambar yang dipakai
+    const finalImage = img_product !== undefined ? img_product : old.img_product;
+
+    // 3. update data
+    const result = await db.query(
+      `UPDATE product
+       SET nama_product = $1,
+           ukuran_product = $2,
+           ukuran_satuan = $3,
+           kemasan_product = $4,
+           img_product = $5
+       WHERE id_product = $6
+       RETURNING *`,
+      [
+        nama_product,
+        ukuran_product,
+        ukuran_satuan,
+        kemasan_product,
+        finalImage,
+        id_product
+      ]
+    );
+
     return result.rows[0];
   },
 

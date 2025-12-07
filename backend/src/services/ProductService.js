@@ -5,12 +5,38 @@ const ProductService = {
     return await ProductModel.getAll();
   },
 
-  createProduct: async (nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product) => {
-    return await ProductModel.create(nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product);
+  createProduct: async (
+    nama_product,
+    ukuran_product,
+    ukuran_satuan,
+    kemasan_product,
+    img_product
+  ) => {
+    return await ProductModel.create(
+      nama_product,
+      ukuran_product,
+      ukuran_satuan,
+      kemasan_product,
+      img_product
+    );
   },
 
-  updateProduct: async (id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product) => {
-    return await ProductModel.update(nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product, id_product);
+  updateProduct: async (
+    id_product,
+    nama_product,
+    ukuran_product,
+    ukuran_satuan,
+    kemasan_product,
+    img_product
+  ) => {
+    return await ProductModel.update(
+      id_product,
+      nama_product,
+      ukuran_product,
+      ukuran_satuan,
+      kemasan_product,
+      img_product
+    );
   },
 
   deleteProduct: async (id_product) => {

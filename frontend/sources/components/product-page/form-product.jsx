@@ -1,54 +1,38 @@
 import React, { useState } from "react";
 import IconEditProduct from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
+import { createProduct } from "../../utilities/api/products";
 
-function FormProduct({ closeFormProduct }) {
+function FormProduct({ closeFormProduct, reloadProducts }) {
   const [namaProduk, setNamaProduk] = useState("");
   const [ukuranProduk, setUkuranProduk] = useState("");
   const [ukuranSatuan, setUkuranSatuan] = useState("");
   const [kemasanProduk, setKemasanProduk] = useState("");
-  const [gambarProduk, setGambarProduk] = useState(null);
+  const [imageProduk, setImageProduk] = useState("");
 
-  // Convert file → base64
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // mencegah reload halaman
 
-  const tambahProdukBaru = async (e) => {
-    e.preventDefault();
-
-    const dataLama = JSON.parse(localStorage.getItem("produk")) || [];
-
-    let gambarBase64 = null;
-    if (gambarProduk) {
-      gambarBase64 = await convertToBase64(gambarProduk);
-    }
-
-    const produkBaru = {
+    const newProduct = {
       namaProduk,
       ukuranProduk,
       ukuranSatuan,
       kemasanProduk,
-      gambar: gambarBase64,
+      gambar: imageProduk,
     };
 
-    const dataBaru = [...dataLama, produkBaru];
+    const result = await createProduct(newProduct);
 
-    localStorage.setItem("product", JSON.stringify(dataBaru));
+    if (result) {
+      alert("Produk berhasil ditambahkan!");
+      closeFormProduct();
 
-    // Reset form
-    setNamaProduk("");
-    setUkuranProduk("");
-    setUkuranSatuan("");
-    setKemasanProduk("");
-    setGambarProduk(null);
-
-    alert("Produk berhasil disimpan!");
+      if (reloadProducts) {
+        reloadProducts(); // dipanggil jika parent mengirimkan
+      }
+    } else {
+      alert("Gagal menambahkan produk");
+    }
   };
 
   return (
@@ -61,7 +45,7 @@ function FormProduct({ closeFormProduct }) {
         <IconCancel className="icon" onClick={closeFormProduct} />
       </div>
 
-      <form className="main-form" onSubmit={tambahProdukBaru}>
+      <form className="main-form" onSubmit={handleSubmit}>
         <div className="inputan">
           <label>Nama Produk</label>
           <select value={namaProduk} onChange={(e) => setNamaProduk(e.target.value)}>
@@ -115,7 +99,7 @@ function FormProduct({ closeFormProduct }) {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setGambarProduk(e.target.files[0])}
+            onChange={setImageProduk}
           />
         </div>
 
