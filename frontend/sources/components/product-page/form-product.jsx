@@ -14,11 +14,11 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
     e.preventDefault(); // mencegah reload halaman
 
     const newProduct = {
-      namaProduk,
-      ukuranProduk,
-      ukuranSatuan,
-      kemasanProduk,
-      gambar: imageProduk,
+      nama_product: namaProduk,
+      ukuran_product: ukuranProduk,
+      ukuran_satuan: ukuranSatuan,
+      kemasan_product: kemasanProduk,
+      img_product: imageProduk,
     };
 
     const result = await createProduct(newProduct);

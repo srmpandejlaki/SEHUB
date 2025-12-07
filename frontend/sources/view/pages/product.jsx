@@ -19,19 +19,18 @@ function ProductPage() {
     try {
       const response = await fetchAllProducts();
 
-      if (!response || !Array.isArray(response)) {
+      if (!response || !Array.isArray(response.data)) {
         console.error("Data produk tidak valid:", response);
         return;
       }
 
-      // mapping untuk merapikan data
-      const mapped = response.map((item) => ({
-        id: item.id,
-        namaProduk: item.namaProduk,
-        ukuranProduk: item.ukuranProduk,
-        ukuranSatuan: item.ukuranSatuan,
-        kemasanProduk: item.kemasanProduk,
-        imageProduk: item.imageProduk,
+      const mapped = response.data.map((item) => ({
+        id: item.id_product,
+        namaProduk: item.nama_product,
+        ukuranProduk: item.ukuran_product,
+        ukuranSatuan: item.ukuran_satuan,
+        kemasanProduk: item.kemasan_product,
+        imageProduk: item.img_product,
       }));
 
       setExistingData(mapped);
@@ -40,13 +39,11 @@ function ProductPage() {
     }
   };
 
-  const handleOpenFormProduct = () => {
-    setFormProduct(true);
-  };
+  const handleOpenFormProduct = () => setFormProduct(true);
 
   const handleCloseFormProduct = () => {
     setFormProduct(false);
-    loadDataProducts(); // refresh data setelah form ditutup (opsional)
+    loadDataProducts();
   };
 
   return (
@@ -70,10 +67,7 @@ function ProductPage() {
 
         {showFormProduct && (
           <div className="form-overlay">
-            <FormProduct 
-              closeFormProduct={handleCloseFormProduct}
-              reloadProducts={loadDataProducts} // opsional
-            />
+            <FormProduct closeFormProduct={handleCloseFormProduct} />
           </div>
         )}
       </div>
