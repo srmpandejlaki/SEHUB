@@ -14,7 +14,7 @@ function ProductItems({ products }) {
             ukuranProduk={item.ukuranProduk}
             ukuranSatuan={item.ukuranSatuan}
             kemasanProduk={item.kemasanProduk}
-            gambarProduk={item.imageProduk}
+            imageProduk={item.imageProduk}
           />
         ))
       )}

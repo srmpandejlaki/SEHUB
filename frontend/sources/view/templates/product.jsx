@@ -1,10 +1,11 @@
 import React from "react";
+import { BASE_URL } from "../../utilities";
 
-function ProductItem({ namaProduk, ukuranProduk, ukuranSatuan, gambarProduk }) {
+function ProductItem({ namaProduk, ukuranProduk, ukuranSatuan, imageProduk }) {
 
   return(
     <div className="product">
-      <img src={`http://localhost:5000/products/uploads/${gambarProduk}`} alt={namaProduk} />
+      <img src={`${BASE_URL}products/uploads/${imageProduk}`} alt={namaProduk} />
       <div className="product-desc">
         <p>{namaProduk}<br/><br/>{ukuranProduk}{ukuranSatuan}</p>
       </div>

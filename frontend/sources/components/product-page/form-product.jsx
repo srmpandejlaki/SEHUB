@@ -99,7 +99,7 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
           <input
             type="file"
             accept="image/*"
-            onChange={setImageProduk}
+            onChange={(e) => setImageProduk(e.target.files[0])}
           />
         </div>
 

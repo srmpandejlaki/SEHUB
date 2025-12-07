@@ -18,7 +18,6 @@ function ProductPage() {
   const loadDataProducts = async () => {
     try {
       const response = await fetchAllProducts();
-
       console.log(response);
 
       if (!response || !Array.isArray(response)) {

@@ -38,24 +38,29 @@ export const fetchAllProducts = async () => {
 
 export const createProduct = async (productData) => {
   try {
+    const formData = new FormData();
+
+    // append text fields
+    formData.append("nama_product", productData.nama_product);
+    formData.append("ukuran_product", productData.ukuran_product);
+    formData.append("ukuran_satuan", productData.ukuran_satuan);
+    formData.append("kemasan_product", productData.kemasan_product);
+
+    // append file only if exists
+    if (productData.img_product instanceof File) {
+      formData.append("img_product", productData.img_product);
+    }
+
     const response = await fetch(`${BASE_URL}products/`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productData),
+      body: formData, // jangan pakai headers Content-Type
     });
-
-    if (!response.ok) {
-      console.error("Gagal menambah produk:", response.status, response.statusText);
-      return null;
-    }
 
     const data = await response.json();
     return data?.data || data;
-
   } catch (error) {
     console.error("Error createProduct:", error);
     return null;
   }
 };
+
