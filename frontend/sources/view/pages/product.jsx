@@ -19,12 +19,12 @@ function ProductPage() {
     try {
       const response = await fetchAllProducts();
 
-      if (!response || !Array.isArray(response.data)) {
+      if (!response || !Array.isArray(response)) {
         console.error("Data produk tidak valid:", response);
         return;
       }
 
-      const mapped = response.data.map((item) => ({
+      const mapped = response.map((item) => ({
         id: item.id_product,
         namaProduk: item.nama_product,
         ukuranProduk: item.ukuran_product,
