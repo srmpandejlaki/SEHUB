@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import LanguageSetting from "../../components/setting-section/language";
-import ClearDataSetting from "../../components/setting-section/clear-data";
-import IconOtherSetting from "../../assets/icon/Vector-8.svg?react";
 import UserSetting from "../../components/setting-section/user-setting";
 import FormUser from "../../components/setting-section/form-user";
 
@@ -25,14 +22,6 @@ function SettingPage() {
             <FormUser closeFormUser={handleCloseFormUser} />
           </div>
         )}
-      </div>
-      <div className="other-setting">
-        <div className="other-setting-header">
-          <IconOtherSetting className="icon whiteIcon" />
-          <p>Pengaturan Lainnya</p>
-        </div>
-        <LanguageSetting />
-        <ClearDataSetting />
       </div>
     </div>
   );

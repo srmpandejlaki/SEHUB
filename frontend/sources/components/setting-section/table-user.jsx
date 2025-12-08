@@ -88,6 +88,72 @@ function TableUser() {
               </div>
             </td>
           </tr>
+          <tr>
+            <td>2.</td>
+            <td>Jonathan</td>
+            <td>jonathan02@gmail.com</td>
+            <td>Pemilik Perusahaan</td>
+            <td>
+              <div className="status-column">
+                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
+              </div>
+            </td>
+            <td>
+              <div className="password-column">
+                <p>******</p> <IconCloseEye className="icon blackIcon" />
+              </div>
+            </td>
+            <td>
+              <div className="buttons-column">
+                <IconEdit className="icon greenIcon" />
+                <IconDelete className="icon redIcon" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>2.</td>
+            <td>Jonathan</td>
+            <td>jonathan02@gmail.com</td>
+            <td>Pemilik Perusahaan</td>
+            <td>
+              <div className="status-column">
+                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
+              </div>
+            </td>
+            <td>
+              <div className="password-column">
+                <p>******</p> <IconCloseEye className="icon blackIcon" />
+              </div>
+            </td>
+            <td>
+              <div className="buttons-column">
+                <IconEdit className="icon greenIcon" />
+                <IconDelete className="icon redIcon" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>2.</td>
+            <td>Jonathan</td>
+            <td>jonathan02@gmail.com</td>
+            <td>Pemilik Perusahaan</td>
+            <td>
+              <div className="status-column">
+                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
+              </div>
+            </td>
+            <td>
+              <div className="password-column">
+                <p>******</p> <IconCloseEye className="icon blackIcon" />
+              </div>
+            </td>
+            <td>
+              <div className="buttons-column">
+                <IconEdit className="icon greenIcon" />
+                <IconDelete className="icon redIcon" />
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

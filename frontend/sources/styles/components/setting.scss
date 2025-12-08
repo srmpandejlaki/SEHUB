@@ -10,6 +10,9 @@
   padding: 1rem;
 
   .title {
+    @include custom.flex-align-center;
+    gap: 1rem;
+
     p {
       margin: 0;
       padding: 0;
@@ -27,90 +30,8 @@
   justify-content: space-between;
 }
 
-.setting {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  gap: 1rem;
-}
-
-.other-setting {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 50px 1fr;
-  grid-template-areas:
-    "headerSetting clearDataSetting"
-    "languagesSetting clearDataSetting";
-  gap: 1rem;
-}
-
-.other-setting-header {
-  grid-area: headerSetting;
-  @include custom.flex-align-center;
-  gap: 1rem;
-  padding-left: 1rem;
-
-   p {
-     color: custom.$color-primary;
-   }
-}
-
-.languages-setting {
-  grid-area: languagesSetting;
-  padding: 0.5rem 1rem;
-}
-.clear-data-setting {
-  grid-area: clearDataSetting;
-  padding: 0.5rem 1rem;
-}
-
-.languages-setting, .clear-data-setting, .user-setting {
+.user-setting {
+  height: 84vh;
   background-color: custom.$color-primary;
   border-radius: 8px;
-}
-
-.icon-languages {
-  display: flex;
-  gap: 2rem;
-  height: 70px;
-
-  img {
-    width: 35px;
-
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.1);
-      transition: all 0.2s ease-in-out;
-    }
-  }
-}
-
-.language {
-  @include custom.flex-column;
-}
-
-.sub-setting {
-  h5 {
-    margin: 0;
-    padding: 0;
-  }
-
-  p {
-    font-size: 0.8rem
-  }
-}
-
-.btn-setting {
-  @include custom.flex-between;
-
-  button {
-    width: 150px;
-  }
-}
-
-.header-user-setting, .languages-setting, .clear-data-setting {
-  .title {
-    @include custom.flex-align-center;
-    gap: 1rem;
-  }
 }
