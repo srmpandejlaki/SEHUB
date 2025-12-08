@@ -35,3 +35,39 @@ export const fetchAllUser = async () => {
   return [];
  } 
 };
+
+export const createUser = async (user) => {
+ try {
+  const response = await fetch(`${BASE_URL}users/`, {
+   method: "POST",
+   headers: {
+    "Content-Type": "application/json",
+   },
+   body: JSON.stringify(user),
+  });
+
+  const data = await response.json();
+  return data?.data || data;
+  } catch (error) {
+    console.error("Error createUser:", error);
+    return null;
+  }
+};
+
+export const updateUser = async (id, user) => {
+ try {
+  const response = await fetch(`${BASE_URL}users/${id}`, {
+   method: "PUT",
+   headers: {
+    "Content-Type": "application/json",
+   },
+   body: JSON.stringify(user),
+  });
+
+  const data = await response.json();
+  return data?.data || data;
+ } catch (error) {
+  console.error("Error updateUser:", error);
+  return null;
+ }
+};
