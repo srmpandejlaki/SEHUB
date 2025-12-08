@@ -1,13 +1,8 @@
 import React from "react";
-import IconAdmin from "../../assets/icon/clarity_employee-line.svg?react";
-import IconOwner from "../../assets/icon/fluent-mdl2_party-leader.svg?react";
-import IconOpenEye from "../../assets/icon/el_eye-open.svg?react";
-import IconCloseEye from "../../assets/icon/el_eye-close.svg?react";
-import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
-import IconDelete from "../../assets/icon/material-symbols_delete.svg?react";
+import TdUser from "../../view/templates/user";
 
-function TableUser() {
-  return(
+function TableUser({ views }) {
+  return (
     <div className="table-user">
       <table>
         <thead>
@@ -21,139 +16,25 @@ function TableUser() {
             <th></th>
           </tr>
         </thead>
+
         <tbody>
-          <tr>
-            <td>1.</td>
-            <td>Cristian</td>
-            <td>cristian01@gmail.com</td>
-            <td>Karyawan</td>
-            <td>
-              <div className="status-column">
-                <IconAdmin className="icon greenIcon" /> <p>Admin</p>
-              </div>
-            </td>
-            <td>
-              <div className="password-column">
-                <p>admin123</p> <IconOpenEye className="icon blackIcon" />
-              </div>
-            </td>
-            <td>
-              <div className="buttons-column">
-                <IconEdit className="icon greenIcon" />
-                <IconDelete className="icon redIcon" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>2.</td>
-            <td>Jonathan</td>
-            <td>jonathan02@gmail.com</td>
-            <td>Pemilik Perusahaan</td>
-            <td>
-              <div className="status-column">
-                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
-              </div>
-            </td>
-            <td>
-              <div className="password-column">
-                <p>******</p> <IconCloseEye className="icon blackIcon" />
-              </div>
-            </td>
-            <td>
-              <div className="buttons-column">
-                <IconEdit className="icon greenIcon" />
-                <IconDelete className="icon redIcon" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>2.</td>
-            <td>Jonathan</td>
-            <td>jonathan02@gmail.com</td>
-            <td>Pemilik Perusahaan</td>
-            <td>
-              <div className="status-column">
-                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
-              </div>
-            </td>
-            <td>
-              <div className="password-column">
-                <p>******</p> <IconCloseEye className="icon blackIcon" />
-              </div>
-            </td>
-            <td>
-              <div className="buttons-column">
-                <IconEdit className="icon greenIcon" />
-                <IconDelete className="icon redIcon" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>2.</td>
-            <td>Jonathan</td>
-            <td>jonathan02@gmail.com</td>
-            <td>Pemilik Perusahaan</td>
-            <td>
-              <div className="status-column">
-                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
-              </div>
-            </td>
-            <td>
-              <div className="password-column">
-                <p>******</p> <IconCloseEye className="icon blackIcon" />
-              </div>
-            </td>
-            <td>
-              <div className="buttons-column">
-                <IconEdit className="icon greenIcon" />
-                <IconDelete className="icon redIcon" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>2.</td>
-            <td>Jonathan</td>
-            <td>jonathan02@gmail.com</td>
-            <td>Pemilik Perusahaan</td>
-            <td>
-              <div className="status-column">
-                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
-              </div>
-            </td>
-            <td>
-              <div className="password-column">
-                <p>******</p> <IconCloseEye className="icon blackIcon" />
-              </div>
-            </td>
-            <td>
-              <div className="buttons-column">
-                <IconEdit className="icon greenIcon" />
-                <IconDelete className="icon redIcon" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>2.</td>
-            <td>Jonathan</td>
-            <td>jonathan02@gmail.com</td>
-            <td>Pemilik Perusahaan</td>
-            <td>
-              <div className="status-column">
-                <IconOwner className="icon greenIcon" /> <p>Pemilik</p>
-              </div>
-            </td>
-            <td>
-              <div className="password-column">
-                <p>******</p> <IconCloseEye className="icon blackIcon" />
-              </div>
-            </td>
-            <td>
-              <div className="buttons-column">
-                <IconEdit className="icon greenIcon" />
-                <IconDelete className="icon redIcon" />
-              </div>
-            </td>
-          </tr>
+          {views.length === 0 ? (
+            <tr>
+              <td colSpan="7" className="no-data">Belum ada pengguna.</td>
+            </tr>
+          ) : (
+            views.map((item, index) => (
+              <TdUser
+                key={item.id}
+                no={index + 1}
+                name={item.name}
+                email={item.email}
+                jabatan={item.jabatan}
+                status={item.status}
+                password={item.password}
+              />
+            ))
+          )}
         </tbody>
       </table>
     </div>
