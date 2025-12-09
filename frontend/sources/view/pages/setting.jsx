@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserSetting from "../../components/setting-section/user-setting";
 import FormUser from "../../components/setting-section/form-user";
-import { fetchAllUser } from "../../utilities/api/user";
+import { fetchAllUser, deleteUser } from "../../utilities/api/user";
 
 function SettingPage() {
   const [showFormUser, setFormUser] = useState(false);
@@ -48,6 +48,16 @@ function SettingPage() {
     setFormUser(true);
   };
 
+  const handleDeleteUser = async (id) => {
+    try {
+      await deleteUser(id);
+      console.log("User berhasil dihapus!");
+      reloadUsers();
+    } catch (error) {
+      console.error("Gagal menghapus user:", error);
+    }
+  };
+
   const handleOpenFormUser = () => {
     setFormUser(true);
   };
@@ -61,7 +71,11 @@ function SettingPage() {
   return (
     <div className="content setting">
       <div className="main-user">
-        <UserSetting openFormUser={handleOpenFormUser} userData={existingData} editData={updateUserData} />
+        <UserSetting 
+          openFormUser={handleOpenFormUser} 
+          userData={existingData} 
+          editData={updateUserData} 
+          handleDeleteUser={handleDeleteUser} />
         {showFormUser && (
           <div className="form-overlay">
             <FormUser 

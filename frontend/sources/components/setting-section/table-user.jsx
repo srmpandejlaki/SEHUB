@@ -1,7 +1,7 @@
 import React from "react";
 import TdUser from "../../view/templates/user";
 
-function TableUser({ views, editData }) {
+function TableUser({ views, editData, handleDeleteUser }) {
   return (
     <div className="table-user">
       <table>
@@ -34,6 +34,7 @@ function TableUser({ views, editData }) {
                 status={item.status}
                 password={item.password}
                 onEdit={editData}
+                onDelete={handleDeleteUser}
               />
             ))
           )}

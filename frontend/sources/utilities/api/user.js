@@ -68,3 +68,23 @@ export const updateUser = async (id, user) => {
     return null;
   }
 };
+
+export const deleteUser = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}users/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => null);
+      console.error("Delete user gagal:", err || response.statusText);
+      return null;
+    }
+
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error deleteUser:", error);
+    return null;
+  }
+};
