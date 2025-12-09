@@ -11,8 +11,8 @@ const UserService = {
     return result;
   },
 
-  createUser: async (id_user, name, email, jabatan, status, password) => {
-    const result = await UserModel.create(id_user, name, email, jabatan, status, password);
+  createUser: async (name, email, jabatan, status, password) => {
+    const result = await UserModel.create(name, email, jabatan, status, password);
     return result;
   },
 

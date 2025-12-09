@@ -11,7 +11,7 @@ function SettingPage() {
     loadDataUsers();
   }, []);
 
-const loadDataUsers = async () => {
+  const loadDataUsers = async () => {
     try {
       const response = await fetchAllUser();
       console.log(response);
@@ -36,6 +36,10 @@ const loadDataUsers = async () => {
     }
   };
 
+  const reloadUsers = () => {
+    loadDataUsers();
+  };
+
   const handleOpenFormUser = () => {
     setFormUser(true);
   };
@@ -50,7 +54,7 @@ const loadDataUsers = async () => {
         <UserSetting openFormUser={handleOpenFormUser} userData={existingData} />
         {showFormUser && (
           <div className="form-overlay">
-            <FormUser closeFormUser={handleCloseFormUser} />
+            <FormUser closeFormUser={handleCloseFormUser} reloadUsers={reloadUsers} />
           </div>
         )}
       </div>

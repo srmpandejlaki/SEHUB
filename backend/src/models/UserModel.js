@@ -11,10 +11,10 @@ const UserModel = {
     return result.rows[0];
   },
 
-  create: async (id_user, name, email, jabatan, status, password) => {
+  create: async (name, email, jabatan, status, password) => {
     const result = await db.query(
-      "INSERT INTO users (id_user, name, email, jabatan, status, password) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [id_user, name, email, jabatan, status, password]
+      "INSERT INTO users (name, email, jabatan, status, password) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [name, email, jabatan, status, password]
     );
     return result.rows[0];
   },

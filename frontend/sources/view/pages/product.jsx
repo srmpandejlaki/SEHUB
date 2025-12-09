@@ -40,6 +40,10 @@ function ProductPage() {
     }
   };
 
+  const reloadProducts = () => {
+    loadDataProducts();
+  };
+
   const handleOpenFormProduct = () => setFormProduct(true);
 
   const handleCloseFormProduct = () => {
@@ -68,7 +72,7 @@ function ProductPage() {
 
         {showFormProduct && (
           <div className="form-overlay">
-            <FormProduct closeFormProduct={handleCloseFormProduct} />
+            <FormProduct closeFormProduct={handleCloseFormProduct} reloadProducts={reloadProducts} />
           </div>
         )}
       </div>

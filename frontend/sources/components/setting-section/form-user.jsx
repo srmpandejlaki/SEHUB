@@ -18,6 +18,10 @@ function FormUser({ closeFormUser, reloadUsers }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!userName || !userEmail || !userPassword || !userJabatan || !userStatus) {
+      return alert("Semua field wajib diisi!");
+    }
+
     const newUser = {
       name : userName,
       email : userEmail,
@@ -29,14 +33,14 @@ function FormUser({ closeFormUser, reloadUsers }) {
     const result = await createUser(newUser);
 
     if (result) {
-      alert("Produk berhasil ditambahkan!");
+      alert("Pengguna berhasil ditambahkan!");
       closeFormUser();
 
       if (reloadUsers) {
-        closeFormUser();
+        reloadUsers();
       }
     } else {
-      alert("Gagal menambahkan produk");
+      alert("Gagal menambahkan pengguna");
     }
   };
 
@@ -50,32 +54,49 @@ function FormUser({ closeFormUser, reloadUsers }) {
         <IconCancel className="icon blackIcon" onClick={closeFormUser} />
       </div>
       <form className="main-form" onSubmit={handleSubmit}>
+        
         <div className="inputan">
-          <label htmlFor=""><IconUser className="icon darkGreenIcon" />Nama Pengguna</label>
-          <input type="text" placeholder="Masukkan nama pengguna" value={userName} onChange={(e) => setUserName(e.target.value)} />
+          <label><IconUser className="icon darkGreenIcon" />Nama Pengguna</label>
+          <input type="text" placeholder="Masukkan nama pengguna" 
+                 value={userName} 
+                 onChange={(e) => setUserName(e.target.value)} />
         </div>
+
         <div className="inputan">
-          <label htmlFor=""><IconEmail className="icon darkGreenIcon" />Email</label>
-          <input type="text" placeholder="Masukkan email pengguna" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
+          <label><IconEmail className="icon darkGreenIcon" />Email</label>
+          <input type="text" placeholder="Masukkan email pengguna" 
+                 value={userEmail} 
+                 onChange={(e) => setUserEmail(e.target.value)} />
         </div>
+
         <div className="inputan">
-          <label htmlFor=""><IconPassword className="icon darkGreenIcon" />Password</label>
-          <input type="text" placeholder="Masukkan password pengguna" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} />
+          <label><IconPassword className="icon darkGreenIcon" />Password</label>
+          <input type="password" placeholder="Masukkan password pengguna" 
+                 value={userPassword} 
+                 onChange={(e) => setUserPassword(e.target.value)} />
         </div>
+
         <div className="inputan">
-          <label htmlFor=""><IconPosition className="icon darkGreenIcon" />Jabatan</label>
-          <input type="text" placeholder="Jabatan pengguna di kantor" value={userJabatan} onChange={(e) => setUserJabatan(e.target.value)} />
+          <label><IconPosition className="icon darkGreenIcon" />Jabatan</label>
+          <input type="text" placeholder="Jabatan pengguna di kantor" 
+                 value={userJabatan} 
+                 onChange={(e) => setUserJabatan(e.target.value)} />
         </div>
+
         <div className="inputan">
-          <label htmlFor=""><IconStatus className="icon darkGreenIcon" />Status</label>
-          <select name="Ukuran Satuan" value={userStatus} onChange={(e) => setUserStatus(e.target.value)} >
+          <label><IconStatus className="icon darkGreenIcon" />Status</label>
+          <select value={userStatus} 
+                  onChange={(e) => setUserStatus(e.target.value)} >
+            <option value="">-- Pilih --</option>
             <option value="admin">Admin</option>
             <option value="owner">Owner</option>
           </select>
         </div>
+
         <div className="button">
-          <button className="base-btn green" type="submit" >Simpan</button>
+          <button className="base-btn green" type="submit">Simpan</button>
         </div>
+
       </form>
     </div>
   );
