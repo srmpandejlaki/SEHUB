@@ -6,14 +6,14 @@ import IconEmail from "../../assets/icon/ic_outline-email.svg?react";
 import IconPassword from "../../assets/icon/mdi_password-outline.svg?react";
 import IconPosition from "../../assets/icon/icon-park-outline_user-positioning.svg?react";
 import IconStatus from "../../assets/icon/eos-icons_role-binding-outlined.svg?react";
-import { createUser } from "../../utilities/api/user.js";
+import { createUser, updateUser } from "../../utilities/api/user.js";
 
-function FormUser({ closeFormUser, reloadUsers }) {
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userJabatan, setUserJabatan] = useState("");
-  const [userStatus, setUserStatus] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
+  const [userName, setUserName] = useState(editData?.name || "");
+  const [userEmail, setUserEmail] = useState(editData?.email || "");
+  const [userJabatan, setUserJabatan] = useState(editData?.jabatan || "");
+  const [userStatus, setUserStatus] = useState(editData?.status || "");
+  const [userPassword, setUserPassword] = useState(editData?.password || "");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ function FormUser({ closeFormUser, reloadUsers }) {
       return alert("Semua field wajib diisi!");
     }
 
-    const newUser = {
+    const payload = {
       name : userName,
       email : userEmail,
       jabatan : userJabatan,
@@ -30,17 +30,25 @@ function FormUser({ closeFormUser, reloadUsers }) {
       password : userPassword,
     };
 
-    const result = await createUser(newUser);
+    let result;
 
-    if (result) {
-      alert("Pengguna berhasil ditambahkan!");
-      closeFormUser();
-
-      if (reloadUsers) {
-        reloadUsers();
+    if (isEdit) {
+      result = await updateUser(editData?.id, payload);
+      if (!editData?.id) {
+        alert("ID user tidak ditemukan!");
+        return;
       }
     } else {
-      alert("Gagal menambahkan pengguna");
+      result = await createUser(payload);
+      reloadUsers();
+    }
+
+    if (result) {
+      alert(isEdit ? "User berhasil diperbarui!" : "User berhasil ditambahkan!");
+      reloadUsers();
+      closeFormUser();
+    } else {
+      alert(isEdit ? "Gagal memperbarui user" : "Gagal menambahkan user");
     }
   };
 

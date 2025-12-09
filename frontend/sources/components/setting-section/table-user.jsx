@@ -1,7 +1,7 @@
 import React from "react";
 import TdUser from "../../view/templates/user";
 
-function TableUser({ views }) {
+function TableUser({ views, editData }) {
   return (
     <div className="table-user">
       <table>
@@ -26,12 +26,14 @@ function TableUser({ views }) {
             views.map((item, index) => (
               <TdUser
                 key={item.id}
+                id={item.id}
                 no={index + 1}
                 name={item.name}
                 email={item.email}
                 jabatan={item.jabatan}
                 status={item.status}
                 password={item.password}
+                onEdit={editData}
               />
             ))
           )}

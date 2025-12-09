@@ -6,7 +6,7 @@ import IconCloseEye from "../../assets/icon/el_eye-close.svg?react";
 import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconDelete from "../../assets/icon/material-symbols_delete.svg?react";
 
-function TdUser({ no, name, email, jabatan, status, password }) {
+function TdUser({ no, id, name, email, jabatan, status, password, onEdit }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ function TdUser({ no, name, email, jabatan, status, password }) {
 
       <td>
         <div className="status-column">
-          {jabatan === "Admin" ? (
+          {jabatan === "admin" ? (
             <IconAdmin className="icon greenIcon" />
           ) : (
             <IconOwner className="icon blueIcon" />
@@ -49,8 +49,10 @@ function TdUser({ no, name, email, jabatan, status, password }) {
 
       <td>
         <div className="buttons-column">
-          <IconEdit className="icon greenIcon" />
-          <IconDelete className="icon redIcon" />
+          <IconEdit className="iconPointer greenIcon" onClick={() => onEdit({
+            id, name, email, jabatan, status, password
+          })} />
+          <IconDelete className="iconPointer redIcon" />
         </div>
       </td>
     </tr>

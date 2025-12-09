@@ -22,7 +22,7 @@ const UserController = {
     try {
       const { id_user } = req.params;
       const { name, email, jabatan, status, password } = req.body;
-      const updatedUser = await UserServices.updateUser(id_user, name, email, jabatan, status, password);
+      const updatedUser = await UserServices.updateUser(name, email, jabatan, status, password, id_user);
       res.json({ success: true, message: "User updated", data: updatedUser });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });

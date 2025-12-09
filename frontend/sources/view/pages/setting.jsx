@@ -6,6 +6,8 @@ import { fetchAllUser } from "../../utilities/api/user";
 function SettingPage() {
   const [showFormUser, setFormUser] = useState(false);
   const [existingData, setExistingData] = useState([]);
+  const [editData, setEditData] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     loadDataUsers();
@@ -40,21 +42,33 @@ function SettingPage() {
     loadDataUsers();
   };
 
+  const updateUserData = (user) => {
+    setEditData(user);
+    setIsEdit(true);
+    setFormUser(true);
+  };
+
   const handleOpenFormUser = () => {
     setFormUser(true);
   };
 
   const handleCloseFormUser = () => {
     setFormUser(false);
+    setEditData(null);
+    setIsEdit(false);
   };
 
   return (
     <div className="content setting">
       <div className="main-user">
-        <UserSetting openFormUser={handleOpenFormUser} userData={existingData} />
+        <UserSetting openFormUser={handleOpenFormUser} userData={existingData} editData={updateUserData} />
         {showFormUser && (
           <div className="form-overlay">
-            <FormUser closeFormUser={handleCloseFormUser} reloadUsers={reloadUsers} />
+            <FormUser 
+              closeFormUser={handleCloseFormUser} 
+              reloadUsers={reloadUsers} 
+              editData={editData}
+              isEdit={isEdit} />
           </div>
         )}
       </div>

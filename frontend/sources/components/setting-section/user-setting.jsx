@@ -3,7 +3,7 @@ import IconUserSetting from "../../assets/icon/tdesign_user-setting.svg?react";
 import IconAddUser from "../../assets/icon/material-symbols_person-add-outline.svg?react";
 import TableUser from "./table-user";
 
-function UserSetting({ openFormUser, userData }) {
+function UserSetting({ openFormUser, userData, editData }) {
   return(
     <div className="user-setting">
       <div className="header-user-setting">
@@ -19,7 +19,7 @@ function UserSetting({ openFormUser, userData }) {
         </div>
       </div>
       <div className="user-display">
-        <TableUser views={userData}/>
+        <TableUser views={userData} editData={editData}/>
       </div>
     </div>
   );

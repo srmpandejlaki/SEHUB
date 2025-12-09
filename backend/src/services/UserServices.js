@@ -16,7 +16,7 @@ const UserService = {
     return result;
   },
 
-  updateUser: async (id_user, name, email, jabatan, status, password ) => {
+  updateUser: async (name, email, jabatan, status, password, id_user ) => {
     const result = await UserModel.update(name, email, jabatan, status, password, id_user);
     return result;
   },
