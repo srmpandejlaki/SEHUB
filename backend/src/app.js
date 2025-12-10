@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // serve file gambar (HARUS DITARUH DI ATAS ROUTES)
-app.use("/api/sehub/products/uploads", express.static(path.join(__dirname, "src", "public", "uploads")));
+app.use("/uploads", express.static(path.join(process.cwd(), "src/public/uploads")));
 
 // register routes
 app.use('/api/sehub/products', routerProducts);

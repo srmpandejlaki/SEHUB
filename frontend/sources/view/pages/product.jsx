@@ -35,6 +35,7 @@ function ProductPage() {
       }));
 
       setExistingData(mapped);
+      console.log(mapped);
     } catch (error) {
       console.error("Gagal memuat data produk:", error);
     }

@@ -13,10 +13,25 @@ const ProductController = {
   createProduct: async (req, res) => {
     try {
       const { nama_product, ukuran_product, ukuran_satuan, kemasan_product } = req.body;
-      const img_product = req.file ? req.file.filename : "default.png";
-      
-      const newProduct = await ProductService.createProduct(nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product);
-      res.json({ success: true, message: "Product created", data: newProduct });
+
+      const fileName = req.file ? req.file.filename : "default.png";
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+      const img_product = `${baseUrl}/uploads/${fileName}`;
+
+      const newProduct = await ProductService.createProduct(
+        nama_product,
+        ukuran_product,
+        ukuran_satuan,
+        kemasan_product,
+        img_product
+      );
+
+      res.json({
+        success: true,
+        message: "Product created",
+        data: newProduct
+      });
+
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
     }
