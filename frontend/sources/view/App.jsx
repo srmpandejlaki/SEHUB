@@ -9,6 +9,7 @@ import InventoryPage from './pages/inventory-product/inventory-page';
 import InventoryHistoryPage from './pages/inventory-product/inventory-history';
 import DistributionPage from './pages/distribution-product/distribution-page';
 import DistributionHistoryPage from './pages/distribution-product/distribution-history';
+import ReturnPage from './pages/return-page';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
 
@@ -47,6 +48,7 @@ class App extends React.Component {
             <Route path="/product/inventory-history" element={<InventoryHistoryPage />} />
             <Route path="/product/distribution" element={<DistributionPage />} />
             <Route path="/product/distribution-history" element={<DistributionHistoryPage />} />
+            <Route path="/product/return" element={<ReturnPage />} />
           </Routes>
         </main>
       </LocaleProvider>

@@ -16,6 +16,9 @@ function NavProduct() {
       <Link to="/product/distribution" >
         <IconDistribution className="icon" />Distribusi Produk
       </Link>
+      <Link to="/product/return" >
+        <IconDistribution className="icon" />Return Barang
+      </Link>
     </div>
   );
 }
