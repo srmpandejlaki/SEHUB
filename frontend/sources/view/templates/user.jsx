@@ -6,7 +6,7 @@ import IconCloseEye from "../../assets/icon/el_eye-close.svg?react";
 import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconDelete from "../../assets/icon/material-symbols_delete.svg?react";
 
-function TdUser({ no, id, name, email, jabatan, status, password, onEdit, onDelete }) {
+function TdUser({ no, id, name, email, jabatan, status, password, onEdit, openNotifDelete }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -52,7 +52,7 @@ function TdUser({ no, id, name, email, jabatan, status, password, onEdit, onDele
           <IconEdit className="iconPointer greenIcon" onClick={() => onEdit({
             id, name, email, jabatan, status, password
           })} />
-          <IconDelete className="iconPointer redIcon" onClick={() => onDelete(id)} />
+          <IconDelete className="iconPointer redIcon" onClick={() => openNotifDelete(id)} />
         </div>
       </td>
     </tr>

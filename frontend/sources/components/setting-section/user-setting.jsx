@@ -3,7 +3,7 @@ import IconUserSetting from "../../assets/icon/tdesign_user-setting.svg?react";
 import IconAddUser from "../../assets/icon/material-symbols_person-add-outline.svg?react";
 import TableUser from "./table-user";
 
-function UserSetting({ openFormUser, userData, editData, handleDeleteUser }) {
+function UserSetting({ openFormUser, userData, editData, onAskDelete }) {
   return(
     <div className="user-setting">
       <div className="header-user-setting">
@@ -19,7 +19,10 @@ function UserSetting({ openFormUser, userData, editData, handleDeleteUser }) {
         </div>
       </div>
       <div className="user-display">
-        <TableUser views={userData} editData={editData} handleDeleteUser={handleDeleteUser}/>
+        <TableUser 
+          views={userData} 
+          editData={editData} 
+          notifDelete={onAskDelete} />
       </div>
     </div>
   );

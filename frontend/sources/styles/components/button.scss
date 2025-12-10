@@ -53,6 +53,14 @@
   }
 }
 
+.cancel {
+  color: custom.$color-secondary;
+
+  &:hover {
+    background-color: custom.$color-secondary;
+  }
+}
+
 /* button di tabel dashboard */
 .btn-tbl-detail {
   height: 10px;

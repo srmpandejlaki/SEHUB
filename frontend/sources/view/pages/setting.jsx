@@ -8,6 +8,8 @@ function SettingPage() {
   const [existingData, setExistingData] = useState([]);
   const [editData, setEditData] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
+  const [showNotifDelete, setNotifDelete] = useState(false);
+  const [selectedDeleteId, setSelectedDeleteId] = useState(null);
 
   useEffect(() => {
     loadDataUsers();
@@ -48,11 +50,21 @@ function SettingPage() {
     setFormUser(true);
   };
 
+  const openNotifDelete = (id) => {
+    setSelectedDeleteId(id);
+    setNotifDelete(true);
+  };
+
+  const closeNotifDelete = () => {
+    setNotifDelete(false);
+  };
+
   const handleDeleteUser = async (id) => {
     try {
       await deleteUser(id);
       console.log("User berhasil dihapus!");
       reloadUsers();
+      closeNotifDelete();
     } catch (error) {
       console.error("Gagal menghapus user:", error);
     }
@@ -71,11 +83,24 @@ function SettingPage() {
   return (
     <div className="content setting">
       <div className="main-user">
-        <UserSetting 
-          openFormUser={handleOpenFormUser} 
-          userData={existingData} 
-          editData={updateUserData} 
-          handleDeleteUser={handleDeleteUser} />
+        <UserSetting
+          openFormUser={handleOpenFormUser}
+          userData={existingData}
+          editData={updateUserData}
+          handleDeleteUser={handleDeleteUser} 
+          onAskDelete={openNotifDelete} />
+
+        {showNotifDelete && (
+          <div className="overlay">
+            <div className="notif-base notif-delete">
+              <p>Anda yakin<br/>ingin menghapus pengguna ini?</p>
+              <div className="buttons">
+                <button className="base-btn cancel" onClick={closeNotifDelete}>Batal</button>
+                <button className="base-btn red" onClick={() => handleDeleteUser(selectedDeleteId)}>Hapus</button>
+              </div>
+            </div>
+          </div>
+        )}
         {showFormUser && (
           <div className="form-overlay">
             <FormUser 
