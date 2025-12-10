@@ -76,10 +76,6 @@ header {
         font-weight: bolder;
         color: custom.$color-primary;
     }
-
-    img {
-        width: 20px;
-    }
 }
 
 .aside {
@@ -88,6 +84,15 @@ header {
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
+}
+
+.navigation {
+    @include custom.flex-column;
+    gap: 8rem;
+
+    .nav {
+        width: 100%;
+    }
 }
 
 .links {
@@ -106,25 +111,19 @@ header {
             color: custom.$color-secondary;
         }
     }
-}
 
-.navigation {
-    @include custom.flex-column;
-    gap: 8rem;
-
-    .nav {
+    a {
         width: 100%;
+        color: custom.$color-primary;
+        @include custom.flex-align-center;
+        gap: 1rem;
+        padding: 0.5rem 2.5rem;
     }
 }
 
 a {
-    width: 100%;
     text-decoration: none;
     font-weight: bolder;
-    color: custom.$color-primary;
-    @include custom.flex-align-center;
-    gap: 1rem;
-    padding: 0.5rem 2.5rem;
 }
 
 .icon {
