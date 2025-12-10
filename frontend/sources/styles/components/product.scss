@@ -32,6 +32,17 @@
       }
     }
   }
+
+  .active {
+    cursor: pointer;
+    color: custom.$color-secondary;
+    background-color: custom.$color-primary;
+    border-radius: 4px;
+
+    .icon {
+      color: custom.$color-tertiary;
+    }
+  }
 }
 
 .header-product-page, .header-inventory, .header-distribution {

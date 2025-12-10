@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import IconListProduct from "../../assets/icon/ep_list.svg?react";
 import IconInventoryProduct from "../../assets/icon/material-symbols_inventory.svg?react";
 import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?react";
@@ -7,18 +7,18 @@ import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?r
 function NavProduct() {
   return (
     <div className="nav-product">
-      <Link to="/product" >
+      <NavLink to="/product" end className={({ isActive }) => (isActive ? "active" : "")} >
         <IconListProduct className="icon" />Produk
-      </Link>
-      <Link to="/product/inventory" >
+      </NavLink>
+      <NavLink to="/product/inventory" className={({ isActive }) => (isActive ? "active" : "")} >
         <IconInventoryProduct className="icon" />Inventori Produk
-      </Link>
-      <Link to="/product/distribution" >
+      </NavLink>
+      <NavLink to="/product/distribution" className={({ isActive }) => (isActive ? "active" : "")} >
         <IconDistribution className="icon" />Distribusi Produk
-      </Link>
-      <Link to="/product/return" >
+      </NavLink>
+      <NavLink to="/product/return" className={({ isActive }) => (isActive ? "active" : "")} >
         <IconDistribution className="icon" />Return Barang
-      </Link>
+      </NavLink>
     </div>
   );
 }

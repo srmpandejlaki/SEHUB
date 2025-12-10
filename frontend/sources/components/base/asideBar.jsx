@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logoSehub from "../../assets/public/sehub.png";
 import IconMenu from "../../assets/icon/Vector-5.svg?react";
 import IconHome from "../../assets/icon/Vector-4.svg?react";
@@ -18,20 +18,23 @@ function AsideBar() {
               <IconMenu className="icon greenIcon" /> 
               <p>MENU</p>
           </div>
-          <ul>
-            <li>
-              <IconHome className="icon greenIcon" /> 
-              <Link to="/">Beranda</Link>
-            </li>
-            <li>
-              <IconProduct className="icon greenIcon" /> 
-              <Link to="/product">Produk</Link>
-            </li>
-            <li>
-              <IconSetting className="icon greenIcon" /> 
-              <Link to="/setting">Pengaturan</Link>
-            </li>
-          </ul>
+          <div className="links">
+            <div>
+              <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
+                <IconHome className="icon greenIcon" /> Beranda
+              </NavLink>
+            </div>
+            <div>
+              <NavLink to="/product" className={({ isActive }) => (isActive ? "active" : "")}>
+                <IconProduct className="icon greenIcon" /> Produk
+              </NavLink>
+            </div>
+            <div>
+              <NavLink to="/setting" className={({ isActive }) => (isActive ? "active" : "")}>
+                <IconSetting className="icon greenIcon" /> Pengaturan
+              </NavLink>
+            </div>
+          </div>
         </div>
       </div>
       <div className="companies-name">
