@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import NavDistribution from "../../../components/base/nav-distribution";
-import TableDistribution from "../../../components/product-page/table-distribution";
-import FormDataDistribution from "../../../components/product-page/form-data-distribution";
+import TableDistribution from "../../../components/product-page/distribution/table-distribution";
+import FormDataDistribution from "../../../components/product-page/distribution/form-data-distribution";
 import IconBar from "../../../assets/icon/material-symbols_menu-rounded.svg?react";
 
 function DistributionHistoryPage() {

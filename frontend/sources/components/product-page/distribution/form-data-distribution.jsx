@@ -1,15 +1,15 @@
 import React from "react";
-import IconEditProduct from "../../assets/icon/flowbite_edit-outline.svg?react";
-import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
-import IconKalender from "../../assets/icon/mdi_calendar-outline.svg?react";
-import IconPerson from "../../assets/icon/Vector-9.svg?react";
-import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?react";
-import IconDistributor from "../../assets/icon/streamline-ultimate_delivery-package-person.svg?react";
-import IconStatus from "../../assets/icon/fluent_status-12-regular.svg?react";
-import IconBotol1 from "../../assets/icon/icon-park-outline_bottle-two.svg?react";
-import IconBotol2 from "../../assets/icon/Frame 27.svg?react";
-import IconKeterangan from "../../assets/icon/fluent_text-description-ltr-20-filled.svg?react";
-import IconDropDown from "../../assets/icon/material-symbols_arrow-drop-down-rounded.svg?react";
+import IconEditProduct from "../../../assets/icon/flowbite_edit-outline.svg?react";
+import IconCancel from "../../../assets/icon/material-symbols_cancel.svg?react";
+import IconKalender from "../../../assets/icon/mdi_calendar-outline.svg?react";
+import IconPerson from "../../../assets/icon/Vector-9.svg?react";
+import IconDistribution from "../../../assets/icon/lsicon_distribution-filled.svg?react";
+import IconDistributor from "../../../assets/icon/streamline-ultimate_delivery-package-person.svg?react";
+import IconStatus from "../../../assets/icon/fluent_status-12-regular.svg?react";
+import IconBotol1 from "../../../assets/icon/icon-park-outline_bottle-two.svg?react";
+import IconBotol2 from "../../../assets/icon/Frame 27.svg?react";
+import IconKeterangan from "../../../assets/icon/fluent_text-description-ltr-20-filled.svg?react";
+import IconDropDown from "../../../assets/icon/material-symbols_arrow-drop-down-rounded.svg?react";
 
 function FormDataDistribution({ onCloseForm }) {
   return(

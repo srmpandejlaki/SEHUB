@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
-import InventoryProduct from "../../../components/product-page/inventory-items";
+import InventoryProduct from "../../../components/product-page/inventory/inventory-items";
 import CheckStock from "../../../components/product-page/check-stock";
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconChecking from "../../../assets/icon/ci_checking.svg?react";

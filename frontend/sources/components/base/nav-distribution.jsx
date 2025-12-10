@@ -9,12 +9,10 @@ function NavDistribution({ onClose, openForm, to }) {
   return(
     <div className="button nav-distribution">
       <div className="base-btn black">
-        <IconLaporan className="icon whiteIcon" />
-        <p>Buat Laporan</p>
+        <IconLaporan className="icon whiteIcon" />Buat Laporan
       </div>
       <div className="base-btn black" onClick={openForm}>
-        <IconTambah className="icon whiteIcon" />
-        <p>Tambah Data</p>
+        <IconTambah className="icon whiteIcon" />Tambah Data
       </div>
       <div className="base-btn black">
         <Link to={to} >

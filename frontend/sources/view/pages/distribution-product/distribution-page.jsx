@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
-import DistributionProduct from "../../../components/product-page/distribution-items";
+import DistributionProduct from "../../../components/product-page/distribution/distribution-items";
 
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 
