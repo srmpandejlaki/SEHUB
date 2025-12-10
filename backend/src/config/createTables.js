@@ -50,6 +50,30 @@ async function createTables() {
       );
     `);
 
+    // Tabel Tanggal Masuk - Inventory
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS incoming_stock (
+        incoming_stock_id SERIAL PRIMARY KEY,
+        date DATE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Tabel Produk Masuk
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS incoming_product (
+        incoming_product_id SERIAL PRIMARY KEY,
+        incoming_stock_id INT NOT NULL,
+        id_product VARCHAR(30) NOT NULL,
+        quantity INT NOT NULL,
+        expired_date DATE NOT NULL,
+        notes VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (incoming_stock_id) REFERENCES incoming_stock(incoming_stock_id),
+        FOREIGN KEY (id_product) REFERENCES product(id_product)
+      );
+    `);
+
     console.log("✅ Semua tabel berhasil dicek/dibuat.");
   } catch (error) {
     console.error("❌ Error membuat tabel:", error);
