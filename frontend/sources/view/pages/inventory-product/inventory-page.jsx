@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
@@ -6,9 +6,42 @@ import InventoryProduct from "../../../components/product-page/inventory/invento
 import CheckStock from "../../../components/product-page/check-stock";
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconChecking from "../../../assets/icon/ci_checking.svg?react";
+import { fetchAllProducts } from "../../../utilities/api/products";
 
 function InventoryPage() {
   const [showFormCekStock, setFormCekStock] = useState(false);
+  const [existingData, setExistingData] = useState([]);
+  
+  useEffect(() => {
+    loadDataProducts();
+  }, []);
+
+  const loadDataProducts = async () => {
+    try {
+      const response = await fetchAllProducts();
+      console.log(response);
+
+      if (!response || !Array.isArray(response)) {
+        console.error("Data produk tidak valid:", response);
+        return;
+      }
+
+      const mapped = response.map((item) => ({
+        id: item.id_product,
+        namaProduk: item.nama_product,
+        ukuranProduk: item.ukuran_product,
+        ukuranSatuan: item.ukuran_satuan,
+        kemasanProduk: item.kemasan_product,
+        minimumStock: item.minimum_stock,
+        imageProduk: item.img_product,
+      }));
+
+      setExistingData(mapped);
+      console.log(mapped);
+    } catch (error) {
+      console.error("Gagal memuat data produk:", error);
+    }
+  };
 
   const handleOpenFormStock = () => {
     setFormCekStock(true);
@@ -38,7 +71,7 @@ function InventoryPage() {
             </div>
           </div>
           <SearchFilter />
-          <InventoryProduct />
+          <InventoryProduct existingData={existingData} />
         </div>
         {showFormCekStock && (
           <div className="checking-overlay">
