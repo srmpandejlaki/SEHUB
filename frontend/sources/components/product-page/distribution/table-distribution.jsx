@@ -1,7 +1,7 @@
 import React from "react"; 
-import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
-import IconPanahKiri from "../../assets/icon/carbon_next-filled.svg?react";
-import IconPanahKanan from "../../assets/icon/carbon_next-filled-right.svg?react";
+import IconEdit from "../../../assets/icon/flowbite_edit-outline.svg?react";
+import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
+import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
 
 function TableDistribution() {
   return(

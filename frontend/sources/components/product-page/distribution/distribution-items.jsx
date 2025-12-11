@@ -1,5 +1,5 @@
 import React from "react";
-import Sirop1Img from "../../assets/public/gambar-produk/seho-sirop1.png";
+import Sirop1Img from "../../../assets/public/gambar-produk/seho-sirop1.png";
 // import DefaultImg from "../../assets/public/gambar-produk/default-img.png";
 // import Granule1Img from "../../assets/public/gambar-produk/seho-granule1.png";
 
