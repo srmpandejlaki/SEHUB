@@ -8,6 +8,7 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
   const [ukuranProduk, setUkuranProduk] = useState("");
   const [ukuranSatuan, setUkuranSatuan] = useState("");
   const [kemasanProduk, setKemasanProduk] = useState("");
+  const [minimumStock, setMinimumStok] = useState("");
   const [imageProduk, setImageProduk] = useState("");
 
   const handleSubmit = async (e) => {
@@ -18,6 +19,7 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
       ukuran_product: ukuranProduk,
       ukuran_satuan: ukuranSatuan,
       kemasan_product: kemasanProduk,
+      minimum_stock: minimumStock,
       img_product: imageProduk,
     };
 
@@ -81,17 +83,29 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
           </div>
         </div>
 
-        <div className="inputan">
-          <label>Kemasan</label>
-          <select
-            value={kemasanProduk}
-            onChange={(e) => setKemasanProduk(e.target.value)}
-          >
-            <option value="">-- Pilih --</option>
-            <option value="botol">botol</option>
-            <option value="pcs">pcs</option>
-            <option value="pack">pack</option>
-          </select>
+        <div className="double-form">
+          <div className="inputan">
+            <label>Kemasan</label>
+            <select
+              value={kemasanProduk}
+              onChange={(e) => setKemasanProduk(e.target.value)}
+            >
+              <option value="">-- Pilih --</option>
+              <option value="botol">botol</option>
+              <option value="pcs">pcs</option>
+              <option value="pack">pack</option>
+            </select>
+          </div>
+
+          <div className="inputan">
+            <label>Minimum Stok</label>
+            <input
+              type="text"
+              placeholder="0"
+              value={minimumStock}
+              onChange={(e) => setMinimumStok(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="inputan">

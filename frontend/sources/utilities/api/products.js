@@ -45,6 +45,7 @@ export const createProduct = async (productData) => {
     formData.append("ukuran_product", productData.ukuran_product);
     formData.append("ukuran_satuan", productData.ukuran_satuan);
     formData.append("kemasan_product", productData.kemasan_product);
+    formData.append("minimum_stock", productData.minimum_stock);
 
     // append file only if exists
     if (productData.img_product instanceof File) {
@@ -73,6 +74,7 @@ export const updateProduct = async (id, productData) => {
     formData.append("ukuran_product", productData.ukuran_product);
     formData.append("ukuran_satuan", productData.ukuran_satuan);
     formData.append("kemasan_product", productData.kemasan_product);
+    formData.append("minimum_stock", productData.minimum_stock);
 
     // append file only if exists
     if (productData.img_product instanceof File) {

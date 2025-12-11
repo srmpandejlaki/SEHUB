@@ -31,6 +31,7 @@ function ProductPage() {
         ukuranProduk: item.ukuran_product,
         ukuranSatuan: item.ukuran_satuan,
         kemasanProduk: item.kemasan_product,
+        minimumStock: item.minimum_stock,
         imageProduk: item.img_product,
       }));
 

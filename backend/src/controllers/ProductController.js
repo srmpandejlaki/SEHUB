@@ -12,7 +12,7 @@ const ProductController = {
 
   createProduct: async (req, res) => {
     try {
-      const { nama_product, ukuran_product, ukuran_satuan, kemasan_product } = req.body;
+      const { nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock } = req.body;
 
       const fileName = req.file ? req.file.filename : "default.png";
       const baseUrl = `${req.protocol}://${req.get("host")}`;
@@ -23,6 +23,7 @@ const ProductController = {
         ukuran_product,
         ukuran_satuan,
         kemasan_product,
+        minimum_stock,
         img_product
       );
 
@@ -40,10 +41,10 @@ const ProductController = {
   updateProduct: async (req, res) => {
     try {
       const { id_product } = req.params;
-      const { nama_product, ukuran_product, ukuran_satuan, kemasan_product } = req.body;
+      const { nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock } = req.body;
       const img_product = req.file?.filename || "default.png";
 
-      const updatedProduct = await ProductService.updateProduct(id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, img_product);
+      const updatedProduct = await ProductService.updateProduct(id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock, img_product);
       res.json({ success: true, message: "Product updated", data: updatedProduct });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });

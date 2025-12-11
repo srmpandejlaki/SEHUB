@@ -10,6 +10,7 @@ const ProductService = {
     ukuran_product,
     ukuran_satuan,
     kemasan_product,
+    minimum_stock,
     img_product
   ) => {
     return await ProductModel.create(
@@ -17,6 +18,7 @@ const ProductService = {
       ukuran_product,
       ukuran_satuan,
       kemasan_product,
+      minimum_stock,
       img_product
     );
   },
@@ -27,6 +29,7 @@ const ProductService = {
     ukuran_product,
     ukuran_satuan,
     kemasan_product,
+    minimum_stock,
     img_product
   ) => {
     return await ProductModel.update(
@@ -35,6 +38,7 @@ const ProductService = {
       ukuran_product,
       ukuran_satuan,
       kemasan_product,
+      minimum_stock,
       img_product
     );
   },
