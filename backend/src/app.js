@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 
 import routerUsers from './routes/UserRoute.js';
 import routerProducts from './routes/ProductRoute.js';
+import routerInventory from './routes/InventoryRoute.js';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/uploads", express.static(path.join(process.cwd(), "src/public/uploads"
 // register routes
 app.use('/api/sehub/products', routerProducts);
 app.use('/api/sehub/users', routerUsers);
+app.use('/api/sehub/inventory', routerInventory);
 
 // start server
 app.listen(process.env.PORT || 5000, () => {
