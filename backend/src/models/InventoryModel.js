@@ -68,6 +68,70 @@ const InventoryModel = {
       client.release();
     }
   },
+
+  update: async (incoming_stock_id, date, products) => {
+    const client = await db.connect();
+
+    try {
+      await client.query("BEGIN");
+
+      // 1. Update incoming_stock
+      const updateStock = await client.query(
+        `UPDATE incoming_stock 
+        SET date = $1 
+        WHERE incoming_stock_id = $2 
+        RETURNING *`,
+        [date, incoming_stock_id]
+      );
+
+      if (updateStock.rows.length === 0) {
+        throw new Error("Incoming stock not found");
+      }
+
+      // 2. Hapus item lama
+      await client.query(
+        `DELETE FROM incoming_product 
+        WHERE incoming_stock_id = $1`,
+        [incoming_stock_id]
+      );
+
+      // 3. Insert ulang item baru
+      const insertedItems = [];
+
+      const insertItemQuery = `
+        INSERT INTO incoming_product
+        (incoming_stock_id, id_product, quantity, expired_date, notes)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *;
+      `;
+
+      for (const item of products) {
+        const result = await client.query(insertItemQuery, [
+          incoming_stock_id,
+          item.id_product,
+          item.quantity,
+          item.expired_date,
+          item.notes || null
+        ]);
+        insertedItems.push(result.rows[0]);
+      }
+
+      await client.query("COMMIT");
+
+      return {
+        incoming_stock_id,
+        updated_stock: updateStock.rows[0],
+        items: insertedItems
+      };
+
+    } catch (err) {
+      await client.query("ROLLBACK");
+      throw err;
+
+    } finally {
+      client.release();
+    }
+  },
 };
 
 export default InventoryModel;
