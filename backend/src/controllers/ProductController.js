@@ -12,19 +12,19 @@ const ProductController = {
 
   createProduct: async (req, res) => {
     try {
-      const { nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock } = req.body;
+      const { nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum } = req.body;
 
       const fileName = req.file ? req.file.filename : "default.png";
       const baseUrl = `${req.protocol}://${req.get("host")}`;
-      const img_product = `${baseUrl}/uploads/${fileName}`;
+      const path_gambar = `${baseUrl}/uploads/${fileName}`;
 
       const newProduct = await ProductService.createProduct(
-        nama_product,
-        ukuran_product,
-        ukuran_satuan,
-        kemasan_product,
-        minimum_stock,
-        img_product
+        nama_produk, 
+        ukuran_produk, 
+        ukuran_satuan, 
+        kemasan_produk, 
+        stok_minimum, 
+        path_gambar
       );
 
       res.json({
@@ -40,11 +40,11 @@ const ProductController = {
 
   updateProduct: async (req, res) => {
     try {
-      const { id_product } = req.params;
-      const { nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock } = req.body;
-      const img_product = req.file?.filename || "default.png";
+      const { kode_produk } = req.params;
+      const { nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum } = req.body;
+      const path_gambar = req.file?.filename || "default.png";
 
-      const updatedProduct = await ProductService.updateProduct(id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock, img_product);
+      const updatedProduct = await ProductService.updateProduct(kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar);
       res.json({ success: true, message: "Product updated", data: updatedProduct });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
@@ -53,8 +53,8 @@ const ProductController = {
 
   deleteProduct: async (req, res) => {
     try {
-      const { id_product } = req.params;
-      const deletedProduct = await ProductService.deleteProduct(id_product);
+      const { kode_produk } = req.params;
+      const deletedProduct = await ProductService.deleteProduct(kode_produk);
       res.json({ success: true, message: "Product deleted", data: deletedProduct });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });

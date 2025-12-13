@@ -3,28 +3,25 @@ import generateId from "../utils/generateId.js";
 
 const ProductModel = {
   getAll: async () => {
-    const result = await db.query("SELECT * FROM product ORDER BY id_product DESC");
+    const result = await db.query("SELECT * FROM produk ORDER BY kode_produk DESC");
     return result.rows;
   },
 
-  create: async (nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock, img_product) => {
-    const kode_produk = await generateId(nama_product);
-    const id_product = `LS${kode_produk}${ukuran_product}`;
-
+  create: async (kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar) => {
     const result = await db.query(
-      `INSERT INTO product (
-        id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock, img_product
+      `INSERT INTO produk (
+        kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar
       ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock, img_product]
+      [kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar]
     );
 
     return result.rows[0];
   },
 
-  update: async (id_product, nama_product, ukuran_product, ukuran_satuan, kemasan_product, minimum_stock, img_product) => {
+  update: async (kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar) => {
     // 1. ambil data lama
     const oldData = await db.query(
-      "SELECT * FROM product WHERE id_product = $1",
+      "SELECT * FROM produk WHERE id_product = $1",
       [id_product]
     );
 
@@ -33,40 +30,40 @@ const ProductModel = {
     const old = oldData.rows[0];
 
     // 2. tentukan gambar yang dipakai
-    const finalImage = img_product !== undefined ? img_product : old.img_product;
+    const finalImage = path_gambar !== undefined ? path_gambar : old.path_gambar;
 
     // 3. update data
     const result = await db.query(
-      `UPDATE product
-       SET nama_product = $1,
-           ukuran_product = $2,
+      `UPDATE produk
+       SET nama_produk = $1,
+           ukuran_produk = $2,
            ukuran_satuan = $3,
-           kemasan_product = $4,
-           minimum_stock = $5,
-           img_product = $6
-       WHERE id_product = $7
+           kemasan_produk = $4,
+           stok_minimum = $5,
+           path_gambar = $6
+       WHERE kode_produk = $7
        RETURNING *`,
       [
-        nama_product,
-        ukuran_product,
+        nama_produk,
+        ukuran_produk,
         ukuran_satuan,
-        kemasan_product,
-        minimum_stock,
+        kemasan_produk,
+        stok_minimum,
         finalImage,
-        id_product
+        kode_produk
       ]
     );
 
     return result.rows[0];
   },
 
-  delete: async (id_product) => {
-    const result = await db.query("DELETE FROM product WHERE id_product = $1 RETURNING *", [id_product]);
+  delete: async (kode_produk) => {
+    const result = await db.query("DELETE FROM produk WHERE kode_produk = $1 RETURNING *", [kode_produk]);
     return result.rows[0];
   },
 
   deleteAll: async () => {
-    const result = await db.query("DELETE FROM product RETURNING *");
+    const result = await db.query("DELETE FROM produk RETURNING *");
     return result.rows;
   },
 };
