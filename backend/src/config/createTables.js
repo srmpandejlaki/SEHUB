@@ -38,7 +38,7 @@ async function createTables() {
         ukuran_satuan VARCHAR(20) NOT NULL,
         kemasan_produk VARCHAR(20) NOT NULL,
         stok_minimum INT NOT NULL,
-        path_gambar VARCHAR(255) NOT NULL,
+        path_gambar VARCHAR(255) NOT NULL
       );
     `);
 
