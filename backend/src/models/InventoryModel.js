@@ -6,16 +6,45 @@ const InventoryModel = {
       SELECT 
         i.incoming_stock_id,
         i.date,
-        COUNT(ip.incoming_product_id) AS total_items,
-        COALESCE(SUM(ip.quantity), 0) AS total_quantity
+        ip.incoming_product_id,
+        ip.id_product,
+        p.nama_product,
+        ip.quantity,
+        ip.expired_date,
+        ip.notes
       FROM incoming_stock i
-      LEFT JOIN incoming_product ip
+      LEFT JOIN incoming_product ip 
         ON i.incoming_stock_id = ip.incoming_stock_id
-      GROUP BY i.incoming_stock_id
-      ORDER BY i.incoming_stock_id DESC
+      LEFT JOIN product p
+        ON ip.id_product = p.id_product
+      ORDER BY i.incoming_stock_id DESC, ip.incoming_product_id ASC
     `);
 
-    return result.rows;
+    // Group by incoming_stock_id
+    const grouped = {};
+
+    result.rows.forEach(row => {
+      if (!grouped[row.incoming_stock_id]) {
+        grouped[row.incoming_stock_id] = {
+          incoming_stock_id: row.incoming_stock_id,
+          date: row.date,
+          items: []
+        };
+      }
+
+      if (row.incoming_product_id) {
+        grouped[row.incoming_stock_id].items.push({
+          incoming_product_id: row.incoming_product_id,
+          id_product: row.id_product,
+          product_name: row.product_name,
+          quantity: row.quantity,
+          expired_date: row.expired_date,
+          notes: row.notes
+        });
+      }
+    });
+
+    return Object.values(grouped);
   },
 
   create: async (date, products) => {

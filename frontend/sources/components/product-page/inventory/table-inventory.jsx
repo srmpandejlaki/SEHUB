@@ -2,8 +2,9 @@ import React from "react";
 import IconEdit from "../../../assets/icon/flowbite_edit-outline.svg?react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
+import TableInventoryItem from "../../../view/templates/table-inventory-item";
 
-function TableInventory() {
+function TableInventory({ existingData }) {
   return(
     <div className="table-distribution">
       <div className="table-display">
@@ -20,103 +21,18 @@ function TableInventory() {
               </tr>
           </thead>
           <tbody>
+            {existingData.length === 0 ? (
               <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>-</td>
-                  <td><IconEdit className="icon greenIcon" /></td>
+                <td colSpan="7" className="no-data">Belum ada data.</td>
               </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>-</td>
-                  <td><IconEdit className="icon greenIcon" /></td>
-              </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>-</td>
-                  <td><IconEdit className="icon greenIcon" /></td>
-              </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>-</td>
-                  <td><IconEdit className="icon greenIcon" /></td>
-              </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>-</td>
-                  <td><IconEdit className="icon greenIcon" /></td>
-              </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>-</td>
-                  <td><IconEdit className="icon greenIcon" /></td>
-              </tr><tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>-</td>
-                  <td><IconEdit className="icon greenIcon" /></td>
-              </tr>
+            ) : (
+              existingData.map((item) => (
+                <TableInventoryItem
+                  date={item.date}
+                  items={item.items}
+                />
+              ))
+            )}
           </tbody>
         </table>
       </div>
