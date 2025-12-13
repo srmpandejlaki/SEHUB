@@ -16,62 +16,66 @@ async function createTables() {
   try {
     console.log("🔍 Mengecek dan membuat tabel jika belum ada...");
 
-    // Tabel Users
+    // Tabel Pengguna
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id_user SERIAL PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
+      CREATE TABLE IF NOT EXISTS pengguna (
+        id_pengguna SERIAL PRIMARY KEY,
+        nama_pengguna VARCHAR(100) NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         jabatan VARCHAR(50) NOT NULL,
-        status VARCHAR(15) NOT NULL,
-        password VARCHAR(255) NOT NULL,
+        peran VARCHAR(15) NOT NULL,
+        kata_sandi VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
-    // Tabel Product
+    // Tabel Produk
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS product (
-        id_product VARCHAR(30) PRIMARY KEY,
-        nama_product VARCHAR(100) NOT NULL,
-        ukuran_product VARCHAR(20) NOT NULL,
+      CREATE TABLE IF NOT EXISTS produk (
+        kode_produk VARCHAR(30) PRIMARY KEY,
+        nama_produk VARCHAR(100) NOT NULL,
+        ukuran_produk VARCHAR(20) NOT NULL,
         ukuran_satuan VARCHAR(20) NOT NULL,
-        kemasan_product VARCHAR(20) NOT NULL,
-        minimum_stock INT NOT NULL,
-        img_product VARCHAR(255),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        kemasan_produk VARCHAR(20) NOT NULL,
+        stok_minimum INT NOT NULL,
+        path_gambar VARCHAR(255) NOT NULL,
       );
     `);
 
-    // Tabel Product Code
+    // Tabel Barang Masuk
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS product_code (
-        kode_produk VARCHAR(3) PRIMARY KEY,
-        nama_product VARCHAR(100) NOT NULL UNIQUE
+      CREATE TABLE IF NOT EXISTS barang_masuk (
+        id_barang_masuk SERIAL PRIMARY KEY,
+        id_pengguna INT NOT NULL,
+        tanggal_masuk DATE NOT NULL,
+        catatan VARCHAR(255),
+        FOREIGN KEY (id_pengguna) REFERENCES pengguna(id_pengguna)
       );
     `);
 
-    // Tabel Tanggal Masuk - Inventory
+    // Tabel Detail Barang Masuk
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS incoming_stock (
-        incoming_stock_id SERIAL PRIMARY KEY,
-        date DATE NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      CREATE TABLE IF NOT EXISTS detail_barang_masuk (
+        id_detail_barang_masuk SERIAL PRIMARY KEY,
+        id_barang_masuk INT NOT NULL,
+        kode_produk VARCHAR(30) NOT NULL,
+        jumlah INT NOT NULL,
+        tanggal_expired DATE NOT NULL,
+        FOREIGN KEY (id_barang_masuk) REFERENCES barang_masuk(id_barang_masuk),
+        FOREIGN KEY (kode_produk) REFERENCES produk(kode_produk)
       );
     `);
 
-    // Tabel Produk Masuk
+    // Tabel Distribusi
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS incoming_product (
-        incoming_product_id SERIAL PRIMARY KEY,
-        incoming_stock_id INT NOT NULL,
-        id_product VARCHAR(30) NOT NULL,
-        quantity INT NOT NULL,
-        expired_date DATE NOT NULL,
-        notes VARCHAR(255),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (incoming_stock_id) REFERENCES incoming_stock(incoming_stock_id),
-        FOREIGN KEY (id_product) REFERENCES product(id_product)
+      CREATE TABLE IF NOT EXISTS distribusi (
+        id_distribusi SERIAL PRIMARY KEY,
+        id_pengguna INT NOT NULL,
+        tanggal_distribusi DATE NOT NULL,
+        nama_pemesan VARCHAR(100) NOT NULL,
+        metode_pengiriman VARCHAR(50) NOT NULL,
+        status_pengiriman VARCHAR(50) NOT NULL,
+        FOREIGN KEY (id_pengguna) REFERENCES pengguna(id_pengguna)
       );
     `);
 
