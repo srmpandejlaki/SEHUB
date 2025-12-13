@@ -6,23 +6,23 @@ const UserService = {
     return result;
   },
 
-  getUserById: async (id_user) => {
-    const result = await UserModel.getById(id_user);
+  getUserById: async (id_pengguna) => {
+    const result = await UserModel.getById(id_pengguna);
     return result;
   },
 
-  createUser: async (name, email, jabatan, status, password) => {
-    const result = await UserModel.create(name, email, jabatan, status, password);
+  createUser: async (nama_pengguna, email, jabatan, peran, kata_sandi) => {
+    const result = await UserModel.create(nama_pengguna, email, jabatan, peran, kata_sandi);
     return result;
   },
 
-  updateUser: async (name, email, jabatan, status, password, id_user ) => {
-    const result = await UserModel.update(name, email, jabatan, status, password, id_user);
+  updateUser: async (nama_pengguna, email, jabatan, peran, kata_sandi, id_pengguna ) => {
+    const result = await UserModel.update(nama_pengguna, email, jabatan, peran, kata_sandi, id_pengguna);
     return result;
   },
 
-  deleteUser: async (id_user) => {
-    const result = await UserModel.delete(id_user);
+  deleteUser: async (id_pengguna) => {
+    const result = await UserModel.delete(id_pengguna);
     return result;
   },
 
