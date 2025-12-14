@@ -6,7 +6,7 @@ const UserModel = {
     return result.rows;
   },
 
-  getById: async (id_user) => {
+  getById: async (id_pengguna) => {
     const result = await db.query("SELECT * FROM pengguna WHERE id_pengguna = $1", [id_pengguna]);
     return result.rows[0];
   },
@@ -29,6 +29,9 @@ const UserModel = {
 
   delete: async (id_pengguna) => {
     const result = await db.query("DELETE FROM pengguna WHERE id_pengguna = $1 RETURNING *", [id_pengguna]);
+    if (result.rows.length === 0) {
+      return null;
+    }
     return result.rows[0];
   },
 

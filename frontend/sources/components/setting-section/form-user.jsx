@@ -9,11 +9,11 @@ import IconStatus from "../../assets/icon/eos-icons_role-binding-outlined.svg?re
 import { createUser, updateUser } from "../../utilities/api/user.js";
 
 function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
-  const [userName, setUserName] = useState(editData?.name || "");
+  const [userName, setUserName] = useState(editData?.nama_pengguna || "");
   const [userEmail, setUserEmail] = useState(editData?.email || "");
   const [userJabatan, setUserJabatan] = useState(editData?.jabatan || "");
-  const [userStatus, setUserStatus] = useState(editData?.status || "");
-  const [userPassword, setUserPassword] = useState(editData?.password || "");
+  const [userStatus, setUserStatus] = useState(editData?.peran || "");
+  const [userPassword, setUserPassword] = useState(editData?.kata_sandi || "");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,18 +23,18 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
     }
 
     const payload = {
-      name : userName,
+      nama_pengguna : userName,
       email : userEmail,
       jabatan : userJabatan,
-      status : userStatus,
-      password : userPassword,
+      peran : userStatus,
+      kata_sandi : userPassword,
     };
 
     let result;
 
     if (isEdit) {
-      result = await updateUser(editData?.id, payload);
-      if (!editData?.id) {
+      result = await updateUser(editData?.id_pengguna, payload);
+      if (!editData?.id_pengguna) {
         alert("ID user tidak ditemukan!");
         return;
       }

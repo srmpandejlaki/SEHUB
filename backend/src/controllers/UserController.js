@@ -30,7 +30,17 @@ const UserController = {
   },
   deleteUser: async (req, res) => {
     const result = await UserServices.deleteUser(req.params.id_pengguna);
-    res.json(result);
+
+    if (!result) {
+      return res.status(404).json({
+        message: "Pengguna tidak ditemukan"
+      });
+    }
+
+    res.status(200).json({
+      message: "Pengguna berhasil dihapus",
+      data: result
+    });
   },
   deleteAllUser: async (req, res) => {
     const result = await UserServices.deleteAllUser();

@@ -47,9 +47,9 @@ export const createUser = async (user) => {
   }
 };
 
-export const updateUser = async (id, user) => {
+export const updateUser = async (id_pengguna, user) => {
   try {
-    const response = await fetch(`${BASE_URL}users/${id}`, {
+    const response = await fetch(`${BASE_URL}users/${id_pengguna}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
@@ -69,22 +69,22 @@ export const updateUser = async (id, user) => {
   }
 };
 
-export const deleteUser = async (id) => {
+export const deleteUser = async (id_pengguna) => {
   try {
-    const response = await fetch(`${BASE_URL}users/${id}`, {
+    const response = await fetch(`${BASE_URL}users/${id_pengguna}`, {
       method: "DELETE",
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const err = await response.json().catch(() => null);
-      console.error("Delete user gagal:", err || response.statusText);
-      return null;
+      throw new Error(data.message);
     }
 
-    const data = await response.json();
-    return data?.data || data;
+    return data.data;
   } catch (error) {
-    console.error("Error deleteUser:", error);
+    console.error("Error deleteUser:", error.message);
     return null;
   }
 };
+

@@ -25,14 +25,14 @@ function TableUser({ views, editData, notifDelete }) {
           ) : (
             views.map((item, index) => (
               <TdUser
-                key={item.id}
-                id={item.id}
+                key={item.id_pengguna}
+                id_pengguna={item.id_pengguna}
                 no={index + 1}
-                name={item.name}
+                nama_pengguna={item.nama_pengguna}
                 email={item.email}
                 jabatan={item.jabatan}
-                status={item.status}
-                password={item.password}
+                peran={item.peran}
+                kata_sandi={item.kata_sandi}
                 onEdit={editData}
                 openNotifDelete={notifDelete}
               />

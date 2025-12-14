@@ -6,13 +6,13 @@ import IconCloseEye from "../../assets/icon/el_eye-close.svg?react";
 import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconDelete from "../../assets/icon/material-symbols_delete.svg?react";
 
-function TdUser({ no, id, name, email, jabatan, status, password, onEdit, openNotifDelete }) {
+function TdUser({ no, id_pengguna, nama_pengguna, email, jabatan, peran, kata_sandi, onEdit, openNotifDelete }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <tr>
       <td>{no}.</td>
-      <td>{name}</td>
+      <td>{nama_pengguna}</td>
       <td>{email}</td>
       <td>{jabatan}</td>
 
@@ -23,13 +23,13 @@ function TdUser({ no, id, name, email, jabatan, status, password, onEdit, openNo
           ) : (
             <IconOwner className="icon blueIcon" />
           )}
-          <p>{status}</p>
+          <p>{peran}</p>
         </div>
       </td>
 
       <td>
         <div className="password-column">
-          <p>{showPassword ? password : "******"}</p>
+          <p>{showPassword ? kata_sandi : "******"}</p>
 
           {showPassword ? (
             <IconCloseEye
@@ -50,9 +50,9 @@ function TdUser({ no, id, name, email, jabatan, status, password, onEdit, openNo
       <td>
         <div className="buttons-column">
           <IconEdit className="iconPointer greenIcon" onClick={() => onEdit({
-            id, name, email, jabatan, status, password
+            id_pengguna, nama_pengguna, email, jabatan, peran, kata_sandi
           })} />
-          <IconDelete className="iconPointer redIcon" onClick={() => openNotifDelete(id)} />
+          <IconDelete className="iconPointer redIcon" onClick={() => openNotifDelete(id_pengguna)} />
         </div>
       </td>
     </tr>

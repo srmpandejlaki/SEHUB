@@ -26,12 +26,12 @@ function SettingPage() {
       }
 
       const mapped = response.map((item) => ({
-        id: item.id_user,
-        name: item.name,
+        id_pengguna: item.id_pengguna,
+        nama_pengguna: item.nama_pengguna,
         email: item.email,
         jabatan: item.jabatan,
-        status: item.status,
-        password: item.password,
+        peran: item.peran,
+        kata_sandi: item.kata_sandi,
       }));
 
       setExistingData(mapped);
@@ -50,8 +50,8 @@ function SettingPage() {
     setFormUser(true);
   };
 
-  const openNotifDelete = (id) => {
-    setSelectedDeleteId(id);
+  const openNotifDelete = (id_pengguna) => {
+    setSelectedDeleteId(id_pengguna);
     setNotifDelete(true);
   };
 
@@ -59,9 +59,9 @@ function SettingPage() {
     setNotifDelete(false);
   };
 
-  const handleDeleteUser = async (id) => {
+  const handleDeleteUser = async (id_pengguna) => {
     try {
-      await deleteUser(id);
+      await deleteUser(id_pengguna);
       console.log("User berhasil dihapus!");
       reloadUsers();
       closeNotifDelete();
