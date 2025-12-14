@@ -56,16 +56,6 @@ const ProductModel = {
 
     return result.rows[0];
   },
-
-  delete: async (kode_produk) => {
-    const result = await db.query("DELETE FROM produk WHERE kode_produk = $1 RETURNING *", [kode_produk]);
-    return result.rows[0];
-  },
-
-  deleteAll: async () => {
-    const result = await db.query("DELETE FROM produk RETURNING *");
-    return result.rows;
-  },
 };
 
 export default ProductModel;

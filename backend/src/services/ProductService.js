@@ -42,14 +42,6 @@ const ProductService = {
       path_gambar
     );
   },
-
-  deleteProduct: async (kode_produk) => {
-    return await ProductModel.delete(kode_produk);
-  },
-
-  deleteAllProduct: async () => {
-    return await ProductModel.deleteAll();
-  },
 };
 
 export default ProductService;

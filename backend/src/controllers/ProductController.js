@@ -50,25 +50,6 @@ const ProductController = {
       res.status(500).json({ success: false, error: error.message });
     }
   },
-
-  deleteProduct: async (req, res) => {
-    try {
-      const { kode_produk } = req.params;
-      const deletedProduct = await ProductService.deleteProduct(kode_produk);
-      res.json({ success: true, message: "Product deleted", data: deletedProduct });
-    } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
-    }
-  },
-
-  deleteAllProduct: async (req, res) => {
-    try {
-      const deletedProducts = await ProductService.deleteAllProduct();
-      res.json({ success: true, message: "All products deleted", data: deletedProducts });
-    } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
-    }
-  },
 };
 
 export default ProductController;
