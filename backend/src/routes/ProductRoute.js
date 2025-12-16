@@ -5,7 +5,7 @@ import ProductController from "../controllers/ProductController.js";
 const routerProducts = express.Router();
 
 routerProducts.get("/", ProductController.getProducts);
-routerProducts.post("/", upload.single("img_product"), ProductController.createProduct);
-routerProducts.put("/:id_product", upload.single("img_product"), ProductController.updateProduct);
+routerProducts.post("/", upload.single("path_gambar"), ProductController.createProduct);
+routerProducts.put("/:kode_produk", upload.single("path_gambar"), ProductController.updateProduct);
 
 export default routerProducts;

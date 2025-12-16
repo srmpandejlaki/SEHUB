@@ -15,12 +15,12 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
     e.preventDefault(); // mencegah reload halaman
 
     const newProduct = {
-      nama_product: namaProduk,
-      ukuran_product: ukuranProduk,
+      nama_produk: namaProduk,
+      ukuran_produk: ukuranProduk,
       ukuran_satuan: ukuranSatuan,
-      kemasan_product: kemasanProduk,
-      minimum_stock: minimumStock,
-      img_product: imageProduk,
+      kemasan_produk: kemasanProduk,
+      stok_minimum: minimumStock,
+      path_gambar: imageProduk,
     };
 
     const result = await createProduct(newProduct);

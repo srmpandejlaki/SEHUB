@@ -41,15 +41,15 @@ export const createProduct = async (productData) => {
     const formData = new FormData();
 
     // append text fields
-    formData.append("nama_product", productData.nama_product);
-    formData.append("ukuran_product", productData.ukuran_product);
+    formData.append("nama_produk", productData.nama_produk);
+    formData.append("ukuran_produk", productData.ukuran_produk);
     formData.append("ukuran_satuan", productData.ukuran_satuan);
-    formData.append("kemasan_product", productData.kemasan_product);
-    formData.append("minimum_stock", productData.minimum_stock);
+    formData.append("kemasan_produk", productData.kemasan_produk);
+    formData.append("stok_minimum", productData.stok_minimum);
 
     // append file only if exists
-    if (productData.img_product instanceof File) {
-      formData.append("img_product", productData.img_product);
+    if (productData.path_gambar instanceof File) {
+      formData.append("path_gambar", productData.path_gambar);
     }
 
     const response = await fetch(`${BASE_URL}products/`, {
@@ -70,15 +70,15 @@ export const updateProduct = async (id, productData) => {
     const formData = new FormData();
 
     // append text fields
-    formData.append("nama_product", productData.nama_product);
-    formData.append("ukuran_product", productData.ukuran_product);
+    formData.append("nama_produk", productData.nama_produk);
+    formData.append("ukuran_produk", productData.ukuran_produk);
     formData.append("ukuran_satuan", productData.ukuran_satuan);
-    formData.append("kemasan_product", productData.kemasan_product);
-    formData.append("minimum_stock", productData.minimum_stock);
+    formData.append("kemasan_produk", productData.kemasan_produk);
+    formData.append("stok_minimum", productData.stok_minimum);
 
     // append file only if exists
     if (productData.img_product instanceof File) {
-      formData.append("img_product", productData.img_product);
+      formData.append("path_gambar", productData.path_gambar);
     }
 
     const response = await fetch(`${BASE_URL}products/${id}`, {

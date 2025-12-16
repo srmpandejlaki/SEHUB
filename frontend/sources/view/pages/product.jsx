@@ -26,13 +26,14 @@ function ProductPage() {
       }
 
       const mapped = response.map((item) => ({
-        id: item.id_product,
-        namaProduk: item.nama_product,
-        ukuranProduk: item.ukuran_product,
+        id: item.kode_produk,
+        namaProduk: item.nama_produk,
+        ukuranProduk: item.ukuran_produk,
         ukuranSatuan: item.ukuran_satuan,
-        kemasanProduk: item.kemasan_product,
+        kemasanProduk: item.kemasan_produk,
         minimumStock: item.minimum_stock,
-        imageProduk: item.img_product,
+        stokMinimum: item.stok_minimum,
+        imageProduk: item.path_gambar,
       }));
 
       setExistingData(mapped);
