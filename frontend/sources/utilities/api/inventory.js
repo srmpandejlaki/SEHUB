@@ -1,6 +1,6 @@
 import { BASE_URL } from "../index.js";
 
-// table inventory
+// GET all inventory data
 export const fetchAllInventoryData = async () => {
   try {
     const response = await fetch(`${BASE_URL}inventory/`, {
@@ -10,7 +10,6 @@ export const fetchAllInventoryData = async () => {
       },
     });
 
-    // Jika status bukan 200–299
     if (!response.ok) {
       console.error("Gagal fetch data:", response.status, response.statusText);
       return [];
@@ -18,9 +17,7 @@ export const fetchAllInventoryData = async () => {
 
     const data = await response.json();
 
-    console.log(data);
-
-    // Jika backend mengirim: { data: [...] }
+    // Jika backend mengirim: { success: true, data: [...] }
     if (data?.data && Array.isArray(data.data)) {
       return data.data;
     }
@@ -30,11 +27,36 @@ export const fetchAllInventoryData = async () => {
       return data;
     }
 
-    // Jika struktur tidak valid
     console.error("Struktur data tidak dikenali:", data);
     return [];
   } catch (error) {
     console.error("Error fetchAllInventoryData:", error);
-    return []; // selalu return array supaya aman
+    return [];
   }
 };
+
+// POST create inventory data
+export const createInventory = async (inventoryData) => {
+  try {
+    const response = await fetch(`${BASE_URL}inventory/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(inventoryData),
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => null);
+      console.error("Create inventory gagal:", err || response.statusText);
+      return null;
+    }
+
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error createInventory:", error);
+    return null;
+  }
+};
+

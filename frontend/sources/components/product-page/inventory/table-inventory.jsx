@@ -15,7 +15,7 @@ function TableInventory({ existingData }) {
                   <th>Hari/Tanggal</th>
                   <th>Produk</th>
                   <th className="center">Jumlah</th>
-                  <th className="center">Total</th>
+                  <th className="center">Tanggal Kadaluwarsa</th>
                   <th>Keterangan</th>
                   <th></th>
               </tr>
@@ -26,9 +26,11 @@ function TableInventory({ existingData }) {
                 <td colSpan="7" className="no-data">Belum ada data.</td>
               </tr>
             ) : (
-              existingData.map((item) => (
+              existingData.map((item, index) => (
                 <TableInventoryItem
-                  date={item.date}
+                  key={item.id_barang_masuk || index}
+                  rowNumber={index + 1}
+                  tanggalMasuk={item.tanggal_masuk}
                   items={item.items}
                 />
               ))
@@ -38,7 +40,7 @@ function TableInventory({ existingData }) {
       </div>
       <div className="pagination-display">
         <div className="pages-count">
-          <p>Halaman 1 dari 24</p>
+          <p>Halaman 1 dari {Math.ceil(existingData.length / 10) || 1}</p>
         </div>
         <div className="pagination">
           <div className="left">

@@ -22,29 +22,16 @@ function InventoryHistoryPage() {
       const response = await fetchAllInventoryData();
       console.log("API Response:", response);
 
-      if (!response || !response.items || !Array.isArray(response.items)) {
+      if (!response || !Array.isArray(response)) {
         console.error("Data inventori tidak valid:", response);
+        setExistingData([]);
         return;
       }
 
-      const mapped = response.map((item) => ({
-        incoming_stock_id: item.incoming_stock_id,
-        date: item.date,
-        items: item.items.map((p) => ({
-          incoming_product_id: p.incoming_product_id,
-          id_product: p.id_product,
-          product_name: p.product_name,
-          quantity: p.quantity,
-          expired_date: p.expired_date,
-          notes: p.notes
-        }))
-      }));
-
-      console.log("Mapped:", mapped);
-      setExistingData([mapped]);
-
+      setExistingData(response);
     } catch (error) {
       console.error("Gagal memuat data:", error);
+      setExistingData([]);
     }
   };
 
@@ -64,7 +51,10 @@ function InventoryHistoryPage() {
 
   const handleCloseFormDis = () => {
     setFormDis(false);
+  };
 
+  const handleFormSuccess = () => {
+    loadDataInventory(); // Reload data after success
   };
 
   return(
@@ -86,7 +76,10 @@ function InventoryHistoryPage() {
         <TableInventory existingData={existingData} />
         {showFormDis && (
           <div className="form-overlay">
-            <FormDataInventory onCloseForm={handleCloseFormDis} />
+            <FormDataInventory 
+              onCloseForm={handleCloseFormDis} 
+              onSuccess={handleFormSuccess}
+            />
           </div>
         )}
       </div>

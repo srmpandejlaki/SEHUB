@@ -4,42 +4,48 @@ const InventoryModel = {
   getAll: async () => {
     const result = await db.query(`
       SELECT 
-        i.incoming_stock_id,
-        i.date,
-        ip.incoming_product_id,
-        ip.id_product,
+        bm.id_barang_masuk,
+        bm.tanggal_masuk,
+        bm.catatan AS catatan_masuk,
+        dbm.id_detail_barang_masuk,
+        dbm.kode_produk,
         p.nama_produk,
-        ip.quantity,
-        ip.expired_date,
-        ip.notes
-      FROM incoming_stock i
-      LEFT JOIN incoming_product ip 
-        ON i.incoming_stock_id = ip.incoming_stock_id
-      LEFT JOIN product p
-        ON ip.id_product = p.id_product
-      ORDER BY i.incoming_stock_id DESC, ip.incoming_product_id ASC
+        p.ukuran_produk,
+        p.ukuran_satuan,
+        p.kemasan_produk,
+        dbm.jumlah,
+        dbm.tanggal_expired
+      FROM barang_masuk bm
+      LEFT JOIN detail_barang_masuk dbm 
+        ON bm.id_barang_masuk = dbm.id_barang_masuk
+      LEFT JOIN produk p
+        ON dbm.kode_produk = p.kode_produk
+      ORDER BY bm.id_barang_masuk DESC, dbm.id_detail_barang_masuk ASC
     `);
 
-    // Group by incoming_stock_id
+    // Group by id_barang_masuk
     const grouped = {};
 
     result.rows.forEach(row => {
-      if (!grouped[row.incoming_stock_id]) {
-        grouped[row.incoming_stock_id] = {
-          incoming_stock_id: row.incoming_stock_id,
-          date: row.date,
+      if (!grouped[row.id_barang_masuk]) {
+        grouped[row.id_barang_masuk] = {
+          id_barang_masuk: row.id_barang_masuk,
+          tanggal_masuk: row.tanggal_masuk,
+          catatan_masuk: row.catatan_masuk,
           items: []
         };
       }
 
-      if (row.incoming_product_id) {
-        grouped[row.incoming_stock_id].items.push({
-          incoming_product_id: row.incoming_product_id,
-          id_product: row.id_product,
+      if (row.id_detail_barang_masuk) {
+        grouped[row.id_barang_masuk].items.push({
+          id_detail: row.id_detail_barang_masuk,
+          kode_produk: row.kode_produk,
           nama_produk: row.nama_produk,
-          quantity: row.quantity,
-          expired_date: row.expired_date,
-          notes: row.notes
+          ukuran_produk: row.ukuran_produk,
+          ukuran_satuan: row.ukuran_satuan,
+          kemasan_produk: row.kemasan_produk,
+          jumlah: row.jumlah,
+          tanggal_expired: row.tanggal_expired
         });
       }
     });
@@ -47,25 +53,26 @@ const InventoryModel = {
     return Object.values(grouped);
   },
 
-  create: async (date, products) => {
+  create: async (tanggal_masuk, catatan, id_pengguna, products) => {
     const client = await db.connect();
 
     try {
       await client.query("BEGIN");
 
-      // 1. Insert ke incoming_stock
+      // 1. Insert ke barang_masuk
       const insertStock = await client.query(
-        `INSERT INTO incoming_stock (date) VALUES ($1) RETURNING incoming_stock_id`,
-        [date]
+        `INSERT INTO barang_masuk (id_pengguna, tanggal_masuk, catatan) 
+         VALUES ($1, $2, $3) RETURNING id_barang_masuk`,
+        [id_pengguna, tanggal_masuk, catatan]
       );
 
-      const incoming_stock_id = insertStock.rows[0].incoming_stock_id;
+      const id_barang_masuk = insertStock.rows[0].id_barang_masuk;
 
-      // 2. Insert ke incoming_product
+      // 2. Insert ke detail_barang_masuk
       const insertItemsQuery = `
-        INSERT INTO incoming_product
-        (incoming_stock_id, id_product, quantity, expired_date, notes)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO detail_barang_masuk
+        (id_barang_masuk, kode_produk, jumlah, tanggal_expired)
+        VALUES ($1, $2, $3, $4)
         RETURNING *;
       `;
 
@@ -73,11 +80,10 @@ const InventoryModel = {
 
       for (const item of products) {
         const result = await client.query(insertItemsQuery, [
-          incoming_stock_id,
-          item.id_product,
-          item.quantity,
-          item.expired_date,
-          item.notes || null
+          id_barang_masuk,
+          item.kode_produk,
+          item.jumlah,
+          item.tanggal_expired
         ]);
         insertedItems.push(result.rows[0]);
       }
@@ -85,7 +91,7 @@ const InventoryModel = {
       await client.query("COMMIT");
 
       return {
-        incoming_stock_id,
+        id_barang_masuk,
         items: insertedItems
       };
 
@@ -98,49 +104,48 @@ const InventoryModel = {
     }
   },
 
-  update: async (incoming_stock_id, date, products) => {
+  update: async (id_barang_masuk, tanggal_masuk, catatan, products) => {
     const client = await db.connect();
 
     try {
       await client.query("BEGIN");
 
-      // 1. Update incoming_stock
+      // 1. Update barang_masuk
       const updateStock = await client.query(
-        `UPDATE incoming_stock 
-        SET date = $1 
-        WHERE incoming_stock_id = $2 
+        `UPDATE barang_masuk 
+        SET tanggal_masuk = $1, catatan = $2 
+        WHERE id_barang_masuk = $3 
         RETURNING *`,
-        [date, incoming_stock_id]
+        [tanggal_masuk, catatan, id_barang_masuk]
       );
 
       if (updateStock.rows.length === 0) {
-        throw new Error("Incoming stock not found");
+        throw new Error("Data barang masuk tidak ditemukan");
       }
 
-      // 2. Hapus item lama
+      // 2. Hapus detail lama
       await client.query(
-        `DELETE FROM incoming_product 
-        WHERE incoming_stock_id = $1`,
-        [incoming_stock_id]
+        `DELETE FROM detail_barang_masuk 
+        WHERE id_barang_masuk = $1`,
+        [id_barang_masuk]
       );
 
-      // 3. Insert ulang item baru
+      // 3. Insert ulang detail baru
       const insertedItems = [];
 
       const insertItemQuery = `
-        INSERT INTO incoming_product
-        (incoming_stock_id, id_product, quantity, expired_date, notes)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO detail_barang_masuk
+        (id_barang_masuk, kode_produk, jumlah, tanggal_expired)
+        VALUES ($1, $2, $3, $4)
         RETURNING *;
       `;
 
       for (const item of products) {
         const result = await client.query(insertItemQuery, [
-          incoming_stock_id,
-          item.id_product,
-          item.quantity,
-          item.expired_date,
-          item.notes || null
+          id_barang_masuk,
+          item.kode_produk,
+          item.jumlah,
+          item.tanggal_expired
         ]);
         insertedItems.push(result.rows[0]);
       }
@@ -148,7 +153,7 @@ const InventoryModel = {
       await client.query("COMMIT");
 
       return {
-        incoming_stock_id,
+        id_barang_masuk,
         updated_stock: updateStock.rows[0],
         items: insertedItems
       };

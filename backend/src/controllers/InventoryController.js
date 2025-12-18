@@ -3,9 +3,9 @@ import InventoryService from "../services/InventoryService.js";
 const InventoryController = {
   create: async (req, res) => {
     try {
-      const { date, products } = req.body;
-      const result = await InventoryService.create(date, products);
-      return res.status(200).json(result);
+      const { tanggal_masuk, catatan, id_pengguna, products } = req.body;
+      const result = await InventoryService.create(tanggal_masuk, catatan, id_pengguna, products);
+      return res.status(200).json({ success: true, data: result });
     } catch (error) {
       return res.status(500).json({ success: false, error: error.message });
     }
@@ -13,17 +13,17 @@ const InventoryController = {
   getAll: async (req, res) => {
     try {
       const result = await InventoryService.getAll();
-      return res.status(200).json(result);
+      return res.status(200).json({ success: true, data: result });
     } catch (error) {
       return res.status(500).json({ success: false, error: error.message });
     }
   },
   update: async (req, res) => {
     try {
-      const { incoming_stock_id } = req.params;
-      const { date, products } = req.body;
-      const result = await InventoryService.update(incoming_stock_id, date, products);
-      return res.status(200).json(result);
+      const { id_barang_masuk } = req.params;
+      const { tanggal_masuk, catatan, products } = req.body;
+      const result = await InventoryService.update(id_barang_masuk, tanggal_masuk, catatan, products);
+      return res.status(200).json({ success: true, data: result });
     } catch (error) {
       return res.status(500).json({ success: false, error: error.message });
     }
