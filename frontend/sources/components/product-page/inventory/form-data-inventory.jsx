@@ -40,13 +40,13 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
 
     const inventoryData = {
       tanggal_masuk: tanggalMasuk,
-      catatan: catatan || null,
-      id_pengguna: 1, // TODO: ambil dari session/auth
+      catatan_barang_masuk: catatan || null,
       products: [
         {
-          kode_produk: selectedProduct,
+          id_produk: selectedProduct,
           jumlah: parseInt(jumlah),
-          tanggal_expired: tanggalExpired
+          tanggal_expired: tanggalExpired,
+          keterangan: catatan || null
         }
       ]
     };

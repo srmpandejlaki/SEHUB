@@ -16,66 +16,145 @@ async function createTables() {
   try {
     console.log("🔍 Mengecek dan membuat tabel jika belum ada...");
 
-    // Tabel Pengguna
+    // 1. Tabel Pengguna
     await pool.query(`
       CREATE TABLE IF NOT EXISTS pengguna (
         id_pengguna SERIAL PRIMARY KEY,
         nama_pengguna VARCHAR(100) NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
-        jabatan VARCHAR(50) NOT NULL,
-        peran VARCHAR(15) NOT NULL,
-        kata_sandi VARCHAR(255) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        is_karyawan BOOLEAN DEFAULT FALSE,
+        isAdmin BOOLEAN DEFAULT FALSE,
+        kata_sandi VARCHAR(255) NOT NULL
       );
     `);
 
-    // Tabel Produk
+    // 2. Tabel Ukuran Satuan
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS ukuran_satuan (
+        id_ukuran_satuan SERIAL PRIMARY KEY,
+        nama_ukuran_satuan VARCHAR(20) NOT NULL
+      );
+    `);
+
+    // 3. Tabel Kemasan
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS kemasan (
+        id_kemasan SERIAL PRIMARY KEY,
+        nama_kemasan VARCHAR(50) NOT NULL
+      );
+    `);
+
+    // 4. Tabel Produk
     await pool.query(`
       CREATE TABLE IF NOT EXISTS produk (
-        kode_produk VARCHAR(30) PRIMARY KEY,
+        id_produk VARCHAR(30) PRIMARY KEY,
         nama_produk VARCHAR(100) NOT NULL,
         ukuran_produk VARCHAR(20) NOT NULL,
-        ukuran_satuan VARCHAR(20) NOT NULL,
-        kemasan_produk VARCHAR(20) NOT NULL,
-        stok_minimum INT NOT NULL,
-        path_gambar VARCHAR(255) NOT NULL
+        id_ukuran_satuan INT REFERENCES ukuran_satuan(id_ukuran_satuan),
+        id_kemasan INT REFERENCES kemasan(id_kemasan),
+        stok_minimum INT NOT NULL DEFAULT 0,
+        path_gambar VARCHAR(255),
+        total_produk INT NOT NULL DEFAULT 0
       );
     `);
 
-    // Tabel Barang Masuk
+    // 5. Tabel Barang Masuk
     await pool.query(`
       CREATE TABLE IF NOT EXISTS barang_masuk (
         id_barang_masuk SERIAL PRIMARY KEY,
-        id_pengguna INT NOT NULL,
         tanggal_masuk DATE NOT NULL,
-        catatan VARCHAR(255),
-        FOREIGN KEY (id_pengguna) REFERENCES pengguna(id_pengguna)
+        catatan_barang_masuk VARCHAR(255)
       );
     `);
 
-    // Tabel Detail Barang Masuk
+    // 6. Tabel Detail Barang Masuk
     await pool.query(`
       CREATE TABLE IF NOT EXISTS detail_barang_masuk (
         id_detail_barang_masuk SERIAL PRIMARY KEY,
-        id_barang_masuk INT NOT NULL,
-        kode_produk VARCHAR(30) NOT NULL,
-        jumlah INT NOT NULL,
+        id_barang_masuk INT NOT NULL REFERENCES barang_masuk(id_barang_masuk),
+        id_produk VARCHAR(30) NOT NULL REFERENCES produk(id_produk),
+        jumlah_barang_masuk INT NOT NULL,
         tanggal_expired DATE NOT NULL,
-        FOREIGN KEY (id_barang_masuk) REFERENCES barang_masuk(id_barang_masuk),
-        FOREIGN KEY (kode_produk) REFERENCES produk(kode_produk)
+        keterangan_barang_masuk VARCHAR(255)
       );
     `);
 
-    // Tabel Distribusi
+    // 7. Tabel Penyesuaian Stok
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS penyesuaian_stok (
+        id_penyesuaian_stok SERIAL PRIMARY KEY,
+        tanggal_penyesuaian DATE NOT NULL,
+        is_stock_low BOOLEAN DEFAULT FALSE,
+        alasan_penyesuaian VARCHAR(255)
+      );
+    `);
+
+    // 8. Tabel Penyesuaian Stok Detail
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS penyesuaian_stok_detail (
+        id_detail_penyesuaian SERIAL PRIMARY KEY,
+        id_penyesuaian_stok INT NOT NULL REFERENCES penyesuaian_stok(id_penyesuaian_stok),
+        id_produk VARCHAR(30) NOT NULL REFERENCES produk(id_produk),
+        jumlah_penyesuaian INT NOT NULL
+      );
+    `);
+
+    // 9. Tabel Metode Pengiriman
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS metode_pengiriman (
+        id_metode_pengiriman SERIAL PRIMARY KEY,
+        nama_metode VARCHAR(50) NOT NULL
+      );
+    `);
+
+    // 10. Tabel Status Pengiriman
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS status_pengiriman (
+        id_status SERIAL PRIMARY KEY,
+        nama_status VARCHAR(50) NOT NULL
+      );
+    `);
+
+    // 11. Tabel Distribusi
     await pool.query(`
       CREATE TABLE IF NOT EXISTS distribusi (
         id_distribusi SERIAL PRIMARY KEY,
-        id_pengguna INT NOT NULL,
         tanggal_distribusi DATE NOT NULL,
         nama_pemesan VARCHAR(100) NOT NULL,
-        metode_pengiriman VARCHAR(50) NOT NULL,
-        status_pengiriman VARCHAR(50) NOT NULL,
-        FOREIGN KEY (id_pengguna) REFERENCES pengguna(id_pengguna)
+        id_metode_pengiriman INT REFERENCES metode_pengiriman(id_metode_pengiriman),
+        id_status INT REFERENCES status_pengiriman(id_status)
+      );
+    `);
+
+    // 12. Tabel Detail Distribusi
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS detail_distribusi (
+        id_detail_distribusi SERIAL PRIMARY KEY,
+        id_distribusi INT NOT NULL REFERENCES distribusi(id_distribusi),
+        id_produk VARCHAR(30) NOT NULL REFERENCES produk(id_produk),
+        id_detail_barang_masuk INT REFERENCES detail_barang_masuk(id_detail_barang_masuk),
+        jumlah_barang_distribusi INT NOT NULL,
+        keterangan_barang_keluar VARCHAR(255)
+      );
+    `);
+
+    // 13. Tabel Return Barang
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS return_barang (
+        id_return SERIAL PRIMARY KEY,
+        id_distribusi INT NOT NULL REFERENCES distribusi(id_distribusi),
+        tanggal_return DATE NOT NULL,
+        catatan VARCHAR(255)
+      );
+    `);
+
+    // 14. Tabel Return Barang Detail
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS return_barang_detail (
+        id_return_barang_detail SERIAL PRIMARY KEY,
+        id_return INT NOT NULL REFERENCES return_barang(id_return),
+        jumlah_barang_return INT NOT NULL,
+        keterangan_return VARCHAR(255)
       );
     `);
 
@@ -89,3 +168,4 @@ async function createTables() {
 }
 
 createTables();
+

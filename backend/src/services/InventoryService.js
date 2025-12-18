@@ -5,13 +5,13 @@ const InventoryService = {
     const result = await InventoryModel.getAll();
     return result;
   },
-  create: async (tanggal_masuk, catatan, id_pengguna, products) => {
-    const result = await InventoryModel.create(tanggal_masuk, catatan, id_pengguna, products);
+  create: async (tanggal_masuk, catatan_barang_masuk, products) => {
+    const result = await InventoryModel.create(tanggal_masuk, catatan_barang_masuk, products);
     return result;
   },
 
-  update: async (id_barang_masuk, tanggal_masuk, catatan, products) => {
-    const result = await InventoryModel.update(id_barang_masuk, tanggal_masuk, catatan, products);
+  update: async (id_barang_masuk, tanggal_masuk, catatan_barang_masuk, products) => {
+    const result = await InventoryModel.update(id_barang_masuk, tanggal_masuk, catatan_barang_masuk, products);
     return result;
   },
 };

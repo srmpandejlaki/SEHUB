@@ -3,31 +3,36 @@ import getOrCreateProductCode from "../utils/generateId.js";
 
 const ProductModel = {
   getAll: async () => {
-    const result = await db.query("SELECT * FROM produk ORDER BY kode_produk DESC");
+    const result = await db.query(`
+      SELECT p.*, us.nama_ukuran_satuan, k.nama_kemasan 
+      FROM produk p
+      LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
+      LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
+      ORDER BY p.id_produk DESC
+    `);
     return result.rows;
   },
 
-  create: async (nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar) => {
-    // Generate kode_produk dengan format: LS + kode_nama_produk + ukuran_produk
-    // Contoh: LS01330 (01 = kode untuk "Seho Sirop", 330 = ukuran)
+  create: async (nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar) => {
+    // Generate id_produk dengan format: LS + kode_nama_produk + ukuran_produk
     const productCode = await getOrCreateProductCode(nama_produk);
-    const kode_produk = `LS${productCode}${ukuran_produk}`;
+    const id_produk = `LS${productCode}${ukuran_produk}`;
 
     const result = await db.query(
       `INSERT INTO produk (
-        kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar]
+        id_produk, nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar, total_produk
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [id_produk, nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar, 0]
     );
 
     return result.rows[0];
   },
 
-  update: async (kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar) => {
+  update: async (id_produk, nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar) => {
     // 1. ambil data lama
     const oldData = await db.query(
-      "SELECT * FROM produk WHERE kode_produk = $1",
-      [kode_produk]
+      "SELECT * FROM produk WHERE id_produk = $1",
+      [id_produk]
     );
 
     if (oldData.rows.length === 0) return null;
@@ -42,32 +47,33 @@ const ProductModel = {
       `UPDATE produk
        SET nama_produk = $1,
            ukuran_produk = $2,
-           ukuran_satuan = $3,
-           kemasan_produk = $4,
+           id_ukuran_satuan = $3,
+           id_kemasan = $4,
            stok_minimum = $5,
            path_gambar = $6
-       WHERE kode_produk = $7
+       WHERE id_produk = $7
        RETURNING *`,
       [
         nama_produk,
         ukuran_produk,
-        ukuran_satuan,
-        kemasan_produk,
+        id_ukuran_satuan,
+        id_kemasan,
         stok_minimum,
         finalImage,
-        kode_produk
+        id_produk
       ]
     );
 
     return result.rows[0];
   },
 
-  delete: async (kode_produk) => {
-    const result = await db.query("DELETE FROM produk WHERE kode_produk = $1 RETURNING *", [kode_produk]);
+  delete: async (id_produk) => {
+    const result = await db.query("DELETE FROM produk WHERE id_produk = $1 RETURNING *", [id_produk]);
     if (result.rows.length === 0) return null;
     return result.rows[0];
   },
 };
 
 export default ProductModel;
+
 

@@ -41,15 +41,15 @@ function TableInventoryItem({ rowNumber, tanggalMasuk, items }) {
           ) : null}
           
           <td>
-            <div className="kode">{item.kode_produk}</div>
-            <div className="nama">{item.nama_produk} {item.ukuran_produk}{item.ukuran_satuan}</div>
+            <div className="kode">{item.id_produk}</div>
+            <div className="nama">{item.nama_produk} {item.ukuran_produk}{item.nama_ukuran_satuan}</div>
           </td>
           
-          <td className="center">{item.jumlah} {item.kemasan_produk}</td>
+          <td className="center">{item.jumlah} {item.nama_kemasan}</td>
           
           <td className="center">{formatDate(item.tanggal_expired)}</td>
           
-          <td>{item.catatan || "-"}</td>
+          <td>{item.keterangan || "-"}</td>
           
           {index === 0 ? (
             <td rowSpan={items.length}><IconEdit className="greenIcon" /></td>
