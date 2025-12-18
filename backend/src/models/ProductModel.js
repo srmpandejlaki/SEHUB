@@ -1,5 +1,5 @@
 import db from "../config/db.js";
-import generateId from "../utils/generateId.js";
+import getOrCreateProductCode from "../utils/generateId.js";
 
 const ProductModel = {
   getAll: async () => {
@@ -7,7 +7,12 @@ const ProductModel = {
     return result.rows;
   },
 
-  create: async (kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar) => {
+  create: async (nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar) => {
+    // Generate kode_produk dengan format: LS + kode_nama_produk + ukuran_produk
+    // Contoh: LS01330 (01 = kode untuk "Seho Sirop", 330 = ukuran)
+    const productCode = await getOrCreateProductCode(nama_produk);
+    const kode_produk = `LS${productCode}${ukuran_produk}`;
+
     const result = await db.query(
       `INSERT INTO produk (
         kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar
@@ -21,8 +26,8 @@ const ProductModel = {
   update: async (kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar) => {
     // 1. ambil data lama
     const oldData = await db.query(
-      "SELECT * FROM produk WHERE id_product = $1",
-      [id_product]
+      "SELECT * FROM produk WHERE kode_produk = $1",
+      [kode_produk]
     );
 
     if (oldData.rows.length === 0) return null;
@@ -56,6 +61,13 @@ const ProductModel = {
 
     return result.rows[0];
   },
+
+  delete: async (kode_produk) => {
+    const result = await db.query("DELETE FROM produk WHERE kode_produk = $1 RETURNING *", [kode_produk]);
+    if (result.rows.length === 0) return null;
+    return result.rows[0];
+  },
 };
 
 export default ProductModel;
+

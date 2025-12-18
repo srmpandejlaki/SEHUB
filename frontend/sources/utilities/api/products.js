@@ -77,7 +77,7 @@ export const updateProduct = async (id, productData) => {
     formData.append("stok_minimum", productData.stok_minimum);
 
     // append file only if exists
-    if (productData.img_product instanceof File) {
+    if (productData.path_gambar instanceof File) {
       formData.append("path_gambar", productData.path_gambar);
     }
 

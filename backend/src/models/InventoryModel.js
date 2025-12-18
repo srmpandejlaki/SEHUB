@@ -8,7 +8,7 @@ const InventoryModel = {
         i.date,
         ip.incoming_product_id,
         ip.id_product,
-        p.nama_product,
+        p.nama_produk,
         ip.quantity,
         ip.expired_date,
         ip.notes
@@ -36,7 +36,7 @@ const InventoryModel = {
         grouped[row.incoming_stock_id].items.push({
           incoming_product_id: row.incoming_product_id,
           id_product: row.id_product,
-          product_name: row.product_name,
+          nama_produk: row.nama_produk,
           quantity: row.quantity,
           expired_date: row.expired_date,
           notes: row.notes

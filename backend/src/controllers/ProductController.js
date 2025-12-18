@@ -42,7 +42,7 @@ const ProductController = {
     try {
       const { kode_produk } = req.params;
       const { nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum } = req.body;
-      const path_gambar = req.file?.filename || "default.png";
+      const path_gambar = req.file?.filename || undefined;
 
       const updatedProduct = await ProductService.updateProduct(kode_produk, nama_produk, ukuran_produk, ukuran_satuan, kemasan_produk, stok_minimum, path_gambar);
       res.json({ success: true, message: "Product updated", data: updatedProduct });
@@ -50,6 +50,22 @@ const ProductController = {
       res.status(500).json({ success: false, error: error.message });
     }
   },
+
+  deleteProduct: async (req, res) => {
+    try {
+      const { kode_produk } = req.params;
+      const result = await ProductService.deleteProduct(kode_produk);
+
+      if (!result) {
+        return res.status(404).json({ success: false, message: "Produk tidak ditemukan" });
+      }
+
+      res.json({ success: true, message: "Produk berhasil dihapus", data: result });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  },
 };
 
 export default ProductController;
+
