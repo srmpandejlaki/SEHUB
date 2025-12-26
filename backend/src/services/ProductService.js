@@ -8,45 +8,46 @@ const ProductService = {
   createProduct: async (
     nama_produk, 
     ukuran_produk, 
-    ukuran_satuan, 
-    kemasan_produk, 
+    id_ukuran_satuan, 
+    id_kemasan, 
     stok_minimum, 
     path_gambar
   ) => {
     return await ProductModel.create(
       nama_produk, 
       ukuran_produk, 
-      ukuran_satuan, 
-      kemasan_produk, 
+      id_ukuran_satuan, 
+      id_kemasan, 
       stok_minimum, 
       path_gambar
     );
   },
 
   updateProduct: async (
-    kode_produk,
+    id_produk,
     nama_produk, 
     ukuran_produk, 
-    ukuran_satuan, 
-    kemasan_produk, 
+    id_ukuran_satuan, 
+    id_kemasan, 
     stok_minimum, 
     path_gambar
   ) => {
     return await ProductModel.update(
-      kode_produk,
+      id_produk,
       nama_produk, 
       ukuran_produk, 
-      ukuran_satuan, 
-      kemasan_produk, 
+      id_ukuran_satuan, 
+      id_kemasan, 
       stok_minimum, 
       path_gambar
     );
   },
 
-  deleteProduct: async (kode_produk) => {
-    return await ProductModel.delete(kode_produk);
+  deleteProduct: async (id_produk) => {
+    return await ProductModel.delete(id_produk);
   },
 };
 
 export default ProductService;
+
 

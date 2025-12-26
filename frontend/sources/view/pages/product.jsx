@@ -26,13 +26,13 @@ function ProductPage() {
       }
 
       const mapped = response.map((item) => ({
-        id: item.kode_produk,
+        id: item.id_produk,
         namaProduk: item.nama_produk,
         ukuranProduk: item.ukuran_produk,
-        ukuranSatuan: item.ukuran_satuan,
-        kemasanProduk: item.kemasan_produk,
-        minimumStock: item.minimum_stock,
+        ukuranSatuan: item.nama_ukuran_satuan,
+        kemasanProduk: item.nama_kemasan,
         stokMinimum: item.stok_minimum,
+        totalProduk: item.total_produk,
         imageProduk: item.path_gambar,
       }));
 

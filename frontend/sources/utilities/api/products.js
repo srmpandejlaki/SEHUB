@@ -9,7 +9,6 @@ export const fetchAllProducts = async () => {
       },
     });
 
-    // Jika status bukan 200–299
     if (!response.ok) {
       console.error("Gagal fetch produk:", response.status, response.statusText);
       return [];
@@ -17,22 +16,19 @@ export const fetchAllProducts = async () => {
 
     const data = await response.json();
 
-    // Jika backend mengirim: { data: [...] }
     if (data?.data && Array.isArray(data.data)) {
       return data.data;
     }
 
-    // Jika backend mengirim langsung array
     if (Array.isArray(data)) {
       return data;
     }
 
-    // Jika struktur tidak valid
     console.error("Struktur data tidak dikenali:", data);
     return [];
   } catch (error) {
     console.error("Error fetchAllProducts:", error);
-    return []; // selalu return array supaya aman
+    return [];
   }
 };
 
@@ -40,11 +36,11 @@ export const createProduct = async (productData) => {
   try {
     const formData = new FormData();
 
-    // append text fields
+    // append text fields with new field names
     formData.append("nama_produk", productData.nama_produk);
     formData.append("ukuran_produk", productData.ukuran_produk);
-    formData.append("ukuran_satuan", productData.ukuran_satuan);
-    formData.append("kemasan_produk", productData.kemasan_produk);
+    formData.append("id_ukuran_satuan", productData.id_ukuran_satuan);
+    formData.append("id_kemasan", productData.id_kemasan);
     formData.append("stok_minimum", productData.stok_minimum);
 
     // append file only if exists
@@ -54,7 +50,7 @@ export const createProduct = async (productData) => {
 
     const response = await fetch(`${BASE_URL}products/`, {
       method: "POST",
-      body: formData, // jangan pakai headers Content-Type
+      body: formData,
     });
 
     const data = await response.json();
@@ -69,11 +65,11 @@ export const updateProduct = async (id, productData) => {
   try {
     const formData = new FormData();
 
-    // append text fields
+    // append text fields with new field names
     formData.append("nama_produk", productData.nama_produk);
     formData.append("ukuran_produk", productData.ukuran_produk);
-    formData.append("ukuran_satuan", productData.ukuran_satuan);
-    formData.append("kemasan_produk", productData.kemasan_produk);
+    formData.append("id_ukuran_satuan", productData.id_ukuran_satuan);
+    formData.append("id_kemasan", productData.id_kemasan);
     formData.append("stok_minimum", productData.stok_minimum);
 
     // append file only if exists
@@ -83,7 +79,7 @@ export const updateProduct = async (id, productData) => {
 
     const response = await fetch(`${BASE_URL}products/${id}`, {
       method: "PUT",
-      body: formData, // jangan pakai headers Content-Type
+      body: formData,
     });
 
     const data = await response.json();
@@ -113,3 +109,4 @@ export const deleteAllProduct = async () => {
     method: "DELETE",
   })
 };
+

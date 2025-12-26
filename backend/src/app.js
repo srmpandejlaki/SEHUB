@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import routerUsers from './routes/UserRoute.js';
 import routerProducts from './routes/ProductRoute.js';
 import routerInventory from './routes/InventoryRoute.js';
+import routerMasterData from './routes/MasterDataRoute.js';
 
 dotenv.config();
 
@@ -28,8 +29,10 @@ app.use("/uploads", express.static(path.join(process.cwd(), "src/public/uploads"
 app.use('/api/sehub/products', routerProducts);
 app.use('/api/sehub/users', routerUsers);
 app.use('/api/sehub/inventory', routerInventory);
+app.use('/api/sehub/master', routerMasterData);
 
 // start server
 app.listen(process.env.PORT || 5000, () => {
   console.log("Server berjalan di port", process.env.PORT || 5000);
 });
+
