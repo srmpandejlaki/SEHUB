@@ -1,5 +1,11 @@
 @use '../default/custom.scss';
 
+.setting {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .user-display {
   padding: 1rem;
   background-color: custom.$color-primary;
@@ -36,3 +42,20 @@
   border-radius: 8px;
 }
 
+.master-data {
+  padding: 1rem;
+}
+
+.main-data-setting{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  font-size: 0.9rem;
+
+  button {
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+}
