@@ -30,8 +30,9 @@
   justify-content: space-between;
 }
 
-.user-setting {
-  height: 84vh;
+.user-setting, .main-master-data {
+  min-height: 250px;
   background-color: custom.$color-primary;
   border-radius: 8px;
 }
+

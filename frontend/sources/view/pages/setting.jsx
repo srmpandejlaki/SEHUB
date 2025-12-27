@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserSetting from "../../components/setting-section/user-setting";
 import FormUser from "../../components/setting-section/form-user";
+import MasterData from "../../components/setting-section/master-data";
 import { fetchAllUser, deleteUser } from "../../utilities/api/user";
 
 function SettingPage() {
@@ -110,6 +111,10 @@ function SettingPage() {
               isEdit={isEdit} />
           </div>
         )}
+      </div>
+
+      <div className="main-master-data">
+        <MasterData />
       </div>
     </div>
   );
