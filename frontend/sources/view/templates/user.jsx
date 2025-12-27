@@ -6,7 +6,7 @@ import IconCloseEye from "../../assets/icon/el_eye-close.svg?react";
 import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconDelete from "../../assets/icon/material-symbols_delete.svg?react";
 
-function TdUser({ no, id_pengguna, nama_pengguna, email, jabatan, peran, kata_sandi, onEdit, openNotifDelete }) {
+function TdUser({ no, id_pengguna, nama_pengguna, email, jabatan, is_admin, kata_sandi, onEdit, openNotifDelete }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -18,12 +18,12 @@ function TdUser({ no, id_pengguna, nama_pengguna, email, jabatan, peran, kata_sa
 
       <td>
         <div className="status-column">
-          {jabatan === "admin" ? (
+          {is_admin === true ? (
             <IconAdmin className="icon greenIcon" />
           ) : (
             <IconOwner className="icon blueIcon" />
           )}
-          <p>{peran}</p>
+          <p>{is_admin === true ? "Admin" : "Non-Admin"}</p>
         </div>
       </td>
 
@@ -50,7 +50,7 @@ function TdUser({ no, id_pengguna, nama_pengguna, email, jabatan, peran, kata_sa
       <td>
         <div className="buttons-column">
           <IconEdit className="iconPointer greenIcon" onClick={() => onEdit({
-            id_pengguna, nama_pengguna, email, jabatan, peran, kata_sandi
+            id_pengguna, nama_pengguna, email, jabatan, is_admin, kata_sandi
           })} />
           <IconDelete className="iconPointer redIcon" onClick={() => openNotifDelete(id_pengguna)} />
         </div>

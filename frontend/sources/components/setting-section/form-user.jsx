@@ -12,7 +12,9 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
   const [userName, setUserName] = useState(editData?.nama_pengguna || "");
   const [userEmail, setUserEmail] = useState(editData?.email || "");
   const [userJabatan, setUserJabatan] = useState(editData?.jabatan || "");
-  const [userStatus, setUserStatus] = useState(editData?.peran || "");
+  const [userStatus, setUserStatus] = useState(
+    editData?.is_admin === true ? "admin" : editData?.is_admin === false ? "non-admin" : ""
+  );
   const [userPassword, setUserPassword] = useState(editData?.kata_sandi || "");
 
   const handleSubmit = async (e) => {
@@ -26,7 +28,7 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
       nama_pengguna : userName,
       email : userEmail,
       jabatan : userJabatan,
-      peran : userStatus,
+      is_admin : userStatus === "admin" ? true : false,
       kata_sandi : userPassword,
     };
 
@@ -97,7 +99,7 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
                   onChange={(e) => setUserStatus(e.target.value)} >
             <option value="">-- Pilih --</option>
             <option value="admin">Admin</option>
-            <option value="owner">Owner</option>
+            <option value="non-admin">Non-Admin</option>
           </select>
         </div>
 

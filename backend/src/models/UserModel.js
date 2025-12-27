@@ -11,18 +11,18 @@ const UserModel = {
     return result.rows[0];
   },
 
-  create: async (nama_pengguna, email, jabatan, peran, kata_sandi) => {
+  create: async (nama_pengguna, email, jabatan, is_admin, kata_sandi) => {
     const result = await db.query(
-      "INSERT INTO pengguna (nama_pengguna, email, jabatan, peran, kata_sandi) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [nama_pengguna, email, jabatan, peran, kata_sandi]
+      "INSERT INTO pengguna (nama_pengguna, email, jabatan, is_admin, kata_sandi) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [nama_pengguna, email, jabatan, is_admin, kata_sandi]
     );
     return result.rows[0];
   },
 
-  update: async(nama_pengguna, email, jabatan, peran, kata_sandi, id_pengguna) => {
+  update: async(nama_pengguna, email, jabatan, is_admin, kata_sandi, id_pengguna) => {
     const result = await db.query(
-      "UPDATE pengguna SET nama_pengguna = $1, email = $2, jabatan = $3, peran = $4, kata_sandi = $5 WHERE id_pengguna = $6 RETURNING *",
-      [nama_pengguna, email, jabatan, peran, kata_sandi, id_pengguna]
+      "UPDATE pengguna SET nama_pengguna = $1, email = $2, jabatan = $3, is_admin = $4, kata_sandi = $5 WHERE id_pengguna = $6 RETURNING *",
+      [nama_pengguna, email, jabatan, is_admin, kata_sandi, id_pengguna]
     );
     return result.rows[0];
   },

@@ -30,7 +30,7 @@ function SettingPage() {
         nama_pengguna: item.nama_pengguna,
         email: item.email,
         jabatan: item.jabatan,
-        peran: item.peran,
+        is_admin: item.is_admin,
         kata_sandi: item.kata_sandi,
       }));
 
