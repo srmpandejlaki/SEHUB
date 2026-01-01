@@ -3,6 +3,7 @@ import UserSetting from "../../components/setting-section/user-setting";
 import FormUser from "../../components/setting-section/form-user";
 import MasterData from "../../components/setting-section/master-data";
 import { fetchAllUser, deleteUser } from "../../utilities/api/user";
+import { fetchAllSize, createNewSize, fetchAllKemasan, createNewKemasan } from "../../utilities/api/master-data";
 
 function SettingPage() {
   const [showFormUser, setFormUser] = useState(false);
@@ -12,10 +13,17 @@ function SettingPage() {
   const [showNotifDelete, setNotifDelete] = useState(false);
   const [selectedDeleteId, setSelectedDeleteId] = useState(null);
 
+  const [showFormSize, setFormSize] = useState(false);
+  const [existingSize, setExistingSize] = useState([]);
+  const [existingKemasan, setExistingKemasan] = useState([]);
+
   useEffect(() => {
     loadDataUsers();
+    loadDataSize();
+    loadDataKemasan();
   }, []);
 
+  // User
   const loadDataUsers = async () => {
     try {
       const response = await fetchAllUser();
@@ -30,8 +38,8 @@ function SettingPage() {
         id_pengguna: item.id_pengguna,
         nama_pengguna: item.nama_pengguna,
         email: item.email,
-        jabatan: item.jabatan,
-        is_admin: item.is_admin,
+        is_karyawan: item.is_karyawan,
+        isAdmin: item.isAdmin,
         kata_sandi: item.kata_sandi,
       }));
 
@@ -51,6 +59,7 @@ function SettingPage() {
     setFormUser(true);
   };
 
+  // Delete
   const openNotifDelete = (id_pengguna) => {
     setSelectedDeleteId(id_pengguna);
     setNotifDelete(true);
@@ -71,6 +80,7 @@ function SettingPage() {
     }
   };
 
+  // Form
   const handleOpenFormUser = () => {
     setFormUser(true);
   };
@@ -79,6 +89,75 @@ function SettingPage() {
     setFormUser(false);
     setEditData(null);
     setIsEdit(false);
+  };
+
+  // Master Data
+  const loadDataSize = async () => {
+    try {
+      const response = await fetchAllSize();
+      console.log("Size data:", response);
+
+      if (!response || !Array.isArray(response)) {
+        console.error("Data size tidak valid:", response);
+        return;
+      }
+
+      setExistingSize(response);
+    } catch (error) {
+      console.error("Gagal memuat data size:", error);
+    }
+  };
+
+  const loadDataKemasan = async () => {
+    try {
+      const response = await fetchAllKemasan();
+      console.log("Kemasan data:", response);
+
+      if (!response || !Array.isArray(response)) {
+        console.error("Data kemasan tidak valid:", response);
+        return;
+      }
+
+      setExistingKemasan(response);
+    } catch (error) {
+      console.error("Gagal memuat data kemasan:", error);
+    }
+  };
+
+  const createSize = async (nama_ukuran_satuan) => {
+    try {
+      const response = await createNewSize(nama_ukuran_satuan);
+      console.log(response);
+
+      if (response) {
+        loadDataSize();
+        handleCloseFormMasterData();
+      }
+    } catch (error) {
+      console.error("Gagal membuat size:", error);
+    }
+  };
+
+  const createKemasan = async (nama_kemasan) => {
+    try {
+      const response = await createNewKemasan(nama_kemasan);
+      console.log(response);
+
+      if (response) {
+        loadDataKemasan();
+        handleCloseFormMasterData();
+      }
+    } catch (error) {
+      console.error("Gagal membuat kemasan:", error);
+    }
+  };
+
+  const handleOpenFormMasterData = () => {
+    setFormSize(true);
+  };
+
+  const handleCloseFormMasterData = () => {
+    setFormSize(false);
   };
 
   return (
@@ -114,7 +193,14 @@ function SettingPage() {
       </div>
 
       <div className="main-master-data">
-        <MasterData />
+        <MasterData 
+          existingSize={existingSize} 
+          existingKemasan={existingKemasan} 
+          createSize={createSize} 
+          createKemasan={createKemasan}
+          reloadSize={loadDataSize}
+          reloadKemasan={loadDataKemasan}
+        />
       </div>
     </div>
   );

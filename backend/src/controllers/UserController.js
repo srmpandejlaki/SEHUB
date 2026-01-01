@@ -4,7 +4,7 @@ const UserController = {
   getAllUser: async (req, res) => {
     try {
       const result = await UserServices.getUsers();
-      res.json(result);
+      res.json({ success: true, data: result });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
     }
@@ -12,15 +12,15 @@ const UserController = {
   getUserById: async (req, res) => {
     try {
       const result = await UserServices.getUserById(req.params.id_pengguna);
-      res.json(result);
+      res.json({ success: true, data: result });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
     }
   },
   createUser: async (req, res) => {
     try {
-      const { nama_pengguna, email, jabatan, is_admin, kata_sandi } = req.body;
-      const newUser = await UserServices.createUser(nama_pengguna, email, jabatan, is_admin, kata_sandi);
+      const { nama_pengguna, email, jabatan, isAdmin, kata_sandi } = req.body;
+      const newUser = await UserServices.createUser(nama_pengguna, email, jabatan, isAdmin, kata_sandi);
       res.json({ success: true, message: "User created", data: newUser });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
@@ -29,8 +29,8 @@ const UserController = {
   updateUser: async (req, res) => {
     try {
       const { id_pengguna } = req.params;
-      const { nama_pengguna, email, jabatan, is_admin, kata_sandi } = req.body;
-      const updatedUser = await UserServices.updateUser(nama_pengguna, email, jabatan, is_admin, kata_sandi, id_pengguna);
+      const { nama_pengguna, email, jabatan, isAdmin, kata_sandi } = req.body;
+      const updatedUser = await UserServices.updateUser(nama_pengguna, email, jabatan, isAdmin, kata_sandi, id_pengguna);
       res.json({ success: true, message: "User updated", data: updatedUser });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
@@ -42,11 +42,13 @@ const UserController = {
 
       if (!result) {
         return res.status(404).json({
+          success: false,
           message: "Pengguna tidak ditemukan"
         });
       }
 
       res.status(200).json({
+        success: true,
         message: "Pengguna berhasil dihapus",
         data: result
       });
@@ -57,7 +59,7 @@ const UserController = {
   deleteAllUser: async (req, res) => {
     try {
       const result = await UserServices.deleteAllUser();
-      res.json(result);
+      res.json({ success: true, data: result });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
     }

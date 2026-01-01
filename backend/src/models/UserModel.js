@@ -11,10 +11,10 @@ const UserModel = {
     return result.rows[0];
   },
 
-  create: async (nama_pengguna, email, jabatan, is_admin, kata_sandi) => {
+  create: async (nama_pengguna, email, is_karyawan, isAdmin, kata_sandi) => {
     const result = await db.query(
-      "INSERT INTO pengguna (nama_pengguna, email, jabatan, is_admin, kata_sandi) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [nama_pengguna, email, jabatan, is_admin, kata_sandi]
+      "INSERT INTO pengguna (nama_pengguna, email, is_karyawan, isAdmin, kata_sandi) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [nama_pengguna, email, is_karyawan, isAdmin, kata_sandi]
     );
     return result.rows[0];
   },
@@ -42,3 +42,4 @@ const UserModel = {
 };
 
 export default UserModel;
+
