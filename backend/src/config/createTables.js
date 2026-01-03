@@ -44,11 +44,19 @@ async function createTables() {
       );
     `);
 
-    // 4. Tabel Produk
+    // 4. Tabel Nama Produk
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS nama_produk (
+        id_nama_produk SERIAL PRIMARY KEY,
+        nama_produk VARCHAR(100) NOT NULL
+      );
+    `);
+
+    // 5. Tabel Produk
     await pool.query(`
       CREATE TABLE IF NOT EXISTS produk (
         id_produk VARCHAR(10) PRIMARY KEY,
-        nama_produk VARCHAR(100) NOT NULL,
+        id_nama_produk INT REFERENCES nama_produk(id_nama_produk),
         ukuran_produk VARCHAR(20) NOT NULL,
         id_ukuran_satuan INT REFERENCES ukuran_satuan(id_ukuran_satuan),
         id_kemasan INT REFERENCES kemasan(id_kemasan),
@@ -57,7 +65,7 @@ async function createTables() {
       );
     `);
 
-    // 5. Tabel Barang Masuk
+    // 6. Tabel Barang Masuk
     await pool.query(`
       CREATE TABLE IF NOT EXISTS barang_masuk (
         id_barang_masuk SERIAL PRIMARY KEY,
@@ -66,7 +74,7 @@ async function createTables() {
       );
     `);
 
-    // 6. Tabel Detail Barang Masuk
+    // 7. Tabel Detail Barang Masuk
     await pool.query(`
       CREATE TABLE IF NOT EXISTS detail_barang_masuk (
         id_detail_barang_masuk SERIAL PRIMARY KEY,
@@ -77,7 +85,7 @@ async function createTables() {
       );
     `);
 
-    // 7. Tabel Metode Pengiriman
+    // 8. Tabel Metode Pengiriman
     await pool.query(`
       CREATE TABLE IF NOT EXISTS metode_pengiriman (
         id_metode_pengiriman SERIAL PRIMARY KEY,
@@ -85,7 +93,7 @@ async function createTables() {
       );
     `);
 
-    // 8. Tabel Status Pengiriman
+    // 9. Tabel Status Pengiriman
     await pool.query(`
       CREATE TABLE IF NOT EXISTS status_pengiriman (
         id_status SERIAL PRIMARY KEY,
@@ -93,7 +101,7 @@ async function createTables() {
       );
     `);
 
-    // 9. Tabel Distribusi
+    // 10. Tabel Distribusi
     await pool.query(`
       CREATE TABLE IF NOT EXISTS distribusi (
         id_distribusi SERIAL PRIMARY KEY,
@@ -105,7 +113,7 @@ async function createTables() {
       );
     `);
 
-    // 10. Tabel Detail Distribusi
+    // 11. Tabel Detail Distribusi
     await pool.query(`
       CREATE TABLE IF NOT EXISTS detail_distribusi (
         id_detail_distribusi SERIAL PRIMARY KEY,
@@ -115,7 +123,7 @@ async function createTables() {
       );
     `);
 
-    // 11. Tabel Penyesuaian Stok
+    // 12. Tabel Penyesuaian Stok
     await pool.query(`
       CREATE TABLE IF NOT EXISTS penyesuaian_stok (
         id_penyesuaian_stok SERIAL PRIMARY KEY,
@@ -124,7 +132,7 @@ async function createTables() {
       );
     `);
 
-    // 12. Tabel Kondisi Stok
+    // 13. Tabel Kondisi Stok
     await pool.query(`
       CREATE TABLE IF NOT EXISTS kondisi_stok (
         id_kondisi_stok SERIAL PRIMARY KEY,
@@ -132,7 +140,7 @@ async function createTables() {
       );
     `);
 
-    // 13. Tabel Penyesuaian Stok Detail
+    // 14. Tabel Penyesuaian Stok Detail
     await pool.query(`
       CREATE TABLE IF NOT EXISTS penyesuaian_stok_detail (
         id_detail_penyesuaian SERIAL PRIMARY KEY,
@@ -144,7 +152,7 @@ async function createTables() {
       );
     `);
 
-    // 14. Tabel Return Barang
+    // 15. Tabel Return Barang
     await pool.query(`
       CREATE TABLE IF NOT EXISTS return_barang (
         id_return SERIAL PRIMARY KEY,
@@ -153,7 +161,7 @@ async function createTables() {
       );
     `);
 
-    // 15. Tabel Return Barang Detail
+    // 16. Tabel Return Barang Detail
     await pool.query(`
       CREATE TABLE IF NOT EXISTS return_barang_detail (
         id_return_barang_detail SERIAL PRIMARY KEY,

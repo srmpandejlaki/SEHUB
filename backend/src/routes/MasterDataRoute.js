@@ -3,6 +3,26 @@ import MasterDataModel from "../models/MasterDataModel.js";
 
 const routerMasterData = express.Router();
 
+// Nama Produk
+routerMasterData.get("/nama-produk", async (req, res) => {
+  try {
+    const data = await MasterDataModel.getAllNamaProduk();
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+routerMasterData.post("/nama-produk", async (req, res) => {
+  try {
+    const { nama_produk } = req.body;
+    const data = await MasterDataModel.createNamaProduk(nama_produk);
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Ukuran Satuan
 routerMasterData.get("/ukuran-satuan", async (req, res) => {
   try {

@@ -6,7 +6,7 @@ const ProductService = {
   },
 
   createProduct: async (
-    nama_produk, 
+    id_nama_produk, 
     ukuran_produk, 
     id_ukuran_satuan, 
     id_kemasan, 
@@ -14,7 +14,7 @@ const ProductService = {
     path_gambar
   ) => {
     return await ProductModel.create(
-      nama_produk, 
+      id_nama_produk, 
       ukuran_produk, 
       id_ukuran_satuan, 
       id_kemasan, 
@@ -25,7 +25,7 @@ const ProductService = {
 
   updateProduct: async (
     id_produk,
-    nama_produk, 
+    id_nama_produk, 
     ukuran_produk, 
     id_ukuran_satuan, 
     id_kemasan, 
@@ -34,7 +34,7 @@ const ProductService = {
   ) => {
     return await ProductModel.update(
       id_produk,
-      nama_produk, 
+      id_nama_produk, 
       ukuran_produk, 
       id_ukuran_satuan, 
       id_kemasan, 

@@ -12,14 +12,14 @@ const ProductController = {
 
   createProduct: async (req, res) => {
     try {
-      const { nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum } = req.body;
+      const { id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum } = req.body;
 
       const fileName = req.file ? req.file.filename : "default.png";
       const baseUrl = `${req.protocol}://${req.get("host")}`;
       const path_gambar = `${baseUrl}/uploads/${fileName}`;
 
       const newProduct = await ProductService.createProduct(
-        nama_produk, 
+        id_nama_produk, 
         ukuran_produk, 
         parseInt(id_ukuran_satuan), 
         parseInt(id_kemasan), 
@@ -41,7 +41,7 @@ const ProductController = {
   updateProduct: async (req, res) => {
     try {
       const { id_produk } = req.params;
-      const { nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum } = req.body;
+      const { id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum } = req.body;
       
       let path_gambar = undefined;
       if (req.file) {
@@ -51,7 +51,7 @@ const ProductController = {
 
       const updatedProduct = await ProductService.updateProduct(
         id_produk, 
-        nama_produk, 
+        id_nama_produk, 
         ukuran_produk, 
         parseInt(id_ukuran_satuan), 
         parseInt(id_kemasan), 

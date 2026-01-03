@@ -13,22 +13,22 @@ const ProductModel = {
     return result.rows;
   },
 
-  create: async (nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar) => {
+  create: async (id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar) => {
     // Generate id_produk dengan format: LS + kode_nama_produk + ukuran_produk
-    const productCode = await getOrCreateProductCode(nama_produk);
+    const productCode = await getOrCreateProductCode(id_nama_produk);
     const id_produk = `LS${productCode}${ukuran_produk}`;
 
     const result = await db.query(
       `INSERT INTO produk (
-        id_produk, nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar, total_produk
+        id_produk, id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar, total_produk
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-      [id_produk, nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar, 0]
+      [id_produk, id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar, 0]
     );
 
     return result.rows[0];
   },
 
-  update: async (id_produk, nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar) => {
+  update: async (id_produk, id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar) => {
     // 1. ambil data lama
     const oldData = await db.query(
       "SELECT * FROM produk WHERE id_produk = $1",
@@ -45,7 +45,7 @@ const ProductModel = {
     // 3. update data
     const result = await db.query(
       `UPDATE produk
-       SET nama_produk = $1,
+       SET id_nama_produk = $1,
            ukuran_produk = $2,
            id_ukuran_satuan = $3,
            id_kemasan = $4,
@@ -54,7 +54,7 @@ const ProductModel = {
        WHERE id_produk = $7
        RETURNING *`,
       [
-        nama_produk,
+        id_nama_produk,
         ukuran_produk,
         id_ukuran_satuan,
         id_kemasan,
