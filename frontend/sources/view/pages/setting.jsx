@@ -13,7 +13,6 @@ function SettingPage() {
   const [showNotifDelete, setNotifDelete] = useState(false);
   const [selectedDeleteId, setSelectedDeleteId] = useState(null);
 
-  const [showFormSize, setFormSize] = useState(false);
   const [existingSize, setExistingSize] = useState([]);
   const [existingKemasan, setExistingKemasan] = useState([]);
 
@@ -38,8 +37,8 @@ function SettingPage() {
         id_pengguna: item.id_pengguna,
         nama_pengguna: item.nama_pengguna,
         email: item.email,
-        is_karyawan: item.is_karyawan,
-        isAdmin: item.isAdmin,
+        jabatan: item.jabatan,
+        is_admin: item.is_admin,
         kata_sandi: item.kata_sandi,
       }));
 
@@ -150,10 +149,6 @@ function SettingPage() {
     } catch (error) {
       console.error("Gagal membuat kemasan:", error);
     }
-  };
-
-  const handleOpenFormMasterData = () => {
-    setFormSize(true);
   };
 
   const handleCloseFormMasterData = () => {

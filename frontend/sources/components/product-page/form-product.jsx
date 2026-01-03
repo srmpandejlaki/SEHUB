@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import IconEditProduct from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
 import { createProduct } from "../../utilities/api/products";
-import { BASE_URL } from "../../utilities/index.js";
+import { fetchAllKemasan, fetchAllSize } from "../../utilities/api/master-data";
 
 function FormProduct({ closeFormProduct, reloadProducts }) {
   const [namaProduk, setNamaProduk] = useState("");
@@ -11,37 +11,32 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
   const [idKemasan, setIdKemasan] = useState("");
   const [minimumStock, setMinimumStok] = useState("");
   const [imageProduk, setImageProduk] = useState("");
-  
-  // Master data
+  // Master data lists
   const [ukuranSatuanList, setUkuranSatuanList] = useState([]);
   const [kemasanList, setKemasanList] = useState([]);
 
   useEffect(() => {
-    loadMasterData();
+    loadDataSize();
+    loadDataKemasan();
   }, []);
 
-  const loadMasterData = async () => {
+  const loadDataSize = async () => {
     try {
-      const resSatuan = await fetch(`${BASE_URL}master/ukuran-satuan`);
-      const dataSatuan = await resSatuan.json();
-      setUkuranSatuanList(dataSatuan?.data || []);
-
-      const resKemasan = await fetch(`${BASE_URL}master/kemasan`);
-      const dataKemasan = await resKemasan.json();
-      setKemasanList(dataKemasan?.data || []);
+      const response = await fetchAllSize();
+      // fetchAllSize returns array directly
+      setUkuranSatuanList(Array.isArray(response) ? response : []);
     } catch (error) {
-      console.error("Error loading master data:", error);
-      // Fallback options
-      setUkuranSatuanList([
-        { id_ukuran_satuan: 1, nama_ukuran_satuan: "ml" },
-        { id_ukuran_satuan: 2, nama_ukuran_satuan: "g" },
-        { id_ukuran_satuan: 3, nama_ukuran_satuan: "kg" },
-      ]);
-      setKemasanList([
-        { id_kemasan: 1, nama_kemasan: "botol" },
-        { id_kemasan: 2, nama_kemasan: "pcs" },
-        { id_kemasan: 3, nama_kemasan: "pack" },
-      ]);
+      console.error("Gagal memuat data size:", error);
+    }
+  };
+
+  const loadDataKemasan = async () => {
+    try {
+      const response = await fetchAllKemasan();
+      // fetchAllKemasan returns array directly
+      setKemasanList(Array.isArray(response) ? response : []);
+    } catch (error) {
+      console.error("Gagal memuat data kemasan:", error);
     }
   };
 
@@ -81,12 +76,12 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
       <form className="main-form" onSubmit={handleSubmit}>
         <div className="inputan">
           <label>Nama Produk</label>
-          <select value={namaProduk} onChange={(e) => setNamaProduk(e.target.value)} required>
-            <option value="">-- Pilih --</option>
-            <option value="Seho Sirop">Seho Sirop</option>
-            <option value="Seho Granule">Seho Granule</option>
-            <option value="Seho Block">Seho Block</option>
-          </select>
+          <input 
+            type="text" 
+            placeholder="Masukkan nama produk" 
+            value={namaProduk} onChange={(e) => setNamaProduk(e.target.value)} 
+            required 
+          />
         </div>
 
         <div className="double-form">
