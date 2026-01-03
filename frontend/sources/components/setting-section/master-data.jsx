@@ -105,7 +105,7 @@ function MasterData({ existingSize, existingKemasan, existingNamaProduk, createS
             <form onSubmit={handleAddSize}>
               <input 
                 type="text" 
-                placeholder="Masukkan ukuran satuan (misal: ml, kg, g)" 
+                placeholder="Misal: ml, kg, g" 
                 value={newSizeName}
                 onChange={(e) => setNewSizeName(e.target.value)}
                 disabled={isSubmittingSize}
@@ -139,7 +139,7 @@ function MasterData({ existingSize, existingKemasan, existingNamaProduk, createS
             <form onSubmit={handleAddKemasan}>
               <input 
                 type="text" 
-                placeholder="Masukkan jenis kemasan (misal: botol, pcs)" 
+                placeholder="Misal: botol, pouch" 
                 value={newKemasanName}
                 onChange={(e) => setNewKemasanName(e.target.value)}
                 disabled={isSubmittingKemasan}

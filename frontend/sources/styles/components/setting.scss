@@ -44,12 +44,18 @@
 
 .master-data {
   padding: 1rem;
+
+  form {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 }
 
 .main-data-setting{
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 3rem;
   font-size: 0.9rem;
 
   button {
