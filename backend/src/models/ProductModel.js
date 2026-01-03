@@ -4,10 +4,11 @@ import getOrCreateProductCode from "../utils/generateId.js";
 const ProductModel = {
   getAll: async () => {
     const result = await db.query(`
-      SELECT p.*, us.nama_ukuran_satuan, k.nama_kemasan 
+      SELECT p.*, us.nama_ukuran_satuan, k.nama_kemasan, n.nama_produk 
       FROM produk p
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
+      LEFT JOIN nama_produk n ON p.id_nama_produk = n.id_nama_produk
       ORDER BY p.id_produk DESC
     `);
     return result.rows;
@@ -20,9 +21,9 @@ const ProductModel = {
 
     const result = await db.query(
       `INSERT INTO produk (
-        id_produk, id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar, total_produk
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-      [id_produk, id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar, 0]
+        id_produk, id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [id_produk, id_nama_produk, ukuran_produk, id_ukuran_satuan, id_kemasan, stok_minimum, path_gambar]
     );
 
     return result.rows[0];

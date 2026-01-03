@@ -1,10 +1,10 @@
 import db from "../config/db.js";
 
-async function getOrCreateProductCode(nama_produk) {
-  // 1. Cek apakah nama_produk sudah ada di tabel produk
+async function getOrCreateProductCode(id_nama_produk) {
+  // 1. Cek apakah id_nama_produk sudah ada di tabel produk
   const existing = await db.query(
-    "SELECT id_produk FROM produk WHERE nama_produk = $1 LIMIT 1",
-    [nama_produk]
+    "SELECT id_produk FROM produk WHERE id_nama_produk = $1 LIMIT 1",
+    [id_nama_produk]
   );
 
   if (existing.rows.length > 0) {
@@ -33,6 +33,7 @@ async function getOrCreateProductCode(nama_produk) {
 }
 
 export default getOrCreateProductCode;
+
 
 
 
