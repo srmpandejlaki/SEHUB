@@ -2,28 +2,39 @@ import React, { useState, useEffect } from "react";
 import IconEditProduct from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
 import { createProduct } from "../../utilities/api/products";
-import { fetchAllKemasan, fetchAllSize } from "../../utilities/api/master-data";
+import { fetchAllKemasan, fetchAllSize, fetchAllNamaProduk } from "../../utilities/api/master-data";
 
 function FormProduct({ closeFormProduct, reloadProducts }) {
-  const [namaProduk, setNamaProduk] = useState("");
+  const [idNamaProduk, setIdNamaProduk] = useState("");
   const [ukuranProduk, setUkuranProduk] = useState("");
   const [idUkuranSatuan, setIdUkuranSatuan] = useState("");
   const [idKemasan, setIdKemasan] = useState("");
   const [minimumStock, setMinimumStok] = useState("");
   const [imageProduk, setImageProduk] = useState("");
+  
   // Master data lists
+  const [namaProdukList, setNamaProdukList] = useState([]);
   const [ukuranSatuanList, setUkuranSatuanList] = useState([]);
   const [kemasanList, setKemasanList] = useState([]);
 
   useEffect(() => {
+    loadDataNamaProduk();
     loadDataSize();
     loadDataKemasan();
   }, []);
 
+  const loadDataNamaProduk = async () => {
+    try {
+      const response = await fetchAllNamaProduk();
+      setNamaProdukList(Array.isArray(response) ? response : []);
+    } catch (error) {
+      console.error("Gagal memuat data nama produk:", error);
+    }
+  };
+
   const loadDataSize = async () => {
     try {
       const response = await fetchAllSize();
-      // fetchAllSize returns array directly
       setUkuranSatuanList(Array.isArray(response) ? response : []);
     } catch (error) {
       console.error("Gagal memuat data size:", error);
@@ -33,7 +44,6 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
   const loadDataKemasan = async () => {
     try {
       const response = await fetchAllKemasan();
-      // fetchAllKemasan returns array directly
       setKemasanList(Array.isArray(response) ? response : []);
     } catch (error) {
       console.error("Gagal memuat data kemasan:", error);
@@ -44,7 +54,7 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
     e.preventDefault();
 
     const newProduct = {
-      nama_produk: namaProduk,
+      id_nama_produk: idNamaProduk,
       ukuran_produk: ukuranProduk,
       id_ukuran_satuan: idUkuranSatuan,
       id_kemasan: idKemasan,
@@ -76,12 +86,14 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
       <form className="main-form" onSubmit={handleSubmit}>
         <div className="inputan">
           <label>Nama Produk</label>
-          <input 
-            type="text" 
-            placeholder="Masukkan nama produk" 
-            value={namaProduk} onChange={(e) => setNamaProduk(e.target.value)} 
-            required 
-          />
+          <select value={idNamaProduk} onChange={(e) => setIdNamaProduk(e.target.value)} required>
+            <option value="">-- Pilih --</option>
+            {namaProdukList.map((item) => (
+              <option key={item.id_nama_produk} value={item.id_nama_produk}>
+                {item.nama_produk}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="double-form">

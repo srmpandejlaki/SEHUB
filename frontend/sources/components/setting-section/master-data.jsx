@@ -1,10 +1,12 @@
 import React, { useState  } from "react";
 
-function MasterData({ existingSize, existingKemasan, createSize, createKemasan, reloadSize, reloadKemasan }) {
+function MasterData({ existingSize, existingKemasan, existingNamaProduk, createSize, createKemasan, createNamaProduk, reloadSize, reloadKemasan, reloadNamaProduk }) {
   const [newSizeName, setNewSizeName] = useState("");
   const [newKemasanName, setNewKemasanName] = useState("");
+  const [newNamaProdukName, setNewNamaProdukName] = useState("");
   const [isSubmittingSize, setIsSubmittingSize] = useState(false);
   const [isSubmittingKemasan, setIsSubmittingKemasan] = useState(false);
+  const [isSubmittingNamaProduk, setIsSubmittingNamaProduk] = useState(false);
 
   const handleAddSize = async (e) => {
     e.preventDefault();
@@ -32,6 +34,19 @@ function MasterData({ existingSize, existingKemasan, createSize, createKemasan, 
     setIsSubmittingKemasan(false);
   };
 
+  const handleAddNamaProduk = async (e) => {
+    e.preventDefault();
+    if (!newNamaProdukName.trim()) {
+      alert("Nama produk tidak boleh kosong");
+      return;
+    }
+    
+    setIsSubmittingNamaProduk(true);
+    await createNamaProduk(newNamaProdukName.trim());
+    setNewNamaProdukName("");
+    setIsSubmittingNamaProduk(false);
+  };
+
   return (
     <div className="master-data">
       <div className="pengantar">
@@ -42,13 +57,34 @@ function MasterData({ existingSize, existingKemasan, createSize, createKemasan, 
         <div className="nama-produk">
           <p>Daftar Nama Produk <br/>Silahkan klik "tambah produk" untuk nama produk baru.</p>
           <div className="list">
-            <ul>
-              <li>Seho Sirop</li>
-              <li>Seho Granule</li>
-              <li>Seho Block</li>
-            </ul>
+            {existingNamaProduk && existingNamaProduk.length > 0 ? (
+              <ul>
+                {existingNamaProduk.map((item) => (
+                  <li key={item.id_nama_produk}>{item.nama_produk}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="no-data">Belum ada daftar nama produk.</p>
+            )}
           </div>
-          <button className="base-btn green">Tambah Produk</button>
+          <div className="inputan">
+            <form onSubmit={handleAddNamaProduk}>
+              <input 
+                type="text" 
+                placeholder="Masukkan nama produk" 
+                value={newNamaProdukName}
+                onChange={(e) => setNewNamaProdukName(e.target.value)}
+                disabled={isSubmittingNamaProduk}
+              />
+              <button 
+                className="base-btn green" 
+                type="submit"
+                disabled={isSubmittingNamaProduk}
+              >
+                {isSubmittingNamaProduk ? "Menyimpan..." : "Tambah Produk"}
+              </button>
+            </form>
+          </div>
         </div>
 
         {/* Ukuran Satuan */}

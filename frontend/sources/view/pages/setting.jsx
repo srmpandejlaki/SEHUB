@@ -3,7 +3,7 @@ import UserSetting from "../../components/setting-section/user-setting";
 import FormUser from "../../components/setting-section/form-user";
 import MasterData from "../../components/setting-section/master-data";
 import { fetchAllUser, deleteUser } from "../../utilities/api/user";
-import { fetchAllSize, createNewSize, fetchAllKemasan, createNewKemasan } from "../../utilities/api/master-data";
+import { fetchAllSize, createNewSize, fetchAllKemasan, createNewKemasan, fetchAllNamaProduk, createNewNamaProduk } from "../../utilities/api/master-data";
 
 function SettingPage() {
   const [showFormUser, setFormUser] = useState(false);
@@ -15,11 +15,13 @@ function SettingPage() {
 
   const [existingSize, setExistingSize] = useState([]);
   const [existingKemasan, setExistingKemasan] = useState([]);
+  const [existingNamaProduk, setExistingNamaProduk] = useState([]);
 
   useEffect(() => {
     loadDataUsers();
     loadDataSize();
     loadDataKemasan();
+    loadDataNamaProduk();
   }, []);
 
   // User
@@ -123,6 +125,22 @@ function SettingPage() {
     }
   };
 
+  const loadDataNamaProduk = async () => {
+    try {
+      const response = await fetchAllNamaProduk();
+      console.log("Nama produk data:", response);
+
+      if (!response || !Array.isArray(response)) {
+        console.error("Data nama produk tidak valid:", response);
+        return;
+      }
+
+      setExistingNamaProduk(response);
+    } catch (error) {
+      console.error("Gagal memuat data nama produk:", error);
+    }
+  };
+
   const createSize = async (nama_ukuran_satuan) => {
     try {
       const response = await createNewSize(nama_ukuran_satuan);
@@ -130,7 +148,6 @@ function SettingPage() {
 
       if (response) {
         loadDataSize();
-        handleCloseFormMasterData();
       }
     } catch (error) {
       console.error("Gagal membuat size:", error);
@@ -144,15 +161,23 @@ function SettingPage() {
 
       if (response) {
         loadDataKemasan();
-        handleCloseFormMasterData();
       }
     } catch (error) {
       console.error("Gagal membuat kemasan:", error);
     }
   };
 
-  const handleCloseFormMasterData = () => {
-    setFormSize(false);
+  const createNamaProduk = async (nama_produk) => {
+    try {
+      const response = await createNewNamaProduk(nama_produk);
+      console.log(response);
+
+      if (response) {
+        loadDataNamaProduk();
+      }
+    } catch (error) {
+      console.error("Gagal membuat nama produk:", error);
+    }
   };
 
   return (
@@ -190,11 +215,14 @@ function SettingPage() {
       <div className="main-master-data">
         <MasterData 
           existingSize={existingSize} 
-          existingKemasan={existingKemasan} 
+          existingKemasan={existingKemasan}
+          existingNamaProduk={existingNamaProduk} 
           createSize={createSize} 
           createKemasan={createKemasan}
+          createNamaProduk={createNamaProduk}
           reloadSize={loadDataSize}
           reloadKemasan={loadDataKemasan}
+          reloadNamaProduk={loadDataNamaProduk}
         />
       </div>
     </div>

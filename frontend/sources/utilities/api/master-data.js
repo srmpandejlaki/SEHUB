@@ -1,5 +1,50 @@
 import { BASE_URL } from "../index.js";
 
+// ========== NAMA PRODUK ==========
+export const fetchAllNamaProduk = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}master/nama-produk`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      console.error("Gagal fetch nama produk:", response.status, response.statusText);
+      return [];
+    }
+
+    const data = await response.json();
+    if (data?.data && Array.isArray(data.data)) return data.data;
+    if (Array.isArray(data)) return data;
+    return [];
+  } catch (error) {
+    console.error("Error fetchAllNamaProduk:", error);
+    return [];
+  }
+};
+
+export const createNewNamaProduk = async (nama_produk) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/nama-produk`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nama_produk }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => null);
+      console.error("Create nama produk gagal:", err || response.statusText);
+      return null;
+    }
+
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error createNewNamaProduk:", error);
+    return null;
+  }
+};
+
 // ========== UKURAN SATUAN ==========
 export const fetchAllSize = async () => {
   try {

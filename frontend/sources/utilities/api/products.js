@@ -37,7 +37,7 @@ export const createProduct = async (productData) => {
     const formData = new FormData();
 
     // append text fields with new field names
-    formData.append("nama_produk", productData.nama_produk);
+    formData.append("id_nama_produk", productData.id_nama_produk);
     formData.append("ukuran_produk", productData.ukuran_produk);
     formData.append("id_ukuran_satuan", productData.id_ukuran_satuan);
     formData.append("id_kemasan", productData.id_kemasan);
@@ -66,7 +66,7 @@ export const updateProduct = async (id, productData) => {
     const formData = new FormData();
 
     // append text fields with new field names
-    formData.append("nama_produk", productData.nama_produk);
+    formData.append("id_nama_produk", productData.id_nama_produk);
     formData.append("ukuran_produk", productData.ukuran_produk);
     formData.append("id_ukuran_satuan", productData.id_ukuran_satuan);
     formData.append("id_kemasan", productData.id_kemasan);
