@@ -209,7 +209,7 @@ function MasterData({
             <form onSubmit={handleAddMetodePengiriman}>
               <input 
                 type="text" 
-                placeholder="Misal: botol, pouch" 
+                placeholder="Misal: ekspres, reguler" 
                 value={newMetodePengirimanName}
                 onChange={(e) => setNewMetodePengirimanName(e.target.value)}
                 disabled={isSubmittingMetodePengiriman}
@@ -243,7 +243,7 @@ function MasterData({
             <form onSubmit={handleAddStatusPengiriman}>
               <input 
                 type="text" 
-                placeholder="Misal: botol, pouch" 
+                placeholder="Misal: diproses, selesai" 
                 value={newStatusPengirimanName}
                 onChange={(e) => setNewStatusPengirimanName(e.target.value)}
                 disabled={isSubmittingStatusPengiriman}

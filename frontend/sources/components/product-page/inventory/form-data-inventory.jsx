@@ -12,11 +12,9 @@ import { createInventory } from "../../../utilities/api/inventory";
 function FormDataInventory({ onCloseForm, onSuccess }) {
   const [products, setProducts] = useState([]);
   const [tanggalMasuk, setTanggalMasuk] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const [jumlah, setJumlah] = useState("");
-  const [tanggalExpired, setTanggalExpired] = useState("");
   const [catatan, setCatatan] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [productItems, setProductItems] = useState([{ id_produk: "", jumlah: "", tanggal_expired: "" }]);
 
   // Fetch products on mount
   useEffect(() => {
@@ -28,11 +26,33 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
     setProducts(data);
   };
 
+  // Get list of already selected product IDs (except current row)
+  const getSelectedProductIds = (currentIndex) => {
+    return productItems
+      .filter((_, index) => index !== currentIndex)
+      .map(item => item.id_produk)
+      .filter(id => id !== "");
+  };
+
+  // Get available products for a specific row (exclude already selected)
+  const getAvailableProducts = (currentIndex) => {
+    const selectedIds = getSelectedProductIds(currentIndex);
+    return products.filter(product => !selectedIds.includes(product.id_produk));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!tanggalMasuk || !selectedProduct || !jumlah || !tanggalExpired) {
-      alert("Mohon lengkapi semua field yang wajib diisi");
+    // Validasi field umum
+    if (!tanggalMasuk) {
+      alert("Mohon lengkapi tanggal masuk");
+      return;
+    }
+
+    // Validasi product items
+    const validProducts = productItems.filter(item => item.id_produk && item.jumlah && item.tanggal_expired);
+    if (validProducts.length === 0) {
+      alert("Mohon tambahkan minimal satu produk dengan jumlah dan tanggal expired");
       return;
     }
 
@@ -41,13 +61,11 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
     const inventoryData = {
       tanggal_masuk: tanggalMasuk,
       catatan_barang_masuk: catatan || null,
-      products: [
-        {
-          id_produk: selectedProduct,
-          jumlah: parseInt(jumlah),
-          tanggal_expired: tanggalExpired
-        }
-      ]
+      products: validProducts.map(item => ({
+        id_produk: item.id_produk,
+        jumlah: parseInt(item.jumlah),
+        tanggal_expired: item.tanggal_expired
+      }))
     };
 
     const result = await createInventory(inventoryData);
@@ -63,8 +81,22 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
     }
   };
 
-  // Get selected product info for display
-  const selectedProductInfo = products.find(p => p.id_produk === selectedProduct);
+  const handleAddProduct = () => {
+    setProductItems([...productItems, { id_produk: "", jumlah: "", tanggal_expired: "" }]);
+  };
+
+  const removeProductItem = (index) => {
+    if (productItems.length > 1) {
+      const updated = productItems.filter((_, i) => i !== index);
+      setProductItems(updated);
+    }
+  };
+  
+  const updateProductItem = (index, field, value) => {
+    const updated = [...productItems];
+    updated[index][field] = value;
+    setProductItems(updated);
+  };
 
   return(
     <div className="form-data-inventori">
@@ -77,7 +109,7 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
       </div>
       <form className="main-form" onSubmit={handleSubmit}>
         <div className="inputan">
-          <label><IconKalender className="greenIcon" /> Hari/Tanggal</label>
+          <label><IconKalender className="greenIcon" /> Hari/Tanggal Masuk</label>
           <input 
             type="date" 
             value={tanggalMasuk}
@@ -85,43 +117,68 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
             required
           />
         </div>
-        <div className="double-form">
-          <div className="inputan-double">
+        
+        {productItems.map((item, index) => (
+        <div className="product-item-row" key={index}>
+          <div className="inputan">
             <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
             <select 
-              value={selectedProduct}
-              onChange={(e) => setSelectedProduct(e.target.value)}
+              value={item.id_produk}
+              onChange={(e) => updateProductItem(index, "id_produk", e.target.value)}
               required
             >
               <option value="">-- Pilih Produk --</option>
-              {products.map((product) => (
+              {getAvailableProducts(index).map((product) => (
                 <option key={product.id_produk} value={product.id_produk}>
                   {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan}
                 </option>
               ))}
+              {/* Jika produk sudah dipilih di row ini, tetap tampilkan */}
+              {item.id_produk && !getAvailableProducts(index).find(p => p.id_produk === item.id_produk) && (
+                <option value={item.id_produk}>
+                  {products.find(p => p.id_produk === item.id_produk)?.nama_produk} - 
+                  {products.find(p => p.id_produk === item.id_produk)?.ukuran_produk}
+                  {products.find(p => p.id_produk === item.id_produk)?.nama_ukuran_satuan}
+                </option>
+              )}
             </select>
           </div>
-          <div className="inputan">
-            <label><IconBotol2 className="greenIcon" /> Jumlah</label>
-            <input 
-              type="number" 
-              placeholder="0" 
-              min="1"
-              value={jumlah}
-              onChange={(e) => setJumlah(e.target.value)}
-              required
-            />
+          <div className="double-form">
+            <div className="inputan-double">
+              <label><IconBotol2 className="greenIcon" /> Jumlah</label>
+              <input 
+                type="number" 
+                placeholder="0" 
+                min="1"
+                value={item.jumlah}
+                onChange={(e) => updateProductItem(index, "jumlah", e.target.value)}
+                required
+              />
+            </div>
+            <div className="inputan">
+              <label><IconExpiredDate className="greenIcon" /> Expired Date</label>
+              <input 
+                type="date" 
+                value={item.tanggal_expired}
+                onChange={(e) => updateProductItem(index, "tanggal_expired", e.target.value)}
+                required
+              />
+            </div>
+            {productItems.length > 1 && (
+              <button 
+                type="button" 
+                className="remove-btn"
+                onClick={() => removeProductItem(index)}
+              >
+                ×
+              </button>
+            )}
+          </div>
         </div>
-        </div>
-        <div className="inputan">
-          <label><IconExpiredDate className="greenIcon" /> Tanggal Expired</label>
-          <input 
-            type="date" 
-            value={tanggalExpired}
-            onChange={(e) => setTanggalExpired(e.target.value)}
-            required
-          />
-        </div>
+        ))}
+        
+        <p className="add-product-link" onClick={handleAddProduct}>+ Tambah Produk</p>
+        
         <div className="inputan">
           <label><IconKeterangan className="greenIcon" /> Keterangan</label>
           <input 

@@ -25,11 +25,11 @@ function DistributionPage() {
       }
 
       const mapped = response.map((item) => ({
-        id: item.kode_produk,
+        id: item.id_produk,
         namaProduk: item.nama_produk,
         ukuranProduk: item.ukuran_produk,
-        ukuranSatuan: item.ukuran_satuan,
-        kemasanProduk: item.kemasan_produk,
+        ukuranSatuan: item.nama_ukuran_satuan,
+        kemasanProduk: item.nama_kemasan,
         minimumStock: item.stok_minimum,
         imageProduk: item.path_gambar,
       }));
