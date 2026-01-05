@@ -64,7 +64,7 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
   };
 
   // Get selected product info for display
-  const selectedProductInfo = products.find(p => p.kode_produk === selectedProduct);
+  const selectedProductInfo = products.find(p => p.id_produk === selectedProduct);
 
   return(
     <div className="form-data-inventori">
@@ -95,8 +95,8 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
             >
               <option value="">-- Pilih Produk --</option>
               {products.map((product) => (
-                <option key={product.kode_produk} value={product.kode_produk}>
-                  {product.nama_produk} - {product.ukuran_produk}{product.ukuran_satuan}
+                <option key={product.id_produk} value={product.id_produk}>
+                  {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan}
                 </option>
               ))}
             </select>

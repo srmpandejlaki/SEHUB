@@ -169,8 +169,8 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                   >
                     <option value="">-- Pilih Produk --</option>
                     {products.map((product) => (
-                      <option key={product.kode_produk} value={product.kode_produk}>
-                        {product.nama_produk} - {product.ukuran_produk}{product.ukuran_satuan}
+                      <option key={product.id_produk} value={product.id_produk}>
+                        {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan}
                       </option>
                     ))}
                   </select>
@@ -209,11 +209,11 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                   <table className="products">
                     <tbody>
                       {productItems.filter(item => item.id_produk && item.jumlah).map((item, index) => {
-                        const product = products.find(p => p.kode_produk === item.id_produk);
+                        const product = products.find(p => p.id_produk === item.id_produk);
                         return (
                           <tr key={index}>
                             <td>
-                              {product?.nama_produk || "Produk"} - {product?.ukuran_produk}{product?.ukuran_satuan}
+                              {product?.nama_produk || "Produk"} - {product?.ukuran_produk}{product?.nama_ukuran_satuan}
                             </td>
                             <td className="counting">{item.jumlah}</td>
                           </tr>

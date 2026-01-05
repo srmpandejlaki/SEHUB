@@ -35,6 +35,17 @@ export const fetchAllInventoryData = async () => {
   }
 };
 
+// Check if inventory data exists
+export const checkInventoryExists = async () => {
+  try {
+    const data = await fetchAllInventoryData();
+    return data.length > 0;
+  } catch (error) {
+    console.error("Error checkInventoryExists:", error);
+    return false;
+  }
+};
+
 // POST create inventory data
 export const createInventory = async (inventoryData) => {
   try {
