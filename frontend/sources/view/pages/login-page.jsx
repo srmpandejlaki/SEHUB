@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoSehub from "../../assets/public/sehub.png";
+import coverLogin from "../../assets/public/cover-login.png";
 import { loginUser } from "../../utilities/api/user";
 
 function LoginPage({ onLoginSuccess }) {
@@ -47,7 +48,9 @@ function LoginPage({ onLoginSuccess }) {
 
   return (
     <div className="login-page">
-      <div className="login-image"></div>
+      <div className="login-image">
+        <img src={coverLogin} alt="Produk L' Arbre Seho" />
+      </div>
       <div className="login-section">
         <div className="login-text">
           <img src={logoSehub} alt="Logo SEHUB" />

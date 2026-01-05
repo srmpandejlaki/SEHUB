@@ -1,0 +1,71 @@
+@use '../default/custom.scss';
+
+.login-page {
+  display: flex;
+  color: custom.$color-primary;
+}
+
+.login-image {
+  width: 50%;
+
+  img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+  }
+}
+
+.login-section {
+  width: 50%;
+  height: 100vh;
+  background-color: custom.$color-secondary;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+}
+
+.login-text, .login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form .inputan {
+  width: 500px;
+  height: 100px;
+
+  input {
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+  }
+}
+
+.logout-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout-btn {
+  cursor: pointer;
+  width: 100px;
+  background-color: transparent;
+  color: custom.$danger;
+  margin-top: 1rem;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: custom.$danger;
+    color: custom.$color-primary;
+    transition: all 0.3s ease-in-out;
+  }
+}

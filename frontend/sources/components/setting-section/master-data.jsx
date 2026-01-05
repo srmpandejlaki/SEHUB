@@ -1,4 +1,7 @@
 import React, { useState  } from "react";
+import IconBotol2 from "../../assets/icon/Frame 27.svg?react";
+import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?react";
+import IconStatus from "../../assets/icon/fluent_status-12-regular.svg?react";
 
 function MasterData({ 
   existingSize, existingKemasan, existingNamaProduk, 
@@ -91,7 +94,8 @@ function MasterData({
       <div className="main-data-setting">
         {/* Nama Produk - hardcoded untuk saat ini */}
         <div className="nama-produk">
-          <p>Daftar Nama Produk <br/>Silahkan klik "tambah produk" untuk nama produk baru.</p>
+          <p className="title"><IconBotol2 className="greenIcon" /><span>Daftar Nama Produk</span></p>
+          <p>Silahkan klik "tambah produk" untuk nama produk baru.</p>
           <div className="list">
             {existingNamaProduk && existingNamaProduk.length > 0 ? (
               <ul>
@@ -125,7 +129,8 @@ function MasterData({
 
         {/* Ukuran Satuan */}
         <div className="ukuran-satuan">
-          <p>Daftar Ukuran Satuan <br/>Silahkan klik "tambah ukuran" untuk membuat ukuran baru.</p>
+          <p className="title"><IconBotol2 className="greenIcon" /><span>Daftar Ukuran Satuan</span></p>
+          <p>Silahkan klik "tambah ukuran" untuk membuat ukuran baru.</p>
           <div className="list">
             {existingSize && existingSize.length > 0 ? (
               <ul>
@@ -159,7 +164,8 @@ function MasterData({
 
         {/* Jenis Kemasan */}
         <div className="jenis-kemasan">
-          <p>Daftar Jenis Kemasan <br/>Silahkan klik "tambah kemasan" untuk jenis kemasan baru.</p>
+          <p className="title"><IconBotol2 className="greenIcon" /><span>Daftar Jenis Kemasan</span></p>
+          <p>Silahkan klik "tambah kemasan" untuk jenis kemasan baru.</p>
           <div className="list">
             {existingKemasan && existingKemasan.length > 0 ? (
               <ul>
@@ -193,7 +199,8 @@ function MasterData({
 
         {/* Metode Pengiriman */}
         <div className="metode-pengiriman">
-          <p>Daftar Metode Pengiriman <br/>Silahkan klik "tambah metode" untuk metode pengiriman baru.</p>
+          <p className="title"><IconDistribution className="greenIcon" /><span>Daftar Metode Pengiriman</span></p>
+          <p>Silahkan klik "tambah metode" untuk metode pengiriman baru.</p>
           <div className="list">
             {existingMetodePengiriman && existingMetodePengiriman.length > 0 ? (
               <ul>
@@ -219,7 +226,7 @@ function MasterData({
                 type="submit"
                 disabled={isSubmittingMetodePengiriman}
               >
-                {isSubmittingMetodePengiriman ? "Menyimpan..." : "Tambah Metode Pengiriman"}
+                {isSubmittingMetodePengiriman ? "Menyimpan..." : "Tambah Metode"}
               </button>
             </form>
           </div>
@@ -227,7 +234,8 @@ function MasterData({
 
         {/* Status Pengiriman */}
         <div className="status-pengiriman">
-          <p>Daftar Status Pengiriman <br/>Silahkan klik "tambah status" untuk status pengiriman baru.</p>
+          <p className="title"><IconStatus className="greenIcon" /><span>Daftar Status Pengiriman</span></p>
+          <p>Silahkan klik "tambah status" untuk status pengiriman baru.</p>
           <div className="list">
             {existingStatusPengiriman && existingStatusPengiriman.length > 0 ? (
               <ul>
@@ -253,7 +261,7 @@ function MasterData({
                 type="submit"
                 disabled={isSubmittingStatusPengiriman}
               >
-                {isSubmittingStatusPengiriman ? "Menyimpan..." : "Tambah Status Pengiriman"}
+                {isSubmittingStatusPengiriman ? "Menyimpan..." : "Tambah Status"}
               </button>
             </form>
           </div>

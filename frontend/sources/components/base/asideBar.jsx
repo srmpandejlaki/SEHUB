@@ -55,16 +55,16 @@ function AsideBar({ user, onLogout }) {
                 </NavLink>
               </div>
             )}
-            {/* Tombol Logout */}
-            <div className="logout-section">
-              <button className="logout-btn" onClick={handleLogout}>
-                Logout
-              </button>
-            </div>
           </div>
         </div>
       </div>
       <div className="companies-name">
+        {/* Tombol Logout */}
+        <div className="logout-section">
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
         {user && (
           <p className="user-info">Login sebagai: {user.nama_pengguna}</p>
         )}
