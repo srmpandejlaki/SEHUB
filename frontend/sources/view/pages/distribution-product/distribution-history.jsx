@@ -4,6 +4,7 @@ import SearchFilter from "../../../components/base/search-filter";
 import NavDistribution from "../../../components/base/nav-distribution";
 import TableDistribution from "../../../components/product-page/distribution/table-distribution";
 import FormDataDistribution from "../../../components/product-page/distribution/form-data-distribution";
+import FormEditDistribution from "../../../components/product-page/distribution/form-edit-distribution";
 import IconBar from "../../../assets/icon/material-symbols_menu-rounded.svg?react";
 import { fetchAllDistributions, updateDistributionStatus } from "../../../utilities/api/distribution";
 import { checkInventoryExists } from "../../../utilities/api/inventory";
@@ -13,6 +14,8 @@ function DistributionHistoryPage() {
   const [showNavDis, setNavDis] = useState(false);
   const [closeHumberger, setHumberger] = useState(true);
   const [showFormDis, setFormDis] = useState(false);
+  const [showFormEdit, setShowFormEdit] = useState(false);
+  const [editingData, setEditingData] = useState(null);
   
   // Data state
   const [distributions, setDistributions] = useState([]);
@@ -103,8 +106,18 @@ function DistributionHistoryPage() {
   };
 
   const handleEdit = (distribution) => {
-    // TODO: Implement edit functionality
-    console.log("Edit distribution:", distribution);
+    setEditingData(distribution);
+    setShowFormEdit(true);
+  };
+
+  const handleCloseFormEdit = () => {
+    setShowFormEdit(false);
+    setEditingData(null);
+  };
+
+  const handleEditSuccess = () => {
+    loadData();
+    handleCloseFormEdit();
   };
 
   // Pagination logic
@@ -163,6 +176,8 @@ function DistributionHistoryPage() {
             onPageChange={setCurrentPage}
           />
         )}
+
+        {/* Form Tambah Distribusi */}
         {showFormDis && (
           <div className="form-overlay">
             <FormDataDistribution 
@@ -170,6 +185,19 @@ function DistributionHistoryPage() {
               onSuccess={handleFormSuccess}
               metodePengiriman={metodePengiriman}
               statusPengiriman={statusPengiriman}
+            />
+          </div>
+        )}
+
+        {/* Form Edit Distribusi dengan tombol Return */}
+        {showFormEdit && editingData && (
+          <div className="form-overlay">
+            <FormEditDistribution 
+              onCloseForm={handleCloseFormEdit} 
+              onSuccess={handleEditSuccess}
+              metodePengiriman={metodePengiriman}
+              statusPengiriman={statusPengiriman}
+              editData={editingData}
             />
           </div>
         )}
