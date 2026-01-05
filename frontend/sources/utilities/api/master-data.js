@@ -176,6 +176,22 @@ export const fetchAllMetodePengiriman = async () => {
   }
 };
 
+export const createNewMetodePengiriman = async (nama_metode) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/metode-pengiriman`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nama_metode }),
+    });
+
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error createNewMetodePengiriman:", error);
+    return null;
+  }
+};
+
 // ========== STATUS PENGIRIMAN ==========
 export const fetchAllStatusPengiriman = async () => {
   try {
@@ -194,3 +210,18 @@ export const fetchAllStatusPengiriman = async () => {
   }
 };
 
+export const createNewStatusPengiriman = async (nama_status) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/status-pengiriman`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nama_status }),
+    });
+
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error createNewStatusPengiriman:", error);
+    return null;
+  }
+};

@@ -49,10 +49,10 @@ const MasterDataModel = {
     return result.rows;
   },
 
-  createMetodePengiriman: async (nama_metode_pengiriman) => {
+  createMetodePengiriman: async (nama_metode) => {
     const result = await db.query(
-      "INSERT INTO metode_pengiriman (nama_metode_pengiriman) VALUES ($1) RETURNING *",
-      [nama_metode_pengiriman]
+      "INSERT INTO metode_pengiriman (nama_metode) VALUES ($1) RETURNING *",
+      [nama_metode]
     );
     return result.rows[0];
   },
@@ -63,10 +63,10 @@ const MasterDataModel = {
     return result.rows;
   },
 
-  createStatusPengiriman: async (nama_status_pengiriman) => {
+  createStatusPengiriman: async (nama_status) => {
     const result = await db.query(
-      "INSERT INTO status_pengiriman (nama_status_pengiriman) VALUES ($1) RETURNING *",
-      [nama_status_pengiriman]
+      "INSERT INTO status_pengiriman (nama_status) VALUES ($1) RETURNING *",
+      [nama_status]
     );
     return result.rows[0];
   },
