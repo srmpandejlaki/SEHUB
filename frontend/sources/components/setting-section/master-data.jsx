@@ -1,6 +1,6 @@
 import React, { useState  } from "react";
 
-function MasterData({ existingSize, existingKemasan, existingNamaProduk, createSize, createKemasan, createNamaProduk, reloadSize, reloadKemasan, reloadNamaProduk }) {
+function MasterData({ existingSize, existingKemasan, existingNamaProduk, createSize, createKemasan, createNamaProduk }) {
   const [newSizeName, setNewSizeName] = useState("");
   const [newKemasanName, setNewKemasanName] = useState("");
   const [newNamaProdukName, setNewNamaProdukName] = useState("");

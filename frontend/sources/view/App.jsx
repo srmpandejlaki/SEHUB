@@ -10,6 +10,7 @@ import InventoryHistoryPage from './pages/inventory-product/inventory-history';
 import DistributionPage from './pages/distribution-product/distribution-page';
 import DistributionHistoryPage from './pages/distribution-product/distribution-history';
 import ReturnPage from './pages/return-page';
+import LoginPage from './pages/login-page';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
 
