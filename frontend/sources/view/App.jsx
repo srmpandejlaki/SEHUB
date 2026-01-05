@@ -12,6 +12,7 @@ import DistributionHistoryPage from './pages/distribution-product/distribution-h
 import ReturnPage from './pages/return-page';
 import LoginPage from './pages/login-page';
 import LaporanSehub from './pages/laporan-sehub';
+import StockAdjustmentPage from './pages/stock-adjustment-page';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
 
@@ -89,6 +90,7 @@ function App() {
           <Route path="/product/distribution" element={<DistributionPage />} />
           <Route path="/product/distribution-history" element={<DistributionHistoryPage />} />
           <Route path="/product/return" element={<ReturnPage />} />
+          <Route path="/product/stock-adjustment" element={<StockAdjustmentPage />} />
           <Route path="/laporan" element={<LaporanSehub user={user} />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

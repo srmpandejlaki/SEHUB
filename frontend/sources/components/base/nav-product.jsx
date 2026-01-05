@@ -19,6 +19,9 @@ function NavProduct() {
       <NavLink to="/product/return" className={({ isActive }) => (isActive ? "active" : "")} >
         <IconDistribution className="icon" />Return Barang
       </NavLink>
+      <NavLink to="/product/stock-adjustment" className={({ isActive }) => (isActive ? "active" : "")} >
+        <IconInventoryProduct className="icon" />Penyesuaian Stok Gudang
+      </NavLink>
     </div>
   );
 }

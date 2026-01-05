@@ -11,6 +11,7 @@ import routerMasterData from './routes/MasterDataRoute.js';
 import routerDistribution from './routes/DistributionRoute.js';
 import routerDashboard from './routes/DashboardRoute.js';
 import routerReturn from './routes/ReturnRoute.js';
+import routerStockAdjustment from './routes/StockAdjustmentRoute.js';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use('/api/sehub/master', routerMasterData);
 app.use('/api/sehub/distribution', routerDistribution);
 app.use('/api/sehub/dashboard', routerDashboard);
 app.use('/api/sehub/return', routerReturn);
+app.use('/api/sehub/stock-adjustment', routerStockAdjustment);
 
 // start server
 app.listen(process.env.PORT || 5000, () => {
