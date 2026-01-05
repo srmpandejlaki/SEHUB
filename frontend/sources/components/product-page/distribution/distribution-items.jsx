@@ -13,7 +13,8 @@ function DistributionProduct({ existingData }) {
             namaProduk={item.namaProduk}
             ukuranProduk={item.ukuranProduk}
             ukuranSatuan={item.ukuranSatuan}
-            minimumStock={item.minimumStock}
+            totalDistribusi={item.totalDistribusi}
+            distribusiHariIni={item.distribusiHariIni}
             imageProduk={item.imageProduk} />
         ))
       )}

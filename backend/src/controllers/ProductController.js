@@ -78,6 +78,15 @@ const ProductController = {
       res.status(500).json({ success: false, error: error.message });
     }
   },
+
+  getProductsWithStock: async (req, res) => {
+    try {
+      const products = await ProductService.getProductsWithStock();
+      res.json({ success: true, data: products });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  },
 };
 
 export default ProductController;

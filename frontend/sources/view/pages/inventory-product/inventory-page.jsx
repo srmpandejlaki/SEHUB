@@ -6,7 +6,7 @@ import InventoryProduct from "../../../components/product-page/inventory/invento
 import CheckStock from "../../../components/product-page/check-stock";
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconChecking from "../../../assets/icon/ci_checking.svg?react";
-import { fetchAllProducts } from "../../../utilities/api/products";
+import { fetchProductsWithStock } from "../../../utilities/api/products";
 
 function InventoryPage() {
   const [showFormCekStock, setFormCekStock] = useState(false);
@@ -18,8 +18,8 @@ function InventoryPage() {
 
   const loadDataProducts = async () => {
     try {
-      const response = await fetchAllProducts();
-      console.log(response);
+      const response = await fetchProductsWithStock();
+      console.log("Products with stock:", response);
 
       if (!response || !Array.isArray(response)) {
         console.error("Data produk tidak valid:", response);
@@ -32,12 +32,12 @@ function InventoryPage() {
         ukuranProduk: item.ukuran_produk,
         ukuranSatuan: item.nama_ukuran_satuan,
         kemasanProduk: item.nama_kemasan,
-        minimumStock: item.stok_minimum,
+        minimumStock: parseInt(item.stok_minimum) || 0,
+        stokSekarang: parseInt(item.stok_sekarang) || 0,
         imageProduk: item.path_gambar,
       }));
 
       setExistingData(mapped);
-      console.log(mapped);
     } catch (error) {
       console.error("Gagal memuat data produk:", error);
     }

@@ -46,6 +46,10 @@ const ProductService = {
   deleteProduct: async (id_produk) => {
     return await ProductModel.delete(id_produk);
   },
+
+  getProductsWithStock: async () => {
+    return await ProductModel.getAllWithStock();
+  },
 };
 
 export default ProductService;

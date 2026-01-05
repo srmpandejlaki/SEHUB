@@ -32,6 +32,38 @@ export const fetchAllProducts = async () => {
   }
 };
 
+// GET all products with stock calculation
+export const fetchProductsWithStock = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}products/with-stock`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Gagal fetch produk dengan stok:", response.status, response.statusText);
+      return [];
+    }
+
+    const data = await response.json();
+
+    if (data?.data && Array.isArray(data.data)) {
+      return data.data;
+    }
+
+    if (Array.isArray(data)) {
+      return data;
+    }
+
+    return [];
+  } catch (error) {
+    console.error("Error fetchProductsWithStock:", error);
+    return [];
+  }
+};
+
 export const createProduct = async (productData) => {
   try {
     const formData = new FormData();

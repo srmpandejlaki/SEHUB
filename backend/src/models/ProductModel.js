@@ -73,6 +73,53 @@ const ProductModel = {
     if (result.rows.length === 0) return null;
     return result.rows[0];
   },
+
+  // Get all products with calculated stock and distribution
+  getAllWithStock: async () => {
+    const result = await db.query(`
+      SELECT 
+        p.id_produk,
+        p.ukuran_produk,
+        p.stok_minimum,
+        p.path_gambar,
+        n.nama_produk,
+        us.nama_ukuran_satuan,
+        k.nama_kemasan,
+        COALESCE(inv.total_masuk, 0) as total_masuk,
+        COALESCE(dist.total_keluar, 0) as total_keluar,
+        COALESCE(dist_today.distribusi_hari_ini, 0) as distribusi_hari_ini,
+        (COALESCE(inv.total_masuk, 0) - COALESCE(dist.total_keluar, 0)) as stok_sekarang
+      FROM produk p
+      LEFT JOIN nama_produk n ON p.id_nama_produk = n.id_nama_produk
+      LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
+      LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
+      LEFT JOIN (
+        SELECT 
+          id_produk, 
+          SUM(jumlah_barang_masuk) as total_masuk
+        FROM detail_barang_masuk
+        GROUP BY id_produk
+      ) inv ON p.id_produk = inv.id_produk
+      LEFT JOIN (
+        SELECT 
+          id_produk, 
+          SUM(jumlah_barang_distribusi) as total_keluar
+        FROM detail_distribusi
+        GROUP BY id_produk
+      ) dist ON p.id_produk = dist.id_produk
+      LEFT JOIN (
+        SELECT 
+          dd.id_produk, 
+          SUM(dd.jumlah_barang_distribusi) as distribusi_hari_ini
+        FROM detail_distribusi dd
+        JOIN distribusi d ON dd.id_distribusi = d.id_distribusi
+        WHERE DATE(d.tanggal_distribusi) = CURRENT_DATE
+        GROUP BY dd.id_produk
+      ) dist_today ON p.id_produk = dist_today.id_produk
+      ORDER BY p.id_produk DESC
+    `);
+    return result.rows;
+  },
 };
 
 export default ProductModel;

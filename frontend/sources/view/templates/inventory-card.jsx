@@ -1,6 +1,9 @@
 import React from "react";
 
-function InventoryCard({ namaProduk, ukuranProduk, ukuranSatuan, minimumStock, imageProduk }) {
+function InventoryCard({ namaProduk, ukuranProduk, ukuranSatuan, minimumStock, stokSekarang, imageProduk }) {
+  // Determine if stock is low
+  const isLowStock = stokSekarang < minimumStock;
+  
   return(
     <div className="items">
       <img src={imageProduk} alt={namaProduk} />
@@ -9,11 +12,11 @@ function InventoryCard({ namaProduk, ukuranProduk, ukuranSatuan, minimumStock, i
         <div className="counting">
           <div className="minimum-stock">
             <p className="title">Minimum</p>
-            <p className="number">{minimumStock}</p>
+            <p className="number">{minimumStock || 0}</p>
           </div>
           <div className="stock-now">
             <p className="title">Sekarang</p>
-            <p className="number">50</p>
+            <p className={`number ${isLowStock ? 'low-stock' : ''}`}>{stokSekarang || 0}</p>
           </div>
         </div>
       </div>

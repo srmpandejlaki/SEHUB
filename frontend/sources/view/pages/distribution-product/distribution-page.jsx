@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import DistributionProduct from "../../../components/product-page/distribution/distribution-items";
-import { fetchAllProducts } from "../../../utilities/api/products";
+import { fetchProductsWithStock } from "../../../utilities/api/products";
 
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 
@@ -16,8 +16,8 @@ function DistributionPage() {
 
   const loadDataProducts = async () => {
     try {
-      const response = await fetchAllProducts();
-      console.log(response);
+      const response = await fetchProductsWithStock();
+      console.log("Products with distribution:", response);
 
       if (!response || !Array.isArray(response)) {
         console.error("Data produk tidak valid:", response);
@@ -30,16 +30,17 @@ function DistributionPage() {
         ukuranProduk: item.ukuran_produk,
         ukuranSatuan: item.nama_ukuran_satuan,
         kemasanProduk: item.nama_kemasan,
-        minimumStock: item.stok_minimum,
+        totalDistribusi: parseInt(item.total_keluar) || 0,
+        distribusiHariIni: parseInt(item.distribusi_hari_ini) || 0,
         imageProduk: item.path_gambar,
       }));
 
       setExistingData(mapped);
-      console.log(mapped);
     } catch (error) {
       console.error("Gagal memuat data produk:", error);
     }
   };
+
   return(
     <div className="content product-page">
       <NavProduct />

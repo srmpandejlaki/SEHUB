@@ -14,7 +14,8 @@ function InventoryProduct({ existingData }) {
             ukuranProduk={item.ukuranProduk}
             ukuranSatuan={item.ukuranSatuan}
             minimumStock={item.minimumStock}
-            imageProduk={item.imageProduk}  />
+            stokSekarang={item.stokSekarang}
+            imageProduk={item.imageProduk} />
         ))
       )}
     </div>

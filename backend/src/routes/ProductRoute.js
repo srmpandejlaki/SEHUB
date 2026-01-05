@@ -5,6 +5,7 @@ import ProductController from "../controllers/ProductController.js";
 const routerProducts = express.Router();
 
 routerProducts.get("/", ProductController.getProducts);
+routerProducts.get("/with-stock", ProductController.getProductsWithStock);
 routerProducts.post("/", upload.single("path_gambar"), ProductController.createProduct);
 routerProducts.put("/:id_produk", upload.single("path_gambar"), ProductController.updateProduct);
 routerProducts.delete("/:id_produk", ProductController.deleteProduct);
