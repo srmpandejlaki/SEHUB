@@ -9,6 +9,7 @@ import routerProducts from './routes/ProductRoute.js';
 import routerInventory from './routes/InventoryRoute.js';
 import routerMasterData from './routes/MasterDataRoute.js';
 import routerDistribution from './routes/DistributionRoute.js';
+import routerDashboard from './routes/DashboardRoute.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use('/api/sehub/users', routerUsers);
 app.use('/api/sehub/inventory', routerInventory);
 app.use('/api/sehub/master', routerMasterData);
 app.use('/api/sehub/distribution', routerDistribution);
+app.use('/api/sehub/dashboard', routerDashboard);
 
 // start server
 app.listen(process.env.PORT || 5000, () => {

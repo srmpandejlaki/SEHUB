@@ -2,7 +2,41 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import IconInfoTable from "../../assets/icon/mdi_information-outline.svg?react";
 
-function DashboardTable() {
+function DashboardTable({ recentDistributions = [] }) {
+  const formatDate = (dateString) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+  };
+
+  // Flatten distributions for table display
+  const tableRows = [];
+  recentDistributions.forEach((dist, distIndex) => {
+    if (dist.items && dist.items.length > 0) {
+      dist.items.forEach((item, itemIndex) => {
+        tableRows.push({
+          ...dist,
+          item,
+          isFirstRow: itemIndex === 0,
+          rowSpan: dist.items.length,
+          rowNumber: distIndex + 1
+        });
+      });
+    } else {
+      tableRows.push({
+        ...dist,
+        item: null,
+        isFirstRow: true,
+        rowSpan: 1,
+        rowNumber: distIndex + 1
+      });
+    }
+  });
+
   return (
     <div className="table">
       <div className="descTable">
@@ -24,101 +58,48 @@ function DashboardTable() {
                   <th>Produk</th>
                   <th className="center">Jumlah</th>
                   <th className="center">Total</th>
-                  <th>Nama Pengirim</th>
+                  <th>Metode</th>
                   <th>Status</th>
               </tr>
           </thead>
           <tbody>
+            {tableRows.length === 0 ? (
               <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>Budiono</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>Cristiano</td>
-                  <td>Pengemasan</td>
+                <td colSpan="8" className="center">Belum ada data distribusi</td>
               </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>Budiono</td>
+            ) : (
+              tableRows.map((row, index) => (
+                <tr key={`${row.id_distribusi}-${index}`}>
+                  {row.isFirstRow && (
+                    <>
+                      <td className="center" rowSpan={row.rowSpan}>{row.rowNumber}</td>
+                      <td rowSpan={row.rowSpan}>{formatDate(row.tanggal_distribusi)}</td>
+                      <td rowSpan={row.rowSpan}>{row.nama_pemesan}</td>
+                    </>
+                  )}
                   <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
+                    {row.item ? (
+                      <div className="produk-code">
+                        <p className="code">{row.item.id_produk}</p>
+                        <p className="name">
+                          {row.item.nama_produk} {row.item.ukuran_produk}{row.item.nama_ukuran_satuan}
+                        </p>
+                      </div>
+                    ) : (
+                      "-"
+                    )}
                   </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>Cristiano</td>
-                  <td>Sudah Diterima</td>
-              </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>Budiono</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>Cristiano</td>
-                  <td>Dalam Perjalanan</td>
-              </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>Budiono</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>Cristiano</td>
-                  <td>Dalam Perjalanan</td>
-              </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>Budiono</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>Cristiano</td>
-                  <td>Dalam Perjalanan</td>
-              </tr>
-              <tr>
-                  <td className="center">1</td>
-                  <td>23 Oktober 2025</td>
-                  <td>Budiono</td>
-                  <td>
-                    <div className="produk-code">
-                      <p className="code">LS-001</p>
-                      <p className="name">Seho Granule 150g</p>
-                    </div>
-                  </td>
-                  <td className="center">15</td>
-                  <td className="center">15</td>
-                  <td>Cristiano</td>
-                  <td>Sudah Diterima</td>
-              </tr>
+                  <td className="center">{row.item?.jumlah || "-"}</td>
+                  {row.isFirstRow && (
+                    <>
+                      <td className="center" rowSpan={row.rowSpan}>{row.total_jumlah || 0}</td>
+                      <td rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
+                      <td rowSpan={row.rowSpan}>{row.nama_status || "-"}</td>
+                    </>
+                  )}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
