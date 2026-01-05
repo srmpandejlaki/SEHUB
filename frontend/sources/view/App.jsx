@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Header from '../components/base/headerBar';
 import AsideBar from '../components/base/asideBar';
 import DashboardPage from '../view/pages/dashboard';
@@ -11,50 +11,90 @@ import DistributionPage from './pages/distribution-product/distribution-page';
 import DistributionHistoryPage from './pages/distribution-product/distribution-history';
 import ReturnPage from './pages/return-page';
 import LoginPage from './pages/login-page';
+import LaporanSehub from './pages/laporan-sehub';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+function App() {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
 
-    this.state = {
-      localeContext: {
-        locale: 'id',
-        toggleLocale: () => {
-          this.setState((prevState) => {
-            return {
-              localeContext: {
-                ...prevState.localeContext,
-                locale: prevState.localeContext.locale === 'id' ? 'en' : 'id'
-              }
-            }
-          })
-        }
+  // Check for saved user on mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (e) {
+        localStorage.removeItem("user");
       }
-    };
+    }
+    setIsLoading(false);
+  }, []);
+
+  const handleLoginSuccess = (userData) => {
+    setUser(userData);
   };
 
-  render() {
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
+  // Loading state
+  if (isLoading) {
+    return <div className="loading">Memuat...</div>;
+  }
+
+  // Not logged in - show login page
+  if (!user) {
     return (
-      <LocaleProvider value={this.state.localeContext}>
+      <LocaleProvider value={{ locale: 'id', toggleLocale: () => {} }}>
+        <LoginPage onLoginSuccess={handleLoginSuccess} />
+      </LocaleProvider>
+    );
+  }
+
+  // Logged in as non-admin - show laporan page only
+  if (!user.is_admin) {
+    return (
+      <LocaleProvider value={{ locale: 'id', toggleLocale: () => {} }}>
         <main className="main-side">
-          <Header />
-          <AsideBar />
+          <Header user={user} onLogout={handleLogout} />
+          <AsideBar user={user} onLogout={handleLogout} />
           <Routes>
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/product" element={<ProductPage />} />
-            <Route path="/setting" element={<SettingPage />} />
-            <Route path="/product/inventory" element={<InventoryPage />} />
-            <Route path="/product/inventory-history" element={<InventoryHistoryPage />} />
-            <Route path="/product/distribution" element={<DistributionPage />} />
-            <Route path="/product/distribution-history" element={<DistributionHistoryPage />} />
-            <Route path="/product/return" element={<ReturnPage />} />
+            <Route path="/" element={<Navigate to="/laporan" replace />} />
+            <Route path="/laporan" element={<LaporanSehub user={user} />} />
+            <Route path="*" element={<Navigate to="/laporan" replace />} />
           </Routes>
         </main>
       </LocaleProvider>
     );
   }
+
+  // Logged in as admin - show full app
+  return (
+    <LocaleProvider value={{ locale: 'id', toggleLocale: () => {} }}>
+      <main className="main-side">
+        <Header user={user} onLogout={handleLogout} />
+        <AsideBar user={user} onLogout={handleLogout} />
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/product" element={<ProductPage />} />
+          <Route path="/setting" element={<SettingPage />} />
+          <Route path="/product/inventory" element={<InventoryPage />} />
+          <Route path="/product/inventory-history" element={<InventoryHistoryPage />} />
+          <Route path="/product/distribution" element={<DistributionPage />} />
+          <Route path="/product/distribution-history" element={<DistributionHistoryPage />} />
+          <Route path="/product/return" element={<ReturnPage />} />
+          <Route path="/laporan" element={<LaporanSehub user={user} />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </main>
+    </LocaleProvider>
+  );
 }
 
-export default App
+export default App;

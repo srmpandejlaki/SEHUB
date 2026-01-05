@@ -6,6 +6,14 @@ const UserModel = {
     return result.rows;
   },
 
+  login: async (email, kata_sandi) => {
+    const result = await db.query(
+      "SELECT * FROM pengguna WHERE email = $1 AND kata_sandi = $2",
+      [email, kata_sandi]
+    );
+    return result.rows[0] || null;
+  },
+
   getById: async (id_pengguna) => {
     const result = await db.query("SELECT * FROM pengguna WHERE id_pengguna = $1", [id_pengguna]);
     return result.rows[0];

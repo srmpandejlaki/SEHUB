@@ -6,7 +6,15 @@ import IconHome from "../../assets/icon/Vector-4.svg?react";
 import IconProduct from "../../assets/icon/Vector-7.svg?react";
 import IconSetting from "../../assets/icon/Vector-6.svg?react";
 
-function AsideBar() {
+function AsideBar({ user, onLogout }) {
+  const handleLogout = () => {
+    if (window.confirm("Apakah Anda yakin ingin keluar?")) {
+      if (onLogout) {
+        onLogout();
+      }
+    }
+  };
+
   return (
     <div className="aside">
       <div className="navigation">
@@ -19,26 +27,48 @@ function AsideBar() {
               <p>MENU</p>
           </div>
           <div className="links">
-            <div>
-              <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
-                <IconHome className="icon greenIcon" /> Beranda
-              </NavLink>
-            </div>
-            <div>
-              <NavLink to="/product" className={({ isActive }) => (isActive ? "active" : "")}>
-                <IconProduct className="icon greenIcon" /> Produk
-              </NavLink>
-            </div>
-            <div>
-              <NavLink to="/setting" className={({ isActive }) => (isActive ? "active" : "")}>
-                <IconSetting className="icon greenIcon" /> Pengaturan
-              </NavLink>
+            {/* Menu untuk Admin */}
+            {user?.is_admin && (
+              <>
+                <div>
+                  <NavLink to="/dashboard" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <IconHome className="icon greenIcon" /> Beranda
+                  </NavLink>
+                </div>
+                <div>
+                  <NavLink to="/product" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <IconProduct className="icon greenIcon" /> Produk
+                  </NavLink>
+                </div>
+                <div>
+                  <NavLink to="/setting" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <IconSetting className="icon greenIcon" /> Pengaturan
+                  </NavLink>
+                </div>
+              </>
+            )}
+            {/* Menu untuk Non-Admin */}
+            {!user?.is_admin && (
+              <div>
+                <NavLink to="/laporan" className={({ isActive }) => (isActive ? "active" : "")}>
+                  <IconHome className="icon greenIcon" /> Laporan
+                </NavLink>
+              </div>
+            )}
+            {/* Tombol Logout */}
+            <div className="logout-section">
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div className="companies-name">
-          <p>Powered by : PT. Rumah Seho Nusantara</p>
+        {user && (
+          <p className="user-info">Login sebagai: {user.nama_pengguna}</p>
+        )}
+        <p>Powered by : PT. Rumah Seho Nusantara</p>
       </div>
     </div>
   );

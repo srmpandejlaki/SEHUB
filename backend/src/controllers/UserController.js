@@ -19,8 +19,8 @@ const UserController = {
   },
   createUser: async (req, res) => {
     try {
-      const { nama_pengguna, email, jabatan, isAdmin, kata_sandi } = req.body;
-      const newUser = await UserServices.createUser(nama_pengguna, email, jabatan, isAdmin, kata_sandi);
+      const { nama_pengguna, email, jabatan, is_admin, kata_sandi } = req.body;
+      const newUser = await UserServices.createUser(nama_pengguna, email, jabatan, is_admin, kata_sandi);
       res.json({ success: true, message: "User created", data: newUser });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
@@ -29,8 +29,8 @@ const UserController = {
   updateUser: async (req, res) => {
     try {
       const { id_pengguna } = req.params;
-      const { nama_pengguna, email, jabatan, isAdmin, kata_sandi } = req.body;
-      const updatedUser = await UserServices.updateUser(nama_pengguna, email, jabatan, isAdmin, kata_sandi, id_pengguna);
+      const { nama_pengguna, email, jabatan, is_admin, kata_sandi } = req.body;
+      const updatedUser = await UserServices.updateUser(nama_pengguna, email, jabatan, is_admin, kata_sandi, id_pengguna);
       res.json({ success: true, message: "User updated", data: updatedUser });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });

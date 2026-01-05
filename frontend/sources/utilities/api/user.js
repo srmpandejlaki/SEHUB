@@ -25,6 +25,27 @@ export const fetchAllUser = async () => {
   }
 };
 
+export const loginUser = async (email, kata_sandi) => {
+  try {
+    const response = await fetch(`${BASE_URL}users/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, kata_sandi }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return { success: false, message: data.message || "Login gagal" };
+    }
+
+    return { success: true, data: data.data };
+  } catch (error) {
+    console.error("Error loginUser:", error);
+    return { success: false, message: "Terjadi kesalahan saat login" };
+  }
+};
+
 export const createUser = async (user) => {
   try {
     const response = await fetch(`${BASE_URL}users/`, {
