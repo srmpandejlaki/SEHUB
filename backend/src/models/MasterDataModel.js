@@ -49,10 +49,26 @@ const MasterDataModel = {
     return result.rows;
   },
 
+  createMetodePengiriman: async (nama_metode_pengiriman) => {
+    const result = await db.query(
+      "INSERT INTO metode_pengiriman (nama_metode_pengiriman) VALUES ($1) RETURNING *",
+      [nama_metode_pengiriman]
+    );
+    return result.rows[0];
+  },
+
   // Status Pengiriman
   getAllStatusPengiriman: async () => {
     const result = await db.query("SELECT * FROM status_pengiriman ORDER BY id_status");
     return result.rows;
+  },
+
+  createStatusPengiriman: async (nama_status_pengiriman) => {
+    const result = await db.query(
+      "INSERT INTO status_pengiriman (nama_status_pengiriman) VALUES ($1) RETURNING *",
+      [nama_status_pengiriman]
+    );
+    return result.rows[0];
   },
 };
 

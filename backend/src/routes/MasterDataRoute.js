@@ -73,10 +73,30 @@ routerMasterData.get("/metode-pengiriman", async (req, res) => {
   }
 });
 
+routerMasterData.post("/metode-pengiriman", async (req, res) => {
+  try {
+    const { nama_metode_pengiriman } = req.body;
+    const data = await MasterDataModel.createMetodePengiriman(nama_metode_pengiriman);
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Status Pengiriman
 routerMasterData.get("/status-pengiriman", async (req, res) => {
   try {
     const data = await MasterDataModel.getAllStatusPengiriman();
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+routerMasterData.post("/status-pengiriman", async (req, res) => {
+  try {
+    const { nama_status_pengiriman } = req.body;
+    const data = await MasterDataModel.createStatusPengiriman(nama_status_pengiriman);
     res.json({ success: true, data });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
