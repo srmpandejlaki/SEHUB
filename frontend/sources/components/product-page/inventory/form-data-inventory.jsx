@@ -45,8 +45,7 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
         {
           id_produk: selectedProduct,
           jumlah: parseInt(jumlah),
-          tanggal_expired: tanggalExpired,
-          keterangan: catatan || null
+          tanggal_expired: tanggalExpired
         }
       ]
     };

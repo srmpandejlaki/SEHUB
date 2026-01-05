@@ -220,9 +220,6 @@ function SettingPage() {
           createSize={createSize} 
           createKemasan={createKemasan}
           createNamaProduk={createNamaProduk}
-          reloadSize={loadDataSize}
-          reloadKemasan={loadDataKemasan}
-          reloadNamaProduk={loadDataNamaProduk}
         />
       </div>
     </div>

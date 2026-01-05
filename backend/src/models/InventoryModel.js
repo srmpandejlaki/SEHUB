@@ -9,18 +9,19 @@ const InventoryModel = {
         bm.catatan_barang_masuk,
         dbm.id_detail_barang_masuk,
         dbm.id_produk,
-        p.nama_produk,
+        np.nama_produk,
         p.ukuran_produk,
         us.nama_ukuran_satuan,
         k.nama_kemasan,
         dbm.jumlah_barang_masuk,
-        dbm.tanggal_expired,
-        dbm.keterangan_barang_masuk
+        dbm.tanggal_expired
       FROM barang_masuk bm
       LEFT JOIN detail_barang_masuk dbm 
         ON bm.id_barang_masuk = dbm.id_barang_masuk
       LEFT JOIN produk p
         ON dbm.id_produk = p.id_produk
+      LEFT JOIN nama_produk np
+        ON p.id_nama_produk = np.id_nama_produk
       LEFT JOIN ukuran_satuan us
         ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k
@@ -50,8 +51,7 @@ const InventoryModel = {
           nama_ukuran_satuan: row.nama_ukuran_satuan,
           nama_kemasan: row.nama_kemasan,
           jumlah: row.jumlah_barang_masuk,
-          tanggal_expired: row.tanggal_expired,
-          keterangan: row.keterangan_barang_masuk
+          tanggal_expired: row.tanggal_expired
         });
       }
     });
@@ -77,8 +77,8 @@ const InventoryModel = {
       // 2. Insert ke detail_barang_masuk
       const insertItemsQuery = `
         INSERT INTO detail_barang_masuk
-        (id_barang_masuk, id_produk, jumlah_barang_masuk, tanggal_expired, keterangan_barang_masuk)
-        VALUES ($1, $2, $3, $4, $5)
+        (id_barang_masuk, id_produk, jumlah_barang_masuk, tanggal_expired)
+        VALUES ($1, $2, $3, $4)
         RETURNING *;
       `;
 
@@ -89,16 +89,9 @@ const InventoryModel = {
           id_barang_masuk,
           item.id_produk,
           item.jumlah,
-          item.tanggal_expired,
-          item.keterangan || null
+          item.tanggal_expired
         ]);
         insertedItems.push(result.rows[0]);
-
-        // Update total_produk
-        await client.query(
-          `UPDATE produk SET total_produk = total_produk + $1 WHERE id_produk = $2`,
-          [item.jumlah, item.id_produk]
-        );
       }
 
       await client.query("COMMIT");
@@ -123,19 +116,7 @@ const InventoryModel = {
     try {
       await client.query("BEGIN");
 
-      // 1. Get old items to restore stock
-      const oldItems = await client.query(
-        `SELECT id_produk, jumlah_barang_masuk FROM detail_barang_masuk WHERE id_barang_masuk = $1`,
-        [id_barang_masuk]
-      );
 
-      // Restore old stock
-      for (const oldItem of oldItems.rows) {
-        await client.query(
-          `UPDATE produk SET total_produk = total_produk - $1 WHERE id_produk = $2`,
-          [oldItem.jumlah_barang_masuk, oldItem.id_produk]
-        );
-      }
 
       // 2. Update barang_masuk
       const updateStock = await client.query(
@@ -161,8 +142,8 @@ const InventoryModel = {
 
       const insertItemQuery = `
         INSERT INTO detail_barang_masuk
-        (id_barang_masuk, id_produk, jumlah_barang_masuk, tanggal_expired, keterangan_barang_masuk)
-        VALUES ($1, $2, $3, $4, $5)
+        (id_barang_masuk, id_produk, jumlah_barang_masuk, tanggal_expired)
+        VALUES ($1, $2, $3, $4)
         RETURNING *;
       `;
 
@@ -171,16 +152,9 @@ const InventoryModel = {
           id_barang_masuk,
           item.id_produk,
           item.jumlah,
-          item.tanggal_expired,
-          item.keterangan || null
+          item.tanggal_expired
         ]);
         insertedItems.push(result.rows[0]);
-
-        // Update new stock
-        await client.query(
-          `UPDATE produk SET total_produk = total_produk + $1 WHERE id_produk = $2`,
-          [item.jumlah, item.id_produk]
-        );
       }
 
       await client.query("COMMIT");
