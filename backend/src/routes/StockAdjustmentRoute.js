@@ -3,6 +3,16 @@ import StockAdjustmentModel from "../models/StockAdjustmentModel.js";
 
 const routerStockAdjustment = express.Router();
 
+// GET all stock adjustments (history)
+routerStockAdjustment.get("/", async (req, res) => {
+  try {
+    const data = await StockAdjustmentModel.getAll();
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // GET inventory data for adjustment
 routerStockAdjustment.get("/inventory", async (req, res) => {
   try {
@@ -13,25 +23,43 @@ routerStockAdjustment.get("/inventory", async (req, res) => {
   }
 });
 
-// POST adjust stock
-routerStockAdjustment.post("/adjust", async (req, res) => {
+// POST create new adjustment
+routerStockAdjustment.post("/", async (req, res) => {
   try {
-    const { adjustments } = req.body;
+    const { catatan_penyesuaian, items } = req.body;
 
-    if (!adjustments || adjustments.length === 0) {
+    if (!items || items.length === 0) {
       return res.status(400).json({
         success: false,
         message: "Data penyesuaian tidak boleh kosong"
       });
     }
 
-    const results = await StockAdjustmentModel.adjustStock(adjustments);
+    const result = await StockAdjustmentModel.create(catatan_penyesuaian, items);
     
     res.json({ 
       success: true, 
       message: "Penyesuaian stok berhasil", 
-      data: results 
+      data: result 
     });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// DELETE adjustment
+routerStockAdjustment.delete("/:id", async (req, res) => {
+  try {
+    const result = await StockAdjustmentModel.delete(req.params.id);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Data penyesuaian tidak ditemukan"
+      });
+    }
+
+    res.json({ success: true, message: "Penyesuaian berhasil dihapus", data: result });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
