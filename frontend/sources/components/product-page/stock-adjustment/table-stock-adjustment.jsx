@@ -8,7 +8,8 @@ function TableStockAdjustment({
   onDelete,
   currentPage = 1,
   totalPages = 1,
-  onPageChange
+  onPageChange,
+  showActions = true
 }) {
   const formatDate = (dateString) => {
     if (!dateString) return "-";
@@ -57,8 +58,10 @@ function TableStockAdjustment({
               <th className="center">Stok Gudang</th>
               <th className="center">Selisih</th>
               <th>Kondisi</th>
-              <th>Catatan</th>
-              <th></th>
+              <th className="center">Catatan</th>
+              {showActions && (
+                <th className="center"></th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -103,14 +106,16 @@ function TableStockAdjustment({
                     </td>
                     {row.isFirstRow && (
                       <>
-                        <td rowSpan={row.rowSpan}>{row.catatan_penyesuaian || "-"}</td>
-                        <td rowSpan={row.rowSpan}>
-                          <IconDelete 
-                            className="icon redIcon" 
-                            style={{ cursor: 'pointer', width: '20px' }}
-                            onClick={() => onDelete && onDelete(row.id_penyesuaian_stok)}
-                          />
-                        </td>
+                        <td className="center" rowSpan={row.rowSpan}>{row.catatan_penyesuaian || "-"}</td>
+                        {showActions && (
+                          <td className="center" rowSpan={row.rowSpan}>
+                            <IconDelete 
+                              className="icon redIcon" 
+                              style={{ cursor: 'pointer', width: '20px' }}
+                              onClick={() => onDelete && onDelete(row.id_penyesuaian_stok)}
+                            />
+                          </td>
+                        )}
                       </>
                     )}
                   </tr>

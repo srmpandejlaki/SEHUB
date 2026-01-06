@@ -8,7 +8,8 @@ function TableReturn({
   onDelete,
   currentPage = 1,
   totalPages = 1,
-  onPageChange
+  onPageChange,
+  showActions = true
 }) {
   const formatDate = (dateString) => {
     if (!dateString) return "-";
@@ -63,7 +64,9 @@ function TableReturn({
               <th className="center">Total</th>
               <th>Nama Pemesan (Distribusi)</th>
               <th>Keterangan</th>
+              {showActions && (
               <th></th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -106,13 +109,15 @@ function TableReturn({
                         </span>
                       </td>
                       <td rowSpan={row.rowSpan}>{row.catatan_return || "-"}</td>
-                      <td rowSpan={row.rowSpan}>
-                        <IconDelete 
-                          className="icon redIcon" 
-                          style={{ cursor: 'pointer', width: '20px' }}
-                          onClick={() => onDelete && onDelete(row.id_return)}
-                        />
-                      </td>
+                      {showActions && (
+                        <td rowSpan={row.rowSpan}>
+                          <IconDelete 
+                            className="icon redIcon" 
+                            style={{ cursor: 'pointer', width: '20px' }}
+                            onClick={() => onDelete && onDelete(row.id_return)}
+                          />
+                        </td>
+                      )}
                     </>
                   )}
                 </tr>

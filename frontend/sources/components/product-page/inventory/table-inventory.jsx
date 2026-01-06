@@ -8,7 +8,8 @@ function TableInventory({
   onEdit,
   currentPage = 1,
   totalPages = 1,
-  onPageChange
+  onPageChange,
+  showActions = true
 }) {
   return(
     <div className="table-distribution">
@@ -22,13 +23,13 @@ function TableInventory({
                   <th className="center">Jumlah</th>
                   <th className="center">Tanggal Kadaluwarsa</th>
                   <th>Keterangan</th>
-                  <th></th>
+                  {showActions && <th></th>}
               </tr>
           </thead>
           <tbody>
             {existingData.length === 0 ? (
               <tr>
-                <td colSpan="7" className="no-data">Belum ada data.</td>
+                <td colSpan={showActions ? "7" : "6"} className="no-data">Belum ada data.</td>
               </tr>
             ) : (
               existingData.map((item, index) => (
@@ -40,6 +41,7 @@ function TableInventory({
                   id_barang_masuk={item.id_barang_masuk}
                   catatan={item.catatan_barang_masuk}
                   onEdit={onEdit}
+                  showActions={showActions}
                 />
               ))
             )}

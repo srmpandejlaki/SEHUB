@@ -9,7 +9,7 @@ import IconTambah from "../../../assets/icon/mdi_add-bold.svg?react";
 import { checkInventoryExists } from "../../../utilities/api/inventory";
 import { BASE_URL } from "../../../utilities";
 
-function DistributionPage({ disableAddButton = false }) {
+function DistributionPage({ isAdmin = true }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFormDis, setFormDis] = useState(false);
   
@@ -52,6 +52,7 @@ function DistributionPage({ disableAddButton = false }) {
   };
 
   const handleOpenFormDis = () => {
+    if (!isAdmin) return;
     if (!hasInventoryData) {
       alert("Tidak dapat membuat data distribusi. Silakan tambahkan data barang masuk terlebih dahulu di menu Inventori.");
       return;
@@ -75,14 +76,16 @@ function DistributionPage({ disableAddButton = false }) {
           <div className="header-distribution">
             <p>Pratinjau Data Distribusi Produk</p>
             <div className="distribution-display">
-              <div 
-                className={`base-btn ${disableAddButton ? 'disabled' : 'black'}`}
-                onClick={handleOpenFormDis}
-                style={disableAddButton ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
-                title={disableAddButton ? "Tambahkan data barang masuk terlebih dahulu" : "Tambah Data"}
-              >
-                <IconTambah className="icon whiteIcon" />Tambah Data
-              </div>
+              {isAdmin && (
+                <div 
+                  className={`base-btn ${!hasInventoryData ? 'disabled' : 'black'}`}
+                  onClick={handleOpenFormDis}
+                  style={!hasInventoryData ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+                  title={!hasInventoryData ? "Tambahkan data barang masuk terlebih dahulu" : "Tambah Data"}
+                >
+                  <IconTambah className="icon whiteIcon" />Tambah Data
+                </div>
+              )}
               <div className="base-btn black">
                 <Link to="/product/distribution-history" >
                   <IconHistory className="icon" />Riwayat Data
@@ -91,7 +94,7 @@ function DistributionPage({ disableAddButton = false }) {
             </div>
           </div>
           <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari distribusi..." />
-          <DistributionProduct searchQuery={searchQuery} reloadTrigger={reloadTrigger} />
+          <DistributionProduct searchQuery={searchQuery} reloadTrigger={reloadTrigger} showActions={isAdmin} />
         </div>
       </div>
 

@@ -7,7 +7,7 @@ import FormProduct from "../../components/product-page/form-product";
 import IconAddProduct from "../../assets/icon/Vector-3.svg?react";
 import { fetchAllProducts } from "../../utilities/api/products";
 
-function ProductPage() {
+function ProductPage({ isAdmin = true }) {
   const [showFormProduct, setFormProduct] = useState(false);
   const [existingData, setExistingData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,7 +47,10 @@ function ProductPage() {
     loadDataProducts();
   };
 
-  const handleOpenFormProduct = () => setFormProduct(true);
+  const handleOpenFormProduct = () => {
+    if (!isAdmin) return;
+    setFormProduct(true);
+  };
 
   const handleCloseFormProduct = () => {
     setFormProduct(false);
@@ -71,12 +74,14 @@ function ProductPage() {
         <div className="product-display">
           <div className="header-product-page">
             <p className="title">Daftar Produk L' Arbre Seho</p>
-            <div className="button">
-              <div className="base-btn black" onClick={handleOpenFormProduct}>
-                <IconAddProduct className="icon" />
-                <p>tambah produk</p>
+            {isAdmin && (
+              <div className="button">
+                <div className="base-btn black" onClick={handleOpenFormProduct}>
+                  <IconAddProduct className="icon" />
+                  <p>tambah produk</p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />

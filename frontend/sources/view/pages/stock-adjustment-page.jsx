@@ -4,7 +4,7 @@ import TableStockAdjustment from "../../components/product-page/stock-adjustment
 import FormStockAdjustment from "../../components/product-page/stock-adjustment/form-stock-adjustment";
 import { fetchAllAdjustments, deleteAdjustment } from "../../utilities/api/stock-adjustment";
 
-function StockAdjustmentPage() {
+function StockAdjustmentPage({ isAdmin = true }) {
   const [adjustments, setAdjustments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -29,6 +29,7 @@ function StockAdjustmentPage() {
   };
 
   const handleOpenForm = () => {
+    if (!isAdmin) return;
     setShowForm(true);
   };
 
@@ -42,6 +43,7 @@ function StockAdjustmentPage() {
   };
 
   const handleDelete = async (id) => {
+    if (!isAdmin) return;
     if (window.confirm("Apakah Anda yakin ingin menghapus data penyesuaian ini?")) {
       const result = await deleteAdjustment(id);
       if (result && result.success) {
@@ -66,11 +68,13 @@ function StockAdjustmentPage() {
       <div className="main-stock-adjustment">
         <div className="header-stock-adjustment">
           <p>Riwayat Penyesuaian Stok Gudang</p>
-          <div className="adjustment-controls">
-            <button className="base-btn green" onClick={handleOpenForm}>
-              + Mulai Penyesuaian
-            </button>
-          </div>
+          {isAdmin && (
+            <div className="adjustment-controls">
+              <button className="base-btn green" onClick={handleOpenForm}>
+                + Mulai Penyesuaian
+              </button>
+            </div>
+          )}
         </div>
 
         {loading ? (
@@ -78,10 +82,11 @@ function StockAdjustmentPage() {
         ) : (
           <TableStockAdjustment 
             data={paginatedData}
-            onDelete={handleDelete}
+            onDelete={isAdmin ? handleDelete : null}
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
+            showActions={isAdmin}
           />
         )}
 

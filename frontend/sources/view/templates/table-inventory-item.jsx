@@ -1,7 +1,7 @@
 import React from "react";
 import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 
-function TableInventoryItem({ rowNumber, tanggalMasuk, items, id_barang_masuk, catatan, onEdit }) {
+function TableInventoryItem({ rowNumber, tanggalMasuk, items, id_barang_masuk, catatan, onEdit, showActions = true }) {
   // Helper function to format date
   const formatDate = (dateString) => {
     if (!dateString) return "-";
@@ -39,13 +39,15 @@ function TableInventoryItem({ rowNumber, tanggalMasuk, items, id_barang_masuk, c
         <td className="center">-</td>
         <td className="center">-</td>
         <td>-</td>
-        <td>
-          <IconEdit 
-            className="greenIcon" 
-            style={{ cursor: 'pointer' }}
-            onClick={handleEditClick}
-          />
-        </td>
+        {showActions && (
+          <td>
+            <IconEdit 
+              className="greenIcon" 
+              style={{ cursor: 'pointer' }}
+              onClick={handleEditClick}
+            />
+          </td>
+        )}
       </tr>
     );
   }
@@ -76,7 +78,7 @@ function TableInventoryItem({ rowNumber, tanggalMasuk, items, id_barang_masuk, c
             <td rowSpan={items.length}>{catatan || "-"}</td>
           ) : null}
           
-          {index === 0 ? (
+          {showActions && index === 0 ? (
             <td rowSpan={items.length}>
               <IconEdit 
                 className="greenIcon" 

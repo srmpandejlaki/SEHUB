@@ -4,7 +4,7 @@ import NavProduct from "../../components/base/nav-product";
 import TableReturn from "../../components/product-page/return/table-return";
 import { fetchAllReturns, deleteReturn } from "../../utilities/api/return";
 
-function ReturnPage() {
+function ReturnPage({ isAdmin = true }) {
   const [returns, setReturns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +27,7 @@ function ReturnPage() {
   };
 
   const handleDelete = async (id_return) => {
+    if (!isAdmin) return;
     if (window.confirm("Apakah Anda yakin ingin menghapus data return ini?")) {
       const result = await deleteReturn(id_return);
       if (result) {
@@ -79,6 +80,7 @@ function ReturnPage() {
               currentPage={currentPage}
               totalPages={normalTotalPages}
               onPageChange={setCurrentPage}
+              showActions={isAdmin}
             />
           )}
         </div>
@@ -110,6 +112,7 @@ function ReturnPage() {
               currentPage={damagedPage}
               totalPages={damagedTotalPages}
               onPageChange={setDamagedPage}
+              showActions={isAdmin}
             />
           )}
         </div>

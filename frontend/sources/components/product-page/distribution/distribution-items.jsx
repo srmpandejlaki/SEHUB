@@ -4,7 +4,7 @@ import FormEditDistribution from "./form-edit-distribution";
 import { fetchAllDistributions, updateDistributionStatus } from "../../../utilities/api/distribution";
 import { BASE_URL } from "../../../utilities";
 
-function DistributionProduct({ searchQuery = "", reloadTrigger = 0 }) {
+function DistributionProduct({ searchQuery = "", reloadTrigger = 0, showActions = true }) {
   const [distributions, setDistributions] = useState([]);
   const [statusPengiriman, setStatusPengiriman] = useState([]);
   const [metodePengiriman, setMetodePengiriman] = useState([]);
@@ -59,6 +59,7 @@ function DistributionProduct({ searchQuery = "", reloadTrigger = 0 }) {
 
   // Handle edit click
   const handleEdit = (distribution) => {
+    if (!showActions) return;
     setEditingData(distribution);
     setShowFormEdit(true);
   };
@@ -121,6 +122,7 @@ function DistributionProduct({ searchQuery = "", reloadTrigger = 0 }) {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
+        showActions={showActions}
       />
 
       {/* Form Edit Distribusi */}

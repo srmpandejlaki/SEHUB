@@ -11,7 +11,8 @@ function TableDistribution({
   currentPage = 1,
   totalPages = 1,
   onPageChange,
-  disableStatusSelect = false
+  disableStatusSelect = false,
+  showActions = true
 }) {
 
   const formatDate = (dateString) => {
@@ -76,8 +77,12 @@ function TableDistribution({
               <th className="center">Jumlah</th>
               <th className="center">Total</th>
               <th>Metode Pengiriman</th>
+              {showActions && (
               <th className="center">Status</th>
+              )}
+              {showActions && (
               <th></th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -124,6 +129,7 @@ function TableDistribution({
                       <td className="center" rowSpan={row.rowSpan}>{row.total}</td>
                       <td rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
                       {/* <td rowSpan={row.rowSpan}>{row.catatan_distribusi || "-"}</td> */}
+                      {showActions && (
                       <td rowSpan={row.rowSpan}>
                         <select 
                           value={row.id_status || ""}
@@ -138,6 +144,8 @@ function TableDistribution({
                           ))}
                         </select>
                       </td>
+                      )}
+                      {showActions && (
                       <td rowSpan={row.rowSpan}>
                         <IconEdit 
                           className="icon greenIcon" 
@@ -145,6 +153,7 @@ function TableDistribution({
                           onClick={() => onEdit && onEdit(row)}
                         />
                       </td>
+                      )}
                     </>
                   )}
                 </tr>

@@ -6,7 +6,7 @@ import FormEditDistribution from "../../../components/product-page/distribution/
 import { fetchAllDistributions, updateDistributionStatus } from "../../../utilities/api/distribution";
 import { BASE_URL } from "../../../utilities";
 
-function DistributionHistoryPage() {
+function DistributionHistoryPage({ isAdmin = true }) {
   const [showFormEdit, setShowFormEdit] = useState(false);
   const [editingData, setEditingData] = useState(null);
   
@@ -68,6 +68,7 @@ function DistributionHistoryPage() {
   };
 
   const handleEdit = (distribution) => {
+    if (!isAdmin) return;
     setEditingData(distribution);
     setShowFormEdit(true);
   };
@@ -126,11 +127,12 @@ function DistributionHistoryPage() {
             data={paginatedData}
             statusPengiriman={statusPengiriman}
             onStatusChange={handleStatusChange}
-            onEdit={handleEdit}
+            onEdit={isAdmin ? handleEdit : null}
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
             disableStatusSelect={true}
+            showActions={isAdmin}
           />
         )}
 

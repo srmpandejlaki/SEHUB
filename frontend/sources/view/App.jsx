@@ -58,7 +58,7 @@ function App() {
     );
   }
 
-  // Logged in as non-admin - show laporan page only
+  // Logged in as non-admin - show limited view (read-only)
   if (!user.is_admin) {
     return (
       <LocaleProvider value={{ locale: 'id', toggleLocale: () => {} }}>
@@ -66,11 +66,17 @@ function App() {
           <Header user={user} onLogout={handleLogout} />
           <AsideBar user={user} onLogout={handleLogout} />
           <Routes>
-            <Route path="/" element={<Navigate to="/laporan" replace />} />
-            <Route path="/laporan" element={<LaporanSehub user={user} />} />
-            <Route path="*" element={<Navigate to="/laporan" replace />} />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<DashboardOwner user={user} />} />
-            <Route path="/product" element={<ProductPage />} />
+            <Route path="/laporan" element={<LaporanSehub user={user} />} />
+            <Route path="/product" element={<ProductPage isAdmin={false} />} />
+            <Route path="/product/inventory" element={<InventoryPage isAdmin={false} />} />
+            <Route path="/product/inventory-history" element={<InventoryHistoryPage isAdmin={false} />} />
+            <Route path="/product/distribution" element={<DistributionPage isAdmin={false} />} />
+            <Route path="/product/distribution-history" element={<DistributionHistoryPage isAdmin={false} />} />
+            <Route path="/product/return" element={<ReturnPage isAdmin={false} />} />
+            <Route path="/product/stock-adjustment" element={<StockAdjustmentPage isAdmin={false} />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </main>
       </LocaleProvider>

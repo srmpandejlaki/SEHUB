@@ -6,7 +6,7 @@ import InventoryProduct from "../../../components/product-page/inventory/invento
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import { fetchProductsWithStock } from "../../../utilities/api/products";
 
-function InventoryPage() {
+function InventoryPage({ isAdmin = true }) {
   const [existingData, setExistingData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   
