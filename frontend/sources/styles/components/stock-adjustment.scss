@@ -253,3 +253,178 @@
   padding-top: 0.5rem;
   border-top: 1px solid #e5e5e5;
 }
+
+/* Master Checkbox Styling */
+.product-right {
+  .master-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background-color: custom.$color-tertiary;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+  }
+}
+
+/* Table form inputs */
+.adjustment-table-wrapper {
+  overflow-x: auto;
+}
+
+.jumlah-input,
+.alasan-input {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.85rem;
+
+  &:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
+}
+
+.jumlah-input {
+  width: 80px;
+  text-align: center;
+}
+
+.alasan-input {
+  width: 150px;
+}
+
+.status-cell {
+  font-weight: 600;
+  text-align: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+
+  &.sesuai {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
+
+  &.tidak-sesuai {
+    background-color: #fee2e2;
+    color: #dc2626;
+  }
+}
+
+/* Table Stock Adjustment History */
+.table-stock-adjustment {
+  .table-display {
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+
+      th, td {
+        padding: 0.75rem 0.5rem;
+        border-bottom: 1px solid #e5e5e5;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f9f9f9;
+        font-weight: bold;
+        font-size: 0.75rem;
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      .highlight {
+        font-weight: bold;
+        color: #dc2626;
+      }
+    }
+
+    .produk-code {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .code {
+        background-color: custom.$color-tertiary;
+        color: white;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .name {
+        font-size: 0.85rem;
+        margin: 0;
+      }
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+
+      &.sesuai {
+        background-color: #dcfce7;
+        color: #16a34a;
+      }
+
+      &.lebih {
+        background-color: #dbeafe;
+        color: #2563eb;
+      }
+
+      &.kurang {
+        background-color: #fee2e2;
+        color: #dc2626;
+      }
+    }
+  }
+
+  .pagination-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    font-size: 0.85rem;
+
+    .pages-count p {
+      margin: 0;
+    }
+
+    .pagination {
+      display: flex;
+      gap: 1rem;
+
+      .left, .right {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #ccc;
+        background-color: white;
+        border-radius: 4px;
+
+        p {
+          margin: 0;
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+}
