@@ -53,7 +53,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 25px;
+  height: 35px;
 
   .button {
     height: 35px;
@@ -69,13 +69,13 @@
     .icon {
       width: 20px;
     }
+  }
 
-    a {
-      @include custom.flex-align-center;
-      gap: 0.5rem;
-      color: custom.$color-primary;
-      text-decoration: none;
-    }
+  a {
+    @include custom.flex-align-center;
+    gap: 0.5rem;
+    color: custom.$color-primary;
+    text-decoration: none;
   }
 }
 

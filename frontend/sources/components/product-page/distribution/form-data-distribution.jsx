@@ -9,7 +9,7 @@ import IconBotol1 from "../../../assets/icon/icon-park-outline_bottle-two.svg?re
 import IconBotol2 from "../../../assets/icon/Frame 27.svg?react";
 import IconKeterangan from "../../../assets/icon/fluent_text-description-ltr-20-filled.svg?react";
 import IconDropDown from "../../../assets/icon/material-symbols_arrow-drop-down-rounded.svg?react";
-import { fetchAllProducts } from "../../../utilities/api/products";
+import { fetchProductsWithStock } from "../../../utilities/api/products";
 import { createDistribution } from "../../../utilities/api/distribution";
 
 function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], statusPengiriman = [] }) {
@@ -29,7 +29,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
   }, []);
 
   const loadProducts = async () => {
-    const data = await fetchAllProducts();
+    const data = await fetchProductsWithStock();
     setProducts(data);
   };
 
@@ -50,6 +50,24 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
     setProductItems(updated);
   };
 
+  // Get stock for a specific product
+  const getProductStock = (id_produk) => {
+    const product = products.find(p => p.id_produk === id_produk);
+    return product?.stok_sekarang || 0;
+  };
+
+  // Check if quantity exceeds stock
+  const isOverStock = (id_produk, jumlah) => {
+    if (!id_produk || !jumlah) return false;
+    const stock = getProductStock(id_produk);
+    return parseInt(jumlah) > stock;
+  };
+
+  // Check if any item exceeds stock
+  const hasOverStockItems = () => {
+    return productItems.some(item => isOverStock(item.id_produk, item.jumlah));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -62,6 +80,12 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
     const validProducts = productItems.filter(item => item.id_produk && item.jumlah);
     if (validProducts.length === 0) {
       alert("Mohon tambahkan minimal satu produk");
+      return;
+    }
+
+    // Check stock
+    if (hasOverStockItems()) {
+      alert("Jumlah produk melebihi stok yang tersedia. Silakan periksa kembali.");
       return;
     }
 
@@ -158,70 +182,88 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
         </div>
         <div className="right-side">
           <div className="the-right-form">
-            {productItems.map((item, index) => (
-              <div className="double-form" key={index}>
-                <div className="inputan-double">
-                  <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
-                  <select 
-                    value={item.id_produk}
-                    onChange={(e) => updateProductItem(index, "id_produk", e.target.value)}
-                    required
-                  >
-                    <option value="">-- Pilih Produk --</option>
-                    {products.map((product) => (
-                      <option key={product.id_produk} value={product.id_produk}>
-                        {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan}
-                      </option>
-                    ))}
-                  </select>
+            {productItems.map((item, index) => {
+              const stock = getProductStock(item.id_produk);
+              const overStock = isOverStock(item.id_produk, item.jumlah);
+              
+              return (
+                <div className="double-form" key={index}>
+                  <div className="inputan-double">
+                    <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
+                    <select 
+                      value={item.id_produk}
+                      onChange={(e) => updateProductItem(index, "id_produk", e.target.value)}
+                      required
+                    >
+                      <option value="">-- Pilih Produk --</option>
+                      {products.map((product) => (
+                        <option key={product.id_produk} value={product.id_produk}>
+                          {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan} (Stok: {product.stok_sekarang || 0})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="inputan">
+                    <label><IconBotol2 className="greenIcon" /> Jumlah</label>
+                    <input 
+                      type="number" 
+                      placeholder="0" 
+                      min="1"
+                      max={stock}
+                      value={item.jumlah}
+                      onChange={(e) => updateProductItem(index, "jumlah", e.target.value)}
+                      required
+                      style={overStock ? { borderColor: '#d32f2f', backgroundColor: '#fff5f5' } : {}}
+                    />
+                    {overStock && (
+                      <p style={{ color: '#d32f2f', fontSize: '0.75rem', margin: '0.25rem 0 0 0' }}>
+                        ⚠️ Melebihi stok! (Tersedia: {stock})
+                      </p>
+                    )}
+                  </div>
+                  {productItems.length > 1 && (
+                    <button 
+                      type="button" 
+                      className="remove-btn"
+                      onClick={() => removeProductItem(index)}
+                    >
+                      ×
+                    </button>
+                  )}
                 </div>
-                <div className="inputan">
-                  <label><IconBotol2 className="greenIcon" /> Jumlah</label>
-                  <input 
-                    type="number" 
-                    placeholder="0" 
-                    min="1"
-                    value={item.jumlah}
-                    onChange={(e) => updateProductItem(index, "jumlah", e.target.value)}
-                    required
-                  />
-                </div>
-                {productItems.length > 1 && (
-                  <button 
-                    type="button" 
-                    className="remove-btn"
-                    onClick={() => removeProductItem(index)}
-                  >
-                    ×
-                  </button>
-                )}
-              </div>
-            ))}
+              );
+            })}
             <p className="add-product-link" onClick={addProductItem}>+ Tambah Produk</p>
             
             <div className="detail-product">
               <div className="detail-container">
                 <div className="head-detail">
-                  <p>Detail Produk</p>
+                  <p>Jumlah Stok Tersedia di Sistem</p>
                   <IconDropDown className="blackIcon" /> 
                 </div>
                 <div className="display-detail">
                   <table className="products">
                     <tbody>
-                      {productItems.filter(item => item.id_produk && item.jumlah).map((item, index) => {
+                      {productItems.filter(item => item.id_produk).map((item, index) => {
                         const product = products.find(p => p.id_produk === item.id_produk);
+                        const overStock = isOverStock(item.id_produk, item.jumlah);
                         return (
-                          <tr key={index}>
+                          <tr key={index} style={overStock ? { color: '#d32f2f' } : {}}>
                             <td>
                               {product?.nama_produk || "Produk"} - {product?.ukuran_produk}{product?.nama_ukuran_satuan}
                             </td>
-                            <td className="counting">{item.jumlah}</td>
+                            <td className="counting">
+                              Stok: {product?.stok_sekarang || 0}
+                            </td>
+                            <td className="counting">
+                              {item.jumlah ? `Diambil: ${item.jumlah}` : '-'}
+                            </td>
                           </tr>
                         );
                       })}
                       <tr className="total">
-                        <td className="text-end">Total</td>
-                        <td className="counting">{totalJumlah}</td>
+                        <td className="text-end">Total Diambil</td>
+                        <td className="counting" colSpan="2">{totalJumlah}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -242,7 +284,8 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
             <button 
               type="submit" 
               className="base-btn green"
-              disabled={isSubmitting}
+              disabled={isSubmitting || hasOverStockItems()}
+              style={hasOverStockItems() ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
             >
               {isSubmitting ? "Menyimpan..." : "Simpan"}
             </button>

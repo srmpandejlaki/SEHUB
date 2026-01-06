@@ -121,8 +121,14 @@ const ReturnModel = {
       // Check if this is NOT a damaged goods return
       // If catatan_return is not "barang rusak", add items to inventory
       const isDamaged = catatan_return && catatan_return.toLowerCase().trim() === "barang rusak";
+      console.log("=== RETURN BARANG DEBUG ===");
+      console.log("catatan_return:", catatan_return);
+      console.log("isDamaged:", isDamaged);
+      console.log("items.length:", items.length);
 
       if (!isDamaged && items.length > 0) {
+        console.log("-> Creating barang_masuk entry for non-damaged return");
+        
         // Create barang_masuk entry with "return barang" note
         const insertInventory = await client.query(
           `INSERT INTO barang_masuk (tanggal_masuk, catatan_barang_masuk) 
@@ -131,29 +137,59 @@ const ReturnModel = {
         );
 
         const id_barang_masuk = insertInventory.rows[0].id_barang_masuk;
+        console.log("-> Created barang_masuk with id:", id_barang_masuk);
 
         // For each returned item, get product details and add to detail_barang_masuk
         for (const item of items) {
-          // Get product id and tanggal_expired from detail_distribusi
+          console.log("-> Processing item:", item);
+          
+          // Get product id from detail_distribusi
           const productInfo = await client.query(
-            `SELECT dd.id_produk, dbm.tanggal_expired
-             FROM detail_distribusi dd
-             LEFT JOIN detail_barang_masuk dbm ON dd.id_detail_barang_masuk = dbm.id_detail_barang_masuk
-             WHERE dd.id_detail_distribusi = $1`,
+            `SELECT id_produk FROM detail_distribusi WHERE id_detail_distribusi = $1`,
             [item.id_detail_distribusi]
           );
+          console.log("-> productInfo rows:", productInfo.rows);
 
           if (productInfo.rows.length > 0) {
-            const { id_produk, tanggal_expired } = productInfo.rows[0];
+            const { id_produk } = productInfo.rows[0];
+            console.log("-> id_produk:", id_produk);
             
-            await client.query(
+            // Get the latest expiry date from existing inventory for this product
+            // If no inventory exists, use current date + 1 year as fallback
+            const expiryInfo = await client.query(
+              `SELECT tanggal_expired FROM detail_barang_masuk 
+               WHERE id_produk = $1 
+               ORDER BY tanggal_expired DESC 
+               LIMIT 1`,
+              [id_produk]
+            );
+            console.log("-> expiryInfo rows:", expiryInfo.rows);
+            
+            let tanggal_expired;
+            if (expiryInfo.rows.length > 0) {
+              tanggal_expired = expiryInfo.rows[0].tanggal_expired;
+            } else {
+              // Fallback: use current date + 1 year
+              const oneYearLater = new Date();
+              oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+              tanggal_expired = oneYearLater.toISOString().split('T')[0];
+            }
+            console.log("-> tanggal_expired:", tanggal_expired);
+            
+            const insertResult = await client.query(
               `INSERT INTO detail_barang_masuk (id_barang_masuk, id_produk, jumlah_barang_masuk, tanggal_expired)
-               VALUES ($1, $2, $3, $4)`,
+               VALUES ($1, $2, $3, $4) RETURNING *`,
               [id_barang_masuk, id_produk, item.jumlah_barang_return, tanggal_expired]
             );
+            console.log("-> Inserted detail_barang_masuk:", insertResult.rows[0]);
+          } else {
+            console.log("-> WARNING: No productInfo found for id_detail_distribusi:", item.id_detail_distribusi);
           }
         }
+      } else {
+        console.log("-> Skipping inventory (damaged goods or no items)");
       }
+      console.log("=== END RETURN DEBUG ===");
 
       await client.query("COMMIT");
 
