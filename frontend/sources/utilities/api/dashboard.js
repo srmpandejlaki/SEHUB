@@ -62,3 +62,24 @@ export const fetchRecentDistributions = async (limit = 10) => {
     return [];
   }
 };
+
+// GET monthly stats for charts
+export const fetchMonthlyStats = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}dashboard/monthly-stats`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      console.error("Gagal fetch monthly stats:", response.status);
+      return null;
+    }
+
+    const data = await response.json();
+    return data?.data || null;
+  } catch (error) {
+    console.error("Error fetchMonthlyStats:", error);
+    return null;
+  }
+};

@@ -120,6 +120,70 @@ const DashboardModel = {
 
     return Object.values(grouped);
   },
+
+  // Get monthly stats for charts (inventory and distribution by day)
+  getMonthlyStats: async () => {
+    // Get first and last day of current month
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    
+    const startDate = firstDay.toISOString().split('T')[0];
+    const endDate = lastDay.toISOString().split('T')[0];
+
+    // Get daily inventory data (barang masuk)
+    const inventoryResult = await db.query(`
+      SELECT 
+        DATE(bm.tanggal_masuk) as tanggal,
+        COALESCE(SUM(dbm.jumlah_barang_masuk), 0) as total
+      FROM barang_masuk bm
+      LEFT JOIN detail_barang_masuk dbm ON bm.id_barang_masuk = dbm.id_barang_masuk
+      WHERE DATE(bm.tanggal_masuk) >= $1 AND DATE(bm.tanggal_masuk) <= $2
+      GROUP BY DATE(bm.tanggal_masuk)
+      ORDER BY DATE(bm.tanggal_masuk) ASC
+    `, [startDate, endDate]);
+
+    // Get daily distribution data
+    const distributionResult = await db.query(`
+      SELECT 
+        DATE(d.tanggal_distribusi) as tanggal,
+        COALESCE(SUM(dd.jumlah_barang_distribusi), 0) as total
+      FROM distribusi d
+      LEFT JOIN detail_distribusi dd ON d.id_distribusi = dd.id_distribusi
+      WHERE DATE(d.tanggal_distribusi) >= $1 AND DATE(d.tanggal_distribusi) <= $2
+      GROUP BY DATE(d.tanggal_distribusi)
+      ORDER BY DATE(d.tanggal_distribusi) ASC
+    `, [startDate, endDate]);
+
+    // Create array of all days in month with data
+    const daysInMonth = lastDay.getDate();
+    const chartData = [];
+    
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(year, month, day);
+      const dateStr = date.toISOString().split('T')[0];
+      
+      const invData = inventoryResult.rows.find(r => 
+        new Date(r.tanggal).toISOString().split('T')[0] === dateStr
+      );
+      const distData = distributionResult.rows.find(r => 
+        new Date(r.tanggal).toISOString().split('T')[0] === dateStr
+      );
+      
+      chartData.push({
+        tanggal: day,
+        inventori: parseInt(invData?.total) || 0,
+        distribusi: parseInt(distData?.total) || 0
+      });
+    }
+
+    return {
+      bulan: now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }),
+      data: chartData
+    };
+  },
 };
 
 export default DashboardModel;

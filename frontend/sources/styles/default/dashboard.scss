@@ -187,3 +187,28 @@
     color: custom.$danger;
   }
 }
+
+// Dashboard Chart styles
+.dashboard-chart {
+  grid-column: 1 / -1;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+
+  h4 {
+    margin: 0 0 1rem 0;
+    color: custom.$color-primary;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .recharts-wrapper {
+    margin: 0 auto;
+  }
+
+  .recharts-legend-wrapper {
+    padding-top: 1rem !important;
+  }
+}
