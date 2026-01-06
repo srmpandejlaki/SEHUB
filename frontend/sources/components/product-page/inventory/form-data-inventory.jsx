@@ -7,9 +7,9 @@ import IconBotol2 from "../../../assets/icon/Frame 27.svg?react";
 import IconExpiredDate from "../../../assets/icon/fluent-mdl2_date-time-mirrored.svg?react";
 import IconKeterangan from "../../../assets/icon/fluent_text-description-ltr-20-filled.svg?react";
 import { fetchAllProducts } from "../../../utilities/api/products";
-import { createInventory } from "../../../utilities/api/inventory";
+import { createInventory, updateInventory } from "../../../utilities/api/inventory";
 
-function FormDataInventory({ onCloseForm, onSuccess }) {
+function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = false }) {
   const [products, setProducts] = useState([]);
   const [tanggalMasuk, setTanggalMasuk] = useState("");
   const [catatan, setCatatan] = useState("");
@@ -20,6 +20,31 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
   useEffect(() => {
     loadProducts();
   }, []);
+
+  // Pre-fill form when editing
+  useEffect(() => {
+    if (isEdit && editData) {
+      // Format date for input (YYYY-MM-DD)
+      const formatDateForInput = (dateStr) => {
+        if (!dateStr) return "";
+        const date = new Date(dateStr);
+        return date.toISOString().split('T')[0];
+      };
+
+      setTanggalMasuk(formatDateForInput(editData.tanggal_masuk));
+      setCatatan(editData.catatan_barang_masuk || "");
+      
+      // Pre-fill product items
+      if (editData.items && editData.items.length > 0) {
+        const mappedItems = editData.items.map(item => ({
+          id_produk: item.id_produk || "",
+          jumlah: item.jumlah?.toString() || "",
+          tanggal_expired: formatDateForInput(item.tanggal_expired)
+        }));
+        setProductItems(mappedItems);
+      }
+    }
+  }, [isEdit, editData]);
 
   const loadProducts = async () => {
     const data = await fetchAllProducts();
@@ -68,16 +93,21 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
       }))
     };
 
-    const result = await createInventory(inventoryData);
+    let result;
+    if (isEdit && editData?.id_barang_masuk) {
+      result = await updateInventory(editData.id_barang_masuk, inventoryData);
+    } else {
+      result = await createInventory(inventoryData);
+    }
     
     setIsSubmitting(false);
 
     if (result) {
-      alert("Data inventori berhasil disimpan!");
+      alert(isEdit ? "Data inventori berhasil diperbarui!" : "Data inventori berhasil disimpan!");
       if (onSuccess) onSuccess();
       onCloseForm();
     } else {
-      alert("Gagal menyimpan data inventori");
+      alert(isEdit ? "Gagal memperbarui data inventori" : "Gagal menyimpan data inventori");
     }
   };
 
@@ -103,7 +133,7 @@ function FormDataInventory({ onCloseForm, onSuccess }) {
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
-          <p>Tambah Data Inventori</p>
+          <p>{isEdit ? "Edit Data Inventori" : "Tambah Data Inventori"}</p>
         </div>
         <IconCancel className="icon" onClick={onCloseForm} />
       </div>

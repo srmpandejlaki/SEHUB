@@ -1,10 +1,15 @@
 import React from "react"; 
-import IconEdit from "../../../assets/icon/flowbite_edit-outline.svg?react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
 import TableInventoryItem from "../../../view/templates/table-inventory-item";
 
-function TableInventory({ existingData }) {
+function TableInventory({ 
+  existingData, 
+  onEdit,
+  currentPage = 1,
+  totalPages = 1,
+  onPageChange
+}) {
   return(
     <div className="table-distribution">
       <div className="table-display">
@@ -29,9 +34,11 @@ function TableInventory({ existingData }) {
               existingData.map((item, index) => (
                 <TableInventoryItem
                   key={item.id_barang_masuk || index}
-                  rowNumber={index + 1}
+                  rowNumber={(currentPage - 1) * 10 + index + 1}
                   tanggalMasuk={item.tanggal_masuk}
                   items={item.items}
+                  id_barang_masuk={item.id_barang_masuk}
+                  onEdit={onEdit}
                 />
               ))
             )}
@@ -40,16 +47,24 @@ function TableInventory({ existingData }) {
       </div>
       <div className="pagination-display">
         <div className="pages-count">
-          <p>Halaman 1 dari {Math.ceil(existingData.length / 10) || 1}</p>
+          <p>Halaman {currentPage} dari {totalPages}</p>
         </div>
         <div className="pagination">
-          <div className="left">
-            <IconPanahKiri blackIcon/>
+          <div 
+            className="left"
+            style={{ cursor: currentPage > 1 ? 'pointer' : 'not-allowed', opacity: currentPage > 1 ? 1 : 0.5 }}
+            onClick={() => currentPage > 1 && onPageChange && onPageChange(currentPage - 1)}
+          >
+            <IconPanahKiri className="blackIcon"/>
             <p>Sebelumnya</p>
           </div>
-          <div className="right">
+          <div 
+            className="right"
+            style={{ cursor: currentPage < totalPages ? 'pointer' : 'not-allowed', opacity: currentPage < totalPages ? 1 : 0.5 }}
+            onClick={() => currentPage < totalPages && onPageChange && onPageChange(currentPage + 1)}
+          >
             <p>Setelahnya</p>
-            <IconPanahKanan blackIcon/>
+            <IconPanahKanan className="blackIcon"/>
           </div>
         </div>
       </div>

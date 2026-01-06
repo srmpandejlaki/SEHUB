@@ -1,7 +1,7 @@
 import React from "react";
 import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 
-function TableInventoryItem({ rowNumber, tanggalMasuk, items }) {
+function TableInventoryItem({ rowNumber, tanggalMasuk, items, id_barang_masuk, onEdit }) {
   // Helper function to format date
   const formatDate = (dateString) => {
     if (!dateString) return "-";
@@ -11,6 +11,22 @@ function TableInventoryItem({ rowNumber, tanggalMasuk, items }) {
       month: "long",
       year: "numeric"
     });
+  };
+
+  // Handle edit click
+  const handleEditClick = () => {
+    if (onEdit) {
+      onEdit({ id_barang_masuk, tanggal_masuk: tanggalMasuk, items });
+    }
+  };
+
+  const orderedData = (date) => {
+    const sortedData = [...items].sort((a, b) => {
+      const dateA = new Date(a.tanggal_masuk);
+      const dateB = new Date(b.tanggal_masuk);
+      return dateA - dateB;
+    });
+    return sortedData;
   };
 
   // If no items, show empty row
@@ -23,15 +39,21 @@ function TableInventoryItem({ rowNumber, tanggalMasuk, items }) {
         <td className="center">-</td>
         <td className="center">-</td>
         <td>-</td>
-        <td><IconEdit className="greenIcon" /></td>
+        <td>
+          <IconEdit 
+            className="greenIcon" 
+            style={{ cursor: 'pointer' }}
+            onClick={handleEditClick}
+          />
+        </td>
       </tr>
     );
   }
 
   return (
     <>
-      {items.map((item, index) => (
-        <tr key={item.id_detail || index}>
+      {orderedData(items).map((item, index) => (
+        <tr key={item.id_detail || index} className={index === 0 ? 'first-of-group' : 'grouped-row'}>
           {/* Show row number and date only on first item */}
           {index === 0 ? (
             <>
@@ -52,7 +74,13 @@ function TableInventoryItem({ rowNumber, tanggalMasuk, items }) {
           <td>{item.keterangan || "-"}</td>
           
           {index === 0 ? (
-            <td rowSpan={items.length}><IconEdit className="greenIcon" /></td>
+            <td rowSpan={items.length}>
+              <IconEdit 
+                className="greenIcon" 
+                style={{ cursor: 'pointer' }}
+                onClick={handleEditClick}
+              />
+            </td>
           ) : null}
         </tr>
       ))}

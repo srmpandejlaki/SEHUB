@@ -4,7 +4,7 @@
   gap: 1rem;
   display: grid;
   grid-template-columns: 3fr 1fr;
-  grid-template-rows: 1fr 4fr;
+  grid-template-rows: 1fr 2fr;
   grid-template-areas:
     "short-panel notification-side"
     "dashboard-table notification-side";
@@ -56,16 +56,11 @@
   background-color: custom.$color-primary;
 }
 
-.stock-list {
-  width: 400px;
-}
-
 // New improved stock-list-panel
 .stock-list-panel {
-  min-width: 350px;
-  max-width: 450px;
-  max-height: none;
-  padding: 0.8rem 1rem;
+  min-width: 450px;
+  max-height: 75px;
+  overflow-y: auto;
   flex-direction: column;
   align-items: stretch;
 
@@ -73,18 +68,6 @@
     margin-bottom: 0.5rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #e0e0e0;
-
-    .stock-title-group {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .stock-icon {
-      width: 20px;
-      height: 20px;
-      color: custom.$color-tertiary;
-    }
 
     .title {
       margin: 0;
@@ -94,11 +77,6 @@
   }
 
   .stock-content {
-    .stock-empty {
-      color: #888;
-      font-size: 0.85rem;
-      margin: 0.5rem 0;
-    }
 
     .stock-items-list {
       display: flex;
@@ -114,10 +92,6 @@
       background-color: #f8f8f8;
       border-radius: 4px;
       font-size: 0.85rem;
-
-      &:hover {
-        background-color: #efefef;
-      }
     }
 
     .stock-product-name {
