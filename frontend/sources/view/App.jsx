@@ -13,6 +13,7 @@ import ReturnPage from './pages/return-page';
 import LoginPage from './pages/login-page';
 import LaporanSehub from './pages/laporan-sehub';
 import StockAdjustmentPage from './pages/stock-adjustment-page';
+import DashboardOwner from './pages/owner-page/dashboard-owner';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
 
@@ -68,6 +69,8 @@ function App() {
             <Route path="/" element={<Navigate to="/laporan" replace />} />
             <Route path="/laporan" element={<LaporanSehub user={user} />} />
             <Route path="*" element={<Navigate to="/laporan" replace />} />
+            <Route path="/dashboard" element={<DashboardOwner user={user} />} />
+            <Route path="/product" element={<ProductPage />} />
           </Routes>
         </main>
       </LocaleProvider>

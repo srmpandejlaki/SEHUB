@@ -77,9 +77,6 @@ function AsideBar({ user, onLogout }) {
             Logout
           </button>
         </div>
-        {user && (
-          <p className="user-info">Login sebagai: {user.nama_pengguna}</p>
-        )}
         <p>Powered by : PT. Rumah Seho Nusantara</p>
       </div>
     </div>

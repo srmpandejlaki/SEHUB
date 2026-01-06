@@ -4,7 +4,7 @@ import NotificationSide from "../../components/dashboard-page/notification-side"
 import ShortPanel from "../../components/dashboard-page/short-panel";
 import { fetchDashboardStatistics, fetchExpiringSoon, fetchRecentDistributions } from "../../utilities/api/dashboard";
 
-function DashboardPage() {
+function DashboardPage({ user }) {
   const [statistics, setStatistics] = useState(null);
   const [expiringProducts, setExpiringProducts] = useState([]);
   const [recentDistributions, setRecentDistributions] = useState([]);
@@ -46,7 +46,7 @@ function DashboardPage() {
   return (
     <div className="content dashboard">
       <div className="opening">
-        <h3>Selamat Datang Admin!</h3>
+        <h3>Selamat Datang, {user?.nama_pengguna || "Admin!"}!</h3>
         <p>{getCurrentDate()}</p>
       </div>
       {loading ? (
