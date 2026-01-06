@@ -26,6 +26,9 @@ function DistributionHistoryPage() {
   // Validation state
   const [hasInventoryData, setHasInventoryData] = useState(false);
 
+  // Search state
+  const [searchQuery, setSearchQuery] = useState("");
+
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -120,9 +123,28 @@ function DistributionHistoryPage() {
     handleCloseFormEdit();
   };
 
-  // Pagination logic
-  const totalPages = Math.ceil(distributions.length / itemsPerPage) || 1;
-  const paginatedData = distributions.slice(
+  // Filter by status: only show "diterima" (id 3)
+  const filteredByStatus = distributions.filter((dist) => {
+    return dist.id_status === 3;
+  });
+
+  // Filter by search query
+  const filteredData = filteredByStatus.filter((dist) => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    
+    if (dist.nama_pemesan?.toLowerCase().includes(query)) return true;
+    if (dist.items?.some(item => 
+      item.nama_produk?.toLowerCase().includes(query) ||
+      item.id_produk?.toLowerCase().includes(query)
+    )) return true;
+    
+    return false;
+  });
+
+  // Pagination logic (using filtered data)
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage) || 1;
+  const paginatedData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -134,7 +156,7 @@ function DistributionHistoryPage() {
         <div className="header-distribution-history">
           <p>Riwayat Data Distribusi Produk</p>
           <div className="distribution-display">
-            <SearchFilter />
+            <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari distribusi..." />
             {showNavDis && (
               <NavDistribution 
                 onClose={handleCloseNavDis} 

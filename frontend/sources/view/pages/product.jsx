@@ -10,6 +10,7 @@ import { fetchAllProducts } from "../../utilities/api/products";
 function ProductPage() {
   const [showFormProduct, setFormProduct] = useState(false);
   const [existingData, setExistingData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     loadDataProducts();
@@ -53,6 +54,16 @@ function ProductPage() {
     loadDataProducts();
   };
 
+  // Filter products by search query
+  const filteredProducts = existingData.filter((product) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      product.namaProduk?.toLowerCase().includes(query) ||
+      product.id?.toLowerCase().includes(query) ||
+      product.kemasanProduk?.toLowerCase().includes(query)
+    );
+  });
+
   return (
     <div className="content product-page">
       <NavProduct />
@@ -68,8 +79,8 @@ function ProductPage() {
             </div>
           </div>
 
-          <SearchFilter />
-          <ProductItems products={existingData} />
+          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
+          <ProductItems products={filteredProducts} />
         </div>
 
         {showFormProduct && (

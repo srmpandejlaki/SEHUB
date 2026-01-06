@@ -83,7 +83,7 @@ function TableReturn({
                   <td>
                     {row.item ? (
                       <div className="produk-code">
-                        <p className="code">{row.item.id_produk}</p>
+                        <p className="">{row.item.id_produk}</p>
                         <p className="name">
                           {row.item.nama_produk} {row.item.ukuran_produk}{row.item.nama_ukuran_satuan}
                         </p>

@@ -69,7 +69,7 @@ function TableDistribution({
             <tr>
               <th className="center">No</th>
               <th>Hari/Tanggal</th>
-              <th>Nama Pemesan</th>
+              <th className="center">Nama Pemesan</th>
               <th>Kode Produk</th>
               <th>Produk</th>
               <th className="center">Jumlah</th>
@@ -86,18 +86,18 @@ function TableDistribution({
               </tr>
             ) : (
               tableRows.map((row, index) => (
-                <tr key={`${row.id_distribusi}-${index}`}>
+                <tr key={`${row.id_distribusi}-${index}`} className={row.isFirstRow ? 'first-of-group' : 'grouped-row'}>
                   {row.isFirstRow && (
                     <>
                       <td className="center" rowSpan={row.rowSpan}>{row.distIndex}</td>
                       <td rowSpan={row.rowSpan}>{formatDate(row.tanggal_distribusi)}</td>
-                      <td rowSpan={row.rowSpan}>{row.nama_pemesan}</td>
+                      <td className="center" rowSpan={row.rowSpan}>{row.nama_pemesan}</td>
                     </>
                   )}
                   <td>
                     {row.item ? (
                       <div className="produk-code">
-                        <p className="code">{row.item.id_produk}</p>
+                        <p className="center">{row.item.id_produk}</p>
                       </div>
                     ) : (
                       "-"

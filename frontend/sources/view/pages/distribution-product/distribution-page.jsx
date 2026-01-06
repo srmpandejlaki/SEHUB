@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
@@ -7,6 +7,7 @@ import DistributionProduct from "../../../components/product-page/distribution/d
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 
 function DistributionPage() {
+  const [searchQuery, setSearchQuery] = useState("");
   
   useEffect(() => {
   }, []);
@@ -26,8 +27,8 @@ function DistributionPage() {
               </div>
             </div>
           </div>
-          <SearchFilter />
-          <DistributionProduct />
+          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari distribusi..." />
+          <DistributionProduct searchQuery={searchQuery} />
         </div>
         <div className="">
         </div>

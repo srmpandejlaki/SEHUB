@@ -36,6 +36,16 @@ tbody td {
     padding: 5px;
 }
 
+// Remove top border for grouped rows (non-first rows in rowSpan groups)
+tbody tr.grouped-row td {
+    border-top: none;
+}
+
+// First row of group keeps the border
+tbody tr.first-of-group td {
+    border-top: #c5c5c5 1px solid;
+}
+
 // tabel dashboard
 .table-dashboard{
     height: 320px;
