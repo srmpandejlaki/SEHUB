@@ -84,6 +84,32 @@ tbody td {
     thead th {
         position: sticky;
     }
+
+    .produk-code {
+      .code {
+        background-color: custom.$color-tertiary;
+        color: white;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        margin: 0;
+        display: inline-block;
+      }
+    }
+
+    .produk-detail {
+      .name {
+        margin: 0;
+        font-weight: 500;
+      }
+
+      .expired {
+        font-size: 0.7rem;
+        color: #666;
+        margin: 0;
+      }
+    }
 }
 
 .column-action {

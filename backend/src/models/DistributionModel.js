@@ -18,7 +18,14 @@ const DistributionModel = {
         p.ukuran_produk,
         us.nama_ukuran_satuan,
         k.nama_kemasan,
-        dd.jumlah_barang_distribusi
+        dd.jumlah_barang_distribusi,
+        (
+          SELECT dbm.tanggal_expired 
+          FROM detail_barang_masuk dbm 
+          WHERE dbm.id_produk = dd.id_produk 
+          ORDER BY dbm.tanggal_expired ASC 
+          LIMIT 1
+        ) as tanggal_expired
       FROM distribusi d
       LEFT JOIN metode_pengiriman mp
         ON d.id_metode_pengiriman = mp.id_metode_pengiriman
@@ -63,7 +70,8 @@ const DistributionModel = {
           ukuran_produk: row.ukuran_produk,
           nama_ukuran_satuan: row.nama_ukuran_satuan,
           nama_kemasan: row.nama_kemasan,
-          jumlah: row.jumlah_barang_distribusi
+          jumlah: row.jumlah_barang_distribusi,
+          tanggal_expired: row.tanggal_expired
         });
       }
     });

@@ -29,6 +29,12 @@ function TableDistribution({
     }
   };
 
+  // Calculate total per distribution
+  const getDistributionTotal = (items) => {
+    if (!items || items.length === 0) return 0;
+    return items.reduce((sum, item) => sum + (item.jumlah || 0), 0);
+  };
+
   // Flatten data for table display (each product item as a row, grouped by distribution)
   const tableRows = [];
   data.forEach((dist, distIndex) => {
@@ -39,7 +45,8 @@ function TableDistribution({
           item,
           isFirstRow: itemIndex === 0,
           rowSpan: dist.items.length,
-          distIndex: distIndex + 1
+          distIndex: (currentPage - 1) * 10 + distIndex + 1,
+          total: getDistributionTotal(dist.items)
         });
       });
     } else {
@@ -48,7 +55,8 @@ function TableDistribution({
         item: null,
         isFirstRow: true,
         rowSpan: 1,
-        distIndex: distIndex + 1
+        distIndex: (currentPage - 1) * 10 + distIndex + 1,
+        total: 0
       });
     }
   });
@@ -62,18 +70,19 @@ function TableDistribution({
               <th className="center">No</th>
               <th>Hari/Tanggal</th>
               <th>Nama Pemesan</th>
+              <th>Kode Produk</th>
               <th>Produk</th>
               <th className="center">Jumlah</th>
+              <th className="center">Total</th>
               <th>Metode Pengiriman</th>
               <th className="center">Status</th>
-              <th>Keterangan</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {tableRows.length === 0 ? (
               <tr>
-                <td colSpan="9" className="center">Tidak ada data distribusi</td>
+                <td colSpan="11" className="center">Tidak ada data distribusi</td>
               </tr>
             ) : (
               tableRows.map((row, index) => (
@@ -89,8 +98,19 @@ function TableDistribution({
                     {row.item ? (
                       <div className="produk-code">
                         <p className="code">{row.item.id_produk}</p>
+                      </div>
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                  <td>
+                    {row.item ? (
+                      <div className="produk-detail">
                         <p className="name">
                           {row.item.nama_produk} {row.item.ukuran_produk}{row.item.nama_ukuran_satuan}
+                        </p>
+                        <p className="expired">
+                          {row.item.tanggal_expired ? formatDate(row.item.tanggal_expired) : "-"}
                         </p>
                       </div>
                     ) : (
@@ -100,7 +120,9 @@ function TableDistribution({
                   <td className="center">{row.item?.jumlah || "-"}</td>
                   {row.isFirstRow && (
                     <>
+                      <td className="center" rowSpan={row.rowSpan}>{row.total}</td>
                       <td rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
+                      {/* <td rowSpan={row.rowSpan}>{row.catatan_distribusi || "-"}</td> */}
                       <td rowSpan={row.rowSpan}>
                         <select 
                           value={row.id_status || ""}
@@ -113,7 +135,6 @@ function TableDistribution({
                           ))}
                         </select>
                       </td>
-                      <td rowSpan={row.rowSpan}>{row.catatan_distribusi || "-"}</td>
                       <td rowSpan={row.rowSpan}>
                         <IconEdit 
                           className="icon greenIcon" 

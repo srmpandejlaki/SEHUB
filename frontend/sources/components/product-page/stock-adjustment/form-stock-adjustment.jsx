@@ -11,8 +11,11 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [catatan, setCatatan] = useState("");
   
-  // Adjustment data per product
+  // Adjustment data per item (detail_barang_masuk)
   const [adjustmentData, setAdjustmentData] = useState({});
+  
+  // Product-level checkbox (select all items sesuai)
+  const [productChecked, setProductChecked] = useState({});
   
   // Product pagination
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
@@ -27,83 +30,138 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
       const data = await fetchInventoryForAdjustment();
       setProducts(data);
 
-      // Initialize adjustment data per product
+      // Initialize adjustment data per item
       const initialData = {};
+      const initialProductChecked = {};
+      
       data.forEach(product => {
-        initialData[product.id_produk] = {
-          isSesuai: false,
-          jumlahGudang: "",
-          alasan: "",
-          stokSistem: parseInt(product.stok_sistem) || 0
-        };
+        initialProductChecked[product.id_produk] = false;
+        
+        product.items.forEach(item => {
+          initialData[item.id_detail_barang_masuk] = {
+            isChecked: false,
+            jumlahGudang: "",
+            alasan: "",
+            jumlahSistem: item.jumlah_barang_masuk
+          };
+        });
       });
       
       setAdjustmentData(initialData);
+      setProductChecked(initialProductChecked);
     } catch (error) {
       console.error("Error loading data:", error);
     }
     setLoading(false);
   };
 
-  // Handle checkbox per product (is stock matching)
-  const handleSesuaiChange = (id_produk, stokSistem) => {
+  const formatDate = (dateString) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('id-ID', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+  };
+
+  // Handle checkbox per item
+  const handleItemCheckboxChange = (id_detail, jumlahSistem) => {
     setAdjustmentData(prev => ({
       ...prev,
-      [id_produk]: {
-        ...prev[id_produk],
-        isSesuai: !prev[id_produk].isSesuai,
-        jumlahGudang: !prev[id_produk].isSesuai ? stokSistem.toString() : "",
-        alasan: !prev[id_produk].isSesuai ? "" : prev[id_produk].alasan
+      [id_detail]: {
+        ...prev[id_detail],
+        isChecked: !prev[id_detail].isChecked,
+        jumlahGudang: !prev[id_detail].isChecked ? jumlahSistem.toString() : "",
+        alasan: !prev[id_detail].isChecked ? "" : prev[id_detail].alasan
       }
     }));
   };
 
-  const handleJumlahChange = (id_produk, value) => {
+  // Handle master checkbox per product (check/uncheck all items)
+  const handleProductCheckboxChange = (product) => {
+    const isChecking = !productChecked[product.id_produk];
+    
+    setProductChecked(prev => ({
+      ...prev,
+      [product.id_produk]: isChecking
+    }));
+
+    // Update all items in this product
+    const updatedData = { ...adjustmentData };
+    product.items.forEach(item => {
+      updatedData[item.id_detail_barang_masuk] = {
+        ...updatedData[item.id_detail_barang_masuk],
+        isChecked: isChecking,
+        jumlahGudang: isChecking ? item.jumlah_barang_masuk.toString() : "",
+        alasan: isChecking ? "" : updatedData[item.id_detail_barang_masuk].alasan
+      };
+    });
+    setAdjustmentData(updatedData);
+  };
+
+  const handleJumlahChange = (id_detail, value) => {
     setAdjustmentData(prev => ({
       ...prev,
-      [id_produk]: {
-        ...prev[id_produk],
+      [id_detail]: {
+        ...prev[id_detail],
         jumlahGudang: value,
-        isSesuai: false
+        isChecked: false
       }
     }));
   };
 
-  const handleAlasanChange = (id_produk, value) => {
+  const handleAlasanChange = (id_detail, value) => {
     setAdjustmentData(prev => ({
       ...prev,
-      [id_produk]: {
-        ...prev[id_produk],
+      [id_detail]: {
+        ...prev[id_detail],
         alasan: value
       }
     }));
   };
 
-  const getStokStatus = (id_produk) => {
-    const data = adjustmentData[id_produk];
+  const getStokGudangStatus = (id_detail) => {
+    const data = adjustmentData[id_detail];
     if (!data || data.jumlahGudang === "") return "-";
     
-    const selisih = parseInt(data.jumlahGudang) - data.stokSistem;
-    if (selisih === 0 || data.isSesuai) return "SESUAI";
+    const selisih = parseInt(data.jumlahGudang) - data.jumlahSistem;
+    if (selisih === 0 || data.isChecked) return "SESUAI";
     if (selisih > 0) return `+${selisih}`;
     return selisih.toString();
   };
 
   const handleSubmit = async () => {
-    // Collect adjustment items
-    const items = [];
+    // Collect adjustment items - aggregate per product
+    const productAggregates = {};
 
     products.forEach(product => {
-      const data = adjustmentData[product.id_produk];
-      if (data && data.jumlahGudang !== "") {
-        items.push({
+      let totalSistem = 0;
+      let totalGudang = 0;
+      let hasData = false;
+      let alasan = "";
+
+      product.items.forEach(item => {
+        const data = adjustmentData[item.id_detail_barang_masuk];
+        if (data && data.jumlahGudang !== "") {
+          hasData = true;
+          totalSistem += data.jumlahSistem;
+          totalGudang += parseInt(data.jumlahGudang);
+          if (data.alasan && !alasan) alasan = data.alasan;
+        }
+      });
+
+      if (hasData) {
+        productAggregates[product.id_produk] = {
           id_produk: product.id_produk,
-          stok_gudang: parseInt(data.jumlahGudang),
-          stok_sistem: data.stokSistem,
-          alasan: data.alasan || null
-        });
+          stok_gudang: totalGudang,
+          stok_sistem: totalSistem,
+          alasan: alasan || null
+        };
       }
     });
+
+    const items = Object.values(productAggregates);
 
     if (items.length === 0) {
       alert("Mohon isi minimal satu data penyesuaian");
@@ -128,6 +186,11 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
 
   const currentProduct = products[currentProductIndex];
   const totalProducts = products.length;
+
+  // Calculate product total
+  const getProductTotal = (product) => {
+    return product.items.reduce((sum, item) => sum + item.jumlah_barang_masuk, 0);
+  };
 
   return (
     <div className="form-stock-adjustment">
@@ -168,76 +231,106 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
             </div>
 
             {/* Current Product Card */}
-            {currentProduct && (() => {
-              const data = adjustmentData[currentProduct.id_produk] || {};
-              const status = getStokStatus(currentProduct.id_produk);
-              const isSesuai = status === "SESUAI";
-              const stokSistem = parseInt(currentProduct.stok_sistem) || 0;
-
-              return (
-                <div className="product-card">
-                  <div className="product-info">
-                    <div className="product-left">
-                      <span className="product-code">{currentProduct.id_produk}</span>
-                      <span className="product-name">
-                        {currentProduct.nama_produk} {currentProduct.ukuran_produk}{currentProduct.nama_ukuran_satuan}
-                      </span>
-                    </div>
+            {currentProduct && (
+              <div className="product-card">
+                <div className="product-info">
+                  <div className="product-left">
+                    <span className="product-code">{currentProduct.id_produk}</span>
+                    <span className="product-name">
+                      {currentProduct.nama_produk} {currentProduct.ukuran_produk}{currentProduct.nama_ukuran_satuan}
+                    </span>
                   </div>
-
-                  <div className="adjustment-input">
-                    <div className="input-row">
-                      <label>Stok Sistem (Data):</label>
-                      <span className="stok-value">{stokSistem} botol</span>
-                    </div>
-                    
-                    <div className="input-row">
-                      <label>
-                        <input 
-                          type="checkbox"
-                          checked={data.isSesuai || false}
-                          onChange={() => handleSesuaiChange(currentProduct.id_produk, stokSistem)}
-                        />
-                        Stok Sesuai
-                      </label>
-                    </div>
-
-                    <div className="input-row">
-                      <label>Jumlah di Gudang:</label>
+                  <div className="product-right">
+                    <label className="master-checkbox">
                       <input 
-                        type="number"
-                        className="jumlah-input"
-                        value={data.jumlahGudang || ""}
-                        onChange={(e) => handleJumlahChange(currentProduct.id_produk, e.target.value)}
-                        placeholder="0"
-                        min="0"
-                        disabled={data.isSesuai}
+                        type="checkbox"
+                        checked={productChecked[currentProduct.id_produk] || false}
+                        onChange={() => handleProductCheckboxChange(currentProduct)}
                       />
-                      <span>botol</span>
-                    </div>
-
-                    <div className="input-row">
-                      <label>Alasan Tidak Sesuai:</label>
-                      <input 
-                        type="text"
-                        className="alasan-input"
-                        value={data.alasan || ""}
-                        onChange={(e) => handleAlasanChange(currentProduct.id_produk, e.target.value)}
-                        placeholder="Berikan Alasan..."
-                        disabled={isSesuai}
-                      />
-                    </div>
-
-                    <div className="status-row">
-                      <label>Status Stok Gudang:</label>
-                      <span className={`status ${isSesuai ? 'sesuai' : 'tidak-sesuai'}`}>
-                        {status}
-                      </span>
-                    </div>
+                      Semua Sesuai
+                    </label>
                   </div>
                 </div>
-              );
-            })()}
+
+                <div className="adjustment-table-wrapper">
+                  <table className="adjustment-table">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Tanggal Masuk</th>
+                        <th>Tanggal Kadaluarsa</th>
+                        <th>Data Barang Masuk</th>
+                        <th></th>
+                        <th>Jumlah di Gudang</th>
+                        <th>Alasan Tidak Sesuai</th>
+                        <th>Stok Gudang</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentProduct.items.map((item, index) => {
+                        const data = adjustmentData[item.id_detail_barang_masuk] || {};
+                        const status = getStokGudangStatus(item.id_detail_barang_masuk);
+                        const isSesuai = status === "SESUAI";
+                        
+                        return (
+                          <tr key={item.id_detail_barang_masuk}>
+                            <td className="center">{index + 1}</td>
+                            <td>{formatDate(item.tanggal_masuk)}</td>
+                            <td>{formatDate(item.tanggal_expired)}</td>
+                            <td className="center">{item.jumlah_barang_masuk} botol</td>
+                            <td className="center">
+                              <input 
+                                type="checkbox"
+                                checked={data.isChecked || false}
+                                onChange={() => handleItemCheckboxChange(
+                                  item.id_detail_barang_masuk, 
+                                  item.jumlah_barang_masuk
+                                )}
+                              />
+                            </td>
+                            <td>
+                              <input 
+                                type="number"
+                                className="jumlah-input"
+                                value={data.jumlahGudang || ""}
+                                onChange={(e) => handleJumlahChange(
+                                  item.id_detail_barang_masuk, 
+                                  e.target.value
+                                )}
+                                placeholder="0"
+                                min="0"
+                                disabled={data.isChecked}
+                              />
+                            </td>
+                            <td>
+                              <input 
+                                type="text"
+                                className="alasan-input"
+                                value={data.alasan || ""}
+                                onChange={(e) => handleAlasanChange(
+                                  item.id_detail_barang_masuk, 
+                                  e.target.value
+                                )}
+                                placeholder="Berikan Alasan..."
+                                disabled={isSesuai}
+                              />
+                            </td>
+                            <td className={`status-cell ${isSesuai ? 'sesuai' : 'tidak-sesuai'}`}>
+                              {status}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      <tr className="total-row">
+                        <td colSpan="3" className="text-right">Total Produk</td>
+                        <td className="center">{getProductTotal(currentProduct)} botol</td>
+                        <td colSpan="4"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
 
             {/* Catatan */}
             <div className="catatan-section">
