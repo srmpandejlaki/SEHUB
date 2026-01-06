@@ -38,6 +38,7 @@ function TableInventory({
                   tanggalMasuk={item.tanggal_masuk}
                   items={item.items}
                   id_barang_masuk={item.id_barang_masuk}
+                  catatan={item.catatan_barang_masuk}
                   onEdit={onEdit}
                 />
               ))

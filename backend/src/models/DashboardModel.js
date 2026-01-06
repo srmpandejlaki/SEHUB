@@ -43,7 +43,7 @@ const DashboardModel = {
     };
   },
 
-  // Get products expiring soon (within 30 days)
+  // Get products expiring soon (within 30 days) or already expired
   getExpiringSoon: async (daysAhead = 30) => {
     const result = await db.query(`
       SELECT 
@@ -61,11 +61,11 @@ const DashboardModel = {
       JOIN nama_produk n ON p.id_nama_produk = n.id_nama_produk
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
-      WHERE dbm.tanggal_expired <= CURRENT_DATE + $1
-        AND dbm.tanggal_expired >= CURRENT_DATE
+      WHERE dbm.tanggal_expired <= CURRENT_DATE + CAST($1 AS INTEGER)
       ORDER BY dbm.tanggal_expired ASC
     `, [daysAhead]);
 
+    console.log("Expiring soon query returned:", result.rows.length, "items");
     return result.rows;
   },
 

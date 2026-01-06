@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
-import NavDistribution from "../../../components/base/nav-distribution";
 import TableInventory from "../../../components/product-page/inventory/table-inventory";
 import FormDataInventory from "../../../components/product-page/inventory/form-data-inventory";
-import IconBar from "../../../assets/icon/material-symbols_menu-rounded.svg?react";
+import IconTambah from "../../../assets/icon/mdi_add-bold.svg?react";
 import { fetchAllInventoryData } from "../../../utilities/api/inventory";
 
-function InventoryHistoryPage() {
-  const [showNavDis, setNavDis] = useState(false);
-  const [closeHumberger, setHumberger] = useState(true);
+function InventoryHistoryPage({ disableAddButton = false }) {
   const [showFormDis, setFormDis] = useState(false);
   const [existingData, setExistingData] = useState([]);
   
@@ -44,16 +41,6 @@ function InventoryHistoryPage() {
       console.error("Gagal memuat data:", error);
       setExistingData([]);
     }
-  };
-
-  const handleOpenNavDis = () => {
-    setNavDis(true);
-    setHumberger(false);
-  };
-
-  const handleCloseNavDis = () => {
-    setNavDis(false);
-    setHumberger(true);
   };
 
   const handleOpenFormDis = () => {
@@ -119,12 +106,14 @@ function InventoryHistoryPage() {
           <p>Riwayat Data Inventori Produk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
-            {showNavDis && (
-              <NavDistribution onClose={handleCloseNavDis} openForm={handleOpenFormDis} to="/product/inventory" />
-            )}
-            {closeHumberger && (
-              <IconBar onClick={handleOpenNavDis} />
-            )}
+          </div>
+          <div 
+            className={`base-btn ${disableAddButton ? 'disabled' : 'black'}`}
+            onClick={handleOpenFormDis}
+            style={disableAddButton ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+            title={disableAddButton ? "Tambahkan data barang masuk terlebih dahulu" : "Tambah Data"}
+          >
+            <IconTambah className="icon whiteIcon" />Tambah Data
           </div>
         </div>
         <TableInventory 

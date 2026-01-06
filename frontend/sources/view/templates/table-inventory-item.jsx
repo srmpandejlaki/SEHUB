@@ -1,7 +1,7 @@
 import React from "react";
 import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 
-function TableInventoryItem({ rowNumber, tanggalMasuk, items, id_barang_masuk, onEdit }) {
+function TableInventoryItem({ rowNumber, tanggalMasuk, items, id_barang_masuk, catatan, onEdit }) {
   // Helper function to format date
   const formatDate = (dateString) => {
     if (!dateString) return "-";
@@ -16,7 +16,7 @@ function TableInventoryItem({ rowNumber, tanggalMasuk, items, id_barang_masuk, o
   // Handle edit click
   const handleEditClick = () => {
     if (onEdit) {
-      onEdit({ id_barang_masuk, tanggal_masuk: tanggalMasuk, items });
+      onEdit({ id_barang_masuk, tanggal_masuk: tanggalMasuk, items, catatan_barang_masuk: catatan });
     }
   };
 
@@ -71,7 +71,10 @@ function TableInventoryItem({ rowNumber, tanggalMasuk, items, id_barang_masuk, o
           
           <td className="center">{formatDate(item.tanggal_expired)}</td>
           
-          <td>{item.keterangan || "-"}</td>
+          {/* Show keterangan only on first item */}
+          {index === 0 ? (
+            <td rowSpan={items.length}>{catatan || "-"}</td>
+          ) : null}
           
           {index === 0 ? (
             <td rowSpan={items.length}>
