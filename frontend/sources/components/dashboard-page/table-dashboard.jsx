@@ -54,12 +54,10 @@ function DashboardTable({ recentDistributions = [] }) {
               <tr>
                   <th className="center">No</th>
                   <th>Hari/Tanggal</th>
-                  <th>Nama Pemesan</th>
-                  <th>Produk</th>
+                  <th className="center">Nama Pemesan</th>
+                  <th className="center">Produk</th>
                   <th className="center">Jumlah</th>
-                  <th className="center">Total</th>
-                  <th>Metode</th>
-                  <th>Status</th>
+                  <th className="center">Metode</th>
               </tr>
           </thead>
           <tbody>
@@ -77,24 +75,21 @@ function DashboardTable({ recentDistributions = [] }) {
                       <td rowSpan={row.rowSpan}>{row.nama_pemesan}</td>
                     </>
                   )}
-                  <td>
-                    {row.item ? (
+                  {row.item ? (
+                    <td className="center">
                       <div className="produk-code">
-                        <p className="code">{row.item.id_produk}</p>
                         <p className="name">
                           {row.item.nama_produk} {row.item.ukuran_produk}{row.item.nama_ukuran_satuan}
                         </p>
                       </div>
-                    ) : (
-                      "-"
-                    )}
-                  </td>
+                    </td>
+                  ) : (
+                    "-"
+                  )}
                   <td className="center">{row.item?.jumlah || "-"}</td>
                   {row.isFirstRow && (
                     <>
-                      <td className="center" rowSpan={row.rowSpan}>{row.total_jumlah || 0}</td>
                       <td rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
-                      <td rowSpan={row.rowSpan}>{row.nama_status || "-"}</td>
                     </>
                   )}
                 </tr>

@@ -27,8 +27,8 @@ function App() {
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser));
-      } catch (e) {
-        localStorage.removeItem("user");
+      } catch (error) {
+        localStorage.removeItem("user", error);
       }
     }
     setIsLoading(false);

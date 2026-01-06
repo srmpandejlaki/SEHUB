@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import NavProduct from "../../components/base/nav-product";
-import SearchFilter from "../../components/base/search-filter";
 import TableStockAdjustment from "../../components/product-page/stock-adjustment/table-stock-adjustment";
 import FormStockAdjustment from "../../components/product-page/stock-adjustment/form-stock-adjustment";
 import IconBar from "../../assets/icon/material-symbols_menu-rounded.svg?react";
@@ -69,7 +68,6 @@ function StockAdjustmentPage() {
         <div className="header-stock-adjustment">
           <p>Riwayat Penyesuaian Stok Gudang</p>
           <div className="adjustment-controls">
-            <SearchFilter />
             <button className="base-btn green" onClick={handleOpenForm}>
               + Mulai Penyesuaian
             </button>

@@ -3,7 +3,7 @@ import IconCountProduct from "../../assets/icon/Vector-1.svg?react";
 import IconCountCustomer from "../../assets/icon/Vector-2.svg?react";
 
 function ShortPanel({ statistics }) {
-  const { totalProducts = 0, totalCustomers = 0, productsWithStock = [] } = statistics || {};
+  const { totalProducts = 0,  productsWithStock = [] } = statistics || {};
 
   return(
     <div className="short-panel">
@@ -15,16 +15,6 @@ function ShortPanel({ statistics }) {
         <div className="iconCircle">
           <div></div>
           <IconCountProduct className="icon onPanel" />
-        </div>
-      </div>
-      <div className="panel">
-        <div className="text">
-          <p className="title">Total Pembeli</p>
-          <p className="number">{totalCustomers}</p>
-        </div>
-        <div className="iconCircle">
-          <div></div>
-          <IconCountCustomer className="icon onPanel" />
         </div>
       </div>
       <div className="panel stock-list">

@@ -1,23 +1,11 @@
 import React from "react";
-import DistributionCard from "../../../view/templates/distribution-card";
+import TableDistribution from "./table-distribution";
 
-function DistributionProduct({ existingData }) {
+function DistributionProduct() {
   return(
-    <div className="inventory-items">
-      {existingData.length === 0 ? (
-        <p className="no-data">Belum ada produk.</p>
-      ) : (
-        existingData.map((item) => (
-          <DistributionCard 
-            key={item.id}
-            namaProduk={item.namaProduk}
-            ukuranProduk={item.ukuranProduk}
-            ukuranSatuan={item.ukuranSatuan}
-            totalDistribusi={item.totalDistribusi}
-            distribusiHariIni={item.distribusiHariIni}
-            imageProduk={item.imageProduk} />
-        ))
-      )}
+    <div className="">
+      <p>tabel data distribusi produk yang sedang diproses atau dalam perjalanan <br /><br /></p>
+      <TableDistribution />
     </div>
   );
 }
