@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import NavProduct from "../../components/base/nav-product";
 import TableStockAdjustment from "../../components/product-page/stock-adjustment/table-stock-adjustment";
 import FormStockAdjustment from "../../components/product-page/stock-adjustment/form-stock-adjustment";
-import IconBar from "../../assets/icon/material-symbols_menu-rounded.svg?react";
 import { fetchAllAdjustments, deleteAdjustment } from "../../utilities/api/stock-adjustment";
 
 function StockAdjustmentPage() {

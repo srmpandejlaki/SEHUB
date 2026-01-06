@@ -14,8 +14,14 @@ function DashboardTable({ recentDistributions = [] }) {
   };
 
   // Flatten distributions for table display
+  const statusPengiriman = ["Diproses", "Dalam Perjalanan"];
+
+  const processedDistributions = recentDistributions.filter(
+    (dist) => statusPengiriman.includes(dist.nama_status)
+  );
+
   const tableRows = [];
-  recentDistributions.forEach((dist, distIndex) => {
+  processedDistributions.forEach((dist, distIndex) => {
     if (dist.items && dist.items.length > 0) {
       dist.items.forEach((item, itemIndex) => {
         tableRows.push({
@@ -45,7 +51,7 @@ function DashboardTable({ recentDistributions = [] }) {
           <p>Informasi Distribusi Produk</p>
         </div>
         <div className="btn-tbl-detail base-btn">
-          <Link to="/product/distribution-history" >Selengkapnya</Link>
+          <Link to="/product/distribution" >Selengkapnya</Link>
         </div>
       </div>
       <div className="table-dashboard">
@@ -70,13 +76,13 @@ function DashboardTable({ recentDistributions = [] }) {
                 <tr key={`${row.id_distribusi}-${index}`}>
                   {row.isFirstRow && (
                     <>
-                      <td className="center" rowSpan={row.rowSpan}>{row.rowNumber}</td>
+                      <td className="center" rowSpan={row.rowSpan}>{row.rowNumber}.</td>
                       <td rowSpan={row.rowSpan}>{formatDate(row.tanggal_distribusi)}</td>
                       <td rowSpan={row.rowSpan}>{row.nama_pemesan}</td>
                     </>
                   )}
                   {row.item ? (
-                    <td className="center">
+                    <td>
                       <div className="produk-code">
                         <p className="name">
                           {row.item.nama_produk} {row.item.ukuran_produk}{row.item.nama_ukuran_satuan}

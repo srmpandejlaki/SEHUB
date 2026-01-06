@@ -23,7 +23,7 @@ table {
 }
 
 thead th {
-    border-bottom: #f5f5f5 1px solid;
+    border-bottom: #909090 1px solid;
     top: 0;
     background-color: #f5f5f5;
     z-index: 2;
@@ -32,15 +32,18 @@ thead th {
 }
 
 tbody td {
-    border-top: #f5f5f5 1px solid;
+    border-top: #c5c5c5 1px solid;
+    padding: 5px;
 }
 
 // tabel dashboard
-.table-dashboard, .table-display {
-    max-height: 320px;
+.table-dashboard{
+    height: 320px;
 }
 
 .table-display {
+    max-height: 320px;
+
     select {
         border: none;
         background-color: transparent;

@@ -1,6 +1,5 @@
 import React from "react";
 import IconCountProduct from "../../assets/icon/Vector-1.svg?react";
-import IconCountCustomer from "../../assets/icon/Vector-2.svg?react";
 
 function ShortPanel({ statistics }) {
   const { totalProducts = 0,  productsWithStock = [] } = statistics || {};
