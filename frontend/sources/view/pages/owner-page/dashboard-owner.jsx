@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import DashboardTable from "../../../components/dashboard-page/table-dashboard";
 import DashboardChart from "../../../components/dashboard-page/dashboard-chart";
 import { fetchRecentDistributions, fetchMonthlyStats } from "../../../utilities/api/dashboard";
+import { fetchAllProducts } from "../../../utilities/api/products";
 
 function DashboardOwner({ user }) {
   const [recentDistributions, setRecentDistributions] = useState([]);
   const [monthlyStats, setMonthlyStats] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // Get current date formatted
@@ -20,7 +23,13 @@ function DashboardOwner({ user }) {
 
   useEffect(() => {
     loadDashboardData();
+    loadProducts();
   }, []);
+
+  // Reload chart when product selection changes
+  useEffect(() => {
+    loadMonthlyStats();
+  }, [selectedProduct]);
 
   const loadDashboardData = async () => {
     setLoading(true);
@@ -38,6 +47,28 @@ function DashboardOwner({ user }) {
     setLoading(false);
   };
 
+  const loadProducts = async () => {
+    try {
+      const data = await fetchAllProducts();
+      setProducts(data || []);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const loadMonthlyStats = async () => {
+    try {
+      const stats = await fetchMonthlyStats(selectedProduct);
+      setMonthlyStats(stats);
+    } catch (error) {
+      console.error("Error fetching monthly stats:", error);
+    }
+  };
+
+  const handleProductChange = (productId) => {
+    setSelectedProduct(productId);
+  };
+
   return (
     <div className="content dashboard">
       <div className="opening">
@@ -51,7 +82,12 @@ function DashboardOwner({ user }) {
         </div>
       ) : (
         <div className="container-dashboard">
-          <DashboardChart monthlyData={monthlyStats} />
+          <DashboardChart 
+            monthlyData={monthlyStats} 
+            products={products}
+            selectedProduct={selectedProduct}
+            onProductChange={handleProductChange}
+          />
           <DashboardTable recentDistributions={recentDistributions} />
         </div>
       )}

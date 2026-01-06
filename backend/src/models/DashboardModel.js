@@ -122,7 +122,8 @@ const DashboardModel = {
   },
 
   // Get monthly stats for charts (inventory and distribution by day)
-  getMonthlyStats: async () => {
+  // Optional id_produk parameter to filter by specific product
+  getMonthlyStats: async (id_produk = null) => {
     // Get first and last day of current month
     const now = new Date();
     const year = now.getFullYear();
@@ -133,29 +134,62 @@ const DashboardModel = {
     const startDate = firstDay.toISOString().split('T')[0];
     const endDate = lastDay.toISOString().split('T')[0];
 
-    // Get daily inventory data (barang masuk)
-    const inventoryResult = await db.query(`
-      SELECT 
-        DATE(bm.tanggal_masuk) as tanggal,
-        COALESCE(SUM(dbm.jumlah_barang_masuk), 0) as total
-      FROM barang_masuk bm
-      LEFT JOIN detail_barang_masuk dbm ON bm.id_barang_masuk = dbm.id_barang_masuk
-      WHERE DATE(bm.tanggal_masuk) >= $1 AND DATE(bm.tanggal_masuk) <= $2
-      GROUP BY DATE(bm.tanggal_masuk)
-      ORDER BY DATE(bm.tanggal_masuk) ASC
-    `, [startDate, endDate]);
+    // Build queries with optional product filter
+    let inventoryQuery, distributionQuery;
+    let queryParams = [startDate, endDate];
 
-    // Get daily distribution data
-    const distributionResult = await db.query(`
-      SELECT 
-        DATE(d.tanggal_distribusi) as tanggal,
-        COALESCE(SUM(dd.jumlah_barang_distribusi), 0) as total
-      FROM distribusi d
-      LEFT JOIN detail_distribusi dd ON d.id_distribusi = dd.id_distribusi
-      WHERE DATE(d.tanggal_distribusi) >= $1 AND DATE(d.tanggal_distribusi) <= $2
-      GROUP BY DATE(d.tanggal_distribusi)
-      ORDER BY DATE(d.tanggal_distribusi) ASC
-    `, [startDate, endDate]);
+    if (id_produk) {
+      queryParams.push(id_produk);
+      
+      inventoryQuery = `
+        SELECT 
+          DATE(bm.tanggal_masuk) as tanggal,
+          COALESCE(SUM(dbm.jumlah_barang_masuk), 0) as total
+        FROM barang_masuk bm
+        LEFT JOIN detail_barang_masuk dbm ON bm.id_barang_masuk = dbm.id_barang_masuk
+        WHERE DATE(bm.tanggal_masuk) >= $1 AND DATE(bm.tanggal_masuk) <= $2
+          AND dbm.id_produk = $3
+        GROUP BY DATE(bm.tanggal_masuk)
+        ORDER BY DATE(bm.tanggal_masuk) ASC
+      `;
+
+      distributionQuery = `
+        SELECT 
+          DATE(d.tanggal_distribusi) as tanggal,
+          COALESCE(SUM(dd.jumlah_barang_distribusi), 0) as total
+        FROM distribusi d
+        LEFT JOIN detail_distribusi dd ON d.id_distribusi = dd.id_distribusi
+        WHERE DATE(d.tanggal_distribusi) >= $1 AND DATE(d.tanggal_distribusi) <= $2
+          AND dd.id_produk = $3
+        GROUP BY DATE(d.tanggal_distribusi)
+        ORDER BY DATE(d.tanggal_distribusi) ASC
+      `;
+    } else {
+      inventoryQuery = `
+        SELECT 
+          DATE(bm.tanggal_masuk) as tanggal,
+          COALESCE(SUM(dbm.jumlah_barang_masuk), 0) as total
+        FROM barang_masuk bm
+        LEFT JOIN detail_barang_masuk dbm ON bm.id_barang_masuk = dbm.id_barang_masuk
+        WHERE DATE(bm.tanggal_masuk) >= $1 AND DATE(bm.tanggal_masuk) <= $2
+        GROUP BY DATE(bm.tanggal_masuk)
+        ORDER BY DATE(bm.tanggal_masuk) ASC
+      `;
+
+      distributionQuery = `
+        SELECT 
+          DATE(d.tanggal_distribusi) as tanggal,
+          COALESCE(SUM(dd.jumlah_barang_distribusi), 0) as total
+        FROM distribusi d
+        LEFT JOIN detail_distribusi dd ON d.id_distribusi = dd.id_distribusi
+        WHERE DATE(d.tanggal_distribusi) >= $1 AND DATE(d.tanggal_distribusi) <= $2
+        GROUP BY DATE(d.tanggal_distribusi)
+        ORDER BY DATE(d.tanggal_distribusi) ASC
+      `;
+    }
+
+    const inventoryResult = await db.query(inventoryQuery, queryParams);
+    const distributionResult = await db.query(distributionQuery, queryParams);
 
     // Create array of all days in month with data
     const daysInMonth = lastDay.getDate();

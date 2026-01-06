@@ -38,7 +38,8 @@ routerDashboard.get("/recent-distributions", async (req, res) => {
 // GET monthly stats for charts
 routerDashboard.get("/monthly-stats", async (req, res) => {
   try {
-    const stats = await DashboardModel.getMonthlyStats();
+    const id_produk = req.query.id_produk || null;
+    const stats = await DashboardModel.getMonthlyStats(id_produk);
     res.json({ success: true, data: stats });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

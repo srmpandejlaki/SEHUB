@@ -197,11 +197,52 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
 
-  h4 {
-    margin: 0 0 1rem 0;
-    color: custom.$color-primary;
-    font-size: 1.1rem;
-    font-weight: 600;
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    h4 {
+      margin: 0;
+      color: custom.$color-primary;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+  }
+
+  .chart-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    select {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      min-width: 200px;
+      cursor: pointer;
+      background-color: white;
+
+      &:focus {
+        outline: none;
+        border-color: custom.$color-primary;
+      }
+    }
+  }
+
+  .no-data {
+    text-align: center;
+    color: #999;
+    padding: 2rem;
   }
 
   .recharts-wrapper {

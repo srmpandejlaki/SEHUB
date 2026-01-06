@@ -64,9 +64,14 @@ export const fetchRecentDistributions = async (limit = 10) => {
 };
 
 // GET monthly stats for charts
-export const fetchMonthlyStats = async () => {
+export const fetchMonthlyStats = async (id_produk = null) => {
   try {
-    const response = await fetch(`${BASE_URL}dashboard/monthly-stats`, {
+    let url = `${BASE_URL}dashboard/monthly-stats`;
+    if (id_produk) {
+      url += `?id_produk=${id_produk}`;
+    }
+    
+    const response = await fetch(url, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
