@@ -118,13 +118,51 @@ const ReturnModel = {
         insertedItems.push(result.rows[0]);
       }
 
+      // Check if this is NOT a damaged goods return
+      // If catatan_return is not "barang rusak", add items to inventory
+      const isDamaged = catatan_return && catatan_return.toLowerCase().trim() === "barang rusak";
+
+      if (!isDamaged && items.length > 0) {
+        // Create barang_masuk entry with "return barang" note
+        const insertInventory = await client.query(
+          `INSERT INTO barang_masuk (tanggal_masuk, catatan_barang_masuk) 
+           VALUES ($1, $2) RETURNING id_barang_masuk`,
+          [tanggal_return, "return barang"]
+        );
+
+        const id_barang_masuk = insertInventory.rows[0].id_barang_masuk;
+
+        // For each returned item, get product details and add to detail_barang_masuk
+        for (const item of items) {
+          // Get product id and tanggal_expired from detail_distribusi
+          const productInfo = await client.query(
+            `SELECT dd.id_produk, dbm.tanggal_expired
+             FROM detail_distribusi dd
+             LEFT JOIN detail_barang_masuk dbm ON dd.id_detail_barang_masuk = dbm.id_detail_barang_masuk
+             WHERE dd.id_detail_distribusi = $1`,
+            [item.id_detail_distribusi]
+          );
+
+          if (productInfo.rows.length > 0) {
+            const { id_produk, tanggal_expired } = productInfo.rows[0];
+            
+            await client.query(
+              `INSERT INTO detail_barang_masuk (id_barang_masuk, id_produk, jumlah_barang_masuk, tanggal_expired)
+               VALUES ($1, $2, $3, $4)`,
+              [id_barang_masuk, id_produk, item.jumlah_barang_return, tanggal_expired]
+            );
+          }
+        }
+      }
+
       await client.query("COMMIT");
 
       return {
         id_return,
         tanggal_return,
         catatan_return,
-        items: insertedItems
+        items: insertedItems,
+        added_to_inventory: !isDamaged
       };
 
     } catch (err) {

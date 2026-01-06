@@ -8,6 +8,7 @@ function ReturnPage() {
   const [returns, setReturns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [damagedPage, setDamagedPage] = useState(1);
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -37,32 +38,81 @@ function ReturnPage() {
     }
   };
 
-  // Pagination logic
-  const totalPages = Math.ceil(returns.length / itemsPerPage) || 1;
-  const paginatedData = returns.slice(
+  // Separate damaged and non-damaged returns
+  const normalReturns = returns.filter(
+    (ret) => !ret.catatan_return || ret.catatan_return.toLowerCase().trim() !== "barang rusak"
+  );
+  const damagedReturns = returns.filter(
+    (ret) => ret.catatan_return && ret.catatan_return.toLowerCase().trim() === "barang rusak"
+  );
+
+  // Pagination for normal returns
+  const normalTotalPages = Math.ceil(normalReturns.length / itemsPerPage) || 1;
+  const normalPaginatedData = normalReturns.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  // Pagination for damaged returns
+  const damagedTotalPages = Math.ceil(damagedReturns.length / itemsPerPage) || 1;
+  const damagedPaginatedData = damagedReturns.slice(
+    (damagedPage - 1) * itemsPerPage,
+    damagedPage * itemsPerPage
+  );
+
   return (
-    <div className="content product-page">
+    <div className="content setting">
       <NavProduct />
-      <div className="product-display">
-        <div className="header-product-page">
-          <p className="title">Daftar Return Barang</p>
+      <div className="return-content-wrapper">
+        {/* Normal Returns Section */}
+        <div className="return-section">
+          <div className="header-product-page">
+            <p className="title">Daftar Return Barang</p>
+          </div>
+          <SearchFilter />
+          {loading ? (
+            <p>Memuat data...</p>
+          ) : (
+            <TableReturn 
+              data={normalPaginatedData}
+              onDelete={handleDelete}
+              currentPage={currentPage}
+              totalPages={normalTotalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
         </div>
-        <SearchFilter />
-        {loading ? (
-          <p>Memuat data...</p>
-        ) : (
-          <TableReturn 
-            data={paginatedData}
-            onDelete={handleDelete}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
+
+        {/* Damaged Goods Section */}
+        <div className="return-section damaged-section">
+          <div className="header-product-page">
+            <p className="title" style={{ color: '#d32f2f' }}>🚫 Daftar Barang Rusak</p>
+            <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>
+              Barang yang dikembalikan karena rusak (tidak ditambahkan ke stok)
+            </p>
+          </div>
+          {loading ? (
+            <p>Memuat data...</p>
+          ) : damagedReturns.length === 0 ? (
+            <div style={{ 
+              padding: '1rem', 
+              backgroundColor: '#f5f5f5', 
+              borderRadius: '8px',
+              textAlign: 'center',
+              color: '#666'
+            }}>
+              Tidak ada data barang rusak
+            </div>
+          ) : (
+            <TableReturn 
+              data={damagedPaginatedData}
+              onDelete={handleDelete}
+              currentPage={damagedPage}
+              totalPages={damagedTotalPages}
+              onPageChange={setDamagedPage}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

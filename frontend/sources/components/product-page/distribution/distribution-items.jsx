@@ -4,7 +4,7 @@ import FormEditDistribution from "./form-edit-distribution";
 import { fetchAllDistributions, updateDistributionStatus } from "../../../utilities/api/distribution";
 import { BASE_URL } from "../../../utilities";
 
-function DistributionProduct({ searchQuery = "" }) {
+function DistributionProduct({ searchQuery = "", reloadTrigger = 0 }) {
   const [distributions, setDistributions] = useState([]);
   const [statusPengiriman, setStatusPengiriman] = useState([]);
   const [metodePengiriman, setMetodePengiriman] = useState([]);
@@ -20,7 +20,7 @@ function DistributionProduct({ searchQuery = "" }) {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [reloadTrigger]);
 
   const loadData = async () => {
     setLoading(true);

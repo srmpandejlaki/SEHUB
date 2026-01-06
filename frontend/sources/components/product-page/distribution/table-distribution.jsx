@@ -10,7 +10,8 @@ function TableDistribution({
   onEdit,
   currentPage = 1,
   totalPages = 1,
-  onPageChange
+  onPageChange,
+  disableStatusSelect = false
 }) {
 
   const formatDate = (dateString) => {
@@ -127,6 +128,8 @@ function TableDistribution({
                         <select 
                           value={row.id_status || ""}
                           onChange={(e) => handleStatusChange(row.id_distribusi, e.target.value)}
+                          disabled={disableStatusSelect}
+                          style={disableStatusSelect ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
                         >
                           {statusPengiriman.map((status) => (
                             <option key={status.id_status} value={status.id_status}>

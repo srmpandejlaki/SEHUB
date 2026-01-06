@@ -94,3 +94,23 @@
     cursor: pointer;
   }
 }
+
+// Return Page Styles
+.return-content-wrapper {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
+
+.return-section {
+  background-color: custom.$color-primary;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+
+  &.damaged-section {
+    border-left: 4px solid #d32f2f;
+  }
+}
