@@ -85,10 +85,8 @@ const ProductModel = {
         n.nama_produk,
         us.nama_ukuran_satuan,
         k.nama_kemasan,
-        COALESCE(inv.total_masuk, 0) as total_masuk,
-        COALESCE(dist.total_keluar, 0) as total_keluar,
-        COALESCE(dist_today.distribusi_hari_ini, 0) as distribusi_hari_ini,
-        (COALESCE(inv.total_masuk, 0) - COALESCE(dist.total_keluar, 0)) as stok_sekarang
+        COALESCE(inv.stok_sekarang, 0) as stok_sekarang,
+        COALESCE(dist_today.distribusi_hari_ini, 0) as distribusi_hari_ini
       FROM produk p
       LEFT JOIN nama_produk n ON p.id_nama_produk = n.id_nama_produk
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
@@ -96,17 +94,10 @@ const ProductModel = {
       LEFT JOIN (
         SELECT 
           id_produk, 
-          SUM(jumlah_barang_masuk) as total_masuk
+          SUM(jumlah_barang_masuk) as stok_sekarang
         FROM detail_barang_masuk
         GROUP BY id_produk
       ) inv ON p.id_produk = inv.id_produk
-      LEFT JOIN (
-        SELECT 
-          id_produk, 
-          SUM(jumlah_barang_distribusi) as total_keluar
-        FROM detail_distribusi
-        GROUP BY id_produk
-      ) dist ON p.id_produk = dist.id_produk
       LEFT JOIN (
         SELECT 
           dd.id_produk, 

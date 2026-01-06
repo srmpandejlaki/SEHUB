@@ -94,7 +94,7 @@ const DistributionModel = {
 
       const id_distribusi = insertDistribusi.rows[0].id_distribusi;
 
-      // 2. Insert ke detail_distribusi
+      // 2. Insert ke detail_distribusi dan deduct dari inventory menggunakan FEFO
       const insertItemsQuery = `
         INSERT INTO detail_distribusi
         (id_distribusi, id_produk, jumlah_barang_distribusi)
@@ -105,12 +105,48 @@ const DistributionModel = {
       const insertedItems = [];
 
       for (const item of products) {
+        // Insert detail_distribusi
         const result = await client.query(insertItemsQuery, [
           id_distribusi,
           item.id_produk,
           item.jumlah
         ]);
         insertedItems.push(result.rows[0]);
+
+        // FEFO: Deduct from inventory starting with earliest expiry
+        let remainingToDeduct = parseInt(item.jumlah);
+
+        // Get inventory items sorted by expiry date (FEFO - earliest first)
+        const inventoryItems = await client.query(
+          `SELECT id_detail_barang_masuk, jumlah_barang_masuk, tanggal_expired
+           FROM detail_barang_masuk
+           WHERE id_produk = $1 AND jumlah_barang_masuk > 0
+           ORDER BY tanggal_expired ASC`,
+          [item.id_produk]
+        );
+
+        for (const invItem of inventoryItems.rows) {
+          if (remainingToDeduct <= 0) break;
+
+          const currentStock = invItem.jumlah_barang_masuk;
+          const deductAmount = Math.min(currentStock, remainingToDeduct);
+
+          // Update the inventory item
+          await client.query(
+            `UPDATE detail_barang_masuk 
+             SET jumlah_barang_masuk = jumlah_barang_masuk - $1
+             WHERE id_detail_barang_masuk = $2`,
+            [deductAmount, invItem.id_detail_barang_masuk]
+          );
+
+          remainingToDeduct -= deductAmount;
+          
+          console.log(`FEFO: Deducted ${deductAmount} from item ${invItem.id_detail_barang_masuk} (expired: ${invItem.tanggal_expired})`);
+        }
+
+        if (remainingToDeduct > 0) {
+          console.log(`WARNING: Not enough stock for product ${item.id_produk}. Remaining: ${remainingToDeduct}`);
+        }
       }
 
       await client.query("COMMIT");

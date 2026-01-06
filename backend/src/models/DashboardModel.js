@@ -9,7 +9,7 @@ const DashboardModel = {
     // Count unique customers (nama_pemesan from distribusi)
     const customerCount = await db.query("SELECT COUNT(DISTINCT nama_pemesan) FROM distribusi");
     
-    // Get products with current stock
+    // Get products with current stock (directly from detail_barang_masuk since FEFO modifies it)
     const productsWithStock = await db.query(`
       SELECT 
         p.id_produk,
@@ -18,21 +18,16 @@ const DashboardModel = {
         us.nama_ukuran_satuan,
         k.nama_kemasan,
         p.stok_minimum,
-        COALESCE(inv.total_masuk, 0) - COALESCE(dist.total_keluar, 0) as stok_sekarang
+        COALESCE(inv.stok_sekarang, 0) as stok_sekarang
       FROM produk p
       LEFT JOIN nama_produk n ON p.id_nama_produk = n.id_nama_produk
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
       LEFT JOIN (
-        SELECT id_produk, SUM(jumlah_barang_masuk) as total_masuk
+        SELECT id_produk, SUM(jumlah_barang_masuk) as stok_sekarang
         FROM detail_barang_masuk
         GROUP BY id_produk
       ) inv ON p.id_produk = inv.id_produk
-      LEFT JOIN (
-        SELECT id_produk, SUM(jumlah_barang_distribusi) as total_keluar
-        FROM detail_distribusi
-        GROUP BY id_produk
-      ) dist ON p.id_produk = dist.id_produk
       ORDER BY stok_sekarang ASC
     `);
 

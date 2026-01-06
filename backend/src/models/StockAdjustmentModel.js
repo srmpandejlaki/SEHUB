@@ -168,7 +168,7 @@ const StockAdjustmentModel = {
           const insertStock = await client.query(
             `INSERT INTO barang_masuk (tanggal_masuk, catatan_barang_masuk) 
              VALUES ($1, $2) RETURNING id_barang_masuk`,
-            [today, `Penyesuaian stok gudang${alasan ? ' - ' + alasan : ''}`]
+            [today, 'penyesuaian stok gudang']
           );
 
           // Set default expiry to 1 year from now (for adjustment items)
@@ -184,12 +184,42 @@ const StockAdjustmentModel = {
           );
 
         } else if (selisih < 0) {
-          // Stock di gudang lebih sedikit - buat data distribusi
-          // Cek apakah ada metode dan status pengiriman
+          // Stock di gudang lebih sedikit - deduct dari inventory menggunakan FEFO
+          const amountToDeduct = Math.abs(selisih);
+          let remainingToDeduct = amountToDeduct;
+
+          // Get inventory items sorted by expiry date (FEFO - earliest first)
+          const inventoryItems = await client.query(
+            `SELECT id_detail_barang_masuk, jumlah_barang_masuk, tanggal_expired
+             FROM detail_barang_masuk
+             WHERE id_produk = $1 AND jumlah_barang_masuk > 0
+             ORDER BY tanggal_expired ASC`,
+            [id_produk]
+          );
+
+          for (const invItem of inventoryItems.rows) {
+            if (remainingToDeduct <= 0) break;
+
+            const currentStock = invItem.jumlah_barang_masuk;
+            const deductAmount = Math.min(currentStock, remainingToDeduct);
+
+            // Update the inventory item
+            await client.query(
+              `UPDATE detail_barang_masuk 
+               SET jumlah_barang_masuk = jumlah_barang_masuk - $1
+               WHERE id_detail_barang_masuk = $2`,
+              [deductAmount, invItem.id_detail_barang_masuk]
+            );
+
+            remainingToDeduct -= deductAmount;
+            
+            console.log(`FEFO Adjustment: Deducted ${deductAmount} from item ${invItem.id_detail_barang_masuk} (expired: ${invItem.tanggal_expired})`);
+          }
+
+          // Create distribution record for audit trail
           const metodeRes = await client.query(`SELECT id_metode_pengiriman FROM metode_pengiriman LIMIT 1`);
           const statusRes = await client.query(`SELECT id_status FROM status_pengiriman LIMIT 1`);
 
-          // Jika tidak ada, buat default
           let id_metode = metodeRes.rows[0]?.id_metode_pengiriman;
           let id_status = statusRes.rows[0]?.id_status;
 
@@ -211,13 +241,13 @@ const StockAdjustmentModel = {
             `INSERT INTO distribusi (tanggal_distribusi, nama_pemesan, id_metode_pengiriman, id_status, catatan_distribusi) 
              VALUES ($1, $2, $3, $4, $5) 
              RETURNING id_distribusi`,
-            [today, 'Sistem - Penyesuaian Stok', id_metode, id_status, `Penyesuaian stok gudang${alasan ? ' - ' + alasan : ''}`]
+            [today, 'Sistem - Penyesuaian Stok', id_metode, id_status, 'penyesuaian stok gudang']
           );
 
           await client.query(
             `INSERT INTO detail_distribusi (id_distribusi, id_produk, jumlah_barang_distribusi)
              VALUES ($1, $2, $3)`,
-            [insertDist.rows[0].id_distribusi, id_produk, Math.abs(selisih)]
+            [insertDist.rows[0].id_distribusi, id_produk, amountToDeduct]
           );
         }
 
