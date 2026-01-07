@@ -100,19 +100,19 @@ function DistributionPage({ isAdmin = true }) {
           <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari distribusi..." />
           <DistributionProduct searchQuery={searchQuery} reloadTrigger={reloadTrigger} showActions={isAdmin} />
         </div>
+        {/* Form Tambah Distribusi */}
+        {showFormDis && (
+          <div className="form-overlay">
+            <FormDataDistribution 
+              onCloseForm={handleCloseFormDis} 
+              onSuccess={handleFormSuccess}
+              metodePengiriman={metodePengiriman}
+              statusPengiriman={statusPengiriman}
+            />
+          </div>
+        )}
       </div>
 
-      {/* Form Tambah Distribusi */}
-      {showFormDis && (
-        <div className="form-overlay">
-          <FormDataDistribution 
-            onCloseForm={handleCloseFormDis} 
-            onSuccess={handleFormSuccess}
-            metodePengiriman={metodePengiriman}
-            statusPengiriman={statusPengiriman}
-          />
-        </div>
-      )}
     </div>
   );
 }

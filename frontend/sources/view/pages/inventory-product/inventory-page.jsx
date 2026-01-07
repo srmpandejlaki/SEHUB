@@ -4,14 +4,20 @@ import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import InventoryProduct from "../../../components/product-page/inventory/inventory-items";
 import FormProduct from "../../../components/product-page/form-product";
+import FormDataInventory from "../../../components/product-page/inventory/form-data-inventory";
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconAddProduct from "../../../assets/icon/Vector-3.svg?react";
+import IconTambah from "../../../assets/icon/mdi_add-bold.svg?react";
 import { fetchProductsWithStock } from "../../../utilities/api/products";
 
 function InventoryPage({ isAdmin = true }) {
   const [existingData, setExistingData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showFormProduct, setShowFormProduct] = useState(false);
+  // Edit state
+  const [showFormEdit, setShowFormEdit] = useState(false);
+  const [editingData, setEditingData] = useState(null);
+  const [showFormDis, setFormDis] = useState(false);
   
   useEffect(() => {
     loadDataProducts();
@@ -56,6 +62,31 @@ function InventoryPage({ isAdmin = true }) {
     loadDataProducts();
   };
 
+  
+  const handleCloseEditForm = () => {
+    setShowFormEdit(false);
+    setEditingData(null);
+  };
+
+  const handleEditSuccess = () => {
+    setShowFormEdit(false);
+    setEditingData(null);
+    loadDataInventory();
+  };
+
+  const handleOpenFormDis = () => {
+    if (!isAdmin) return;
+    setFormDis(true);
+  };
+
+  const handleCloseFormDis = () => {
+    setFormDis(false);
+  };
+
+  const handleFormSuccess = () => {
+    loadDataInventory(); // Reload data after success
+  };
+
   // Filter products by search query
   const filteredProducts = existingData.filter((product) => {
     const query = searchQuery.toLowerCase();
@@ -82,6 +113,13 @@ function InventoryPage({ isAdmin = true }) {
                   </div>
                 </div>
               )}
+              {isAdmin && (
+                <div className="button">
+                  <div className="base-btn black" onClick={handleOpenFormDis}>
+                    <IconTambah className="icon whiteIcon" />Tambah Data
+                  </div>
+                </div>
+              )}
               <div className="button">
                 <div className="base-btn black">
                   <Link to="/product/inventory-history" >
@@ -97,6 +135,27 @@ function InventoryPage({ isAdmin = true }) {
         {showFormProduct && (
           <div className="form-overlay">
             <FormProduct closeFormProduct={handleCloseFormProduct} reloadProducts={reloadProducts} />
+          </div>
+        )}
+        
+        {showFormDis && (
+          <div className="form-overlay">
+            <FormDataInventory 
+              onCloseForm={handleCloseFormDis} 
+              onSuccess={handleFormSuccess}
+            />
+          </div>
+        )}
+
+        {/* Edit Form - Same as Add Form but with pre-filled data */}
+        {showFormEdit && editingData && (
+          <div className="form-overlay">
+            <FormDataInventory 
+              onCloseForm={handleCloseEditForm} 
+              onSuccess={handleEditSuccess}
+              editData={editingData}
+              isEdit={true}
+            />
           </div>
         )}
       </div>

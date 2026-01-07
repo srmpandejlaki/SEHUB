@@ -2,18 +2,11 @@ import React, { useState, useEffect } from "react";
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import TableInventory from "../../../components/product-page/inventory/table-inventory";
-import FormDataInventory from "../../../components/product-page/inventory/form-data-inventory";
-import IconTambah from "../../../assets/icon/mdi_add-bold.svg?react";
 import { fetchAllInventoryData } from "../../../utilities/api/inventory";
 
 function InventoryHistoryPage({ isAdmin = true }) {
-  const [showFormDis, setFormDis] = useState(false);
   const [existingData, setExistingData] = useState([]);
   
-  // Edit state
-  const [showFormEdit, setShowFormEdit] = useState(false);
-  const [editingData, setEditingData] = useState(null);
-
   // Search state
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -43,35 +36,11 @@ function InventoryHistoryPage({ isAdmin = true }) {
     }
   };
 
-  const handleOpenFormDis = () => {
-    if (!isAdmin) return;
-    setFormDis(true);
-  };
-
-  const handleCloseFormDis = () => {
-    setFormDis(false);
-  };
-
-  const handleFormSuccess = () => {
-    loadDataInventory(); // Reload data after success
-  };
-
   // Handle edit click
   const handleEdit = (data) => {
     if (!isAdmin) return;
     setEditingData(data);
     setShowFormEdit(true);
-  };
-
-  const handleCloseEditForm = () => {
-    setShowFormEdit(false);
-    setEditingData(null);
-  };
-
-  const handleEditSuccess = () => {
-    setShowFormEdit(false);
-    setEditingData(null);
-    loadDataInventory();
   };
 
   // Filter data based on search query
@@ -107,13 +76,6 @@ function InventoryHistoryPage({ isAdmin = true }) {
           <p>Riwayat Data Inventori Produk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
-            {isAdmin && (
-              <div className="button">
-                <div className="base-btn black" onClick={handleOpenFormDis}>
-                  <IconTambah className="icon whiteIcon" />Tambah Data
-                </div>
-              </div>
-            )}
           </div>
         </div>
         <TableInventory 
@@ -124,26 +86,6 @@ function InventoryHistoryPage({ isAdmin = true }) {
           onPageChange={setCurrentPage}
           showActions={isAdmin}
         />
-        {showFormDis && (
-          <div className="form-overlay">
-            <FormDataInventory 
-              onCloseForm={handleCloseFormDis} 
-              onSuccess={handleFormSuccess}
-            />
-          </div>
-        )}
-
-        {/* Edit Form - Same as Add Form but with pre-filled data */}
-        {showFormEdit && editingData && (
-          <div className="form-overlay">
-            <FormDataInventory 
-              onCloseForm={handleCloseEditForm} 
-              onSuccess={handleEditSuccess}
-              editData={editingData}
-              isEdit={true}
-            />
-          </div>
-        )}
       </div>
     </div>
   );
