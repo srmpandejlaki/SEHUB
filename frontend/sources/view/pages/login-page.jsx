@@ -39,7 +39,7 @@ function LoginPage({ onLoginSuccess }) {
       if (result.data.is_admin) {
         navigate("/dashboard");
       } else {
-        navigate("/laporan");
+        navigate("/dashboard-owner");
       }
     } else {
       setErrorMessage(result.message);
@@ -54,7 +54,7 @@ function LoginPage({ onLoginSuccess }) {
       <div className="login-section">
         <div className="login-text">
           <img src={logoSehub} alt="Logo SEHUB" />
-          <h3>Aplikasi Pendataan Inventori dan Distribusi Produk L' Arbre Seho</h3>
+          <h3>Aplikasi Pengelolaan Inventori dan Distribusi Produk L' Arbre Seho</h3>
         </div>
         <form className="login-form" onSubmit={handleSubmit}>
           {errorMessage && (
@@ -74,11 +74,11 @@ function LoginPage({ onLoginSuccess }) {
             />
           </div>
           <div className="inputan">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Kata Sandi</label>
             <input 
               type="password" 
               id="password"
-              placeholder="Masukkan password" 
+              placeholder="Masukkan kata sandi" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
@@ -90,7 +90,7 @@ function LoginPage({ onLoginSuccess }) {
               className="base-btn black"
               disabled={isLoading}
             >
-              <p>{isLoading ? "Memproses..." : "Login"}</p>
+              <p>{isLoading ? "Memproses..." : "Masuk"}</p>
             </button>
           </div>
         </form>

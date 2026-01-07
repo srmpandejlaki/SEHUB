@@ -60,11 +60,6 @@ function AsideBar({ user, onLogout }) {
                     <IconProduct className="icon greenIcon" /> Produk
                   </NavLink>
                 </div>
-                <div>
-                  <NavLink to="/laporan" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconHome className="icon greenIcon" /> Laporan
-                  </NavLink>
-                </div>
               </>
             )}
           </div>
@@ -74,7 +69,7 @@ function AsideBar({ user, onLogout }) {
         {/* Tombol Logout */}
         <div className="logout-section">
           <button className="logout-btn" onClick={handleLogout}>
-            Logout
+            Keluar
           </button>
         </div>
         <p>Powered by : PT. Rumah Seho Nusantara</p>

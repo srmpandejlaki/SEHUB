@@ -5,7 +5,7 @@ function Header() {
   return (
     <header>
       <div className="logo-larbre">
-        <h2>Aplikasi Pendataan Inventori dan Distribusi Produk L' Arbre Seho</h2>
+        <h2>Aplikasi Pengelolaan Inventori dan Distribusi Produk L' Arbre Seho</h2>
         <img src={logoLarbre} alt="Logo L'Arbre Seho" />
       </div>
     </header>

@@ -34,7 +34,7 @@ function DashboardChart({ monthlyData, products, selectedProduct, onProductChang
       {!monthlyData || !monthlyData.data || monthlyData.data.length === 0 ? (
         <p className="no-data">Tidak ada data untuk ditampilkan.</p>
       ) : (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={250}>
           <LineChart
             data={monthlyData.data}
             margin={{ top: 20, right: 30, left: 0, bottom: 5 }}

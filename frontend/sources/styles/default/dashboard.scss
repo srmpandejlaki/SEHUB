@@ -4,7 +4,7 @@
   gap: 1rem;
   display: grid;
   grid-template-columns: 3fr 1fr;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: auto;
   grid-template-areas:
     "short-panel notification-side"
     "dashboard-table notification-side";
@@ -190,12 +190,12 @@
 
 // Dashboard Chart styles
 .dashboard-chart {
-  grid-column: 1 / -1;
+  // grid-column: 1 / -1;
   background-color: white;
-  padding: 1.5rem;
+  padding: 0.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
+  margin-top: 1rem;
 
   .chart-header {
     display: flex;
@@ -207,8 +207,8 @@
 
     h4 {
       margin: 0;
-      color: custom.$color-primary;
-      font-size: 1.1rem;
+      color: custom.$color-secondary;
+      font-size: 1rem;
       font-weight: 600;
     }
   }
@@ -219,7 +219,7 @@
     gap: 0.5rem;
 
     label {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       color: #666;
     }
 
@@ -227,7 +227,7 @@
       padding: 0.5rem 1rem;
       border: 1px solid #ddd;
       border-radius: 6px;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       min-width: 200px;
       cursor: pointer;
       background-color: white;
