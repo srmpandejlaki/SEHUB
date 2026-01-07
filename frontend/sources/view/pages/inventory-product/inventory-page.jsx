@@ -82,7 +82,6 @@ function InventoryPage({ isAdmin = true }) {
     loadDataProducts();
   };
 
-  
   const handleCloseEditForm = () => {
     setShowFormEdit(false);
     setEditingData(null);
@@ -125,20 +124,20 @@ function InventoryPage({ isAdmin = true }) {
       <div className="main-inventory">
         <div className="inventory-display">
           <div className="header-inventory">
-            <p>Pratinjau Data Inventori Produk</p>
+            <p>Pratinjau Data Barang Masuk (Inventori) <br /> <span>menampilkan jumlah stok saat ini.</span></p>
             <div className="buttons">
               {isAdmin && (
                 <div className="button">
                   <div className="base-btn black" onClick={handleOpenFormProduct}>
                     <IconAddProduct className="icon" />
-                    <p>Tambah Produk</p>
+                    <p>Tambah Barang</p>
                   </div>
                 </div>
               )}
               {isAdmin && (
                 <div className="button">
                   <div className="base-btn black" onClick={handleOpenFormDis}>
-                    <IconTambah className="icon whiteIcon" />Tambah Data
+                    <IconTambah className="icon whiteIcon" />Barang Masuk
                   </div>
                 </div>
               )}

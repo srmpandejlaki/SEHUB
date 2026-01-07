@@ -15,12 +15,12 @@ function NavProduct({ user }) {
       adminOnly: true,
     },
     {
-      label: "Inventori Produk",
+      label: "Inventori Barang",
       path: "/product/inventory",
       icon: <IconInventoryProduct className="icon" />,
     },
     {
-      label: "Distribusi Produk",
+      label: "Distribusi Barang",
       path: "/product/distribution",
       icon: <IconDistribution className="icon" />,
     },

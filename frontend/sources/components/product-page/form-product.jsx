@@ -78,14 +78,14 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
-          <p>Tambah Produk</p>
+          <p>Tambah Barang</p>
         </div>
         <IconCancel className="icon" onClick={closeFormProduct} />
       </div>
 
       <form className="main-form" onSubmit={handleSubmit}>
         <div className="inputan">
-          <label>Nama Produk</label>
+          <label>Nama Barang</label>
           <select value={idNamaProduk} onChange={(e) => setIdNamaProduk(e.target.value)} required>
             <option value="">-- Pilih --</option>
             {namaProdukList.map((item) => (
@@ -98,7 +98,7 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
 
         <div className="double-form">
           <div className="inputan">
-            <label>Ukuran</label>
+            <label>Berat Barang</label>
             <input
               type="text"
               placeholder="0"
@@ -147,7 +147,7 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
         </div>
 
         <div className="inputan">
-          <label>Gambar</label>
+          <label>Gambar Barang</label>
           <input
             type="file"
             accept="image/*"

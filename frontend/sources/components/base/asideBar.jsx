@@ -5,6 +5,7 @@ import IconMenu from "../../assets/icon/Vector-5.svg?react";
 import IconHome from "../../assets/icon/Vector-4.svg?react";
 import IconProduct from "../../assets/icon/Vector-7.svg?react";
 import IconSetting from "../../assets/icon/Vector-6.svg?react";
+import IconReport from "../../assets/icon/lsicon_report-filled.svg?react";
 
 function AsideBar({ user, onLogout }) {
   const handleLogout = () => {
@@ -42,7 +43,7 @@ function AsideBar({ user, onLogout }) {
                 </div>
                 <div>
                   <NavLink to="/laporan" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconSetting className="icon greenIcon" /> Laporan
+                    <IconReport className="icon greenIcon" /> Laporan
                   </NavLink>
                 </div>
                 <div>
@@ -77,7 +78,7 @@ function AsideBar({ user, onLogout }) {
             Keluar
           </button>
         </div>
-        <p>Powered by : PT. Rumah Seho Nusantara</p>
+        {/* <p>Powered by : PT. Rumah Seho Nusantara</p> */}
       </div>
     </div>
   );
