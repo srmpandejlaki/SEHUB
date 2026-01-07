@@ -3,6 +3,7 @@ import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import TableInventory from "../../../components/product-page/inventory/table-inventory";
 import FormDataInventory from "../../../components/product-page/inventory/form-data-inventory";
+import IconLaporan from "../../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllInventoryData } from "../../../utilities/api/inventory";
 
 function InventoryHistoryPage({ isAdmin = true }) {
@@ -92,6 +93,9 @@ function InventoryHistoryPage({ isAdmin = true }) {
           <p>Riwayat Data Inventori Produk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
+            <div className="button">
+              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+            </div>
           </div>
         </div>
         <TableInventory 
