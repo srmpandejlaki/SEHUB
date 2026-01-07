@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import SearchFilter from "../../components/base/search-filter";
 import ProductItems from "../../components/product-page/product-items";
 import NavProduct from "../../components/base/nav-product";
-import FormProduct from "../../components/product-page/form-product";
-
-import IconAddProduct from "../../assets/icon/Vector-3.svg?react";
 import { fetchAllProducts } from "../../utilities/api/products";
 
 function ProductPage({ isAdmin = true }) {
@@ -74,25 +71,13 @@ function ProductPage({ isAdmin = true }) {
         <div className="product-display">
           <div className="header-product-page">
             <p className="title">Daftar Produk L' Arbre Seho</p>
-            {isAdmin && (
-              <div className="button">
-                <div className="base-btn black" onClick={handleOpenFormProduct}>
-                  <IconAddProduct className="icon" />
-                  <p>tambah produk</p>
-                </div>
-              </div>
-            )}
           </div>
 
           <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
           <ProductItems products={filteredProducts} />
         </div>
 
-        {showFormProduct && (
-          <div className="form-overlay">
-            <FormProduct closeFormProduct={handleCloseFormProduct} reloadProducts={reloadProducts} />
-          </div>
-        )}
+        
       </div>
     </div>
   );

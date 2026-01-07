@@ -90,7 +90,7 @@ function App() {
         <AsideBar user={user} onLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage user={user} />} />
           <Route path="/product" element={<ProductPage />} />
           <Route path="/setting" element={<SettingPage />} />
           <Route path="/product/inventory" element={<InventoryPage />} />

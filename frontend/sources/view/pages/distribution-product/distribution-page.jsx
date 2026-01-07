@@ -75,21 +75,25 @@ function DistributionPage({ isAdmin = true }) {
         <div className="inventory-display">
           <div className="header-distribution">
             <p>Pratinjau Data Distribusi Produk</p>
-            <div className="distribution-display">
-              {isAdmin && (
-                <div 
-                  className={`base-btn ${!hasInventoryData ? 'disabled' : 'black'}`}
-                  onClick={handleOpenFormDis}
-                  style={!hasInventoryData ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
-                  title={!hasInventoryData ? "Tambahkan data barang masuk terlebih dahulu" : "Tambah Data"}
-                >
-                  <IconTambah className="icon whiteIcon" />Tambah Data
+            <div className="buttons">
+              <div className="button">
+                {isAdmin && (
+                  <div 
+                    className={`base-btn ${!hasInventoryData ? 'disabled' : 'black'}`}
+                    onClick={handleOpenFormDis}
+                    style={!hasInventoryData ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+                    title={!hasInventoryData ? "Tambahkan data barang masuk terlebih dahulu" : "Tambah Data"}
+                  >
+                    <IconTambah className="icon whiteIcon" />Tambah Data
+                  </div>
+                )}
+              </div>
+              <div className="button">
+                <div className="base-btn black">
+                  <Link to="/product/distribution-history" >
+                    <IconHistory className="icon" />Riwayat Data
+                  </Link>
                 </div>
-              )}
-              <div className="base-btn black">
-                <Link to="/product/distribution-history" >
-                  <IconHistory className="icon" />Riwayat Data
-                </Link>
               </div>
             </div>
           </div>

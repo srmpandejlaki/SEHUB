@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import InventoryProduct from "../../../components/product-page/inventory/inventory-items";
+import FormProduct from "../../../components/product-page/form-product";
 import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
+import IconAddProduct from "../../../assets/icon/Vector-3.svg?react";
 import { fetchProductsWithStock } from "../../../utilities/api/products";
 
-function InventoryPage() {
+function InventoryPage({ isAdmin = true }) {
   const [existingData, setExistingData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showFormProduct, setShowFormProduct] = useState(false);
   
   useEffect(() => {
     loadDataProducts();
@@ -41,6 +44,18 @@ function InventoryPage() {
     }
   };
 
+  const handleOpenFormProduct = () => {
+    setShowFormProduct(true);
+  };
+
+  const handleCloseFormProduct = () => {
+    setShowFormProduct(false);
+  };  
+
+  const reloadProducts = () => {
+    loadDataProducts();
+  };
+
   // Filter products by search query
   const filteredProducts = existingData.filter((product) => {
     const query = searchQuery.toLowerCase();
@@ -58,17 +73,32 @@ function InventoryPage() {
         <div className="inventory-display">
           <div className="header-inventory">
             <p>Pratinjau Data Inventori Produk</p>
-            <div className="button">
-              <div className="base-btn black">
-                <Link to="/product/inventory-history" >
-                  <IconHistory className="icon" /> <p>Riwayat Tambah Data</p>
-                </Link>
+            <div className="buttons">
+              {isAdmin && (
+                <div className="button">
+                  <div className="base-btn black" onClick={handleOpenFormProduct}>
+                    <IconAddProduct className="icon" />
+                    <p>Tambah Produk</p>
+                  </div>
+                </div>
+              )}
+              <div className="button">
+                <div className="base-btn black">
+                  <Link to="/product/inventory-history" >
+                    <IconHistory className="icon" /> <p>Riwayat Data</p>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
           <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
           <InventoryProduct existingData={filteredProducts} />
         </div>
+        {showFormProduct && (
+          <div className="form-overlay">
+            <FormProduct closeFormProduct={handleCloseFormProduct} reloadProducts={reloadProducts} />
+          </div>
+        )}
       </div>
     </div>
   );

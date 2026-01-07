@@ -9,7 +9,7 @@ function UserSetting({ openFormUser, userData, editData, onAskDelete }) {
       <div className="header-user-setting">
         <div className="title">
           <IconUserSetting className="icon greenIcon" />
-          <p>Pengaturan Pengguna</p>
+          <h3>Pengaturan Pengguna</h3>
         </div>
         <div className="button">
           <div className="base-btn black" onClick={openFormUser} >

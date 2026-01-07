@@ -36,7 +36,7 @@ function AsideBar({ user, onLogout }) {
                   </NavLink>
                 </div>
                 <div>
-                  <NavLink to="/product" className={({ isActive }) => (isActive ? "active" : "")}>
+                  <NavLink to="/product/inventory" className={({ isActive }) => (isActive ? "active" : "")}>
                     <IconProduct className="icon greenIcon" /> Produk
                   </NavLink>
                 </div>

@@ -107,15 +107,14 @@ function InventoryHistoryPage({ isAdmin = true }) {
           <p>Riwayat Data Inventori Produk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
+            {isAdmin && (
+              <div className="button">
+                <div className="base-btn black" onClick={handleOpenFormDis}>
+                  <IconTambah className="icon whiteIcon" />Tambah Data
+                </div>
+              </div>
+            )}
           </div>
-          {isAdmin && (
-            <div 
-              className="base-btn black"
-              onClick={handleOpenFormDis}
-            >
-              <IconTambah className="icon whiteIcon" />Tambah Data
-            </div>
-          )}
         </div>
         <TableInventory 
           existingData={paginatedData} 

@@ -25,6 +25,11 @@
   @include custom.flex-between;
 }
 
+.buttons {
+  display: flex;
+  gap: 1rem;
+}
+
 .black {
   background-color: custom.$color-secondary;
 }

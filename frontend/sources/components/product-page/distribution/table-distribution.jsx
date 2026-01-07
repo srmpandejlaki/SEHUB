@@ -77,9 +77,7 @@ function TableDistribution({
               <th className="center">Jumlah</th>
               <th className="center">Total</th>
               <th>Metode Pengiriman</th>
-              {showActions && (
               <th className="center">Status</th>
-              )}
               {showActions && (
               <th></th>
               )}
@@ -95,7 +93,7 @@ function TableDistribution({
                 <tr key={`${row.id_distribusi}-${index}`} className={row.isFirstRow ? 'first-of-group' : 'grouped-row'}>
                   {row.isFirstRow && (
                     <>
-                      <td className="center" rowSpan={row.rowSpan}>{row.distIndex}</td>
+                      <td className="center" rowSpan={row.rowSpan}>{row.distIndex}.</td>
                       <td rowSpan={row.rowSpan}>{formatDate(row.tanggal_distribusi)}</td>
                       <td className="center" rowSpan={row.rowSpan}>{row.nama_pemesan}</td>
                     </>
@@ -129,7 +127,6 @@ function TableDistribution({
                       <td className="center" rowSpan={row.rowSpan}>{row.total}</td>
                       <td rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
                       {/* <td rowSpan={row.rowSpan}>{row.catatan_distribusi || "-"}</td> */}
-                      {showActions && (
                       <td rowSpan={row.rowSpan}>
                         <select 
                           value={row.id_status || ""}
@@ -144,7 +141,6 @@ function TableDistribution({
                           ))}
                         </select>
                       </td>
-                      )}
                       {showActions && (
                       <td rowSpan={row.rowSpan}>
                         <IconEdit 

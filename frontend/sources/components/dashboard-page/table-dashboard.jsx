@@ -64,6 +64,7 @@ function DashboardTable({ recentDistributions = [] }) {
                   <th className="center">Produk</th>
                   <th className="center">Jumlah</th>
                   <th className="center">Metode</th>
+                  <th className="center">Status</th>
               </tr>
           </thead>
           <tbody>
@@ -96,6 +97,7 @@ function DashboardTable({ recentDistributions = [] }) {
                   {row.isFirstRow && (
                     <>
                       <td rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
+                      <td rowSpan={row.rowSpan}>{row.nama_status || "-"}</td>
                     </>
                   )}
                 </tr>
