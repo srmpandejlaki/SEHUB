@@ -90,7 +90,7 @@ function InventoryHistoryPage({ isAdmin = true }) {
       <NavProduct />
       <div className="main-distribution">
         <div className="header-distribution-history">
-          <p>Riwayat Data Inventori Produk</p>
+          <p>Riwayat Barang Masuk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
             <div className="button">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SearchFilter from "../../components/base/search-filter";
 import NavProduct from "../../components/base/nav-product";
 import TableReturn from "../../components/product-page/return/table-return";
+import IconLaporan from "../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllReturns, deleteReturn } from "../../utilities/api/return";
 
 function ReturnPage({ isAdmin = true }) {
@@ -70,7 +71,12 @@ function ReturnPage({ isAdmin = true }) {
           <div className="header-product-page">
             <p className="title">Daftar Return Barang</p>
           </div>
-          <SearchFilter />
+          <div className="distribution-display return-display">
+            <SearchFilter />
+            <div className="button">
+              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+            </div>
+          </div>
           {loading ? (
             <p>Memuat data...</p>
           ) : (
@@ -92,6 +98,12 @@ function ReturnPage({ isAdmin = true }) {
             <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>
               Barang yang dikembalikan karena rusak (tidak ditambahkan ke stok)
             </p>
+          </div>
+          <div className="distribution-display return-display">
+            <SearchFilter />
+            <div className="button">
+              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+            </div>
           </div>
           {loading ? (
             <p>Memuat data...</p>

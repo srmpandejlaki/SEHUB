@@ -68,7 +68,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard-owner" replace />} />
             <Route path="/dashboard-owner" element={<DashboardOwner user={user} />} />
-            <Route path="/laporan" element={<LaporanSehub user={user} />} />
             <Route path="/product/inventory" element={<InventoryPage isAdmin={false} />} />
             <Route path="/product/inventory-history" element={<InventoryHistoryPage isAdmin={false} />} />
             <Route path="/product/distribution" element={<DistributionPage isAdmin={false} />} />

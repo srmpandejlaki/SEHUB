@@ -80,8 +80,8 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
         </div>
 
         <div className="inputan">
-          <label><IconPassword className="icon darkGreenIcon" />Password</label>
-          <input type="password" placeholder="Masukkan password pengguna" 
+          <label><IconPassword className="icon darkGreenIcon" />Kata Sandi</label>
+          <input type="password" placeholder="Masukkan kata sandi pengguna" 
                  value={userPassword} 
                  onChange={(e) => setUserPassword(e.target.value)} />
         </div>
@@ -94,7 +94,7 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
         </div>
 
         <div className="inputan">
-          <label><IconStatus className="icon darkGreenIcon" />Status</label>
+          <label><IconStatus className="icon darkGreenIcon" />Status (Role)</label>
           <select value={userStatus} 
                   onChange={(e) => setUserStatus(e.target.value)} >
             <option value="">-- Pilih --</option>

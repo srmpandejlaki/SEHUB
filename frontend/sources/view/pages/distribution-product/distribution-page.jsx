@@ -74,7 +74,7 @@ function DistributionPage({ isAdmin = true }) {
       <div className="main-inventory">
         <div className="inventory-display">
           <div className="header-distribution">
-            <p>Pratinjau Data Distribusi Produk</p>
+            <p>Pratinjau Data Distribusi Barang <br /><span>menampilkan data distribusi dengan status pengiriman Diproses dan Dalam Perjalanan.</span></p>
             <div className="buttons">
               <div className="button">
                 {isAdmin && (
@@ -97,7 +97,7 @@ function DistributionPage({ isAdmin = true }) {
               </div>
             </div>
           </div>
-          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari distribusi..." />
+          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari data distribusi..." />
           <DistributionProduct searchQuery={searchQuery} reloadTrigger={reloadTrigger} showActions={isAdmin} />
         </div>
         {/* Form Tambah Distribusi */}

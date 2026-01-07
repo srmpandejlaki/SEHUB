@@ -6,7 +6,7 @@
   justify-content: space-around;
 }
 
-.inventory-display, .product-display .title, .header-distribution-history {
+.inventory-display, .product-display .title, .header-distribution-history, .header-product-page {
   font-weight: bolder;
 }
 
@@ -79,7 +79,7 @@
   }
 }
 
-.header-inventory span {
+.header-inventory span, .header-distribution span {
   font-size: 0.8rem;
   color: custom.$code-product;
 }
@@ -150,4 +150,8 @@
 
 .distribution-items {
   margin-top: 0.5rem;
+}
+
+.return-display {
+  margin-bottom: 1rem;
 }

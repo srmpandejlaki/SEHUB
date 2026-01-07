@@ -3,6 +3,7 @@ import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import TableDistribution from "../../../components/product-page/distribution/table-distribution";
 import FormEditDistribution from "../../../components/product-page/distribution/form-edit-distribution";
+import IconLaporan from "../../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllDistributions, updateDistributionStatus } from "../../../utilities/api/distribution";
 import { BASE_URL } from "../../../utilities";
 
@@ -117,6 +118,9 @@ function DistributionHistoryPage({ isAdmin = true }) {
           <p>Riwayat Data Distribusi Produk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari distribusi..." />
+            <div className="button">
+              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+            </div>
           </div>
         </div>
         
