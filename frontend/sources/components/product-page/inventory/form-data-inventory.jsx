@@ -133,7 +133,7 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
-          <p>{isEdit ? "Edit Data Inventori" : "Tambah Data Inventori"}</p>
+          <p>{isEdit ? "Edit Data Barang Masuk" : "Tambah Data Barang Masuk"}</p>
         </div>
         <IconCancel className="icon" onClick={onCloseForm} />
       </div>

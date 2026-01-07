@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import NavProduct from "../../../components/base/nav-product";
 import SearchFilter from "../../../components/base/search-filter";
 import TableInventory from "../../../components/product-page/inventory/table-inventory";
+import FormDataInventory from "../../../components/product-page/inventory/form-data-inventory";
 import { fetchAllInventoryData } from "../../../utilities/api/inventory";
 
 function InventoryHistoryPage({ isAdmin = true }) {
   const [existingData, setExistingData] = useState([]);
   
+  // Edit state
+  const [showFormEdit, setShowFormEdit] = useState(false);
+  const [editingData, setEditingData] = useState(null);
+
   // Search state
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -41,6 +46,17 @@ function InventoryHistoryPage({ isAdmin = true }) {
     if (!isAdmin) return;
     setEditingData(data);
     setShowFormEdit(true);
+  };
+
+  const handleCloseEditForm = () => {
+    setShowFormEdit(false);
+    setEditingData(null);
+  };
+
+  const handleEditSuccess = () => {
+    setShowFormEdit(false);
+    setEditingData(null);
+    loadDataInventory();
   };
 
   // Filter data based on search query
@@ -86,6 +102,18 @@ function InventoryHistoryPage({ isAdmin = true }) {
           onPageChange={setCurrentPage}
           showActions={isAdmin}
         />
+
+        {/* Edit Form - Same as Add Form but with pre-filled data */}
+        {showFormEdit && editingData && (
+          <div className="form-overlay">
+            <FormDataInventory 
+              onCloseForm={handleCloseEditForm} 
+              onSuccess={handleEditSuccess}
+              editData={editingData}
+              isEdit={true}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

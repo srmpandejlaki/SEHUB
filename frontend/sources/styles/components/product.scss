@@ -79,6 +79,11 @@
   }
 }
 
+.header-inventory span {
+  font-size: 0.8rem;
+  color: custom.$code-product;
+}
+
 .search-filter {
   display: flex;
   gap: 1rem;

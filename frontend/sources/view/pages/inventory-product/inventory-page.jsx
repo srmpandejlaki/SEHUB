@@ -9,6 +9,7 @@ import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconAddProduct from "../../../assets/icon/Vector-3.svg?react";
 import IconTambah from "../../../assets/icon/mdi_add-bold.svg?react";
 import { fetchProductsWithStock } from "../../../utilities/api/products";
+import { fetchAllInventoryData } from "../../../utilities/api/inventory";
 
 function InventoryPage({ isAdmin = true }) {
   const [existingData, setExistingData] = useState([]);
@@ -21,6 +22,7 @@ function InventoryPage({ isAdmin = true }) {
   
   useEffect(() => {
     loadDataProducts();
+    loadDataInventory();
   }, []);
 
   const loadDataProducts = async () => {
@@ -50,6 +52,24 @@ function InventoryPage({ isAdmin = true }) {
     }
   };
 
+  const loadDataInventory = async () => {
+    try {
+      const response = await fetchAllInventoryData();
+      console.log("API Response:", response);
+
+      if (!response || !Array.isArray(response)) {
+        console.error("Data inventori tidak valid:", response);
+        setExistingData([]);
+        return;
+      }
+
+      setExistingData(response);
+    } catch (error) {
+      console.error("Gagal memuat data:", error);
+      setExistingData([]);
+    }
+  };
+
   const handleOpenFormProduct = () => {
     setShowFormProduct(true);
   };
@@ -72,6 +92,7 @@ function InventoryPage({ isAdmin = true }) {
     setShowFormEdit(false);
     setEditingData(null);
     loadDataInventory();
+    reloadProducts();
   };
 
   const handleOpenFormDis = () => {
@@ -85,6 +106,7 @@ function InventoryPage({ isAdmin = true }) {
 
   const handleFormSuccess = () => {
     loadDataInventory(); // Reload data after success
+    reloadProducts();
   };
 
   // Filter products by search query
