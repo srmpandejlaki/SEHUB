@@ -41,6 +41,11 @@ function AsideBar({ user, onLogout }) {
                   </NavLink>
                 </div>
                 <div>
+                  <NavLink to="/laporan" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <IconSetting className="icon greenIcon" /> Laporan
+                  </NavLink>
+                </div>
+                <div>
                   <NavLink to="/setting" className={({ isActive }) => (isActive ? "active" : "")}>
                     <IconSetting className="icon greenIcon" /> Pengaturan
                   </NavLink>
@@ -51,12 +56,12 @@ function AsideBar({ user, onLogout }) {
             {!user?.is_admin && (
               <>
                 <div>
-                  <NavLink to="/dashboard" className={({ isActive }) => (isActive ? "active" : "")}>
+                  <NavLink to="/dashboard-owner" className={({ isActive }) => (isActive ? "active" : "")}>
                     <IconHome className="icon greenIcon" /> Beranda
                   </NavLink>
                 </div>
                 <div>
-                  <NavLink to="/product" className={({ isActive }) => (isActive ? "active" : "")}>
+                  <NavLink to="/product/inventory" className={({ isActive }) => (isActive ? "active" : "")}>
                     <IconProduct className="icon greenIcon" /> Produk
                   </NavLink>
                 </div>

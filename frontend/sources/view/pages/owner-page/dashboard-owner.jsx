@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DashboardTable from "../../../components/dashboard-page/table-dashboard";
 import DashboardChart from "../../../components/dashboard-page/dashboard-chart";
-import { fetchRecentDistributions, fetchMonthlyStats } from "../../../utilities/api/dashboard";
+import NotificationSide from "../../../components/dashboard-page/notification-side";
+import { fetchRecentDistributions, fetchMonthlyStats, fetchExpiringSoon } from "../../../utilities/api/dashboard";
 import { fetchAllProducts } from "../../../utilities/api/products";
 
 function DashboardOwner({ user }) {
@@ -10,6 +11,7 @@ function DashboardOwner({ user }) {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [expiringProducts, setExpiringProducts] = useState([]);
 
   // Get current date formatted
   const getCurrentDate = () => {
@@ -34,13 +36,15 @@ function DashboardOwner({ user }) {
   const loadDashboardData = async () => {
     setLoading(true);
     try {
-      const [distributions, stats] = await Promise.all([
+      const [distributions, stats, expiringProducts] = await Promise.all([
         fetchRecentDistributions(),
-        fetchMonthlyStats()
+        fetchMonthlyStats(),
+        fetchExpiringSoon()
       ]);
       
       setRecentDistributions(distributions);
       setMonthlyStats(stats);
+      setExpiringProducts(expiringProducts);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
     }
@@ -89,6 +93,7 @@ function DashboardOwner({ user }) {
             onProductChange={handleProductChange}
           />
           <DashboardTable recentDistributions={recentDistributions} />
+          <NotificationSide expiringProducts={expiringProducts} />
         </div>
       )}
     </div>
