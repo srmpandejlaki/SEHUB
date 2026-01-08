@@ -6,7 +6,6 @@
   gap: 1rem;
 
   .main-laporan {
-    padding: 1rem;
 
     .laporan-header {
       display: flex;
@@ -14,16 +13,13 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
-      margin-bottom: 1rem;
       padding: 1rem;
       background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
       h3 {
         margin: 0;
-        color: custom.$color-primary;
-        font-size: 1.2rem;
+        color: custom.$color-secondary;
+        font-size: 1rem;
       }
 
       .laporan-actions {
@@ -42,7 +38,7 @@
 
           &:focus {
             outline: none;
-            border-color: custom.$color-primary;
+            border-color: custom.$color-secondary;
           }
         }
 
@@ -50,14 +46,15 @@
           padding: 0.5rem 1rem;
           border: none;
           border-radius: 6px;
-          background-color: #10B981;
-          color: white;
+          background-color: custom.$color-primary;
+          color: custom.$color-secondary;
           font-size: 0.9rem;
           cursor: pointer;
           transition: all 0.2s ease;
 
           &:hover {
-            background-color: #059669;
+            background-color: custom.$color-secondary;
+            color: custom.$color-primary;
           }
         }
       }
@@ -68,6 +65,7 @@
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       overflow-x: auto;
+      margin-top: 1rem;
 
       .loading {
         text-align: center;
@@ -78,18 +76,20 @@
       .laporan-table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 800px;
+        min-width: 900px;
+        // max-height: 320px;
+        // overflow-y: auto;
 
         th, td {
-          padding: 0.75rem 1rem;
+          padding: 0.8rem;
           text-align: left;
           border-bottom: 1px solid #eee;
           white-space: nowrap;
         }
 
         th {
-          background-color: custom.$color-primary;
-          color: white;
+          background-color: #e2e2e2;
+          color: custom.$color-secondary;
           font-weight: 600;
           font-size: 0.85rem;
           position: sticky;
@@ -125,6 +125,46 @@
 
           &:hover {
             background-color: #f9f9f9;
+          }
+        }
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-top: 1px solid #eee;
+        background-color: white;
+
+        span {
+          font-size: 0.85rem;
+          color: #666;
+        }
+
+        .pagination-buttons {
+          display: flex;
+          gap: 0.5rem;
+
+          button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+
+            &:hover:not(:disabled) {
+              background-color: custom.$color-secondary;
+              color: white;
+              border-color: custom.$color-primary;
+            }
+
+            &:disabled {
+              opacity: 0.5;
+              cursor: not-allowed;
+            }
           }
         }
       }

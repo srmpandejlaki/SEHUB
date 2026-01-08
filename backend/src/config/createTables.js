@@ -24,7 +24,7 @@ async function createTables() {
         email VARCHAR(100) UNIQUE NOT NULL,
         jabatan VARCHAR(50) NOT NULL,
         is_admin BOOLEAN DEFAULT TRUE,
-        kata_sandi VARCHAR(10) NOT NULL
+        kata_sandi VARCHAR(255) NOT NULL
       );
     `);
 

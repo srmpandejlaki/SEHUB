@@ -72,12 +72,9 @@ function ProductPage({ isAdmin = true }) {
           <div className="header-product-page">
             <p className="title">Daftar Produk L' Arbre Seho</p>
           </div>
-
           <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
           <ProductItems products={filteredProducts} />
         </div>
-
-        
       </div>
     </div>
   );

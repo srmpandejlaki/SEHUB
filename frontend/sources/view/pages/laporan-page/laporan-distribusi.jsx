@@ -9,6 +9,8 @@ function LaporanDistribusi() {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/sehub/";
 
@@ -20,6 +22,10 @@ function LaporanDistribusi() {
   useEffect(() => {
     loadData();
   }, [selectedProduct]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   const loadProducts = async () => {
     const prods = await fetchReportProducts();
@@ -61,6 +67,11 @@ function LaporanDistribusi() {
       row.catatan?.toLowerCase().includes(query)
     );
   });
+
+  // Pagination
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
   const downloadCSV = () => {
     const headers = ["No", "Tanggal", "Kode Produk", "Nama Produk", "Ukuran", "Kemasan", "Jumlah", "Pemesan", "Catatan"];
@@ -122,42 +133,57 @@ function LaporanDistribusi() {
           {loading ? (
             <p className="loading">Memuat data...</p>
           ) : (
-            <table className="laporan-table">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Tanggal</th>
-                  <th>Kode Produk</th>
-                  <th>Nama Produk</th>
-                  <th>Ukuran</th>
-                  <th>Kemasan</th>
-                  <th>Jumlah</th>
-                  <th>Pemesan</th>
-                  <th>Catatan</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredData.length === 0 ? (
+            <>
+              <table className="laporan-table">
+                <thead>
                   <tr>
-                    <td colSpan="9" className="no-data">Tidak ada data</td>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Kode Produk</th>
+                    <th>Nama Produk</th>
+                    <th>Ukuran</th>
+                    <th>Kemasan</th>
+                    <th>Jumlah</th>
+                    <th>Pemesan</th>
+                    <th>Catatan</th>
                   </tr>
-                ) : (
-                  filteredData.map((row, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{formatDate(row.tanggal)}</td>
-                      <td>{row.id_produk}</td>
-                      <td>{row.nama_produk || "-"}</td>
-                      <td>{row.ukuran_produk}{row.nama_ukuran_satuan}</td>
-                      <td>{row.nama_kemasan || "-"}</td>
-                      <td className="center">{row.jumlah}</td>
-                      <td>{row.nama_pemesan || "-"}</td>
-                      <td>{row.catatan || "-"}</td>
+                </thead>
+                <tbody>
+                  {paginatedData.length === 0 ? (
+                    <tr>
+                      <td colSpan="9" className="no-data">Tidak ada data</td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    paginatedData.map((row, index) => (
+                      <tr key={index}>
+                        <td>{startIndex + index + 1}</td>
+                        <td>{formatDate(row.tanggal)}</td>
+                        <td>{row.id_produk}</td>
+                        <td>{row.nama_produk || "-"}</td>
+                        <td>{row.ukuran_produk}{row.nama_ukuran_satuan}</td>
+                        <td>{row.nama_kemasan || "-"}</td>
+                        <td className="center">{row.jumlah}</td>
+                        <td>{row.nama_pemesan || "-"}</td>
+                        <td>{row.catatan || "-"}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+              {totalPages > 1 && (
+                <div className="pagination">
+                  <span>Halaman {currentPage} dari {totalPages} ({filteredData.length} data)</span>
+                  <div className="pagination-buttons">
+                    <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>
+                      Sebelumnya
+                    </button>
+                    <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>
+                      Selanjutnya
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

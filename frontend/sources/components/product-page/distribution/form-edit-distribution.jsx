@@ -39,6 +39,9 @@ function FormEditDistribution({
   const [existingReturns, setExistingReturns] = useState([]);
   const [isSubmittingReturn, setIsSubmittingReturn] = useState(false);
 
+  // Check if status is "diterima" (id 3) - form should be read-only
+  const isReadOnly = editData?.id_status === 3 || editData?.nama_status?.toLowerCase() === 'diterima';
+
   useEffect(() => {
     loadProducts();
     if (editData) {
@@ -319,7 +322,8 @@ function FormEditDistribution({
               type="date" 
               value={tanggalDistribusi}
               onChange={(e) => setTanggalDistribusi(e.target.value)}
-              required 
+              required
+              disabled={isReadOnly}
             />
           </div>
           <div className="inputan">
@@ -330,6 +334,7 @@ function FormEditDistribution({
               value={namaPemesan}
               onChange={(e) => setNamaPemesan(e.target.value)}
               required
+              disabled={isReadOnly}
             />
           </div>
           <div className="inputan">
@@ -338,6 +343,7 @@ function FormEditDistribution({
               value={selectedMetode}
               onChange={(e) => setSelectedMetode(e.target.value)}
               required
+              disabled={isReadOnly}
             >
               <option value="">-- Pilih Metode --</option>
               {metodePengiriman.map((metode) => (
@@ -353,6 +359,7 @@ function FormEditDistribution({
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
               required
+              disabled={isReadOnly}
             >
               <option value="">-- Pilih Status --</option>
               {statusPengiriman.map((status) => (
@@ -388,6 +395,7 @@ function FormEditDistribution({
                     value={item.id_produk}
                     onChange={(e) => updateProductItem(index, "id_produk", e.target.value)}
                     required
+                    disabled={isReadOnly}
                   >
                     <option value="">-- Pilih Produk --</option>
                     {products.map((product) => (
@@ -406,6 +414,7 @@ function FormEditDistribution({
                     value={item.jumlah}
                     onChange={(e) => updateProductItem(index, "jumlah", e.target.value)}
                     required
+                    disabled={isReadOnly}
                   />
                 </div>
                 {productItems.length > 1 && (
@@ -419,7 +428,7 @@ function FormEditDistribution({
                 )}
               </div>
             ))}
-            <p className="add-product-link" onClick={addProductItem}>+ Tambah Produk</p>
+            {!isReadOnly && <p className="add-product-link" onClick={addProductItem}>+ Tambah Produk</p>}
             
             <div className="detail-product">
               <div className="detail-container">
@@ -457,6 +466,7 @@ function FormEditDistribution({
                 placeholder="Ketik sesuatu (opsional)" 
                 value={catatan}
                 onChange={(e) => setCatatan(e.target.value)}
+                disabled={isReadOnly}
               />
             </div>
           </div>
@@ -471,9 +481,9 @@ function FormEditDistribution({
             <button 
               type="submit" 
               className="base-btn green"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isReadOnly}
             >
-              {isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
+              {isReadOnly ? "Status Diterima (Tidak Dapat Diedit)" : isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
             </button>
           </div>
         </div>

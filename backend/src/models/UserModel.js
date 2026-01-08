@@ -5,7 +5,7 @@ const SALT_ROUNDS = 10;
 
 const UserModel = {
   getAll: async () => {
-    const result = await db.query("SELECT id_pengguna, nama_pengguna, email, jabatan, is_admin FROM pengguna ORDER BY id_pengguna DESC");
+    const result = await db.query("SELECT id_pengguna, nama_pengguna, email, jabatan, is_admin, kata_sandi FROM pengguna ORDER BY id_pengguna DESC");
     return result.rows;
   },
 
@@ -21,8 +21,16 @@ const UserModel = {
     
     const user = result.rows[0];
     
-    // Compare password with hash
-    const isValidPassword = await bcrypt.compare(kata_sandi, user.kata_sandi);
+    let isValidPassword = false;
+    
+    // Check if password is bcrypt hashed (starts with $2a$ or $2b$)
+    if (user.kata_sandi && user.kata_sandi.startsWith('$2')) {
+      // Compare with bcrypt hash
+      isValidPassword = await bcrypt.compare(kata_sandi, user.kata_sandi);
+    } else {
+      // Fallback: compare plain text (for legacy users)
+      isValidPassword = (kata_sandi === user.kata_sandi);
+    }
     
     if (!isValidPassword) {
       return null;
@@ -35,7 +43,7 @@ const UserModel = {
 
   getById: async (id_pengguna) => {
     const result = await db.query(
-      "SELECT id_pengguna, nama_pengguna, email, jabatan, is_admin FROM pengguna WHERE id_pengguna = $1", 
+      "SELECT id_pengguna, nama_pengguna, email, jabatan, is_admin, kata_sandi FROM pengguna WHERE id_pengguna = $1", 
       [id_pengguna]
     );
     return result.rows[0];
