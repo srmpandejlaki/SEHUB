@@ -51,7 +51,6 @@ function SettingPage() {
         email: item.email,
         jabatan: item.jabatan,
         is_admin: item.is_admin,
-        kata_sandi: item.kata_sandi,
       }));
 
       setExistingData(mapped);
