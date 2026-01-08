@@ -11,9 +11,14 @@ import DistributionPage from './pages/distribution-product/distribution-page';
 import DistributionHistoryPage from './pages/distribution-product/distribution-history';
 import ReturnPage from './pages/return-page';
 import LoginPage from './pages/login-page';
-import LaporanSehub from './pages/laporan-sehub';
 import StockAdjustmentPage from './pages/stock-adjustment-page';
 import DashboardOwner from './pages/owner-page/dashboard-owner';
+
+// Laporan pages
+import LaporanInventori from './pages/laporan-page/laporan-inventori';
+import LaporanDistribusi from './pages/laporan-page/laporan-distribusi';
+import LaporanReturn from './pages/laporan-page/laporan-return';
+import LaporanPenyesuaian from './pages/laporan-page/laporan-penyesuaian';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
 
@@ -74,6 +79,12 @@ function App() {
             <Route path="/product/distribution-history" element={<DistributionHistoryPage isAdmin={false} />} />
             <Route path="/product/return" element={<ReturnPage isAdmin={false} />} />
             <Route path="/product/stock-adjustment" element={<StockAdjustmentPage isAdmin={false} />} />
+            {/* Laporan routes for non-admin */}
+            <Route path="/laporan" element={<Navigate to="/laporan/inventori" replace />} />
+            <Route path="/laporan/inventori" element={<LaporanInventori />} />
+            <Route path="/laporan/distribusi" element={<LaporanDistribusi />} />
+            <Route path="/laporan/return" element={<LaporanReturn />} />
+            <Route path="/laporan/penyesuaian" element={<LaporanPenyesuaian />} />
             <Route path="*" element={<Navigate to="/dashboard-owner" replace />} />
           </Routes>
         </main>
@@ -98,7 +109,12 @@ function App() {
           <Route path="/product/distribution-history" element={<DistributionHistoryPage />} />
           <Route path="/product/return" element={<ReturnPage />} />
           <Route path="/product/stock-adjustment" element={<StockAdjustmentPage />} />
-          <Route path="/laporan" element={<LaporanSehub user={user} />} />
+          {/* Laporan routes for admin */}
+          <Route path="/laporan" element={<Navigate to="/laporan/inventori" replace />} />
+          <Route path="/laporan/inventori" element={<LaporanInventori />} />
+          <Route path="/laporan/distribusi" element={<LaporanDistribusi />} />
+          <Route path="/laporan/return" element={<LaporanReturn />} />
+          <Route path="/laporan/penyesuaian" element={<LaporanPenyesuaian />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </main>
@@ -107,3 +123,4 @@ function App() {
 }
 
 export default App;
+

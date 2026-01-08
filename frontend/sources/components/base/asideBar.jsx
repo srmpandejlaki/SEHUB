@@ -66,6 +66,11 @@ function AsideBar({ user, onLogout }) {
                     <IconProduct className="icon greenIcon" /> Produk
                   </NavLink>
                 </div>
+                <div>
+                  <NavLink to="/laporan" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <IconReport className="icon greenIcon" /> Laporan
+                  </NavLink>
+                </div>
               </>
             )}
           </div>

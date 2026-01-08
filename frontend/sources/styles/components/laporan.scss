@@ -1,196 +1,167 @@
 @use '../default/custom.scss';
 
 .laporan-page {
-  .opening {
-    margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1rem;
 
-    h3 {
-      margin: 0;
-      color: custom.$color-primary;
-    }
-
-    p {
-      margin: 0.25rem 0 0 0;
-      color: #666;
-    }
-  }
-
-  .laporan-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+  .main-laporan {
     padding: 1rem;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-    .filter-section {
+    .laporan-header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 0.75rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-      label {
-        font-weight: 500;
-        color: #333;
+      h3 {
+        margin: 0;
+        color: custom.$color-primary;
+        font-size: 1.2rem;
       }
 
-      select {
-        padding: 0.5rem 1rem;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        min-width: 280px;
-        font-size: 0.9rem;
-        cursor: pointer;
-
-        &:focus {
-          outline: none;
-          border-color: custom.$color-primary;
-        }
-      }
-    }
-
-    .download-section {
-      display: flex;
-      gap: 0.75rem;
-
-      .btn-download {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        cursor: pointer;
+      .laporan-actions {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        transition: all 0.2s ease;
+        gap: 1rem;
+        flex-wrap: wrap;
 
-        &.csv {
+        .filter-select {
+          padding: 0.5rem 1rem;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          min-width: 250px;
+          font-size: 0.9rem;
+          cursor: pointer;
+
+          &:focus {
+            outline: none;
+            border-color: custom.$color-primary;
+          }
+        }
+
+        .btn-download {
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 6px;
           background-color: #10B981;
           color: white;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
 
           &:hover {
             background-color: #059669;
           }
         }
+      }
+    }
 
-        &.pdf {
-          background-color: #EF4444;
+    .laporan-table-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow-x: auto;
+
+      .loading {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+      }
+
+      .laporan-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+
+        th, td {
+          padding: 0.75rem 1rem;
+          text-align: left;
+          border-bottom: 1px solid #eee;
+          white-space: nowrap;
+        }
+
+        th {
+          background-color: custom.$color-primary;
           color: white;
+          font-weight: 600;
+          font-size: 0.85rem;
+          position: sticky;
+          top: 0;
+        }
+
+        td {
+          font-size: 0.85rem;
+        }
+
+        .center {
+          text-align: center;
+        }
+
+        .no-data {
+          text-align: center;
+          color: #999;
+          padding: 2rem;
+        }
+
+        .positive {
+          color: #10B981;
+          font-weight: 600;
+        }
+
+        .negative {
+          color: #EF4444;
+          font-weight: 600;
+        }
+
+        tbody tr {
+          transition: background-color 0.2s ease;
 
           &:hover {
-            background-color: #DC2626;
+            background-color: #f9f9f9;
           }
         }
       }
     }
   }
+}
 
-  .laporan-table {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+// Responsive
+@media (max-width: 768px) {
+  .laporan-page {
+    grid-template-columns: 1fr;
 
-    .loading {
-      text-align: center;
-      padding: 2rem;
-      color: #666;
-    }
+    .nav-product {
+      flex-direction: row;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-
-      th, td {
-        padding: 0.75rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-      }
-
-      th {
-        background-color: custom.$color-primary;
-        color: white;
-        font-weight: 600;
-        font-size: 0.85rem;
-      }
-
-      td {
-        font-size: 0.85rem;
-      }
-
-      .center {
-        text-align: center;
-      }
-
-      .no-data {
-        text-align: center;
-        color: #999;
-        padding: 2rem;
-      }
-
-      tbody tr {
-        transition: background-color 0.2s ease;
-
-        &:hover {
-          background-color: #f9f9f9;
-        }
-      }
-
-      .badge {
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: 500;
-
-        &.badge-masuk {
-          background-color: #D1FAE5;
-          color: #059669;
-        }
-
-        &.badge-keluar {
-          background-color: #DBEAFE;
-          color: #2563EB;
-        }
+      a {
+        white-space: nowrap;
       }
     }
 
-    .pagination {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      border-top: 1px solid #eee;
+    .main-laporan {
+      .laporan-header {
+        flex-direction: column;
+        align-items: flex-start;
 
-      span {
-        font-size: 0.85rem;
-        color: #666;
-      }
+        .laporan-actions {
+          width: 100%;
+          flex-direction: column;
 
-      .pagination-buttons {
-        display: flex;
-        gap: 0.5rem;
-
-        button {
-          padding: 0.5rem 1rem;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          background-color: white;
-          cursor: pointer;
-          font-size: 0.85rem;
-          transition: all 0.2s ease;
-
-          &:hover:not(:disabled) {
-            background-color: custom.$color-primary;
-            color: white;
-            border-color: custom.$color-primary;
+          .filter-select {
+            width: 100%;
           }
 
-          &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+          .btn-download {
+            width: 100%;
           }
         }
       }
