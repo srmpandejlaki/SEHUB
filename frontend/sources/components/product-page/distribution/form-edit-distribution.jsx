@@ -187,7 +187,8 @@ function FormEditDistribution({
     // Validate return quantity
     for (const item of selectedItems) {
       if (item.jumlah_return > item.jumlah_distribusi) {
-        alert(`Jumlah return untuk ${item.nama_produk} tidak boleh melebihi jumlah distribusi (${item.jumlah_distribusi})`);
+        alert(`Jumlah return untuk ${item.nama_produk} 
+          tidak boleh melebihi jumlah distribusi (${item.jumlah_distribusi})`);
         return;
       }
     }

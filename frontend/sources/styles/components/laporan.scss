@@ -1,0 +1,197 @@
+@use '../default/custom.scss';
+
+.laporan-page {
+  .opening {
+    margin-bottom: 1.5rem;
+
+    h3 {
+      margin: 0;
+      color: custom.$color-primary;
+    }
+
+    p {
+      margin: 0.25rem 0 0 0;
+      color: #666;
+    }
+  }
+
+  .laporan-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .filter-section {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      label {
+        font-weight: 500;
+        color: #333;
+      }
+
+      select {
+        padding: 0.5rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        min-width: 280px;
+        font-size: 0.9rem;
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+          border-color: custom.$color-primary;
+        }
+      }
+    }
+
+    .download-section {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+
+      .download-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        span {
+          font-size: 0.85rem;
+          color: #666;
+        }
+      }
+
+      .btn-download {
+        padding: 0.4rem 0.8rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &.csv, &.csv-all {
+          background-color: #10B981;
+          color: white;
+
+          &:hover {
+            background-color: #059669;
+          }
+        }
+
+        &.pdf, &.pdf-all {
+          background-color: #EF4444;
+          color: white;
+
+          &:hover {
+            background-color: #DC2626;
+          }
+        }
+
+        &.csv-all, &.pdf-all {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .laporan-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+
+    .tab-btn {
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 8px 8px 0 0;
+      background-color: #e5e5e5;
+      color: #666;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #d5d5d5;
+      }
+
+      &.active {
+        background-color: custom.$color-primary;
+        color: white;
+      }
+
+      .tab-count {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 0.1rem 0.5rem;
+        border-radius: 10px;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .laporan-table {
+    background-color: white;
+    border-radius: 0 8px 8px 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .loading, .no-data {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+
+      th {
+        background-color: custom.$color-primary;
+        color: white;
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      td {
+        font-size: 0.85rem;
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      .positive {
+        color: #10B981;
+        font-weight: 600;
+      }
+
+      .negative {
+        color: #EF4444;
+        font-weight: 600;
+      }
+
+      tbody tr {
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: #f9f9f9;
+        }
+      }
+    }
+  }
+}
