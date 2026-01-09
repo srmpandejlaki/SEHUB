@@ -6,7 +6,7 @@ import FormDataInventory from "../../../components/product-page/inventory/form-d
 import IconLaporan from "../../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllInventoryData } from "../../../utilities/api/inventory";
 
-function InventoryHistoryPage({ isAdmin = true }) {
+function InventoryHistoryPage({ isAdmin = false }) {
   const [existingData, setExistingData] = useState([]);
   
   // Edit state
@@ -93,9 +93,11 @@ function InventoryHistoryPage({ isAdmin = true }) {
           <p>Riwayat Barang Masuk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
-            <div className="button">
-              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
-            </div>
+            {isAdmin && (
+              <div className="button">
+                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+              </div>
+            )}
           </div>
         </div>
         <TableInventory 

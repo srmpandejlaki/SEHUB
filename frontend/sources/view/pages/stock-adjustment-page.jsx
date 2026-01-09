@@ -12,7 +12,7 @@ function StockAdjustmentPage({ isAdmin = true }) {
   
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 3;
 
   useEffect(() => {
     loadData();
@@ -76,9 +76,11 @@ function StockAdjustmentPage({ isAdmin = true }) {
               </button>
             </div>
           )}
-          <div className="button">
-            <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
-          </div>
+          {!isAdmin && (
+            <div className="button">
+              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+            </div>
+          )}
         </div>
 
         {loading ? (

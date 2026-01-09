@@ -73,9 +73,11 @@ function ReturnPage({ isAdmin = true }) {
           </div>
           <div className="distribution-display return-display">
             <SearchFilter />
-            <div className="button">
-              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
-            </div>
+            {!isAdmin && (
+              <div className="button">
+                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+              </div>
+            )}
           </div>
           {loading ? (
             <p>Memuat data...</p>
@@ -101,9 +103,11 @@ function ReturnPage({ isAdmin = true }) {
           </div>
           <div className="distribution-display return-display">
             <SearchFilter />
-            <div className="button">
-              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
-            </div>
+            {!isAdmin && (
+              <div className="button">
+                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+              </div>
+            )}
           </div>
           {loading ? (
             <p>Memuat data...</p>

@@ -41,7 +41,7 @@ const DistributionModel = {
         ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k
         ON p.id_kemasan = k.id_kemasan
-      ORDER BY d.id_distribusi DESC, dd.id_detail_distribusi ASC
+      ORDER BY d.tanggal_distribusi DESC, d.id_distribusi DESC, dd.id_detail_distribusi ASC
     `);
 
     // Group by id_distribusi

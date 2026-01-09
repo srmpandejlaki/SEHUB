@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import IconEditProduct from "../../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../../assets/icon/material-symbols_cancel.svg?react";
-import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
-import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
 import {
   fetchInventoryForAdjustment,
   createAdjustment
@@ -17,16 +15,10 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
   // === Adjustment per PRODUK ===
   const [adjustmentData, setAdjustmentData] = useState({});
 
-  // Pagination produk
-  const [currentProductIndex, setCurrentProductIndex] = useState(0);
-
   useEffect(() => {
     loadData();
   }, []);
 
-  // =========================
-  // LOAD DATA
-  // =========================
   const loadData = async () => {
     setLoading(true);
     try {
@@ -50,27 +42,26 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
       });
 
       setAdjustmentData(initialData);
+
+      console.log("Data adjustment:", adjustmentData);
     } catch (error) {
       console.error("Error loading data:", error);
     }
     setLoading(false);
   };
 
-  // =========================
-  // HANDLERS
-  // =========================
   const handleProductCheckboxChange = (id_produk) => {
-    setAdjustmentData(prev => ({
-      ...prev,
-      [id_produk]: {
-        ...prev[id_produk],
-        isChecked: !prev[id_produk].isChecked,
-        stokGudang: !prev[id_produk].isChecked
-          ? prev[id_produk].stokSistem.toString()
-          : "",
-        alasan: ""
-      }
-    }));
+    setAdjustmentData(
+      prev => ({
+        ...prev,
+        [id_produk]: {
+          ...prev[id_produk],
+          isChecked: !prev[id_produk].isChecked,
+          stokGudang: !prev[id_produk].isChecked ? prev[id_produk].stokSistem.toString() : "",
+          alasan: ""
+        }
+      })
+    );
   };
 
   const handleJumlahChange = (id_produk, value) => {
@@ -106,9 +97,6 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
     return selisih.toString();
   };
 
-  // =========================
-  // SUBMIT
-  // =========================
   const handleSubmit = async () => {
     const items = Object.keys(adjustmentData)
       .map(id_produk => {
@@ -149,18 +137,8 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
     }
   };
 
-  // =========================
-  // PAGINATION
-  // =========================
-  const currentProduct = products[currentProductIndex];
-  const totalProducts = products.length;
-
-  // =========================
-  // RENDER
-  // =========================
   return (
     <div className="form-stock-adjustment">
-      {/* HEADER */}
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
@@ -173,176 +151,88 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
         />
       </div>
 
-      {/* CONTENT */}
       <div className="form-content">
-        {loading ? (
-          <p>Memuat data...</p>
-        ) : products.length === 0 ? (
-          <p>Tidak ada data inventori</p>
-        ) : (
-          <>
-            {/* NAVIGATION */}
-            <div className="product-navigation">
-              <button
-                className="nav-btn"
-                disabled={currentProductIndex === 0}
-                onClick={() =>
-                  setCurrentProductIndex(prev => prev - 1)
-                }
-              >
-                <IconPanahKiri className="blackIcon" /> Sebelumnya
-              </button>
-
-              <span className="product-counter">
-                Produk {currentProductIndex + 1} dari {totalProducts}
-              </span>
-
-              <button
-                className="nav-btn"
-                disabled={currentProductIndex === totalProducts - 1}
-                onClick={() =>
-                  setCurrentProductIndex(prev => prev + 1)
-                }
-              >
-                Selanjutnya <IconPanahKanan className="blackIcon" />
-              </button>
-            </div>
-
-            {/* PRODUCT CARD */}
-            {currentProduct && (
-              <div className="product-card">
-                <div className="product-info">
-                  <div className="product-left">
-                    <span className="product-code">
-                      {currentProduct.id_produk}
-                    </span>
-                    <span className="product-name">
-                      {currentProduct.nama_produk}{" "}
-                      {currentProduct.ukuran_produk}
-                      {currentProduct.nama_ukuran_satuan}
-                    </span>
-                  </div>
-
-                  <div className="product-right">
-                    <label className="master-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={
-                          adjustmentData[currentProduct.id_produk]
-                            ?.isChecked || false
-                        }
-                        onChange={() =>
-                          handleProductCheckboxChange(
-                            currentProduct.id_produk
-                          )
-                        }
-                      />
-                      Semua Sesuai
-                    </label>
-                  </div>
-                </div>
-
-                {/* TABLE */}
-                <table className="adjustment-table">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Stok Sistem</th>
-                      <th></th>
-                      <th>Jumlah di Gudang</th>
-                      <th>Alasan Tidak Sesuai</th>
-                      <th>Stok Gudang</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="center">1</td>
-                      <td className="center">
-                        {
-                          adjustmentData[currentProduct.id_produk]
-                            ?.stokSistem
-                        }{" "}
-                        botol
-                      </td>
-                      <td className="center">
-                        <input
-                          type="checkbox"
-                          checked={
-                            adjustmentData[currentProduct.id_produk]
-                              ?.isChecked || false
-                          }
-                          onChange={() =>
-                            handleProductCheckboxChange(
-                              currentProduct.id_produk
-                            )
-                          }
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          value={
-                            adjustmentData[currentProduct.id_produk]
-                              ?.stokGudang || ""
-                          }
-                          onChange={e =>
-                            handleJumlahChange(
-                              currentProduct.id_produk,
-                              e.target.value
-                            )
-                          }
-                          min="0"
-                          disabled={
-                            adjustmentData[currentProduct.id_produk]
-                              ?.isChecked
-                          }
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          value={
-                            adjustmentData[currentProduct.id_produk]
-                              ?.alasan || ""
-                          }
-                          onChange={e =>
-                            handleAlasanChange(
-                              currentProduct.id_produk,
-                              e.target.value
-                            )
-                          }
-                        />
-                      </td>
-                      <td className="center">
-                        {getStokGudangStatus(
-                          currentProduct.id_produk
-                        )}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+        {products.map((product) => (
+          <div className="product-card">
+            <div className="product-info">
+              <div className="product-left">
+                <span className="product-code">
+                  {product.id_produk}
+                </span>
+                <span className="product-name">
+                  {product.nama_produk}{" "}
+                  {product.ukuran_produk}
+                  {product.nama_ukuran_satuan}
+                </span>
               </div>
-            )}
 
-            {/* CATATAN */}
-            <div className="catatan-section">
-              <label>Catatan Penyesuaian (opsional)</label>
-              <input
-                type="text"
-                value={catatan}
-                onChange={e => setCatatan(e.target.value)}
-                placeholder="Masukkan catatan..."
-              />
+              <div className="product-right">
+                <label className="master-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={adjustmentData[product.id_produk]?.isChecked || false}
+                    onChange={() => handleProductCheckboxChange(product.id_produk)}
+                  />
+                  Sesuai
+                </label>
+              </div>
             </div>
-          </>
-        )}
+
+            {/* TABLE */}
+            <table className="adjustment-table">
+              <thead>
+                <tr>
+                  <th className="center">Stok Sistem</th>
+                  <th>Jumlah di Gudang</th>
+                  <th>Alasan Tidak Sesuai</th>
+                  <th className="center">Stok Gudang</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="center">
+                    {adjustmentData[product.id_produk]?.stokSistem}{" "}
+                    botol
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      value={adjustmentData[product.id_produk]?.stokGudang || ""}
+                      onChange={e => handleJumlahChange(product.id_produk,e.target.value)}
+                      min="0"
+                      disabled={adjustmentData[product.id_produk]?.isChecked}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={adjustmentData[product.id_produk]?.alasan || ""}
+                      onChange={e => handleAlasanChange(product.id_produk,e.target.value)}
+                    />
+                  </td>
+                  <td className="center">
+                    {getStokGudangStatus(product.id_produk)}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        ))}
+
+        {/* CATATAN */}
+        <div className="catatan-section">
+          <label>Catatan Penyesuaian (opsional)</label>
+          <input
+            type="text"
+            value={catatan}
+            onChange={e => setCatatan(e.target.value)}
+            placeholder="Masukkan catatan..."
+          />
+        </div>
       </div>
 
       {/* FOOTER */}
       <div className="form-footer">
-        <button className="base-btn cancel" onClick={onCloseForm}>
-          Batal
-        </button>
         <button
           className="base-btn green"
           onClick={handleSubmit}

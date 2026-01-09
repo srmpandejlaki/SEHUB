@@ -22,7 +22,7 @@ const StockAdjustmentModel = {
       LEFT JOIN nama_produk np ON p.id_nama_produk = np.id_nama_produk
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kondisi_stok ks ON psd.id_kondisi_stok = ks.id_kondisi_stok
-      ORDER BY ps.id_penyesuaian_stok DESC, psd.id_detail_penyesuaian ASC
+      ORDER BY ps.tanggal_penyesuaian DESC, ps.id_penyesuaian_stok DESC, psd.id_detail_penyesuaian ASC
     `);
 
     // Group by id_penyesuaian_stok

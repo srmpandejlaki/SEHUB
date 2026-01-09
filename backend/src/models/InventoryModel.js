@@ -26,7 +26,7 @@ const InventoryModel = {
         ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k
         ON p.id_kemasan = k.id_kemasan
-      ORDER BY bm.id_barang_masuk DESC, dbm.id_detail_barang_masuk ASC
+      ORDER BY bm.tanggal_masuk DESC, bm.id_barang_masuk DESC, dbm.id_detail_barang_masuk ASC
     `);
 
     // Group by id_barang_masuk

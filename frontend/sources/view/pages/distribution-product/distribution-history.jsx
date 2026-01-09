@@ -7,7 +7,7 @@ import IconLaporan from "../../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllDistributions, updateDistributionStatus } from "../../../utilities/api/distribution";
 import { BASE_URL } from "../../../utilities";
 
-function DistributionHistoryPage({ isAdmin = true }) {
+function DistributionHistoryPage({ isAdmin = false }) {
   const [showFormEdit, setShowFormEdit] = useState(false);
   const [editingData, setEditingData] = useState(null);
   
@@ -118,9 +118,11 @@ function DistributionHistoryPage({ isAdmin = true }) {
           <p>Riwayat Data Distribusi Produk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari distribusi..." />
-            <div className="button">
-              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
-            </div>
+            {isAdmin && (
+              <div className="button">
+                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+              </div>
+            )}
           </div>
         </div>
         

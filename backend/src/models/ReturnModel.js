@@ -26,7 +26,7 @@ const ReturnModel = {
       LEFT JOIN nama_produk n ON p.id_nama_produk = n.id_nama_produk
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN distribusi d ON dd.id_distribusi = d.id_distribusi
-      ORDER BY r.id_return DESC, rd.id_return_barang_detail ASC
+      ORDER BY r.tanggal_return DESC, r.id_return DESC, rd.id_return_barang_detail ASC
     `);
 
     // Group by id_return
