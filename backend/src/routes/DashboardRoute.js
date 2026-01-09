@@ -46,4 +46,14 @@ routerDashboard.get("/monthly-stats", async (req, res) => {
   }
 });
 
+// GET monthly summary (total incoming and distribution this month)
+routerDashboard.get("/monthly-summary", async (req, res) => {
+  try {
+    const summary = await DashboardModel.getMonthlySummary();
+    res.json({ success: true, data: summary });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 export default routerDashboard;

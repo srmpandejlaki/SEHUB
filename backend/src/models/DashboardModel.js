@@ -218,6 +218,40 @@ const DashboardModel = {
       data: chartData
     };
   },
+
+  // Get monthly summary (total incoming and distribution for current month)
+  getMonthlySummary: async () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    
+    const startDate = firstDay.toISOString().split('T')[0];
+    const endDate = lastDay.toISOString().split('T')[0];
+
+    // Total incoming this month
+    const incomingResult = await db.query(`
+      SELECT COALESCE(SUM(dbm.jumlah_barang_masuk), 0) as total
+      FROM barang_masuk bm
+      LEFT JOIN detail_barang_masuk dbm ON bm.id_barang_masuk = dbm.id_barang_masuk
+      WHERE DATE(bm.tanggal_masuk) >= $1 AND DATE(bm.tanggal_masuk) <= $2
+    `, [startDate, endDate]);
+
+    // Total distribution this month
+    const distributionResult = await db.query(`
+      SELECT COALESCE(SUM(dd.jumlah_barang_distribusi), 0) as total
+      FROM distribusi d
+      LEFT JOIN detail_distribusi dd ON d.id_distribusi = dd.id_distribusi
+      WHERE DATE(d.tanggal_distribusi) >= $1 AND DATE(d.tanggal_distribusi) <= $2
+    `, [startDate, endDate]);
+
+    return {
+      bulan: now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }),
+      totalBarangMasuk: parseInt(incomingResult.rows[0]?.total) || 0,
+      totalDistribusi: parseInt(distributionResult.rows[0]?.total) || 0
+    };
+  },
 };
 
 export default DashboardModel;
