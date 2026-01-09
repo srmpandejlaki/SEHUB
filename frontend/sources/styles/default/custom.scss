@@ -36,6 +36,16 @@ $dark-green: #0C6400;
   align-items: center;
 }
 
+/* teks color */
+.redText {
+  color: $danger;
+  font-weight: bold;
+}
+
+.orangeText {
+  color: $warning;
+  font-weight: bold;
+}
 
 /* icon color */
 .whiteIcon {

@@ -14,7 +14,7 @@ function NotificationSide({ expiringProducts = [] }) {
 
   // Get appropriate label based on days until expired
   const getStatusLabel = (days) => {
-    if (days < 0) return { text: "Sudah Kadaluarsa!", color: "redText" };
+    if (days < 0) return { text: "Sudah Kadaluarsa!", color: "$danger" };
     if (days === 0) return { text: "Kadaluarsa Hari Ini!", color: "redText" };
     if (days <= 7) return { text: "Peringatan!", color: "redText" };
     return { text: "Perhatian", color: "orangeText" };
@@ -44,8 +44,8 @@ function NotificationSide({ expiringProducts = [] }) {
             <div className="notif-content" key={product.id_detail_barang_masuk}>
               <p className={status.color}>{status.text}</p>
               <p>
-                {product.jumlah_barang_masuk} {product.nama_kemasan || "unit"} {product.nama_produk}{" "}
-                {product.ukuran_produk}{product.nama_ukuran_satuan} {getExpiryMessage(product.days_until_expired)}
+                {product.jumlah_barang_masuk} {product.nama_kemasan || "unit"}
+                <span> {product.nama_produk}{" "} {product.ukuran_produk}{product.nama_ukuran_satuan}</span> {getExpiryMessage(product.days_until_expired)}
               </p>
             </div>
           );
