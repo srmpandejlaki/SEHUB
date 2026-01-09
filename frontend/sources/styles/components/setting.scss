@@ -97,7 +97,7 @@
 
 // Return Page Styles
 .return-content-wrapper {
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh - 155px);
   overflow-y: auto;
   padding-right: 0.5rem;
   scroll-behavior: smooth;
@@ -105,6 +105,7 @@
 }
 
 .return-section {
+  max-height: 400px;
   background-color: custom.$color-primary;
   padding: 1rem;
   border-radius: 8px;

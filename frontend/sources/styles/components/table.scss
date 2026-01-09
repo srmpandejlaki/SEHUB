@@ -133,25 +133,32 @@ tbody tr.first-of-group td {
 }
 
 /* Table Stock Adjustment */
-.table-stock-adjustment .status-badge {
-  padding: 0.25rem;
-  border-radius: 4px;
-  font-size: 0.6rem;
-  font-weight: bold;
+.table-stock-adjustment {
+    tbody td {
+        padding: 0;
+    }
 
-  &.sesuai {
-    background-color: #dcfce7;
-    color: #16a34a;
-  }
+    padding: 0;
+    .status-badge {
+    padding: 0.25rem;
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: bold;
 
-  &.lebih {
-    background-color: #fef9c3;
-    color: #ca8a04;
-  }
+    &.sesuai {
+        background-color: #dcfce7;
+        color: #16a34a;
+    }
 
-  &.kurang {
-    background-color: #fee2e2;
-    color: #dc2626;
+    &.lebih {
+        background-color: #fef9c3;
+        color: #ca8a04;
+    }
+
+    &.kurang {
+        background-color: #fee2e2;
+        color: #dc2626;
+    }
   }
 }
 
@@ -170,6 +177,7 @@ tbody tr.first-of-group td {
 }
 
 .pagination {
+    height: 50px;
     gap: 1.5rem;
 }
 

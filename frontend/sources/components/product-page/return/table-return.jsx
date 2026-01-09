@@ -52,7 +52,7 @@ function TableReturn({
   };
 
   return(
-    <div className="table-distribution">
+    <div className="table-return">
       <div className="table-display">
         <table>
           <thead>
@@ -64,9 +64,6 @@ function TableReturn({
               <th className="center">Total</th>
               <th>Nama Pemesan (Distribusi)</th>
               <th>Keterangan</th>
-              {showActions && (
-              <th></th>
-              )}
             </tr>
           </thead>
           <tbody>
@@ -109,15 +106,6 @@ function TableReturn({
                         </span>
                       </td>
                       <td rowSpan={row.rowSpan}>{row.catatan_return || "-"}</td>
-                      {showActions && (
-                        <td rowSpan={row.rowSpan}>
-                          <IconDelete 
-                            className="icon redIcon" 
-                            style={{ cursor: 'pointer', width: '20px' }}
-                            onClick={() => onDelete && onDelete(row.id_return)}
-                          />
-                        </td>
-                      )}
                     </>
                   )}
                 </tr>
