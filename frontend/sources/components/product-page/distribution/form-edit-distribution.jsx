@@ -237,7 +237,7 @@ function FormEditDistribution({
               <p>Form Return Barang</p>
               <IconCancel className="icon" onClick={handleCloseReturnForm} />
             </div>
-            <form onSubmit={handleSubmitReturn}>
+            <form className="return-form" onSubmit={handleSubmitReturn}>
               <div className="inputan">
                 <label><IconKalender className="greenIcon" /> Tanggal Return</label>
                 <input 
@@ -291,13 +291,6 @@ function FormEditDistribution({
               </div>
 
               <div className="button return-buttons">
-                <button 
-                  type="button" 
-                  className="base-btn cancel"
-                  onClick={handleCloseReturnForm}
-                >
-                  Batal
-                </button>
                 <button 
                   type="submit" 
                   className="base-btn green"
