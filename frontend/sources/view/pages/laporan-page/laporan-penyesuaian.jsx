@@ -41,6 +41,7 @@ function LaporanPenyesuaian() {
       }
       const response = await fetch(url);
       const result = await response.json();
+      console.log(result);
       setData(result.data || []);
     } catch (error) {
       console.error("Error fetching adjustment data:", error);
@@ -63,8 +64,7 @@ function LaporanPenyesuaian() {
     return (
       row.id_produk?.toLowerCase().includes(query) ||
       row.nama_produk?.toLowerCase().includes(query) ||
-      row.nama_kondisi?.toLowerCase().includes(query) ||
-      row.catatan?.toLowerCase().includes(query)
+      row.nama_kondisi?.toLowerCase().includes(query)
     );
   });
 
@@ -125,11 +125,11 @@ function LaporanPenyesuaian() {
           </div>
         </div>
 
-        <SearchFilter 
+        {/* <SearchFilter 
           value={searchQuery} 
           onChange={setSearchQuery} 
           placeholder="Cari data..." 
-        />
+        /> */}
 
         <div className="laporan-table-container">
           {loading ? (

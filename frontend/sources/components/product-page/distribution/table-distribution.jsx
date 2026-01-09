@@ -79,7 +79,7 @@ function TableDistribution({
               <th>Metode Pengiriman</th>
               <th className="center">Status</th>
               {showActions && (
-              <th></th>
+                <th></th>
               )}
             </tr>
           </thead>

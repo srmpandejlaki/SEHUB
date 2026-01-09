@@ -79,7 +79,7 @@ function DashboardTable({ recentDistributions = [] }) {
                     <>
                       <td className="center" rowSpan={row.rowSpan}>{row.rowNumber}.</td>
                       <td rowSpan={row.rowSpan}>{formatDate(row.tanggal_distribusi)}</td>
-                      <td rowSpan={row.rowSpan}>{row.nama_pemesan}</td>
+                      <td className="center" rowSpan={row.rowSpan}>{row.nama_pemesan}</td>
                     </>
                   )}
                   {row.item ? (
@@ -96,7 +96,7 @@ function DashboardTable({ recentDistributions = [] }) {
                   <td className="center">{row.item?.jumlah || "-"}</td>
                   {row.isFirstRow && (
                     <>
-                      <td rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
+                      <td className="center" rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
                       <td rowSpan={row.rowSpan}>{row.nama_status || "-"}</td>
                     </>
                   )}

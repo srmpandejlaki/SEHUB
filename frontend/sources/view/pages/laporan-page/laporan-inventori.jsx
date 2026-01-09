@@ -124,11 +124,11 @@ function LaporanInventori() {
           </div>
         </div>
 
-        <SearchFilter 
+        {/* <SearchFilter 
           value={searchQuery} 
           onChange={setSearchQuery} 
           placeholder="Cari data..." 
-        />
+        /> */}
 
         <div className="laporan-table-container">
           {loading ? (

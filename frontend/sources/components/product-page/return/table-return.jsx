@@ -1,15 +1,15 @@
 import React from "react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
-import IconDelete from "../../../assets/icon/material-symbols_delete.svg?react";
+// import IconDelete from "../../../assets/icon/material-symbols_delete.svg?react";
 
 function TableReturn({ 
   data = [], 
-  onDelete,
+  // onDelete,
   currentPage = 1,
   totalPages = 1,
   onPageChange,
-  showActions = true
+  // showActions = true
 }) {
   const formatDate = (dateString) => {
     if (!dateString) return "-";
