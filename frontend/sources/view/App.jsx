@@ -80,7 +80,6 @@ function App() {
             <Route path="/product/return" element={<ReturnPage isAdmin={false} />} />
             <Route path="/product/stock-adjustment" element={<StockAdjustmentPage isAdmin={false} />} />
             {/* Laporan routes for non-admin */}
-            <Route path="/laporan" element={<Navigate to="/laporan/inventori" replace />} />
             <Route path="/laporan/inventori" element={<LaporanInventori />} />
             <Route path="/laporan/distribusi" element={<LaporanDistribusi />} />
             <Route path="/laporan/return" element={<LaporanReturn />} />

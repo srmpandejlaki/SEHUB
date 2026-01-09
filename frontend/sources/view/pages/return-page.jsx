@@ -4,6 +4,7 @@ import NavProduct from "../../components/base/nav-product";
 import TableReturn from "../../components/product-page/return/table-return";
 import IconLaporan from "../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllReturns, deleteReturn } from "../../utilities/api/return";
+import { NavLink } from "react-router-dom";
 
 function ReturnPage({ isAdmin = true }) {
   const [returns, setReturns] = useState([]);
@@ -75,7 +76,9 @@ function ReturnPage({ isAdmin = true }) {
             <SearchFilter />
             {!isAdmin && (
               <div className="button">
-                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                <NavLink to="/laporan/return">
+                  <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                </NavLink>
               </div>
             )}
           </div>

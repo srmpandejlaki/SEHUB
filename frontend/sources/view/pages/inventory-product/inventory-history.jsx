@@ -5,8 +5,9 @@ import TableInventory from "../../../components/product-page/inventory/table-inv
 import FormDataInventory from "../../../components/product-page/inventory/form-data-inventory";
 import IconLaporan from "../../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllInventoryData } from "../../../utilities/api/inventory";
+import { NavLink } from "react-router-dom";
 
-function InventoryHistoryPage({ isAdmin = false }) {
+function InventoryHistoryPage({ isAdmin = true }) {
   const [existingData, setExistingData] = useState([]);
   
   // Edit state
@@ -93,9 +94,11 @@ function InventoryHistoryPage({ isAdmin = false }) {
           <p>Riwayat Barang Masuk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
-            {isAdmin && (
+            {!isAdmin && (
               <div className="button">
-                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                <NavLink to="/laporan/inventori">
+                  <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                </NavLink>
               </div>
             )}
           </div>

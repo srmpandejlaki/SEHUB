@@ -4,6 +4,7 @@ import TableStockAdjustment from "../../components/product-page/stock-adjustment
 import FormStockAdjustment from "../../components/product-page/stock-adjustment/form-stock-adjustment";
 import IconLaporan from "../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllAdjustments, deleteAdjustment } from "../../utilities/api/stock-adjustment";
+import { NavLink } from "react-router-dom";
 
 function StockAdjustmentPage({ isAdmin = true }) {
   const [adjustments, setAdjustments] = useState([]);
@@ -78,7 +79,9 @@ function StockAdjustmentPage({ isAdmin = true }) {
           )}
           {!isAdmin && (
             <div className="button">
-              <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+              <NavLink to="/laporan/penyesuaian">
+                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+              </NavLink>
             </div>
           )}
         </div>

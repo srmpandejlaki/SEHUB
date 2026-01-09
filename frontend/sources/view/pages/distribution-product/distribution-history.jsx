@@ -6,8 +6,9 @@ import FormEditDistribution from "../../../components/product-page/distribution/
 import IconLaporan from "../../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllDistributions, updateDistributionStatus } from "../../../utilities/api/distribution";
 import { BASE_URL } from "../../../utilities";
+import { NavLink } from "react-router-dom";
 
-function DistributionHistoryPage({ isAdmin = false }) {
+function DistributionHistoryPage({ isAdmin = true }) {
   const [showFormEdit, setShowFormEdit] = useState(false);
   const [editingData, setEditingData] = useState(null);
   
@@ -118,9 +119,11 @@ function DistributionHistoryPage({ isAdmin = false }) {
           <p>Riwayat Data Distribusi Produk</p>
           <div className="distribution-display">
             <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari distribusi..." />
-            {isAdmin && (
+            {!isAdmin && (
               <div className="button">
-                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                <NavLink to="/laporan/distribusi">
+                  <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                </NavLink>
               </div>
             )}
           </div>
