@@ -85,6 +85,18 @@ function FormEditDistribution({
     setProductItems([...productItems, { id_produk: "", jumlah: "" }]);
   };
 
+  const getSelectedProductIds = (currentIndex) => {
+    return productItems
+    .filter((_, index) => index !== currentIndex)
+    .map(item => item.id_produk)
+    .filter(id => id !== "");
+  };
+
+  const getAvailableProducts = (currentIndex) => {
+    const selectedIds = getSelectedProductIds(currentIndex);
+    return products.filter(product => !selectedIds.includes(product.id_produk));
+  };
+
   const removeProductItem = (index) => {
     if (productItems.length > 1) {
       const updated = productItems.filter((_, i) => i !== index);
@@ -390,11 +402,18 @@ function FormEditDistribution({
                     required
                   >
                     <option value="">-- Pilih Produk --</option>
-                    {products.map((product) => (
+                    {getAvailableProducts(index).map((product) => (
                       <option key={product.id_produk} value={product.id_produk}>
                         {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan}
                       </option>
                     ))}
+                    {item.id_produk && !getAvailableProducts(index).find(product => product.id_produk === item.id_produk) && (
+                      <option value={item.id_produk}>
+                        {products.find(product => product.id_produk === item.id_produk)?.nama_produk} - 
+                        {products.find(product => product.id_produk === item.id_produk)?.ukuran_produk}
+                        {products.find(product => product.id_produk === item.id_produk)?.nama_ukuran_satuan}
+                      </option>
+                    )}
                   </select>
                 </div>
                 <div className="inputan">
