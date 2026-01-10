@@ -117,7 +117,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
   };
 
   // Calculate total
-  const totalJumlah = productItems.reduce((sum, item) => sum + (parseInt(item.stok_sekarang) || 0), 0);
+  const totalJumlah = productItems.reduce((sum, item) => sum + (parseInt(item.jumlah) || 0), 0);
   
   // Calculate total stock available for selected items (Unique products only)
   const uniqueSelectedProductIds = [...new Set(productItems.map(item => item.id_produk).filter(id => id))];

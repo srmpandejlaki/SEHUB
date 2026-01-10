@@ -163,8 +163,11 @@ a {
   z-index: 2; /* sangat penting */
 }
 
-.product-display, .inventory-display, .main-distribution, .main-stock-adjustment, .main-laporan {
+.product-display, .inventory-display, .main-distribution, .main-stock-adjustment {
   height: 73vh;
+}
+
+.product-display, .inventory-display, .main-distribution, .main-stock-adjustment, .main-laporan {
   background-color: custom.$color-primary;
   padding: 0.5rem 1rem;
   border-radius: 8px;
