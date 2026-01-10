@@ -75,15 +75,22 @@ async function createTables() {
     `);
 
     // 7. Tabel Detail Barang Masuk
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS detail_barang_masuk (
-        id_detail_barang_masuk SERIAL PRIMARY KEY,
-        id_barang_masuk INT NOT NULL REFERENCES barang_masuk(id_barang_masuk),
-        id_produk VARCHAR(10) NOT NULL REFERENCES produk(id_produk),
-        jumlah_barang_masuk INT NOT NULL,
-        tanggal_expired DATE NOT NULL
-      );
-    `);
+   /* 
+    Tabel detail_barang_masuk
+    - jumlah_barang_masuk: Jumlah awal saat barang masuk (Immutable/History)
+    - stok_sekarang: Sisa stok yang berkurang saat distribusi (Mutable/Current Stock)
+  */
+  const createDetailBarangMasukTable = `
+    CREATE TABLE IF NOT EXISTS detail_barang_masuk (
+      id_detail_barang_masuk SERIAL PRIMARY KEY,
+      id_barang_masuk INTEGER REFERENCES barang_masuk(id_barang_masuk) ON DELETE CASCADE,
+      id_produk VARCHAR(20) REFERENCES produk(id_produk) ON DELETE CASCADE,
+      jumlah_barang_masuk INTEGER NOT NULL, 
+      stok_sekarang INTEGER NOT NULL,
+      tanggal_expired DATE NOT NULL
+    )
+  `;
+    await pool.query(createDetailBarangMasukTable);
 
     // 8. Tabel Metode Pengiriman
     await pool.query(`

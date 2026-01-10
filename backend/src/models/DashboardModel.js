@@ -24,7 +24,7 @@ const DashboardModel = {
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
       LEFT JOIN (
-        SELECT id_produk, SUM(jumlah_barang_masuk) as stok_sekarang
+        SELECT id_produk, SUM(stok_sekarang) as stok_sekarang
         FROM detail_barang_masuk
         GROUP BY id_produk
       ) inv ON p.id_produk = inv.id_produk
@@ -48,7 +48,9 @@ const DashboardModel = {
         p.ukuran_produk,
         us.nama_ukuran_satuan,
         k.nama_kemasan,
-        dbm.jumlah_barang_masuk,
+        us.nama_ukuran_satuan,
+        k.nama_kemasan,
+        dbm.stok_sekarang as jumlah_barang_masuk,
         dbm.tanggal_expired,
         (dbm.tanggal_expired - CURRENT_DATE) as days_until_expired
       FROM detail_barang_masuk dbm
@@ -57,7 +59,7 @@ const DashboardModel = {
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
       WHERE dbm.tanggal_expired <= CURRENT_DATE + CAST($1 AS INTEGER)
-        AND dbm.jumlah_barang_masuk > 0
+        AND dbm.stok_sekarang > 0
       ORDER BY dbm.tanggal_expired ASC
     `, [daysAhead]);
 

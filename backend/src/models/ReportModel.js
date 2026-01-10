@@ -11,7 +11,7 @@ const ReportModel = {
         p.ukuran_produk,
         us.nama_ukuran_satuan,
         k.nama_kemasan,
-        COALESCE(dbm.jumlah_awal, dbm.jumlah_barang_masuk) as jumlah,
+        dbm.jumlah_barang_masuk as jumlah,
         dbm.tanggal_expired,
         bm.catatan_barang_masuk as catatan
       FROM barang_masuk bm

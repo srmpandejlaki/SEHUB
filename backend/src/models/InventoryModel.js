@@ -14,7 +14,7 @@ const InventoryModel = {
         us.nama_ukuran_satuan,
         k.nama_kemasan,
         dbm.jumlah_barang_masuk,
-        dbm.jumlah_awal,
+        dbm.stok_sekarang,
         dbm.tanggal_expired
       FROM barang_masuk bm
       LEFT JOIN detail_barang_masuk dbm 
@@ -51,8 +51,8 @@ const InventoryModel = {
           ukuran_produk: row.ukuran_produk,
           nama_ukuran_satuan: row.nama_ukuran_satuan,
           nama_kemasan: row.nama_kemasan,
-          jumlah: row.jumlah_awal || row.jumlah_barang_masuk,
-          stok_sekarang: row.jumlah_barang_masuk,
+          jumlah: row.jumlah_barang_masuk,
+          stok_sekarang: row.stok_sekarang,
           tanggal_expired: row.tanggal_expired
         });
       }
@@ -79,7 +79,7 @@ const InventoryModel = {
       // 2. Insert ke detail_barang_masuk
       const insertItemsQuery = `
         INSERT INTO detail_barang_masuk
-        (id_barang_masuk, id_produk, jumlah_barang_masuk, jumlah_awal, tanggal_expired)
+        (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
         VALUES ($1, $2, $3, $3, $4)
         RETURNING *;
       `;
@@ -144,7 +144,7 @@ const InventoryModel = {
 
       const insertItemQuery = `
         INSERT INTO detail_barang_masuk
-        (id_barang_masuk, id_produk, jumlah_barang_masuk, jumlah_awal, tanggal_expired)
+        (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
         VALUES ($1, $2, $3, $3, $4)
         RETURNING *;
       `;
