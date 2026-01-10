@@ -218,7 +218,7 @@ label {
 }
 
 .detail-container {
-  width: 180px;
+  width: 300px;
   font-size: 0.8rem;
   margin-bottom: 1rem;
   display: flex;
@@ -392,7 +392,7 @@ label {
   color: custom.$color-tertiary;
   cursor: pointer;
   font-size: 0.85rem;
-  padding: 0;
+  padding-bottom: 1rem;
   margin: 0;
 
   &:hover {

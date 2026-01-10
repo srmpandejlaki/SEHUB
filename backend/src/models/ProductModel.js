@@ -94,7 +94,7 @@ const ProductModel = {
       LEFT JOIN (
         SELECT 
           id_produk, 
-          SUM(jumlah_barang_masuk) as stok_sekarang
+          SUM(stok_sekarang) as stok_sekarang
         FROM detail_barang_masuk
         GROUP BY id_produk
       ) inv ON p.id_produk = inv.id_produk

@@ -117,7 +117,14 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
   };
 
   // Calculate total
-  const totalJumlah = productItems.reduce((sum, item) => sum + (parseInt(item.jumlah) || 0), 0);
+  const totalJumlah = productItems.reduce((sum, item) => sum + (parseInt(item.stok_sekarang) || 0), 0);
+  
+  // Calculate total stock available for selected items (Unique products only)
+  const uniqueSelectedProductIds = [...new Set(productItems.map(item => item.id_produk).filter(id => id))];
+  const totalStock = uniqueSelectedProductIds.reduce((sum, id) => {
+    const stock = getProductStock(id);
+    return sum + stock;
+  }, 0);
 
   return(
     <div className="form-data-distribution">
@@ -205,7 +212,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                       <option value="">-- Pilih Produk --</option>
                       {products.map((product) => (
                         <option key={product.id_produk} value={product.id_produk}>
-                          {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan} (Stok: {product.stok_sekarang || 0})
+                          {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan}
                         </option>
                       ))}
                     </select>
@@ -250,18 +257,18 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                             <td>
                               {product?.nama_produk || "Produk"} - {product?.ukuran_produk}{product?.nama_ukuran_satuan}
                             </td>
-                            <td className="counting">
+                            <td className="">
                               Stok: {product?.stok_sekarang || 0}
                             </td>
-                            <td className="counting">
+                            <td className="">
                               {item.jumlah ? `Diambil: ${item.jumlah}` : '-'}
                             </td>
                           </tr>
                         );
                       })}
                       <tr className="total">
-                        <td className="text-end">Total Diambil</td>
-                        <td className="counting" colSpan="2">{totalJumlah}</td>
+                        <td className="text-end" style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Total</td>
+                        <td className="counting" style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{totalJumlah}</td>
                       </tr>
                     </tbody>
                   </table>
