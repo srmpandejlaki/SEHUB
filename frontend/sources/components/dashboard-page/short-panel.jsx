@@ -35,55 +35,74 @@ function ShortPanel({ statistics }) {
 
   return(
     <div className="short-panel">
-      <div className="panel">
-        <div className="text">
-          <p className="title">Jumlah Produk</p>
-          <p className="number">{totalProducts}</p>
-        </div>
-        <div className="iconCircle">
-          <div></div>
-          <IconCountProduct className="icon onPanel" />
-        </div>
-      </div>
       <div className="panel monthly-summary-panel">
         <div className="monthly-header">
           <p className="title">Ringkasan Bulan {monthlySummary.bulan}</p>
         </div>
         <div className="monthly-content">
           <div className="monthly-item">
-            <div className="item-icon incoming">
-              <IconIncoming className="icon" />
+            <div className="item-info">
+              <p className="label">Total Produk</p>
             </div>
+            <div className="item-data">
+              <div className="item-icon count">
+                <IconCountProduct className="icon" />
+              </div>
+              <div className="item-info">
+                <p className="value">{totalProducts} unit</p>
+              </div>
+            </div>
+          </div>
+          <div className="monthly-item">
             <div className="item-info">
               <p className="label">Total Barang Masuk</p>
-              <p className="value">{monthlySummary.totalBarangMasuk} unit</p>
+            </div>
+            <div className="item-data">
+              <div className="item-icon incoming">
+                <IconIncoming className="icon" />
+              </div>
+              <div className="item-info">
+                <p className="value">{monthlySummary.totalBarangMasuk} unit</p>
+              </div>
             </div>
           </div>
           <div className="monthly-item">
-            <div className="item-icon distribution">
-              <IconDistribution className="icon" />
-            </div>
             <div className="item-info">
               <p className="label">Total Distribusi</p>
-              <p className="value">{monthlySummary.totalDistribusi} unit</p>
+            </div>
+            <div className="item-data">
+              <div className="item-icon distribution">
+                <IconDistribution className="icon" />
+              </div>
+              <div className="item-info">
+                <p className="value">{monthlySummary.totalDistribusi} unit</p>
+              </div>
             </div>
           </div>
           <div className="monthly-item">
-            <div className="item-icon return">
-              <IconReturn className="icon" />
-            </div>
             <div className="item-info">
-              <p className="label">Total Return</p>
-              <p className="value">{monthlySummary.totalReturn} unit</p>
+              <p className="label">Total Barang Retur</p>
+            </div>
+            <div className="item-data">
+              <div className="item-icon return">
+                <IconReturn className="icon" />
+              </div>
+              <div className="item-info">
+                <p className="value">{monthlySummary.totalReturn} unit</p>
+              </div>
             </div>
           </div>
           <div className="monthly-item">
-            <div className="item-icon adjustment">
-              <IconAdjustment className="icon" />
-            </div>
             <div className="item-info">
               <p className="label">Penyesuaian Stok</p>
-              <p className="value">{monthlySummary.totalPenyesuaian} kali</p>
+            </div>
+            <div className="item-data">
+              <div className="item-icon adjustment">
+                <IconAdjustment className="icon" />
+              </div>
+              <div className="item-info">
+                <p className="value">{monthlySummary.totalPenyesuaian} kali</p>
+              </div>
             </div>
           </div>
         </div>

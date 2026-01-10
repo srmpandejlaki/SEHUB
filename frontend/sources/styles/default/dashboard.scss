@@ -22,6 +22,7 @@
 
 .table {
   grid-area: dashboard-table;
+  // max-height: 300px;
 
   .title-table {
     color: custom.$color-primary;
@@ -41,27 +42,17 @@
 
 .short-panel {
   grid-area: short-panel;
-  @include custom.flex-space-between;
 }
 
 .panel {
-  min-width: 230px;
-  max-height: 75px;
   border-radius: 8px;
   padding: 0.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   background-color: custom.$color-primary;
 }
 
 // Monthly Summary Panel
 .monthly-summary-panel {
-  min-width: 350px;
-  max-height: 250px;
-  flex-direction: column;
-  align-items: stretch;
   padding: 1rem;
 
   .monthly-header {
@@ -79,25 +70,44 @@
 
   .monthly-content {
     display: flex;
-    flex-direction: column;
     gap: 0.75rem;
   }
 
-  .monthly-item {
+  .panel-info {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .monthly-item {
     padding: 0.5rem;
     background-color: #f8f8f8;
     border-radius: 8px;
+    
+    .item-data {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
 
     .item-icon {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      &.count {
+        background-color: #fcf2dc;
+        
+        .icon {
+          fill: #d97706;
+          width: 20px;
+          height: 20px;
+        }
+      }
 
       &.incoming {
         background-color: #dcfce7;
@@ -177,56 +187,6 @@
     margin: 0;
     font-size: 2.5rem;
     font-weight: bolder;
-  }
-}
-
-.iconCircle {
-  position: relative; // penting, supaya absolute berada dalam area ini
-  width: 70px;
-  height: 70px;
-  
-  div {
-    width: 100%;
-    height: 100%;
-    background: custom.$dark-green;
-    border-radius: 50%;
-    position: relative;
-    z-index: 1; // lapisan belakang
-  }
-  
-  .onPanel {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); // icon di tengah
-    z-index: 2; // di depan
-    width: 40px;
-    height: 40px;
-    color: custom.$color-primary;
-  }
-}
-
-.notif-title {
-  height: 25px;
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.notif-content {
-  height: 50px;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 0.3rem;
-
-  p {
-    margin: 0;
-    padding: 0;
-  }
-
-  .redText {
-    font-weight: bold;
-    color: custom.$danger;
   }
 }
 

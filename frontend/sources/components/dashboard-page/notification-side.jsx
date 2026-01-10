@@ -45,7 +45,8 @@ function NotificationSide({ expiringProducts = [] }) {
               <p className={status.color}>{status.text}</p>
               <p>
                 {product.jumlah_barang_masuk} {product.nama_kemasan || "unit"}
-                <span> {product.nama_produk}{" "} {product.ukuran_produk}{product.nama_ukuran_satuan}</span> {getExpiryMessage(product.days_until_expired)}
+                <span> {product.nama_produk}{" "} {product.ukuran_produk}{product.nama_ukuran_satuan}</span> <br />
+                {getExpiryMessage(product.days_until_expired)}
               </p>
             </div>
           );
