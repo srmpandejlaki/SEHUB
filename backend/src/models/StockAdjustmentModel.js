@@ -234,7 +234,7 @@ const StockAdjustmentModel = {
 
           if (!id_status) {
             const newStatus = await client.query(
-              `INSERT INTO status_pengiriman (nama_status) VALUES ('Selesai') RETURNING id_status`
+              `INSERT INTO status_pengiriman (nama_status) VALUES ('Diterima') RETURNING id_status`
             );
             id_status = newStatus.rows[0].id_status;
           }
