@@ -29,7 +29,7 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
 
       data.forEach(product => {
         const stokSistem = product.items.reduce(
-          (sum, item) => sum + item.jumlah_barang_masuk,
+          (sum, item) => sum + item.stok_sekarang,
           0
         );
 

@@ -105,28 +105,29 @@
 .product-card {
   border: 1px solid #e5e5e5;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.5rem;
   margin-bottom: 1rem;
 
   .product-info {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    // margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #e5e5e5;
 
     .product-code {
       background-color: custom.$color-tertiary;
       color: white;
-      padding: 0.25rem 0.5rem;
+      padding: 0.25rem;
       border-radius: 4px;
       font-size: 0.85rem;
       font-weight: bold;
     }
 
     .product-name {
-      font-weight: 600;
+      font-size: 0.85rem;
+      font-weight: bold;
     }
 
     .product-left {

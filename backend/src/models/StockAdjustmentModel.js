@@ -67,7 +67,8 @@ const StockAdjustmentModel = {
         dbm.id_barang_masuk,
         bm.tanggal_masuk,
         dbm.tanggal_expired,
-        dbm.jumlah_barang_masuk
+        dbm.jumlah_barang_masuk,
+        dbm.stok_sekarang
       FROM produk p
       JOIN nama_produk np ON p.id_nama_produk = np.id_nama_produk
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
@@ -88,6 +89,7 @@ const StockAdjustmentModel = {
           ukuran_produk: row.ukuran_produk,
           nama_ukuran_satuan: row.nama_ukuran_satuan,
           nama_kemasan: row.nama_kemasan,
+          stok_sekarang: row.stok_sekarang,
           items: []
         };
       }
@@ -97,7 +99,8 @@ const StockAdjustmentModel = {
         id_barang_masuk: row.id_barang_masuk,
         tanggal_masuk: row.tanggal_masuk,
         tanggal_expired: row.tanggal_expired,
-        jumlah_barang_masuk: row.jumlah_barang_masuk
+        jumlah_barang_masuk: row.jumlah_barang_masuk,
+        stok_sekarang: row.stok_sekarang
       });
     });
 
@@ -190,9 +193,9 @@ const StockAdjustmentModel = {
 
           // Get inventory items sorted by expiry date (FEFO - earliest first)
           const inventoryItems = await client.query(
-            `SELECT id_detail_barang_masuk, jumlah_barang_masuk, tanggal_expired
+            `SELECT id_detail_barang_masuk, stok_sekarang, tanggal_expired
              FROM detail_barang_masuk
-             WHERE id_produk = $1 AND jumlah_barang_masuk > 0
+             WHERE id_produk = $1 AND stok_sekarang > 0
              ORDER BY tanggal_expired ASC`,
             [id_produk]
           );
@@ -200,13 +203,13 @@ const StockAdjustmentModel = {
           for (const invItem of inventoryItems.rows) {
             if (remainingToDeduct <= 0) break;
 
-            const currentStock = invItem.jumlah_barang_masuk;
+            const currentStock = invItem.stok_sekarang;
             const deductAmount = Math.min(currentStock, remainingToDeduct);
 
             // Update the inventory item
             await client.query(
               `UPDATE detail_barang_masuk 
-               SET jumlah_barang_masuk = jumlah_barang_masuk - $1
+               SET stok_sekarang = stok_sekarang - $1
                WHERE id_detail_barang_masuk = $2`,
               [deductAmount, invItem.id_detail_barang_masuk]
             );
