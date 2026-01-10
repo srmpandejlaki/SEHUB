@@ -64,23 +64,3 @@ export const createAdjustment = async (catatan_penyesuaian, items) => {
     return null;
   }
 };
-
-// DELETE adjustment
-export const deleteAdjustment = async (id) => {
-  try {
-    const response = await fetch(`${BASE_URL}stock-adjustment/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      console.error("Delete adjustment gagal:", response.status);
-      return null;
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error deleteAdjustment:", error);
-    return null;
-  }
-};

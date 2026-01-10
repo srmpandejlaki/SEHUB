@@ -59,9 +59,6 @@ function TableStockAdjustment({
               <th className="center">Selisih</th>
               <th>Kondisi</th>
               <th className="center">Catatan</th>
-              {showActions && (
-                <th className="center"></th>
-              )}
             </tr>
           </thead>
           <tbody>

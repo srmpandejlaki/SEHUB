@@ -89,7 +89,6 @@ const StockAdjustmentModel = {
           ukuran_produk: row.ukuran_produk,
           nama_ukuran_satuan: row.nama_ukuran_satuan,
           nama_kemasan: row.nama_kemasan,
-          stok_sekarang: row.stok_sekarang,
           items: []
         };
       }
@@ -181,8 +180,8 @@ const StockAdjustmentModel = {
 
           await client.query(
             `INSERT INTO detail_barang_masuk 
-             (id_barang_masuk, id_produk, jumlah_barang_masuk, tanggal_expired)
-             VALUES ($1, $2, $3, $4)`,
+             (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
+             VALUES ($1, $2, $3, $3, $4)`,
             [insertStock.rows[0].id_barang_masuk, id_produk, selisih, expiryDate]
           );
 
@@ -244,7 +243,7 @@ const StockAdjustmentModel = {
             `INSERT INTO distribusi (tanggal_distribusi, nama_pemesan, id_metode_pengiriman, id_status, catatan_distribusi) 
              VALUES ($1, $2, $3, $4, $5) 
              RETURNING id_distribusi`,
-            [today, 'Sistem - Penyesuaian Stok', id_metode, id_status, 'penyesuaian stok gudang']
+            [today, 'Sistem - Penyesuaian Stok', id_metode, id_status, 'Penyesuaian Stok Gudang']
           );
 
           await client.query(
@@ -264,36 +263,6 @@ const StockAdjustmentModel = {
         tanggal_penyesuaian: today,
         items: insertedItems
       };
-
-    } catch (err) {
-      await client.query("ROLLBACK");
-      throw err;
-    } finally {
-      client.release();
-    }
-  },
-
-  // Delete adjustment
-  delete: async (id_penyesuaian_stok) => {
-    const client = await db.connect();
-
-    try {
-      await client.query("BEGIN");
-
-      await client.query(
-        `DELETE FROM penyesuaian_stok_detail WHERE id_penyesuaian_stok = $1`,
-        [id_penyesuaian_stok]
-      );
-
-      const result = await client.query(
-        `DELETE FROM penyesuaian_stok WHERE id_penyesuaian_stok = $1 RETURNING *`,
-        [id_penyesuaian_stok]
-      );
-
-      await client.query("COMMIT");
-
-      if (result.rows.length === 0) return null;
-      return result.rows[0];
 
     } catch (err) {
       await client.query("ROLLBACK");
