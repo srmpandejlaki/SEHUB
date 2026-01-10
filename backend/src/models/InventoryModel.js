@@ -119,9 +119,20 @@ const InventoryModel = {
     try {
       await client.query("BEGIN");
 
+      // 1. Calculate Usage from Old Details (Prevent Phantom Stock)
+      const oldDetails = await client.query(
+        `SELECT id_produk, jumlah_barang_masuk, stok_sekarang FROM detail_barang_masuk WHERE id_barang_masuk = $1`,
+        [id_barang_masuk]
+      );
+      
+      const usageMap = new Map(); // id_produk -> total_used
+      for (const row of oldDetails.rows) {
+         const used = row.jumlah_barang_masuk - row.stok_sekarang;
+         const current = usageMap.get(row.id_produk) || 0;
+         usageMap.set(row.id_produk, current + used);
+      }
 
-
-      // 2. Update barang_masuk
+      // 2. Update barang_masuk Header
       const updateStock = await client.query(
         `UPDATE barang_masuk 
         SET tanggal_masuk = $1, catatan_barang_masuk = $2 
@@ -134,30 +145,50 @@ const InventoryModel = {
         throw new Error("Data barang masuk tidak ditemukan");
       }
 
-      // 3. Hapus detail lama
+      // 3. Delete Old Details
       await client.query(
         `DELETE FROM detail_barang_masuk WHERE id_barang_masuk = $1`,
         [id_barang_masuk]
       );
 
-      // 4. Insert ulang detail baru
+      // 4. Insert New Details with Usage Applied
       const insertedItems = [];
-
       const insertItemQuery = `
         INSERT INTO detail_barang_masuk
         (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
-        VALUES ($1, $2, $3, $3, $4)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING *;
       `;
 
-      for (const item of products) {
-        const result = await client.query(insertItemQuery, [
-          id_barang_masuk,
-          item.id_produk,
-          item.jumlah,
-          item.tanggal_expired
-        ]);
-        insertedItems.push(result.rows[0]);
+      // Sort products by expiry to apply usage FEFO style (apply usage to earliest expiry first)
+      // Create a copy to sort
+      const sortedProducts = [...products].sort((a, b) => new Date(a.tanggal_expired) - new Date(b.tanggal_expired));
+
+      for (const item of sortedProducts) {
+         let usedAmount = 0;
+         if (usageMap.has(item.id_produk)) {
+             const totalUsed = usageMap.get(item.id_produk);
+             usedAmount = Math.min(totalUsed, item.jumlah);
+             usageMap.set(item.id_produk, totalUsed - usedAmount);
+         }
+         
+         const stokSekarang = item.jumlah - usedAmount;
+
+         const result = await client.query(insertItemQuery, [
+             id_barang_masuk, 
+             item.id_produk, 
+             item.jumlah, 
+             stokSekarang, 
+             item.tanggal_expired
+         ]);
+         insertedItems.push(result.rows[0]);
+      }
+
+      // 5. Validation: Ensure all existing usage is accounted for
+      for (const [id_produk, remainingUsed] of usageMap.entries()) {
+          if (remainingUsed > 0) {
+             throw new Error(`Gagal update: Produk dengan ID ${id_produk} sudah terdistribusi sebanyak ${remainingUsed} unit. Anda tidak bisa mengurangi jumlah di bawah stok yang sudah terpakai.`);
+          }
       }
 
       await client.query("COMMIT");
