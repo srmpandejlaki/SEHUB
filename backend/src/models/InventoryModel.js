@@ -31,20 +31,21 @@ const InventoryModel = {
     `);
 
     // Group by id_barang_masuk
-    const grouped = {};
+    // Group by id_barang_masuk (use Map to preserve SQL order)
+    const grouped = new Map();
 
     result.rows.forEach(row => {
-      if (!grouped[row.id_barang_masuk]) {
-        grouped[row.id_barang_masuk] = {
+      if (!grouped.has(row.id_barang_masuk)) {
+        grouped.set(row.id_barang_masuk, {
           id_barang_masuk: row.id_barang_masuk,
           tanggal_masuk: row.tanggal_masuk,
           catatan_barang_masuk: row.catatan_barang_masuk,
           items: []
-        };
+        });
       }
 
       if (row.id_detail_barang_masuk) {
-        grouped[row.id_barang_masuk].items.push({
+        grouped.get(row.id_barang_masuk).items.push({
           id_detail: row.id_detail_barang_masuk,
           id_produk: row.id_produk,
           nama_produk: row.nama_produk,
@@ -58,7 +59,7 @@ const InventoryModel = {
       }
     });
 
-    return Object.values(grouped);
+    return Array.from(grouped.values());
   },
 
   create: async (tanggal_masuk, catatan_barang_masuk, products) => {

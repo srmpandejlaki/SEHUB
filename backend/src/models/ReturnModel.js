@@ -29,20 +29,20 @@ const ReturnModel = {
       ORDER BY r.tanggal_return DESC, r.id_return DESC, rd.id_return_barang_detail ASC
     `);
 
-    // Group by id_return
-    const grouped = {};
+    // Group by id_return (use Map to preserve SQL order)
+    const grouped = new Map();
     result.rows.forEach(row => {
-      if (!grouped[row.id_return]) {
-        grouped[row.id_return] = {
+      if (!grouped.has(row.id_return)) {
+        grouped.set(row.id_return, {
           id_return: row.id_return,
           tanggal_return: row.tanggal_return,
           catatan_return: row.catatan_return,
           items: []
-        };
+        });
       }
 
       if (row.id_return_barang_detail) {
-        grouped[row.id_return].items.push({
+        grouped.get(row.id_return).items.push({
           id_return_barang_detail: row.id_return_barang_detail,
           id_detail_distribusi: row.id_detail_distribusi,
           jumlah_barang_return: row.jumlah_barang_return,
@@ -58,7 +58,7 @@ const ReturnModel = {
       }
     });
 
-    return Object.values(grouped);
+    return Array.from(grouped.values());
   },
 
   // Get returns by distribution ID

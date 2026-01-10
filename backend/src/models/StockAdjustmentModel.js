@@ -25,20 +25,20 @@ const StockAdjustmentModel = {
       ORDER BY ps.tanggal_penyesuaian DESC, ps.id_penyesuaian_stok DESC, psd.id_detail_penyesuaian ASC
     `);
 
-    // Group by id_penyesuaian_stok
-    const grouped = {};
+    // Group by id_penyesuaian_stok (use Map to preserve SQL order)
+    const grouped = new Map();
     result.rows.forEach(row => {
-      if (!grouped[row.id_penyesuaian_stok]) {
-        grouped[row.id_penyesuaian_stok] = {
+      if (!grouped.has(row.id_penyesuaian_stok)) {
+        grouped.set(row.id_penyesuaian_stok, {
           id_penyesuaian_stok: row.id_penyesuaian_stok,
           tanggal_penyesuaian: row.tanggal_penyesuaian,
           catatan_penyesuaian: row.catatan_penyesuaian,
           items: []
-        };
+        });
       }
 
       if (row.id_detail_penyesuaian) {
-        grouped[row.id_penyesuaian_stok].items.push({
+        grouped.get(row.id_penyesuaian_stok).items.push({
           id_detail_penyesuaian: row.id_detail_penyesuaian,
           id_produk: row.id_produk,
           nama_produk: row.nama_produk,
@@ -51,7 +51,7 @@ const StockAdjustmentModel = {
       }
     });
 
-    return Object.values(grouped);
+    return Array.from(grouped.values());
   },
 
   // Get inventory data grouped by product for adjustment (per item with expiry date)

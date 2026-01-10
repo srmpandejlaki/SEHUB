@@ -93,12 +93,13 @@ const DashboardModel = {
     `, [limit]);
 
     // Group by distribusi
-    const grouped = {};
+    // Group by id_distribusi (use Map to preserve SQL order)
+    const grouped = new Map();
     let totalItems = 0;
 
     result.rows.forEach(row => {
-      if (!grouped[row.id_distribusi]) {
-        grouped[row.id_distribusi] = {
+      if (!grouped.has(row.id_distribusi)) {
+        grouped.set(row.id_distribusi, {
           id_distribusi: row.id_distribusi,
           tanggal_distribusi: row.tanggal_distribusi,
           nama_pemesan: row.nama_pemesan,
@@ -106,22 +107,22 @@ const DashboardModel = {
           nama_status: row.nama_status,
           items: [],
           total_jumlah: 0
-        };
+        });
       }
 
       if (row.id_produk) {
-        grouped[row.id_distribusi].items.push({
+        grouped.get(row.id_distribusi).items.push({
           id_produk: row.id_produk,
           nama_produk: row.nama_produk,
           ukuran_produk: row.ukuran_produk,
           nama_ukuran_satuan: row.nama_ukuran_satuan,
           jumlah: row.jumlah_barang_distribusi
         });
-        grouped[row.id_distribusi].total_jumlah += row.jumlah_barang_distribusi || 0;
+        grouped.get(row.id_distribusi).total_jumlah += row.jumlah_barang_distribusi || 0;
       }
     });
 
-    return Object.values(grouped);
+    return Array.from(grouped.values());
   },
 
   // Get all pending distributions (status: Diproses or Dalam Perjalanan)
@@ -150,11 +151,12 @@ const DashboardModel = {
     `);
 
     // Group by distribusi
-    const grouped = {};
+    // Group by id_distribusi (use Map to preserve SQL order)
+    const grouped = new Map();
 
     result.rows.forEach(row => {
-      if (!grouped[row.id_distribusi]) {
-        grouped[row.id_distribusi] = {
+      if (!grouped.has(row.id_distribusi)) {
+        grouped.set(row.id_distribusi, {
           id_distribusi: row.id_distribusi,
           tanggal_distribusi: row.tanggal_distribusi,
           nama_pemesan: row.nama_pemesan,
@@ -162,22 +164,22 @@ const DashboardModel = {
           nama_status: row.nama_status,
           items: [],
           total_jumlah: 0
-        };
+        });
       }
 
       if (row.id_produk) {
-        grouped[row.id_distribusi].items.push({
+        grouped.get(row.id_distribusi).items.push({
           id_produk: row.id_produk,
           nama_produk: row.nama_produk,
           ukuran_produk: row.ukuran_produk,
           nama_ukuran_satuan: row.nama_ukuran_satuan,
           jumlah: row.jumlah_barang_distribusi
         });
-        grouped[row.id_distribusi].total_jumlah += row.jumlah_barang_distribusi || 0;
+        grouped.get(row.id_distribusi).total_jumlah += row.jumlah_barang_distribusi || 0;
       }
     });
 
-    return Object.values(grouped);
+    return Array.from(grouped.values());
   },
 
   // Get monthly stats for charts (inventory and distribution by day)

@@ -45,11 +45,12 @@ const DistributionModel = {
     `);
 
     // Group by id_distribusi
-    const grouped = {};
+    // Group by id_distribusi (use Map to preserve SQL order)
+    const grouped = new Map();
 
     result.rows.forEach(row => {
-      if (!grouped[row.id_distribusi]) {
-        grouped[row.id_distribusi] = {
+      if (!grouped.has(row.id_distribusi)) {
+        grouped.set(row.id_distribusi, {
           id_distribusi: row.id_distribusi,
           tanggal_distribusi: row.tanggal_distribusi,
           nama_pemesan: row.nama_pemesan,
@@ -59,11 +60,11 @@ const DistributionModel = {
           nama_status: row.nama_status,
           catatan_distribusi: row.catatan_distribusi,
           items: []
-        };
+        });
       }
 
       if (row.id_detail_distribusi) {
-        grouped[row.id_distribusi].items.push({
+        grouped.get(row.id_distribusi).items.push({
           id_detail: row.id_detail_distribusi,
           id_produk: row.id_produk,
           nama_produk: row.nama_produk,
@@ -76,7 +77,7 @@ const DistributionModel = {
       }
     });
 
-    return Object.values(grouped);
+    return Array.from(grouped.values());
   },
 
   create: async (tanggal_distribusi, nama_pemesan, id_metode_pengiriman, id_status, catatan_distribusi, products) => {
