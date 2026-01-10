@@ -49,7 +49,7 @@ label {
 }
 
 .form-data-distribution {
-  width: 520px;
+  width: 525px;
 
   .main-form {
     flex-direction: row;
@@ -127,7 +127,7 @@ label {
   padding: 1rem;
   
   /* Constrain container height */
-  max-height: 440px;
+  max-height: 450px;
   overflow: hidden; /* Hide overflow of container, let children scroll */
 }
 
@@ -151,9 +151,6 @@ label {
   flex: 1; /* Take remaining height */
   overflow-y: auto; /* Scrollable */
   padding-right: 5px;
-  
-  /* Remove fixed max-height if previously added, let flex parent constrain it */
-  /* but we need parent to have height constraint */
   
   /* Custom Scrollbar for Webkit */
   &::-webkit-scrollbar {

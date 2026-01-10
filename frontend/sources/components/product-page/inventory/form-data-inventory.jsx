@@ -182,6 +182,15 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
           </div>
           <div className="double-form">
             <div className="inputan-double">
+              <label><IconExpiredDate className="greenIcon" /> Expired Date</label>
+              <input 
+                type="date" 
+                value={item.tanggal_expired}
+                onChange={(e) => updateProductItem(index, "tanggal_expired", e.target.value)}
+                required
+              />
+            </div>
+            <div className="inputan">
               <label><IconBotol2 className="greenIcon" /> Jumlah</label>
               <input 
                 type="number" 
@@ -192,15 +201,7 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
                 required
               />
             </div>
-            <div className="inputan">
-              <label><IconExpiredDate className="greenIcon" /> Expired Date</label>
-              <input 
-                type="date" 
-                value={item.tanggal_expired}
-                onChange={(e) => updateProductItem(index, "tanggal_expired", e.target.value)}
-                required
-              />
-            </div>
+            
           </div>
         </div>
         ))}
