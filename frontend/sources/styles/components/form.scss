@@ -49,7 +49,7 @@ label {
 }
 
 .form-data-distribution {
-  width: 500px;
+  width: 520px;
 
   .main-form {
     flex-direction: row;
@@ -125,6 +125,10 @@ label {
   border: custom.$color-secondary 1px solid;
   border-radius: 8px;
   padding: 1rem;
+  
+  /* Constrain container height */
+  max-height: 440px;
+  overflow: hidden; /* Hide overflow of container, let children scroll */
 }
 
 .form-header {
@@ -144,6 +148,28 @@ label {
 .main-form {
   display: flex;
   flex-direction: column;
+  flex: 1; /* Take remaining height */
+  overflow-y: auto; /* Scrollable */
+  padding-right: 5px;
+  
+  /* Remove fixed max-height if previously added, let flex parent constrain it */
+  /* but we need parent to have height constraint */
+  
+  /* Custom Scrollbar for Webkit */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
 
   input, select {   
     height: 30px;
@@ -366,7 +392,8 @@ label {
   color: custom.$color-tertiary;
   cursor: pointer;
   font-size: 0.85rem;
-  margin-bottom: 1rem;
+  padding: 0;
+  margin: 0;
 
   &:hover {
     text-decoration: underline;

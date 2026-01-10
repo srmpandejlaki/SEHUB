@@ -151,7 +151,14 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
         {productItems.map((item, index) => (
         <div className="product-item-row" key={index}>
           <div className="inputan">
-            <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
+              {productItems.length > 1 && (
+                <div className="iconPointer" onClick={() => removeProductItem(index)}>
+                  <IconCancel className="redIcon" width="18" />
+                </div>
+              )}
+            </div>
             <select 
               value={item.id_produk}
               onChange={(e) => updateProductItem(index, "id_produk", e.target.value)}
@@ -194,15 +201,6 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
                 required
               />
             </div>
-            {productItems.length > 1 && (
-              <button 
-                type="button" 
-                className="remove-btn"
-                onClick={() => removeProductItem(index)}
-              >
-                ×
-              </button>
-            )}
           </div>
         </div>
         ))}

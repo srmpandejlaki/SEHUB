@@ -189,7 +189,14 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
               return (
                 <div className="double-form" key={index}>
                   <div className="inputan-double">
-                    <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
+                      {productItems.length > 1 && (
+                        <div className="iconPointer" onClick={() => removeProductItem(index)}>
+                          <IconCancel className="redIcon" width="18" />
+                        </div>
+                      )}
+                    </div>
                     <select 
                       value={item.id_produk}
                       onChange={(e) => updateProductItem(index, "id_produk", e.target.value)}
@@ -221,15 +228,6 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                       </p>
                     )}
                   </div>
-                  {productItems.length > 1 && (
-                    <button 
-                      type="button" 
-                      className="remove-btn"
-                      onClick={() => removeProductItem(index)}
-                    >
-                      ×
-                    </button>
-                  )}
                 </div>
               );
             })}
@@ -238,7 +236,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
             <div className="detail-product">
               <div className="detail-container">
                 <div className="head-detail">
-                  <p>Jumlah Stok Tersedia di Sistem</p>
+                  <p style={{ fontSize: '11px' }}>Jumlah Stok Tersedia di Sistem</p>
                   <IconDropDown className="blackIcon" /> 
                 </div>
                 <div className="display-detail">
