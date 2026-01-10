@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavLaporan from "../../../components/base/nav-laporan";
 import { fetchReportProducts } from "../../../utilities/api/report";
+import { generatePDFReport } from "../../../utilities/pdf-generator";
 
 function LaporanInventori() {
   const [data, setData] = useState([]);
@@ -122,6 +123,41 @@ function LaporanInventori() {
     link.click();
   };
 
+  // Download PDF
+  const downloadPDF = () => {
+    const columns = ["No", "Tanggal", "Kode", "Nama Produk", "Ukuran", "Kemasan", "Jumlah", "Kadaluwarsa", "Catatan"];
+    const tableData = filteredData.map((row, i) => [
+      i + 1,
+      formatDate(row.tanggal),
+      row.id_produk,
+      row.nama_produk || "-",
+      `${row.ukuran_produk || ""}${row.nama_ukuran_satuan || ""}`,
+      row.nama_kemasan || "-",
+      row.jumlah,
+      formatDate(row.tanggal_expired),
+      row.catatan || "-"
+    ]);
+
+    const dateRangeStr = (startDate || endDate) 
+      ? `${formatDate(startDate) || "Awal"} s/d ${formatDate(endDate) || "Akhir"}`
+      : "Semua Waktu";
+
+    const recapData = [
+      { label: "Total Data", value: recap.totalData },
+      { label: "Total Barang Masuk", value: `${recap.totalJumlah} unit` },
+      { label: "Produk Unik", value: `${recap.produkUnik} produk` }
+    ];
+
+    generatePDFReport({
+      title: "Laporan Inventori (Barang Masuk)",
+      dateRange: dateRangeStr,
+      columns,
+      data: tableData,
+      fileName: `Laporan_Inventori_${new Date().toISOString().split('T')[0]}.pdf`,
+      recap: recapData
+    });
+  };
+
   const clearDateFilter = () => {
     setStartDate("");
     setEndDate("");
@@ -146,8 +182,11 @@ function LaporanInventori() {
                 </option>
               ))}
             </select>
-            <button className="btn-download" onClick={downloadCSV}>
+            <button className="btn-download" onClick={downloadCSV} style={{ marginRight: "10px" }}>
               📄 Unduh CSV
+            </button>
+            <button className="btn-download" onClick={downloadPDF} style={{ backgroundColor: "#dc2626" }}>
+              📄 Unduh PDF
             </button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavLaporan from "../../../components/base/nav-laporan";
 import { fetchReportProducts } from "../../../utilities/api/report";
+import { generatePDFReport } from "../../../utilities/pdf-generator";
 
 function LaporanPenyesuaian() {
   const [data, setData] = useState([]);
@@ -127,6 +128,44 @@ function LaporanPenyesuaian() {
     link.click();
   };
 
+  const downloadPDF = () => {
+    const columns = ["No", "Tanggal", "Kode", "Nama Produk", "Ukuran", "Kemasan", "Stok Sistem", "Stok Gudang", "Selisih", "Kondisi", "Catatan"];
+    const tableData = filteredData.map((row, i) => [
+      i + 1,
+      formatDate(row.tanggal),
+      row.id_produk,
+      row.nama_produk || "-",
+      `${row.ukuran_produk || ""}${row.nama_ukuran_satuan || ""}`,
+      row.nama_kemasan || "-",
+      row.stok_sistem,
+      row.stok_gudang,
+      row.stok_gudang - row.stok_sistem,
+      row.nama_kondisi || "-",
+      row.catatan || "-"
+    ]);
+
+    const dateRangeStr = (startDate || endDate) 
+      ? `${formatDate(startDate) || "Awal"} s/d ${formatDate(endDate) || "Akhir"}`
+      : "Semua Waktu";
+
+    const recapData = [
+      { label: "Total Data", value: recap.totalData },
+      { label: "Stok Kurang", value: `${recap.totalKurang} item` },
+      { label: "Stok Lebih", value: `${recap.totalLebih} item` },
+      { label: "Total Selisih Kurang", value: `${recap.totalSelisihKurang} unit` },
+      { label: "Total Selisih Lebih", value: `${recap.totalSelisihLebih} unit` }
+    ];
+
+    generatePDFReport({
+      title: "Laporan Penyesuaian Stok",
+      dateRange: dateRangeStr,
+      columns,
+      data: tableData,
+      fileName: `Laporan_Penyesuaian_${new Date().toISOString().split('T')[0]}.pdf`,
+      recap: recapData
+    });
+  };
+
   const clearDateFilter = () => {
     setStartDate("");
     setEndDate("");
@@ -151,8 +190,11 @@ function LaporanPenyesuaian() {
                 </option>
               ))}
             </select>
-            <button className="btn-download" onClick={downloadCSV}>
+            <button className="btn-download" onClick={downloadCSV} style={{ marginRight: "10px" }}>
               📄 Unduh CSV
+            </button>
+            <button className="btn-download" onClick={downloadPDF} style={{ backgroundColor: "#dc2626" }}>
+              📄 Unduh PDF
             </button>
           </div>
         </div>

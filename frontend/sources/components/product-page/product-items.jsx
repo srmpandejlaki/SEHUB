@@ -1,18 +1,19 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ProductItem from "../../view/templates/product";
 
 function ProductItems({ products }) {
+  const navigate = useNavigate();
+
   return (
     <div className="product-items">
       {products.length === 0 ? (
         <p className="no-data">Belum ada produk.</p>
       ) : (
         products.map((item) => (
-          <Link 
+          <div 
             key={item.id} 
-            to={`/produk/${item.id}`} 
-            state={{ productData: item }}
-            style={{ textDecoration: "none", color: "inherit", display: "block" }}
+            onClick={() => navigate(`/produk/${item.id}`, { state: { productData: item } })}
+            style={{ cursor: "pointer", display: "block" }}
           >
             <ProductItem
               namaProduk={item.namaProduk}
@@ -21,7 +22,7 @@ function ProductItems({ products }) {
               kemasanProduk={item.kemasanProduk}
               imageProduk={item.imageProduk}
             />
-          </Link>
+          </div>
         ))
       )}
     </div>

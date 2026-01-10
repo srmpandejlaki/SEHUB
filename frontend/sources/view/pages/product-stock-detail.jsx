@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import NavProduct from "../../components/base/nav-product";
-import IconBack from "../../assets/icon/flowbite_arrow-left-outline.svg?react";
+import IconBack from "../../assets/icon/material-symbols_cancel.svg?react";
 
 function ProductStockDetail() {
   const { id } = useParams();
