@@ -56,4 +56,14 @@ routerDashboard.get("/monthly-summary", async (req, res) => {
   }
 });
 
+// GET pending distributions (status: Diproses or Dalam Perjalanan)
+routerDashboard.get("/pending-distributions", async (req, res) => {
+  try {
+    const distributions = await DashboardModel.getPendingDistributions();
+    res.json({ success: true, data: distributions });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 export default routerDashboard;

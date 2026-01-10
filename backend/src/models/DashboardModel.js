@@ -121,6 +121,62 @@ const DashboardModel = {
     return Object.values(grouped);
   },
 
+  // Get all pending distributions (status: Diproses or Dalam Perjalanan)
+  getPendingDistributions: async () => {
+    const result = await db.query(`
+      SELECT 
+        d.id_distribusi,
+        d.tanggal_distribusi,
+        d.nama_pemesan,
+        mp.nama_metode,
+        sp.nama_status,
+        dd.id_produk,
+        n.nama_produk,
+        p.ukuran_produk,
+        us.nama_ukuran_satuan,
+        dd.jumlah_barang_distribusi
+      FROM distribusi d
+      LEFT JOIN metode_pengiriman mp ON d.id_metode_pengiriman = mp.id_metode_pengiriman
+      LEFT JOIN status_pengiriman sp ON d.id_status = sp.id_status
+      LEFT JOIN detail_distribusi dd ON d.id_distribusi = dd.id_distribusi
+      LEFT JOIN produk p ON dd.id_produk = p.id_produk
+      LEFT JOIN nama_produk n ON p.id_nama_produk = n.id_nama_produk
+      LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
+      WHERE sp.nama_status IN ('Diproses', 'Dalam Perjalanan')
+      ORDER BY d.tanggal_distribusi DESC, d.id_distribusi DESC
+    `);
+
+    // Group by distribusi
+    const grouped = {};
+
+    result.rows.forEach(row => {
+      if (!grouped[row.id_distribusi]) {
+        grouped[row.id_distribusi] = {
+          id_distribusi: row.id_distribusi,
+          tanggal_distribusi: row.tanggal_distribusi,
+          nama_pemesan: row.nama_pemesan,
+          nama_metode: row.nama_metode,
+          nama_status: row.nama_status,
+          items: [],
+          total_jumlah: 0
+        };
+      }
+
+      if (row.id_produk) {
+        grouped[row.id_distribusi].items.push({
+          id_produk: row.id_produk,
+          nama_produk: row.nama_produk,
+          ukuran_produk: row.ukuran_produk,
+          nama_ukuran_satuan: row.nama_ukuran_satuan,
+          jumlah: row.jumlah_barang_distribusi
+        });
+        grouped[row.id_distribusi].total_jumlah += row.jumlah_barang_distribusi || 0;
+      }
+    });
+
+    return Object.values(grouped);
+  },
+
   // Get monthly stats for charts (inventory and distribution by day)
   // Optional id_produk parameter to filter by specific product
   getMonthlyStats: async (id_produk = null) => {

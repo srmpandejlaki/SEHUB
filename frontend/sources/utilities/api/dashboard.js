@@ -88,3 +88,24 @@ export const fetchMonthlyStats = async (id_produk = null) => {
     return null;
   }
 };
+
+// GET pending distributions (status: Diproses or Dalam Perjalanan)
+export const fetchPendingDistributions = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}dashboard/pending-distributions`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      console.error("Gagal fetch pending distributions:", response.status);
+      return [];
+    }
+
+    const data = await response.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error("Error fetchPendingDistributions:", error);
+    return [];
+  }
+};

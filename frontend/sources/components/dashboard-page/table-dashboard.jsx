@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import IconInfoTable from "../../assets/icon/mdi_information-outline.svg?react";
 
-function DashboardTable({ recentDistributions = [] }) {
+function DashboardTable({ pendingDistributions = [] }) {
   const formatDate = (dateString) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
@@ -13,15 +13,8 @@ function DashboardTable({ recentDistributions = [] }) {
     });
   };
 
-  // Flatten distributions for table display
-  const statusPengiriman = ["Diproses", "Dalam Perjalanan"];
-
-  const processedDistributions = recentDistributions.filter(
-    (dist) => statusPengiriman.includes(dist.nama_status)
-  );
-
   const tableRows = [];
-  processedDistributions.forEach((dist, distIndex) => {
+  pendingDistributions.forEach((dist, distIndex) => {
     if (dist.items && dist.items.length > 0) {
       dist.items.forEach((item, itemIndex) => {
         tableRows.push({

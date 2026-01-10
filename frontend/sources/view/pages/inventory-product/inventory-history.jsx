@@ -9,6 +9,8 @@ import { NavLink } from "react-router-dom";
 
 function InventoryHistoryPage({ isAdmin = true }) {
   const [existingData, setExistingData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   
   // Edit state
   const [showFormEdit, setShowFormEdit] = useState(false);
@@ -26,20 +28,25 @@ function InventoryHistoryPage({ isAdmin = true }) {
   }, []);
   
   const loadDataInventory = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const response = await fetchAllInventoryData();
-      console.log("API Response:", response);
-
+      
       if (!response || !Array.isArray(response)) {
         console.error("Data inventori tidak valid:", response);
         setExistingData([]);
-        return;
+        // Don't set error if it's just empty, but if response is truly invalid
+        if (response === null) setError("Gagal mengambil data dari server.");
+      } else {
+        setExistingData(response);
       }
-
-      setExistingData(response);
     } catch (error) {
       console.error("Gagal memuat data:", error);
+      setError("Terjadi kesalahan saat memuat data.");
       setExistingData([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,14 +110,39 @@ function InventoryHistoryPage({ isAdmin = true }) {
             )}
           </div>
         </div>
-        <TableInventory 
-          existingData={paginatedData} 
-          onEdit={isAdmin ? handleEdit : null}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-          showActions={isAdmin}
-        />
+
+        {loading ? (
+          <div className="loading-container" style={{ padding: "2rem", textAlign: "center", color: "#666" }}>
+            <p>Memuat data inventori...</p>
+          </div>
+        ) : error ? (
+          <div className="error-container" style={{ padding: "2rem", textAlign: "center", color: "#dc2626" }}>
+            <p>{error}</p>
+            <button 
+              onClick={loadDataInventory}
+              style={{ 
+                marginTop: "1rem", 
+                padding: "0.5rem 1rem", 
+                backgroundColor: "#dc2626", 
+                color: "white", 
+                border: "none", 
+                borderRadius: "4px",
+                cursor: "pointer"
+              }}
+            >
+              Coba Lagi
+            </button>
+          </div>
+        ) : (
+          <TableInventory 
+            existingData={paginatedData} 
+            onEdit={isAdmin ? handleEdit : null}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            showActions={isAdmin}
+          />
+        )}
 
         {/* Edit Form - Same as Add Form but with pre-filled data */}
         {showFormEdit && editingData && (

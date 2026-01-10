@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import DashboardTable from "../../../components/dashboard-page/table-dashboard";
 import DashboardChart from "../../../components/dashboard-page/dashboard-chart";
 import NotificationSide from "../../../components/dashboard-page/notification-side";
-import { fetchRecentDistributions, fetchMonthlyStats, fetchExpiringSoon } from "../../../utilities/api/dashboard";
+import { fetchPendingDistributions, fetchMonthlyStats, fetchExpiringSoon } from "../../../utilities/api/dashboard";
 import { fetchAllProducts } from "../../../utilities/api/products";
 
 function DashboardOwner({ user }) {
-  const [recentDistributions, setRecentDistributions] = useState([]);
+  const [pendingDistributions, setPendingDistributions] = useState([]);
   const [monthlyStats, setMonthlyStats] = useState(null);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -37,12 +37,12 @@ function DashboardOwner({ user }) {
     setLoading(true);
     try {
       const [distributions, stats, expiringProducts] = await Promise.all([
-        fetchRecentDistributions(),
+        fetchPendingDistributions(),
         fetchMonthlyStats(),
         fetchExpiringSoon()
       ]);
       
-      setRecentDistributions(distributions);
+      setPendingDistributions(distributions);
       setMonthlyStats(stats);
       setExpiringProducts(expiringProducts);
     } catch (error) {
@@ -92,7 +92,7 @@ function DashboardOwner({ user }) {
             selectedProduct={selectedProduct}
             onProductChange={handleProductChange}
           />
-          <DashboardTable recentDistributions={recentDistributions} />
+          <DashboardTable pendingDistributions={pendingDistributions} />
           <NotificationSide expiringProducts={expiringProducts} />
         </div>
       )}

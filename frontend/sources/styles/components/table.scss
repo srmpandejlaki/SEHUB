@@ -47,13 +47,18 @@ tbody tr.first-of-group td {
 }
 
 // tabel dashboard
-.table-dashboard, .table-display {
+.table-display {
     max-height: 380px;
     overflow-y: auto;
     select {
         border: none;
         background-color: transparent;
     }
+}
+
+.table-dashboard {
+    max-height: 250px;
+    overflow-y: auto;
 }
 
 .table-distribution {

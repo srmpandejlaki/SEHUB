@@ -71,6 +71,9 @@ function ReturnPage({ isAdmin = true }) {
         <div className="return-section">
           <div className="header-product-page">
             <p className="title">Daftar Return Barang</p>
+            <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>
+              Barang yang dikembalikan sehingga masuk kembali ke stok gudang
+            </p>
           </div>
           <div className="distribution-display return-display">
             <SearchFilter />
@@ -101,7 +104,7 @@ function ReturnPage({ isAdmin = true }) {
           <div className="header-product-page">
             <p className="title" style={{ color: '#d32f2f' }}>🚫 Daftar Barang Rusak</p>
             <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>
-              Barang yang dikembalikan karena rusak (tidak ditambahkan ke stok)
+              Barang yang dikembalikan karena rusak (tidak ditambahkan ke stok gudang)
             </p>
           </div>
           <div className="distribution-display return-display">
