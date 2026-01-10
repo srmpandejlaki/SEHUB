@@ -57,6 +57,7 @@ const DashboardModel = {
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
       WHERE dbm.tanggal_expired <= CURRENT_DATE + CAST($1 AS INTEGER)
+        AND dbm.jumlah_barang_masuk > 0
       ORDER BY dbm.tanggal_expired ASC
     `, [daysAhead]);
 
