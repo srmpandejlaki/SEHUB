@@ -219,7 +219,7 @@ const DashboardModel = {
     };
   },
 
-  // Get monthly summary (total incoming and distribution for current month)
+  // Get monthly summary (total incoming, distribution, return, adjustment for current month)
   getMonthlySummary: async () => {
     const now = new Date();
     const year = now.getFullYear();
@@ -246,10 +246,29 @@ const DashboardModel = {
       WHERE DATE(d.tanggal_distribusi) >= $1 AND DATE(d.tanggal_distribusi) <= $2
     `, [startDate, endDate]);
 
+    // Total return this month
+    const returnResult = await db.query(`
+      SELECT COALESCE(SUM(rd.jumlah_barang_return), 0) as total
+      FROM return_barang r
+      LEFT JOIN return_barang_detail rd ON r.id_return = rd.id_return
+      WHERE DATE(r.tanggal_return) >= $1 AND DATE(r.tanggal_return) <= $2
+    `, [startDate, endDate]);
+
+    // Total adjustment count this month (count of adjustments where stok differs)
+    const adjustmentResult = await db.query(`
+      SELECT COUNT(DISTINCT ps.id_penyesuaian_stok) as total
+      FROM penyesuaian_stok ps
+      LEFT JOIN penyesuaian_stok_detail psd ON ps.id_penyesuaian_stok = psd.id_penyesuaian_stok
+      WHERE DATE(ps.tanggal_penyesuaian) >= $1 AND DATE(ps.tanggal_penyesuaian) <= $2
+        AND psd.stok_gudang != psd.stok_sistem
+    `, [startDate, endDate]);
+
     return {
       bulan: now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }),
       totalBarangMasuk: parseInt(incomingResult.rows[0]?.total) || 0,
-      totalDistribusi: parseInt(distributionResult.rows[0]?.total) || 0
+      totalDistribusi: parseInt(distributionResult.rows[0]?.total) || 0,
+      totalReturn: parseInt(returnResult.rows[0]?.total) || 0,
+      totalPenyesuaian: parseInt(adjustmentResult.rows[0]?.total) || 0
     };
   },
 };

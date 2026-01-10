@@ -122,6 +122,49 @@
       }
     }
 
+    .recap-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+      background-color: white;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+      .recap-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        border-left: 3px solid custom.$color-secondary;
+
+        &.kurang {
+          border-left-color: #dc2626;
+          background-color: #fef2f2;
+        }
+
+        &.lebih {
+          border-left-color: #16a34a;
+          background-color: #f0fdf4;
+        }
+
+        .recap-label {
+          font-size: 0.85rem;
+          color: #555;
+          font-weight: 500;
+        }
+
+        .recap-value {
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: custom.$color-secondary;
+        }
+      }
+    }
+
     .laporan-table-container {
       background-color: white;
       border-radius: 8px;

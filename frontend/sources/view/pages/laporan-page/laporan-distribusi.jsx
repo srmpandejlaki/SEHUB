@@ -77,6 +77,14 @@ function LaporanDistribusi() {
     return true;
   });
 
+  // Calculate recap
+  const recap = {
+    totalData: filteredData.length,
+    totalJumlah: filteredData.reduce((sum, r) => sum + (parseInt(r.jumlah) || 0), 0),
+    produkUnik: [...new Set(filteredData.map(r => r.id_produk))].length,
+    pemesanUnik: [...new Set(filteredData.map(r => r.nama_pemesan))].length
+  };
+
   // Pagination
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -95,6 +103,14 @@ function LaporanDistribusi() {
       row.nama_pemesan || "-",
       row.catatan || "-"
     ]);
+
+    // Add recap
+    csvData.push([]);
+    csvData.push(["REKAPITULASI"]);
+    csvData.push(["Total Data", recap.totalData]);
+    csvData.push(["Total Barang Distribusi", recap.totalJumlah, "unit"]);
+    csvData.push(["Produk Unik", recap.produkUnik, "produk"]);
+    csvData.push(["Pemesan Unik", recap.pemesanUnik, "pemesan"]);
 
     const csvContent = [headers, ...csvData]
       .map(row => row.map(cell => `"${cell}"`).join(","))
@@ -166,6 +182,26 @@ function LaporanDistribusi() {
               Menampilkan {filteredData.length} dari {data.length} data
             </span>
           )}
+        </div>
+
+        {/* Recap Section */}
+        <div className="recap-section">
+          <div className="recap-item">
+            <span className="recap-label">Total Data:</span>
+            <span className="recap-value">{recap.totalData}</span>
+          </div>
+          <div className="recap-item">
+            <span className="recap-label">Total Distribusi:</span>
+            <span className="recap-value">{recap.totalJumlah} unit</span>
+          </div>
+          <div className="recap-item">
+            <span className="recap-label">Produk Unik:</span>
+            <span className="recap-value">{recap.produkUnik} produk</span>
+          </div>
+          <div className="recap-item">
+            <span className="recap-label">Pemesan Unik:</span>
+            <span className="recap-value">{recap.pemesanUnik} pemesan</span>
+          </div>
         </div>
 
         <div className="laporan-table-container">

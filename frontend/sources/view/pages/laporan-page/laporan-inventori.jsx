@@ -77,6 +77,13 @@ function LaporanInventori() {
     return true;
   });
 
+  // Calculate recap
+  const recap = {
+    totalData: filteredData.length,
+    totalJumlah: filteredData.reduce((sum, r) => sum + (parseInt(r.jumlah) || 0), 0),
+    produkUnik: [...new Set(filteredData.map(r => r.id_produk))].length
+  };
+
   // Pagination
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -96,6 +103,13 @@ function LaporanInventori() {
       formatDate(row.tanggal_expired),
       row.catatan || "-"
     ]);
+
+    // Add recap
+    csvData.push([]);
+    csvData.push(["REKAPITULASI"]);
+    csvData.push(["Total Data", recap.totalData]);
+    csvData.push(["Total Barang Masuk", recap.totalJumlah, "unit"]);
+    csvData.push(["Produk Unik", recap.produkUnik, "produk"]);
 
     const csvContent = [headers, ...csvData]
       .map(row => row.map(cell => `"${cell}"`).join(","))
@@ -167,6 +181,22 @@ function LaporanInventori() {
               Menampilkan {filteredData.length} dari {data.length} data
             </span>
           )}
+        </div>
+
+        {/* Recap Section */}
+        <div className="recap-section">
+          <div className="recap-item">
+            <span className="recap-label">Total Data:</span>
+            <span className="recap-value">{recap.totalData}</span>
+          </div>
+          <div className="recap-item">
+            <span className="recap-label">Total Barang Masuk:</span>
+            <span className="recap-value">{recap.totalJumlah} unit</span>
+          </div>
+          <div className="recap-item">
+            <span className="recap-label">Produk Unik:</span>
+            <span className="recap-value">{recap.produkUnik} produk</span>
+          </div>
         </div>
 
         <div className="laporan-table-container">

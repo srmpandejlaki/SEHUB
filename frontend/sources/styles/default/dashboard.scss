@@ -118,6 +118,26 @@
           height: 20px;
         }
       }
+
+      &.return {
+        background-color: #fef3c7;
+        
+        .icon {
+          fill: #d97706;
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      &.adjustment {
+        background-color: #fce7f3;
+        
+        .icon {
+          fill: #db2777;
+          width: 20px;
+          height: 20px;
+        }
+      }
     }
 
     .item-info {

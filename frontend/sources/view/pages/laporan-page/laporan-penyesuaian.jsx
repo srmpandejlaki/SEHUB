@@ -43,7 +43,9 @@ function LaporanPenyesuaian() {
       }
       const response = await fetch(url);
       const result = await response.json();
-      setData(result.data || []);
+      // Only keep data where stok_gudang != stok_sistem (tidak sesuai)
+      const nonMatchingData = (result.data || []).filter(row => row.stok_gudang !== row.stok_sistem);
+      setData(nonMatchingData);
     } catch (error) {
       console.error("Error fetching adjustment data:", error);
       setData([]);
@@ -77,6 +79,15 @@ function LaporanPenyesuaian() {
     return true;
   });
 
+  // Calculate recap
+  const recap = {
+    totalData: filteredData.length,
+    totalKurang: filteredData.filter(r => (r.stok_gudang - r.stok_sistem) < 0).length,
+    totalLebih: filteredData.filter(r => (r.stok_gudang - r.stok_sistem) > 0).length,
+    totalSelisihKurang: filteredData.filter(r => (r.stok_gudang - r.stok_sistem) < 0).reduce((sum, r) => sum + Math.abs(r.stok_gudang - r.stok_sistem), 0),
+    totalSelisihLebih: filteredData.filter(r => (r.stok_gudang - r.stok_sistem) > 0).reduce((sum, r) => sum + (r.stok_gudang - r.stok_sistem), 0)
+  };
+
   // Pagination
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -93,10 +104,17 @@ function LaporanPenyesuaian() {
       row.nama_kemasan || "-",
       row.stok_sistem,
       row.stok_gudang,
-      row.selisih,
+      row.stok_gudang - row.stok_sistem,
       row.nama_kondisi || "-",
       row.catatan || "-"
     ]);
+
+    // Add recap
+    csvData.push([]);
+    csvData.push(["REKAPITULASI"]);
+    csvData.push(["Total Data Tidak Sesuai", recap.totalData]);
+    csvData.push(["Total Stok Kurang", recap.totalKurang, "item", "Selisih:", recap.totalSelisihKurang, "unit"]);
+    csvData.push(["Total Stok Lebih", recap.totalLebih, "item", "Selisih:", recap.totalSelisihLebih, "unit"]);
 
     const csvContent = [headers, ...csvData]
       .map(row => row.map(cell => `"${cell}"`).join(","))
@@ -119,7 +137,7 @@ function LaporanPenyesuaian() {
       <NavLaporan />
       <div className="main-laporan">
         <div className="laporan-header">
-          <h3>Laporan Penyesuaian Stok Gudang</h3>
+          <h3>Laporan Penyesuaian Stok (Tidak Sesuai)</h3>
           <div className="laporan-actions">
             <select 
               value={selectedProduct} 
@@ -170,6 +188,22 @@ function LaporanPenyesuaian() {
           )}
         </div>
 
+        {/* Recap Section */}
+        <div className="recap-section">
+          <div className="recap-item">
+            <span className="recap-label">Total Data:</span>
+            <span className="recap-value">{recap.totalData}</span>
+          </div>
+          <div className="recap-item kurang">
+            <span className="recap-label">Stok Kurang:</span>
+            <span className="recap-value">{recap.totalKurang} item (-{recap.totalSelisihKurang} unit)</span>
+          </div>
+          <div className="recap-item lebih">
+            <span className="recap-label">Stok Lebih:</span>
+            <span className="recap-value">{recap.totalLebih} item (+{recap.totalSelisihLebih} unit)</span>
+          </div>
+        </div>
+
         <div className="laporan-table-container">
           {loading ? (
             <p className="loading">Memuat data...</p>
@@ -194,26 +228,29 @@ function LaporanPenyesuaian() {
                 <tbody>
                   {paginatedData.length === 0 ? (
                     <tr>
-                      <td colSpan="11" className="no-data">Tidak ada data</td>
+                      <td colSpan="11" className="no-data">Tidak ada data tidak sesuai</td>
                     </tr>
                   ) : (
-                    paginatedData.map((row, index) => (
-                      <tr key={index}>
-                        <td>{startIndex + index + 1}</td>
-                        <td>{formatDate(row.tanggal)}</td>
-                        <td>{row.id_produk}</td>
-                        <td>{row.nama_produk || "-"}</td>
-                        <td>{row.ukuran_produk}{row.nama_ukuran_satuan}</td>
-                        <td>{row.nama_kemasan || "-"}</td>
-                        <td className="center">{row.stok_sistem}</td>
-                        <td className="center">{row.stok_gudang}</td>
-                        <td className={`center ${row.selisih < 0 ? 'negative' : row.selisih > 0 ? 'positive' : ''}`}>
-                          {row.selisih > 0 ? `+${row.selisih}` : row.selisih}
-                        </td>
-                        <td>{row.nama_kondisi || "-"}</td>
-                        <td>{row.catatan || "-"}</td>
-                      </tr>
-                    ))
+                    paginatedData.map((row, index) => {
+                      const selisih = row.stok_gudang - row.stok_sistem;
+                      return (
+                        <tr key={index}>
+                          <td>{startIndex + index + 1}</td>
+                          <td>{formatDate(row.tanggal)}</td>
+                          <td>{row.id_produk}</td>
+                          <td>{row.nama_produk || "-"}</td>
+                          <td>{row.ukuran_produk}{row.nama_ukuran_satuan}</td>
+                          <td>{row.nama_kemasan || "-"}</td>
+                          <td className="center">{row.stok_sistem}</td>
+                          <td className="center">{row.stok_gudang}</td>
+                          <td className={`center ${selisih < 0 ? 'negative' : 'positive'}`}>
+                            {selisih > 0 ? `+${selisih}` : selisih}
+                          </td>
+                          <td>{row.nama_kondisi || "-"}</td>
+                          <td>{row.catatan || "-"}</td>
+                        </tr>
+                      );
+                    })
                   )}
                 </tbody>
               </table>
