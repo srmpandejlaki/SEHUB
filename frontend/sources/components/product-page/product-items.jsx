@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import ProductItem from "../../view/templates/product";
 
 function ProductItems({ products }) {
@@ -8,14 +8,20 @@ function ProductItems({ products }) {
         <p className="no-data">Belum ada produk.</p>
       ) : (
         products.map((item) => (
-          <ProductItem
-            key={item.id}
-            namaProduk={item.namaProduk}
-            ukuranProduk={item.ukuranProduk}
-            ukuranSatuan={item.ukuranSatuan}
-            kemasanProduk={item.kemasanProduk}
-            imageProduk={item.imageProduk}
-          />
+          <Link 
+            key={item.id} 
+            to={`/produk/${item.id}`} 
+            state={{ productData: item }}
+            style={{ textDecoration: "none", color: "inherit", display: "block" }}
+          >
+            <ProductItem
+              namaProduk={item.namaProduk}
+              ukuranProduk={item.ukuranProduk}
+              ukuranSatuan={item.ukuranSatuan}
+              kemasanProduk={item.kemasanProduk}
+              imageProduk={item.imageProduk}
+            />
+          </Link>
         ))
       )}
     </div>

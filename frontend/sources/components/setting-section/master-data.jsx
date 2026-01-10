@@ -2,12 +2,19 @@ import React, { useState  } from "react";
 import IconBotol2 from "../../assets/icon/Frame 27.svg?react";
 import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?react";
 import IconStatus from "../../assets/icon/fluent_status-12-regular.svg?react";
+import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
+import IconDelete from "../../assets/icon/material-symbols_delete.svg?react";
 
 function MasterData({ 
   existingSize, existingKemasan, existingNamaProduk, 
   createSize, createKemasan, createNamaProduk,
   existingMetodePengiriman, existingStatusPengiriman,
-  createMetodePengiriman, createStatusPengiriman 
+  createMetodePengiriman, createStatusPengiriman,
+  onEditNamaProduk, onDeleteNamaProduk,
+  onEditSize, onDeleteSize,
+  onEditKemasan, onDeleteKemasan,
+  onEditMetode, onDeleteMetode,
+  onEditStatus, onDeleteStatus
 }) {
   const [newSizeName, setNewSizeName] = useState("");
   const [newKemasanName, setNewKemasanName] = useState("");
@@ -100,7 +107,13 @@ function MasterData({
             {existingNamaProduk && existingNamaProduk.length > 0 ? (
               <ul>
                 {existingNamaProduk.map((item) => (
-                  <li key={item.id_nama_produk}>{item.nama_produk}</li>
+                  <li key={item.id_nama_produk} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>{item.nama_produk}</span>
+                    <div style={{ display: "flex", gap: "5px" }}>
+                      <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditNamaProduk(item)} />
+                      <IconDelete className="iconPointer redIcon" width="16" onClick={() => onDeleteNamaProduk(item)} />
+                    </div>
+                  </li>
                 ))}
               </ul>
             ) : (
@@ -135,7 +148,13 @@ function MasterData({
             {existingSize && existingSize.length > 0 ? (
               <ul>
                 {existingSize.map((item) => (
-                  <li key={item.id_ukuran_satuan}>{item.nama_ukuran_satuan}</li>
+                  <li key={item.id_ukuran_satuan} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>{item.nama_ukuran_satuan}</span>
+                    <div style={{ display: "flex", gap: "5px" }}>
+                      <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditSize(item)} />
+                      <IconDelete className="iconPointer redIcon" width="16" onClick={() => onDeleteSize(item)} />
+                    </div>
+                  </li>
                 ))}
               </ul>
             ) : (
@@ -170,7 +189,13 @@ function MasterData({
             {existingKemasan && existingKemasan.length > 0 ? (
               <ul>
                 {existingKemasan.map((item) => (
-                  <li key={item.id_kemasan}>{item.nama_kemasan}</li>
+                  <li key={item.id_kemasan} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>{item.nama_kemasan}</span>
+                    <div style={{ display: "flex", gap: "5px" }}>
+                      <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditKemasan(item)} />
+                      <IconDelete className="iconPointer redIcon" width="16" onClick={() => onDeleteKemasan(item)} />
+                    </div>
+                  </li>
                 ))}
               </ul>
             ) : (
@@ -205,7 +230,13 @@ function MasterData({
             {existingMetodePengiriman && existingMetodePengiriman.length > 0 ? (
               <ul>
                 {existingMetodePengiriman.map((item) => (
-                  <li key={item.id_metode_pengiriman}>{item.nama_metode}</li>
+                  <li key={item.id_metode_pengiriman} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>{item.nama_metode}</span>
+                    <div style={{ display: "flex", gap: "5px" }}>
+                      <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditMetode(item)} />
+                      <IconDelete className="iconPointer redIcon" width="16" onClick={() => onDeleteMetode(item)} />
+                    </div>
+                  </li>
                 ))}
               </ul>
             ) : (
@@ -240,7 +271,13 @@ function MasterData({
             {existingStatusPengiriman && existingStatusPengiriman.length > 0 ? (
               <ul>
                 {existingStatusPengiriman.map((item) => (
-                  <li key={item.id_status}>{item.nama_status}</li>
+                  <li key={item.id_status} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>{item.nama_status}</span>
+                    <div style={{ display: "flex", gap: "5px" }}>
+                      <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditStatus(item)} />
+                      <IconDelete className="iconPointer redIcon" width="16" onClick={() => onDeleteStatus(item)} />
+                    </div>
+                  </li>
                 ))}
               </ul>
             ) : (

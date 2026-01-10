@@ -45,6 +45,34 @@ export const createNewNamaProduk = async (nama_produk) => {
   }
 };
 
+export const updateNamaProduk = async (id, nama_produk) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/nama-produk/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nama_produk }),
+    });
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error updateNamaProduk:", error);
+    return null;
+  }
+};
+
+export const deleteNamaProduk = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/nama-produk/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.ok;
+  } catch (error) {
+    console.error("Error deleteNamaProduk:", error);
+    return false;
+  }
+};
+
 // ========== UKURAN SATUAN ==========
 export const fetchAllSize = async () => {
   try {
@@ -99,6 +127,34 @@ export const createNewSize = async (nama_ukuran_satuan) => {
   } catch (error) {
     console.error("Error createNewSize:", error);
     return null;
+  }
+};
+
+export const updateSize = async (id, nama_ukuran_satuan) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/ukuran-satuan/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nama_ukuran_satuan }),
+    });
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error updateSize:", error);
+    return null;
+  }
+};
+
+export const deleteSize = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/ukuran-satuan/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.ok;
+  } catch (error) {
+    console.error("Error deleteSize:", error);
+    return false;
   }
 };
 
@@ -158,6 +214,34 @@ export const createNewKemasan = async (nama_kemasan) => {
   }
 };
 
+export const updateKemasan = async (id, nama_kemasan) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/kemasan/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nama_kemasan }),
+    });
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error updateKemasan:", error);
+    return null;
+  }
+};
+
+export const deleteKemasan = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/kemasan/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.ok;
+  } catch (error) {
+    console.error("Error deleteKemasan:", error);
+    return false;
+  }
+};
+
 // ========== METODE PENGIRIMAN ==========
 export const fetchAllMetodePengiriman = async () => {
   try {
@@ -192,6 +276,34 @@ export const createNewMetodePengiriman = async (nama_metode) => {
   }
 };
 
+export const updateMetodePengiriman = async (id, nama_metode) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/metode-pengiriman/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nama_metode }),
+    });
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error updateMetodePengiriman:", error);
+    return null;
+  }
+};
+
+export const deleteMetodePengiriman = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/metode-pengiriman/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.ok;
+  } catch (error) {
+    console.error("Error deleteMetodePengiriman:", error);
+    return false;
+  }
+};
+
 // ========== STATUS PENGIRIMAN ==========
 export const fetchAllStatusPengiriman = async () => {
   try {
@@ -223,5 +335,33 @@ export const createNewStatusPengiriman = async (nama_status) => {
   } catch (error) {
     console.error("Error createNewStatusPengiriman:", error);
     return null;
+  }
+};
+
+export const updateStatusPengiriman = async (id, nama_status) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/status-pengiriman/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nama_status }),
+    });
+    const data = await response.json();
+    return data?.data || data;
+  } catch (error) {
+    console.error("Error updateStatusPengiriman:", error);
+    return null;
+  }
+};
+
+export const deleteStatusPengiriman = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}master/status-pengiriman/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.ok;
+  } catch (error) {
+    console.error("Error deleteStatusPengiriman:", error);
+    return false;
   }
 };

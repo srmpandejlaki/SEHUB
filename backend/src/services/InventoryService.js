@@ -14,6 +14,10 @@ const InventoryService = {
     const result = await InventoryModel.update(id_barang_masuk, tanggal_masuk, catatan_barang_masuk, products);
     return result;
   },
+  getBatchesByProduct: async (id_produk) => {
+    const result = await InventoryModel.getBatchesByProduct(id_produk);
+    return result;
+  },
 };
 
 export default InventoryService;

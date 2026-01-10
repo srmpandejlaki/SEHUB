@@ -4,11 +4,11 @@ import FormUser from "../../components/setting-section/form-user";
 import MasterData from "../../components/setting-section/master-data";
 import { fetchAllUser, deleteUser } from "../../utilities/api/user";
 import { 
-  fetchAllSize, createNewSize, 
-  fetchAllKemasan, createNewKemasan, 
-  fetchAllNamaProduk, createNewNamaProduk, 
-  fetchAllMetodePengiriman, createNewMetodePengiriman, 
-  fetchAllStatusPengiriman, createNewStatusPengiriman 
+  fetchAllSize, createNewSize, updateSize, deleteSize,
+  fetchAllKemasan, createNewKemasan, updateKemasan, deleteKemasan,
+  fetchAllNamaProduk, createNewNamaProduk, updateNamaProduk, deleteNamaProduk,
+  fetchAllMetodePengiriman, createNewMetodePengiriman, updateMetodePengiriman, deleteMetodePengiriman,
+  fetchAllStatusPengiriman, createNewStatusPengiriman, updateStatusPengiriman, deleteStatusPengiriman
 } from "../../utilities/api/master-data";
 
 function SettingPage() {
@@ -247,6 +247,77 @@ function SettingPage() {
     }
   };
 
+  // Handlers for Master Data Edit/Delete
+  const onEditNamaProduk = async (item) => {
+    const newName = prompt("Edit Nama Produk:", item.nama_produk);
+    if (newName && newName !== item.nama_produk) {
+      await updateNamaProduk(item.id_nama_produk, newName);
+      loadDataNamaProduk();
+    }
+  };
+  const onDeleteNamaProduk = async (item) => {
+    if (window.confirm(`Hapus produk "${item.nama_produk}"?`)) {
+      await deleteNamaProduk(item.id_nama_produk);
+      loadDataNamaProduk();
+    }
+  };
+
+  const onEditSize = async (item) => {
+    const newName = prompt("Edit Ukuran:", item.nama_ukuran_satuan);
+    if (newName && newName !== item.nama_ukuran_satuan) {
+      await updateSize(item.id_ukuran_satuan, newName);
+      loadDataSize();
+    }
+  };
+  const onDeleteSize = async (item) => {
+    if (window.confirm(`Hapus ukuran "${item.nama_ukuran_satuan}"?`)) {
+      await deleteSize(item.id_ukuran_satuan);
+      loadDataSize();
+    }
+  };
+
+  const onEditKemasan = async (item) => {
+    const newName = prompt("Edit Kemasan:", item.nama_kemasan);
+    if (newName && newName !== item.nama_kemasan) {
+      await updateKemasan(item.id_kemasan, newName);
+      loadDataKemasan();
+    }
+  };
+  const onDeleteKemasan = async (item) => {
+    if (window.confirm(`Hapus kemasan "${item.nama_kemasan}"?`)) {
+      await deleteKemasan(item.id_kemasan);
+      loadDataKemasan();
+    }
+  };
+
+  const onEditMetode = async (item) => {
+    const newName = prompt("Edit Metode:", item.nama_metode);
+    if (newName && newName !== item.nama_metode) {
+      await updateMetodePengiriman(item.id_metode_pengiriman, newName);
+      loadDataMetodePengiriman();
+    }
+  };
+  const onDeleteMetode = async (item) => {
+    if (window.confirm(`Hapus metode "${item.nama_metode}"?`)) {
+      await deleteMetodePengiriman(item.id_metode_pengiriman);
+      loadDataMetodePengiriman();
+    }
+  };
+
+  const onEditStatus = async (item) => {
+    const newName = prompt("Edit Status:", item.nama_status);
+    if (newName && newName !== item.nama_status) {
+      await updateStatusPengiriman(item.id_status, newName);
+      loadDataStatusPengiriman();
+    }
+  };
+  const onDeleteStatus = async (item) => {
+    if (window.confirm(`Hapus status "${item.nama_status}"?`)) {
+      await deleteStatusPengiriman(item.id_status);
+      loadDataStatusPengiriman();
+    }
+  };
+
   return (
     <div className="content setting">
       <div className="main-user">
@@ -291,6 +362,12 @@ function SettingPage() {
           createNamaProduk={createNamaProduk}
           createMetodePengiriman={createMetodePengiriman}
           createStatusPengiriman={createStatusPengiriman}
+
+          onEditNamaProduk={onEditNamaProduk} onDeleteNamaProduk={onDeleteNamaProduk}
+          onEditSize={onEditSize} onDeleteSize={onDeleteSize}
+          onEditKemasan={onEditKemasan} onDeleteKemasan={onDeleteKemasan}
+          onEditMetode={onEditMetode} onDeleteMetode={onDeleteMetode}
+          onEditStatus={onEditStatus} onDeleteStatus={onDeleteStatus}
         />
       </div>
     </div>

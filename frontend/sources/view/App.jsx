@@ -19,6 +19,7 @@ import LaporanInventori from './pages/laporan-page/laporan-inventori';
 import LaporanDistribusi from './pages/laporan-page/laporan-distribusi';
 import LaporanReturn from './pages/laporan-page/laporan-return';
 import LaporanPenyesuaian from './pages/laporan-page/laporan-penyesuaian';
+import ProductStockDetail from './pages/product-stock-detail';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
 
@@ -101,6 +102,7 @@ function App() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<DashboardPage user={user} />} />
           <Route path="/product" element={<ProductPage />} />
+          <Route path="/produk/:id" element={<ProductStockDetail />} />
           <Route path="/setting" element={<SettingPage />} />
           <Route path="/product/inventory" element={<InventoryPage />} />
           <Route path="/product/inventory-history" element={<InventoryHistoryPage />} />

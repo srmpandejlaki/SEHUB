@@ -175,6 +175,23 @@ const InventoryModel = {
       client.release();
     }
   },
+  // Get batches by product ID for detail page
+  getBatchesByProduct: async (id_produk) => {
+    const result = await db.query(`
+      SELECT 
+        dbm.id_detail_barang_masuk,
+        bm.tanggal_masuk,
+        dbm.jumlah_barang_masuk,     -- Initial Qty
+        dbm.stok_sekarang,           -- Current Stock
+        dbm.tanggal_expired
+      FROM detail_barang_masuk dbm
+      JOIN barang_masuk bm ON dbm.id_barang_masuk = bm.id_barang_masuk
+      WHERE dbm.id_produk = $1
+      ORDER BY dbm.tanggal_expired ASC
+    `, [id_produk]);
+    
+    return result.rows;
+  }
 };
 
 export default InventoryModel;
