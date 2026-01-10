@@ -60,6 +60,68 @@
       }
     }
 
+    .date-range-filter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      margin-top: 1rem;
+
+      .date-inputs {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+
+        label {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.85rem;
+          color: #555;
+
+          input[type="date"] {
+            padding: 0.4rem 0.6rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+
+            &:focus {
+              outline: none;
+              border-color: custom.$color-secondary;
+            }
+          }
+        }
+
+        .btn-clear {
+          padding: 0.4rem 0.8rem;
+          border: 1px solid #dc3545;
+          border-radius: 6px;
+          background-color: white;
+          color: #dc3545;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background-color: #dc3545;
+            color: white;
+          }
+        }
+      }
+
+      .filter-info {
+        font-size: 0.8rem;
+        color: #666;
+        font-style: italic;
+      }
+    }
+
     .laporan-table-container {
       background-color: white;
       border-radius: 8px;

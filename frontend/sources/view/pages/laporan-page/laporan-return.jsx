@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import NavLaporan from "../../../components/base/nav-laporan";
-import SearchFilter from "../../../components/base/search-filter";
 import { fetchReportProducts } from "../../../utilities/api/report";
 
 function LaporanReturn() {
@@ -8,7 +7,12 @@ function LaporanReturn() {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  // Date range filter
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/sehub/";
 
@@ -20,6 +24,10 @@ function LaporanReturn() {
   useEffect(() => {
     loadData();
   }, [selectedProduct]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [startDate, endDate]);
 
   const loadProducts = async () => {
     const prods = await fetchReportProducts();
@@ -52,14 +60,27 @@ function LaporanReturn() {
     });
   };
 
+  // Filter data by date range
   const filteredData = data.filter(row => {
-    const query = searchQuery.toLowerCase();
-    return (
-      row.id_produk?.toLowerCase().includes(query) ||
-      row.nama_produk?.toLowerCase().includes(query) ||
-      row.catatan?.toLowerCase().includes(query)
-    );
+    if (!startDate && !endDate) return true;
+    
+    const rowDate = new Date(row.tanggal);
+    if (startDate && endDate) {
+      return rowDate >= new Date(startDate) && rowDate <= new Date(endDate);
+    }
+    if (startDate) {
+      return rowDate >= new Date(startDate);
+    }
+    if (endDate) {
+      return rowDate <= new Date(endDate);
+    }
+    return true;
   });
+
+  // Pagination
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
   const downloadCSV = () => {
     const headers = ["No", "Tanggal", "Kode Produk", "Nama Produk", "Ukuran", "Kemasan", "Jumlah", "Catatan"];
@@ -83,6 +104,11 @@ function LaporanReturn() {
     link.href = URL.createObjectURL(blob);
     link.download = `Laporan_Return_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
+  };
+
+  const clearDateFilter = () => {
+    setStartDate("");
+    setEndDate("");
   };
 
   return (
@@ -110,50 +136,90 @@ function LaporanReturn() {
           </div>
         </div>
 
-        {/* <SearchFilter 
-          value={searchQuery} 
-          onChange={setSearchQuery} 
-          placeholder="Cari data..." 
-        /> */}
+        <div className="date-range-filter">
+          <div className="date-inputs">
+            <label>
+              Dari:
+              <input 
+                type="date" 
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </label>
+            <label>
+              Sampai:
+              <input 
+                type="date" 
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </label>
+            {(startDate || endDate) && (
+              <button className="btn-clear" onClick={clearDateFilter}>
+                ✕ Reset
+              </button>
+            )}
+          </div>
+          {(startDate || endDate) && (
+            <span className="filter-info">
+              Menampilkan {filteredData.length} dari {data.length} data
+            </span>
+          )}
+        </div>
 
         <div className="laporan-table-container">
           {loading ? (
             <p className="loading">Memuat data...</p>
           ) : (
-            <table className="laporan-table">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Tanggal</th>
-                  <th>Kode Produk</th>
-                  <th>Nama Produk</th>
-                  <th>Ukuran</th>
-                  <th>Kemasan</th>
-                  <th>Jumlah</th>
-                  <th>Catatan</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredData.length === 0 ? (
+            <>
+              <table className="laporan-table">
+                <thead>
                   <tr>
-                    <td colSpan="8" className="no-data">Tidak ada data</td>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Kode Produk</th>
+                    <th>Nama Produk</th>
+                    <th>Ukuran</th>
+                    <th>Kemasan</th>
+                    <th>Jumlah</th>
+                    <th>Catatan</th>
                   </tr>
-                ) : (
-                  filteredData.map((row, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{formatDate(row.tanggal)}</td>
-                      <td>{row.id_produk}</td>
-                      <td>{row.nama_produk || "-"}</td>
-                      <td>{row.ukuran_produk}{row.nama_ukuran_satuan}</td>
-                      <td>{row.nama_kemasan || "-"}</td>
-                      <td className="center">{row.jumlah}</td>
-                      <td>{row.catatan || "-"}</td>
+                </thead>
+                <tbody>
+                  {paginatedData.length === 0 ? (
+                    <tr>
+                      <td colSpan="8" className="no-data">Tidak ada data</td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    paginatedData.map((row, index) => (
+                      <tr key={index}>
+                        <td>{startIndex + index + 1}</td>
+                        <td>{formatDate(row.tanggal)}</td>
+                        <td>{row.id_produk}</td>
+                        <td>{row.nama_produk || "-"}</td>
+                        <td>{row.ukuran_produk}{row.nama_ukuran_satuan}</td>
+                        <td>{row.nama_kemasan || "-"}</td>
+                        <td className="center">{row.jumlah}</td>
+                        <td>{row.catatan || "-"}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+              {totalPages > 1 && (
+                <div className="pagination">
+                  <span>Halaman {currentPage} dari {totalPages} ({filteredData.length} data)</span>
+                  <div className="pagination-buttons">
+                    <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>
+                      Sebelumnya
+                    </button>
+                    <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>
+                      Selanjutnya
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

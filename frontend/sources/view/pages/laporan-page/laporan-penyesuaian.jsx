@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import NavLaporan from "../../../components/base/nav-laporan";
-import SearchFilter from "../../../components/base/search-filter";
 import { fetchReportProducts } from "../../../utilities/api/report";
 
 function LaporanPenyesuaian() {
@@ -8,9 +7,12 @@ function LaporanPenyesuaian() {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; // 5 per page for penyesuaian
+  const itemsPerPage = 5;
+
+  // Date range filter
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/sehub/";
 
@@ -25,7 +27,7 @@ function LaporanPenyesuaian() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery]);
+  }, [startDate, endDate]);
 
   const loadProducts = async () => {
     const prods = await fetchReportProducts();
@@ -41,7 +43,6 @@ function LaporanPenyesuaian() {
       }
       const response = await fetch(url);
       const result = await response.json();
-      console.log(result);
       setData(result.data || []);
     } catch (error) {
       console.error("Error fetching adjustment data:", error);
@@ -59,13 +60,21 @@ function LaporanPenyesuaian() {
     });
   };
 
+  // Filter data by date range
   const filteredData = data.filter(row => {
-    const query = searchQuery.toLowerCase();
-    return (
-      row.id_produk?.toLowerCase().includes(query) ||
-      row.nama_produk?.toLowerCase().includes(query) ||
-      row.nama_kondisi?.toLowerCase().includes(query)
-    );
+    if (!startDate && !endDate) return true;
+    
+    const rowDate = new Date(row.tanggal);
+    if (startDate && endDate) {
+      return rowDate >= new Date(startDate) && rowDate <= new Date(endDate);
+    }
+    if (startDate) {
+      return rowDate >= new Date(startDate);
+    }
+    if (endDate) {
+      return rowDate <= new Date(endDate);
+    }
+    return true;
   });
 
   // Pagination
@@ -100,6 +109,11 @@ function LaporanPenyesuaian() {
     link.click();
   };
 
+  const clearDateFilter = () => {
+    setStartDate("");
+    setEndDate("");
+  };
+
   return (
     <div className="content laporan-page">
       <NavLaporan />
@@ -125,11 +139,36 @@ function LaporanPenyesuaian() {
           </div>
         </div>
 
-        {/* <SearchFilter 
-          value={searchQuery} 
-          onChange={setSearchQuery} 
-          placeholder="Cari data..." 
-        /> */}
+        <div className="date-range-filter">
+          <div className="date-inputs">
+            <label>
+              Dari:
+              <input 
+                type="date" 
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </label>
+            <label>
+              Sampai:
+              <input 
+                type="date" 
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </label>
+            {(startDate || endDate) && (
+              <button className="btn-clear" onClick={clearDateFilter}>
+                ✕ Reset
+              </button>
+            )}
+          </div>
+          {(startDate || endDate) && (
+            <span className="filter-info">
+              Menampilkan {filteredData.length} dari {data.length} data
+            </span>
+          )}
+        </div>
 
         <div className="laporan-table-container">
           {loading ? (
