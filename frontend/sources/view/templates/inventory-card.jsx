@@ -1,11 +1,32 @@
-import React from "react";
+import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 
-function InventoryCard({ namaProduk, ukuranProduk, ukuranSatuan, minimumStock, stokSekarang, imageProduk }) {
+function InventoryCard({ namaProduk, ukuranProduk, ukuranSatuan, minimumStock, stokSekarang, imageProduk, onEdit }) {
   // Determine if stock is low
   const isLowStock = stokSekarang < minimumStock;
   
   return(
-    <div className="items">
+    <div className="items" style={{ position: "relative" }}>
+      {onEdit && (
+        <div 
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit();
+          }}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            cursor: "pointer",
+            background: "rgba(255, 255, 255, 0.8)",
+            borderRadius: "50%",
+            padding: "5px",
+            zIndex: 10
+          }}
+          title="Edit Produk"
+        >
+          <IconEdit className="icon darkGreenIcon" width="20" height="20" style={{ color: "#1B5E20" }} />
+        </div>
+      )}
       <img src={imageProduk} alt={namaProduk} />
       <div className="item-desc">
         <p className="product-name">{namaProduk}<br/><span>{ukuranProduk}{ukuranSatuan}</span></p>

@@ -60,7 +60,7 @@ function DashboardChart({ monthlyData, products, selectedProduct, onProductChang
             />
             <Legend 
               wrapperStyle={{ paddingTop: '20px' }}
-              formatter={(value) => value === 'inventori' ? 'Barang Masuk' : 'Barang Keluar'}
+              formatter={(value) => value === 'inventori' ? 'Inventori' : 'Distribusi'}
             />
             <Line
               type="monotone"

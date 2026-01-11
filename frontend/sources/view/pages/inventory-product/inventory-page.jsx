@@ -18,6 +18,7 @@ function InventoryPage({ isAdmin = true }) {
   const [showFormEdit, setShowFormEdit] = useState(false);
   const [editingData, setEditingData] = useState(null);
   const [showFormDis, setFormDis] = useState(false);
+  const [editData, setEditData] = useState(null);
   
   useEffect(() => {
     loadDataProducts();
@@ -35,6 +36,11 @@ function InventoryPage({ isAdmin = true }) {
 
       const mapped = response.map((item) => ({
         id: item.id_produk,
+        // Raw IDs for editing
+        id_nama_produk: item.id_nama_produk,
+        id_ukuran_satuan: item.id_ukuran_satuan,
+        id_kemasan: item.id_kemasan,
+        // Display fields
         namaProduk: item.nama_produk,
         ukuranProduk: item.ukuran_produk,
         ukuranSatuan: item.nama_ukuran_satuan,
@@ -51,12 +57,20 @@ function InventoryPage({ isAdmin = true }) {
   };
 
   const handleOpenFormProduct = () => {
+    setEditData(null); // Reset edit data
+    setShowFormProduct(true);
+  };
+
+  const handleEditProduct = (product) => {
+    if (!isAdmin) return;
+    setEditData(product);
     setShowFormProduct(true);
   };
 
   const handleCloseFormProduct = () => {
     setShowFormProduct(false);
-  };  
+    setEditData(null);
+  };
 
   const reloadProducts = () => {
     loadDataProducts();
@@ -131,11 +145,16 @@ function InventoryPage({ isAdmin = true }) {
             </div>
           </div>
           <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
-          <InventoryProduct existingData={filteredProducts} />
+          <InventoryProduct existingData={filteredProducts} onEdit={isAdmin ? handleEditProduct : null} />
         </div>
         {showFormProduct && (
           <div className="form-overlay">
-            <FormProduct closeFormProduct={handleCloseFormProduct} reloadProducts={reloadProducts} />
+            <FormProduct 
+              closeFormProduct={handleCloseFormProduct} 
+              reloadProducts={reloadProducts}
+              editData={editData}
+              isEdit={!!editData}
+            />
           </div>
         )}
         

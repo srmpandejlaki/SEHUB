@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import IconEditProduct from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
-import { createProduct } from "../../utilities/api/products";
+import { createProduct, updateProduct } from "../../utilities/api/products";
 import { fetchAllKemasan, fetchAllSize, fetchAllNamaProduk } from "../../utilities/api/master-data";
 
-function FormProduct({ closeFormProduct, reloadProducts }) {
+function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit = false }) {
   const [idNamaProduk, setIdNamaProduk] = useState("");
   const [ukuranProduk, setUkuranProduk] = useState("");
   const [idUkuranSatuan, setIdUkuranSatuan] = useState("");
@@ -22,6 +22,18 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
     loadDataSize();
     loadDataKemasan();
   }, []);
+
+  // Pre-fill form if editing
+  useEffect(() => {
+    if (isEdit && editData) {
+      setIdNamaProduk(editData.id_nama_produk || "");
+      setUkuranProduk(editData.ukuranProduk || "");
+      setIdUkuranSatuan(editData.id_ukuran_satuan || "");
+      setIdKemasan(editData.id_kemasan || "");
+      setMinimumStok(editData.stokMinimum || "");
+      // Note: imageProduk stays empty unless user uploads new
+    }
+  }, [isEdit, editData]);
 
   const loadDataNamaProduk = async () => {
     try {
@@ -53,7 +65,7 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newProduct = {
+    const productData = {
       id_nama_produk: idNamaProduk,
       ukuran_produk: ukuranProduk,
       id_ukuran_satuan: idUkuranSatuan,
@@ -62,14 +74,19 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
       path_gambar: imageProduk,
     };
 
-    const result = await createProduct(newProduct);
+    let result;
+    if (isEdit && editData?.id) {
+       result = await updateProduct(editData.id, productData);
+    } else {
+       result = await createProduct(productData);
+    }
 
     if (result) {
-      alert("Produk berhasil ditambahkan!");
+      alert(isEdit ? "Produk berhasil diperbarui!" : "Produk berhasil ditambahkan!");
       closeFormProduct();
       if (reloadProducts) reloadProducts();
     } else {
-      alert("Gagal menambahkan produk");
+      alert(isEdit ? "Gagal memperbarui produk" : "Gagal menambahkan produk");
     }
   };
 
@@ -78,7 +95,7 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
-          <p>Tambah Barang</p>
+          <p>{isEdit ? "Edit Barang" : "Tambah Barang"}</p>
         </div>
         <IconCancel className="icon" onClick={closeFormProduct} />
       </div>
@@ -153,11 +170,16 @@ function FormProduct({ closeFormProduct, reloadProducts }) {
             accept="image/*"
             onChange={(e) => setImageProduk(e.target.files[0])}
           />
+          {isEdit && editData?.imageProduk && (
+            <p style={{fontSize: "12px", color: "gray", marginTop: "5px"}}>
+              Biarkan kosong jika tidak ingin mengubah gambar
+            </p>
+          )}
         </div>
 
         <div className="button">
           <button type="submit" className="base-btn green">
-            Simpan
+            {isEdit ? "Perbarui" : "Simpan"}
           </button>
         </div>
       </form>
