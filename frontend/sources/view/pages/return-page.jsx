@@ -70,9 +70,9 @@ function ReturnPage({ isAdmin = true }) {
         {/* Normal Returns Section */}
         <div className="return-section">
           <div className="header-product-page">
-            <p className="title">Daftar Return Barang</p>
+            <p className="title">Daftar Produk Retur</p>
             <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>
-              Barang yang dikembalikan sehingga masuk kembali ke stok gudang
+              Produk yang dikembalikan sehingga masuk kembali ke stok gudang
             </p>
           </div>
           <div className="distribution-display return-display">
@@ -102,18 +102,13 @@ function ReturnPage({ isAdmin = true }) {
         {/* Damaged Goods Section */}
         <div className="return-section damaged-section">
           <div className="header-product-page">
-            <p className="title" style={{ color: '#d32f2f' }}>🚫 Daftar Barang Rusak</p>
+            <p className="title" style={{ color: '#d32f2f' }}>🚫 Daftar Produk Rusak</p>
             <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>
-              Barang yang dikembalikan karena rusak (tidak ditambahkan ke stok gudang)
+              Produk yang dikembalikan karena rusak (tidak ditambahkan ke stok gudang)
             </p>
           </div>
           <div className="distribution-display return-display">
             <SearchFilter />
-            {!isAdmin && (
-              <div className="button">
-                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
-              </div>
-            )}
           </div>
           {loading ? (
             <p>Memuat data...</p>

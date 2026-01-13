@@ -42,22 +42,6 @@
             border-color: custom.$color-secondary;
           }
         }
-
-        .btn-download {
-          padding: 0.5rem 1rem;
-          border: none;
-          border-radius: 6px;
-          background-color: custom.$color-primary;
-          color: custom.$color-secondary;
-          font-size: 0.9rem;
-          cursor: pointer;
-          transition: all 0.2s ease;
-
-          &:hover {
-            background-color: custom.$color-secondary;
-            color: custom.$color-primary;
-          }
-        }
       }
     }
 

@@ -11,28 +11,28 @@ function NavProduct({ user }) {
     {
       label: "Produk",
       path: "/product",
-      icon: <IconListProduct className="icon" />,
+      icon: <IconListProduct className="icon nav-btn" />,
       adminOnly: true,
     },
     {
-      label: "Inventori Barang",
+      label: "Inventori Produk",
       path: "/product/inventory",
-      icon: <IconInventoryProduct className="icon" />,
+      icon: <IconInventoryProduct className="icon nav-btn" />,
     },
     {
-      label: "Distribusi Barang",
+      label: "Distribusi Produk",
       path: "/product/distribution",
-      icon: <IconDistribution className="icon" />,
+      icon: <IconDistribution className="icon nav-btn" />,
     },
     {
-      label: "Return Barang",
+      label: "Produk Retur",
       path: "/product/return",
-      icon: <IconDistribution className="icon" />,
+      icon: <IconDistribution className="icon nav-btn" />,
     },
     {
       label: "Penyesuaian Stok Gudang",
       path: "/product/stock-adjustment",
-      icon: <IconInventoryProduct className="icon" />,
+      icon: <IconInventoryProduct className="icon nav-btn" />,
     },
   ];
 

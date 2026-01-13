@@ -84,7 +84,6 @@ function InventoryPage({ isAdmin = true }) {
   const handleEditSuccess = () => {
     setShowFormEdit(false);
     setEditingData(null);
-    loadDataInventory();
     reloadProducts();
   };
 
@@ -98,7 +97,6 @@ function InventoryPage({ isAdmin = true }) {
   };
 
   const handleFormSuccess = () => {
-    loadDataInventory(); // Reload data after success
     reloadProducts();
   };
 
@@ -118,13 +116,13 @@ function InventoryPage({ isAdmin = true }) {
       <div className="main-inventory">
         <div className="inventory-display">
           <div className="header-inventory">
-            <p>Pratinjau Data Barang Masuk (Inventori) <br /> <span>menampilkan jumlah stok saat ini.</span></p>
+            <p>Pratinjau Data Inventori <br /> <span>menampilkan jumlah stok saat ini.</span></p>
             <div className="buttons">
               {isAdmin && (
                 <div className="button">
                   <div className="base-btn black" onClick={handleOpenFormProduct}>
                     <IconAddProduct className="icon" />
-                    <p>Tambah Barang</p>
+                    <p>Tambah Produk</p>
                   </div>
                 </div>
               )}

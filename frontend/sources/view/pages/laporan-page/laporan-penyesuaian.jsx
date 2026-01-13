@@ -193,7 +193,7 @@ function LaporanPenyesuaian() {
             <button className="btn-download" onClick={downloadCSV} style={{ marginRight: "10px" }}>
               📄 Unduh CSV
             </button>
-            <button className="btn-download" onClick={downloadPDF} style={{ backgroundColor: "#dc2626" }}>
+            <button className="btn-download" onClick={downloadPDF}>
               📄 Unduh PDF
             </button>
           </div>
