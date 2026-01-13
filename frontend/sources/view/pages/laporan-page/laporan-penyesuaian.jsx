@@ -176,7 +176,7 @@ function LaporanPenyesuaian() {
       <NavLaporan />
       <div className="main-laporan">
         <div className="laporan-header">
-          <h3>Laporan Penyesuaian Stok (Tidak Sesuai)</h3>
+          <h3>Laporan Penyesuaian Stok Gudang (Tidak Sesuai)</h3>
           <div className="laporan-actions">
             <select 
               value={selectedProduct} 

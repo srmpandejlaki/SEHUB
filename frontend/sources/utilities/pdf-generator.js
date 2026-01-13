@@ -2,7 +2,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 // Helper to format date
-const formatDate = (dateString) => {
+ export const formatDate = (dateString) => {
   if (!dateString) return "-";
   return new Date(dateString).toLocaleDateString("id-ID", {
     day: "numeric",

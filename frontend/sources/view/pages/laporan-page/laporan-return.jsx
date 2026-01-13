@@ -164,7 +164,7 @@ function LaporanReturn() {
       <NavLaporan />
       <div className="main-laporan">
         <div className="laporan-header">
-          <h3>Laporan Return Barang</h3>
+          <h3>Laporan Barang Retur</h3>
           <div className="laporan-actions">
             <select 
               value={selectedProduct} 

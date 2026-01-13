@@ -168,7 +168,7 @@ function LaporanInventori() {
       <NavLaporan />
       <div className="main-laporan">
         <div className="laporan-header">
-          <h3>Laporan Barang Masuk (Inventori)</h3>
+          <h3>Laporan Inventori Produk</h3>
           <div className="laporan-actions">
             <select 
               value={selectedProduct} 

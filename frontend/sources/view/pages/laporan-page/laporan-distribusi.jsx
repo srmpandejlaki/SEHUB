@@ -169,7 +169,7 @@ function LaporanDistribusi() {
       <NavLaporan />
       <div className="main-laporan">
         <div className="laporan-header">
-          <h3>Laporan Distribusi Barang</h3>
+          <h3>Laporan Distribusi Produk</h3>
           <div className="laporan-actions">
             <select 
               value={selectedProduct} 
