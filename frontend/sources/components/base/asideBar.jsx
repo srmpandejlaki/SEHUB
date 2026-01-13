@@ -24,7 +24,7 @@ function AsideBar({ user, onLogout }) {
         </div>
         <div className="nav">
           <div className="menu">
-              <IconMenu className="icon greenIcon" /> 
+              <IconMenu className="icon whiteIcon" /> 
               <p>MENU</p>
           </div>
           <div className="links">
@@ -33,22 +33,22 @@ function AsideBar({ user, onLogout }) {
               <>
                 <div>
                   <NavLink to="/dashboard" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconHome className="icon greenIcon" /> Beranda
+                    <IconHome className="icon whiteIcon" /> Beranda
                   </NavLink>
                 </div>
                 <div>
                   <NavLink to="/product/inventory" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconProduct className="icon greenIcon" /> Produk
+                    <IconProduct className="icon whiteIcon" /> Produk
                   </NavLink>
                 </div>
                 <div>
                   <NavLink to="/laporan" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconReport className="icon greenIcon" /> Laporan
+                    <IconReport className="icon whiteIcon" /> Laporan
                   </NavLink>
                 </div>
                 <div>
                   <NavLink to="/setting" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconSetting className="icon greenIcon" /> Pengaturan
+                    <IconSetting className="icon whiteIcon" /> Pengaturan
                   </NavLink>
                 </div>
               </>
@@ -58,12 +58,12 @@ function AsideBar({ user, onLogout }) {
               <>
                 <div>
                   <NavLink to="/dashboard-owner" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconHome className="icon greenIcon" /> Beranda
+                    <IconHome className="icon whiteIcon" /> Beranda
                   </NavLink>
                 </div>
                 <div>
                   <NavLink to="/product/inventory" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconProduct className="icon greenIcon" /> Produk
+                    <IconProduct className="icon whiteIcon" /> Produk
                   </NavLink>
                 </div>
               </>

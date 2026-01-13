@@ -18,7 +18,7 @@
 .login-section {
   width: 50%;
   height: 100vh;
-  background-color: custom.$color-secondary;
+  background-color: custom.$color-tertiary;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,6 +42,30 @@
     border: none;
     padding: 10px;
     font-size: 16px;
+  }
+}
+
+.login-form .button {
+  width: 100%;
+}
+
+.login-btn {
+  cursor: pointer;
+  width: 100%;
+  background-color: transparent;
+  color: custom.$color-primary;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  
+  &:hover {
+    background-color: custom.$color-secondary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  p {
+    margin: 0.5rem;
   }
 }
 

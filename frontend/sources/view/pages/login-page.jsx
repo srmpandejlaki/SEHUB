@@ -87,7 +87,7 @@ function LoginPage({ onLoginSuccess }) {
           <div className="button">
             <button 
               type="submit" 
-              className="base-btn black"
+              className="login-btn"
               disabled={isLoading}
             >
               <p>{isLoading ? "Memproses..." : "Masuk"}</p>
