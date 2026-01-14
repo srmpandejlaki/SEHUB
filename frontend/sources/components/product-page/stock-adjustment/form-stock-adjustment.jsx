@@ -165,17 +165,6 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
                   {product.nama_ukuran_satuan}
                 </span>
               </div>
-
-              <div className="product-right">
-                <label className="master-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={adjustmentData[product.id_produk]?.isChecked || false}
-                    onChange={() => handleProductCheckboxChange(product.id_produk)}
-                  />
-                  Sesuai
-                </label>
-              </div>
             </div>
 
             {/* TABLE */}
@@ -183,6 +172,7 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
               <thead>
                 <tr>
                   <th className="center">Stok Sistem</th>
+                  <th className="center">Sesuai</th>
                   <th>Jumlah di Gudang</th>
                   <th>Alasan Tidak Sesuai</th>
                   <th className="center">Stok Gudang</th>
@@ -193,6 +183,13 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
                   <td className="center">
                     {adjustmentData[product.id_produk]?.stokSistem}{" "}
                     botol
+                  </td>
+                  <td className="center">
+                    <input
+                      type="checkbox"
+                      checked={adjustmentData[product.id_produk]?.isChecked}
+                      onChange={() => handleProductCheckboxChange(product.id_produk)}
+                    />
                   </td>
                   <td>
                     <input
@@ -208,6 +205,7 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
                       type="text"
                       value={adjustmentData[product.id_produk]?.alasan || ""}
                       onChange={e => handleAlasanChange(product.id_produk,e.target.value)}
+                      disabled={adjustmentData[product.id_produk]?.isChecked}
                     />
                   </td>
                   <td className="center">

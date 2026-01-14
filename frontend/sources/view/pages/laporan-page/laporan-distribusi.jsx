@@ -145,16 +145,16 @@ function LaporanDistribusi() {
 
     const recapData = [
       { label: "Total Data", value: recap.totalData },
-      { label: "Total Barang Masuk", value: `${recap.totalJumlah} unit` },
-      { label: "Produk Unik", value: `${recap.produkUnik} produk` }
+      { label: "Total Barang Keluar", value: `${recap.totalJumlah} unit` },
+      { label: "Jumlah Produk", value: `${recap.produkUnik} produk` }
     ];
 
     generatePDFReport({
-      title: "Laporan Inventori (Barang Masuk)",
+      title: "Laporan Distribusi Produk",
       dateRange: dateRangeStr,
       columns,
       data: tableData,
-      fileName: `Laporan_Inventori_${new Date().toISOString().split('T')[0]}.pdf`,
+      fileName: `Laporan_Distribusi_${new Date().toISOString().split('T')[0]}.pdf`,
       recap: recapData
     });
   };
@@ -230,15 +230,15 @@ function LaporanDistribusi() {
             <span className="recap-value">{recap.totalData}</span>
           </div>
           <div className="recap-item">
-            <span className="recap-label">Total Distribusi:</span>
+            <span className="recap-label">Total Barang Keluar:</span>
             <span className="recap-value">{recap.totalJumlah} unit</span>
           </div>
           <div className="recap-item">
-            <span className="recap-label">Produk Unik:</span>
+            <span className="recap-label">Jumlah Produk:</span>
             <span className="recap-value">{recap.produkUnik} produk</span>
           </div>
           <div className="recap-item">
-            <span className="recap-label">Pemesan Unik:</span>
+            <span className="recap-label">Jumlah Pemesan:</span>
             <span className="recap-value">{recap.pemesanUnik} pemesan</span>
           </div>
         </div>
