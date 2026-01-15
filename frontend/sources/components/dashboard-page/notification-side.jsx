@@ -1,7 +1,9 @@
 import React from "react";
 import IconReminder from "../../assets/icon/carbon_reminder.svg?react";
+import { useTranslation } from "../../contexts/localContext";
 
 function NotificationSide({ expiringProducts = [] }) {
+  const t = useTranslation();
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -31,11 +33,11 @@ function NotificationSide({ expiringProducts = [] }) {
     <div className="notification-side">
       <div className="notif-title">
         <IconReminder className="icon onPanel blackIcon" />
-        <p>Pemberitahuan</p>
+        <p>{t('notification')}</p>
       </div>
       {expiringProducts.length === 0 ? (
         <div className="notif-content">
-          <p>Tidak ada produk yang akan kadaluarsa dalam 30 hari ke depan.</p>
+          <p>{t('noExpiredData')}</p>
         </div>
       ) : (
         expiringProducts.slice(0, 5).map((product) => {
