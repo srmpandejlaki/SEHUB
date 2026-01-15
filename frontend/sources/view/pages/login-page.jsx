@@ -54,7 +54,7 @@ function LoginPage({ onLoginSuccess }) {
       <div className="login-section">
         <div className="login-text">
           <img src={logoSehub} alt="Logo SEHUB" />
-          <h3>Aplikasi Pengelolaan Inventori dan Distribusi Produk L' Arbre Seho</h3>
+          <h3 className="center-text">Aplikasi Pengelolaan Inventori dan Distribusi Produk L' Arbre Seho<br />PT. Rumah Seho Nusantara</h3>
         </div>
         <form className="login-form" onSubmit={handleSubmit}>
           {errorMessage && (

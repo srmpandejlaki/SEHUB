@@ -78,7 +78,7 @@ function AsideBar({ user, onLogout }) {
             Keluar
           </button>
         </div>
-        {/* <p>Powered by : PT. Rumah Seho Nusantara</p> */}
+        <p>Powered by : PT. Rumah Seho Nusantara</p>
       </div>
     </div>
   );

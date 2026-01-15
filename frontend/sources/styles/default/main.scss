@@ -136,6 +136,10 @@ a {
     font-size: 0.6rem;
 }
 
+.center-text {
+    text-align: center;
+}
+
 /* main-side */
 .hari-tgl {
     @include custom.flex-align-center;
