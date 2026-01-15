@@ -124,3 +124,46 @@
 .nav-btn {
   transition: all 0.2s ease;
 }
+
+/* Language Toggle Button */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem 0.8rem;
+  border: 2px solid custom.$color-secondary;
+  border-radius: 20px;
+  background-color: custom.$color-primary;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: bold;
+  font-size: 0.85rem;
+
+  &:hover {
+    background-color: custom.$color-tertiary;
+    border-color: custom.$color-tertiary;
+    
+    .lang-option {
+      color: custom.$color-primary;
+    }
+    
+    .lang-separator {
+      color: custom.$color-primary;
+    }
+  }
+
+  .lang-option {
+    color: custom.$code-product;
+    transition: all 0.2s ease;
+
+    &.active {
+      color: custom.$color-tertiary;
+      font-weight: 800;
+    }
+  }
+
+  .lang-separator {
+    color: custom.$code-product;
+  }
+}
+

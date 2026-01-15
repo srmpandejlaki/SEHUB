@@ -22,11 +22,35 @@ import LaporanPenyesuaian from './pages/laporan-page/laporan-penyesuaian';
 import ProductStockDetail from './pages/product-stock-detail';
 
 import LocaleContext, { LocaleProvider } from '../contexts/localContext';
+import { getTranslation } from '../contexts/translations';
 
 function App() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [locale, setLocale] = useState('id');
   const location = useLocation();
+
+  // Load locale from localStorage on mount
+  useEffect(() => {
+    const savedLocale = localStorage.getItem("locale");
+    if (savedLocale && (savedLocale === 'id' || savedLocale === 'en')) {
+      setLocale(savedLocale);
+    }
+  }, []);
+
+  // Toggle locale function
+  const toggleLocale = () => {
+    const newLocale = locale === 'id' ? 'en' : 'id';
+    setLocale(newLocale);
+    localStorage.setItem("locale", newLocale);
+  };
+
+  // Locale context value
+  const localeContextValue = {
+    locale,
+    toggleLocale,
+    t: (key) => getTranslation(locale, key)
+  };
 
   // Check for saved user on mount
   useEffect(() => {
@@ -52,13 +76,13 @@ function App() {
 
   // Loading state
   if (isLoading) {
-    return <div className="loading">Memuat...</div>;
+    return <div className="loading">{getTranslation(locale, 'loading')}</div>;
   }
 
   // Not logged in - show login page
   if (!user) {
     return (
-      <LocaleProvider value={{ locale: 'id', toggleLocale: () => {} }}>
+      <LocaleProvider value={localeContextValue}>
         <LoginPage onLoginSuccess={handleLoginSuccess} />
       </LocaleProvider>
     );
@@ -67,7 +91,7 @@ function App() {
   // Logged in as non-admin - show limited view (read-only)
   if (!user.is_admin) {
     return (
-      <LocaleProvider value={{ locale: 'id', toggleLocale: () => {} }}>
+      <LocaleProvider value={localeContextValue}>
         <main className="main-side">
           <Header user={user} onLogout={handleLogout} />
           <AsideBar user={user} onLogout={handleLogout} />
@@ -94,7 +118,7 @@ function App() {
 
   // Logged in as admin - show full app
   return (
-    <LocaleProvider value={{ locale: 'id', toggleLocale: () => {} }}>
+    <LocaleProvider value={localeContextValue}>
       <main className="main-side">
         <Header user={user} onLogout={handleLogout} />
         <AsideBar user={user} onLogout={handleLogout} />

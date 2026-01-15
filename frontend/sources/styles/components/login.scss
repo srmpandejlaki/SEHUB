@@ -24,6 +24,13 @@
   justify-content: center;
   align-items: center;
   gap: 4rem;
+  position: relative;
+}
+
+.login-lang-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .login-text, .login-form {
