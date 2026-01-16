@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import IconListProduct from "../../assets/icon/ep_list.svg?react";
 import IconInventoryProduct from "../../assets/icon/material-symbols_inventory.svg?react";
 import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?react";
 
@@ -8,12 +7,6 @@ function NavProduct({ user }) {
   const isAdmin = user?.is_admin === true;
 
   const menus = [
-    {
-      label: "Produk",
-      path: "/product",
-      icon: <IconListProduct className="icon nav-btn" />,
-      adminOnly: true,
-    },
     {
       label: "Inventori Produk",
       path: "/product/inventory",

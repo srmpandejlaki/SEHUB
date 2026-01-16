@@ -26,6 +26,17 @@ const translations = {
     
     // Common
     loading: "Memuat...",
+    date: "Hari/Tanggal",
+    quantity: "Jumlah",
+    method: "Metode",
+    status: "Status",
+    nameBuyer: "Nama Pemesan",
+    searchProduct: "Cari Produk...",
+    pages: "Halaman",
+    of: "dari",
+    previous: "Sebelumnya",
+    next: "Selanjutnya",
+    total: "Total",
 
     //Dashboard
     greeting: "Selamat Datang",
@@ -35,8 +46,6 @@ const translations = {
     filterProduct: "Filter Produk",
     allProduct: "Semua Produk",
     noData: "Tidak ada data untuk ditampilkan.",
-    date: "Tanggal",
-    quantity: "Jumlah",
     inventory: "Inventori",
     distribution: "Distribusi",
     notification: "Pemberitahuan",
@@ -49,22 +58,52 @@ const translations = {
     totalAdjustment: "Penyesuaian Stok",
     infoDistributionProduct: "Informasi Distribusi Produk",
     seeMore: "Selengkapnya",
-    nameBuyer: "Nama Pemesan",
     noDataDistribution: "Tidak ada data distribusi",
-    method: "Metode",
-    status: "Status",
 
     //inventory page
     inventoryTitle: "Pratinjau Data Inventori",
     inventoryDesc: "menampilkan jumlah stok saat ini.",
-    searchProduct: "Cari Produk...",
     minimumStock: "Minimal",
     stockNow: "Sekarang",
+    inventoryHistoryTitle: "Riwayat Barang Masuk",
+
+    //product nav
+    inventoryBtn: "Inventori Produk",
+    distributionBtn: "Distribusi Produk",
+    returnBtn: "Retur Barang",
+    stockAdjustmentBtn: "Penyesuaian Stok Gudang",
 
     //buttons
     addProduct: "Tambah Produk",
     addInventoryData: "Barang Masuk",
     historyData: "Riwayat Data",
+    saveBtn: "Simpan",
+    saveDesc: "Menyimpan data...",
+
+    //form
+    productName: "Nama Produk",
+    productCategory: "Kategori Produk",
+    productUnit: "Satuan Produk",
+    productSize: "Ukuran Produk",
+    productPackage: "Kemasan Produk",
+    productMinimumStock: "Stok Minimum",
+    productDescription: "Deskripsi Produk",
+    productImage: "Gambar Produk",
+    expiredDate: "Tanggal Kadaluarsa",
+    note: "Keterangan",
+    notesDesc: "Ketik sesuatu (opsional)",
+    chooseProduct: "Pilih Produk",
+    choose: "Pilih",
+    imageDesc: "Biarkan kosong jika tidak ingin mengubah gambar",
+
+    //form title
+    formEditProduct: "Edit Data Produk",
+    formInventory: "Tambah Data Barang Masuk",
+    formEditInventory: "Edit Data Barang Masuk",
+    formDistribution: "Tambah Data Distribusi",
+    formEditDistribution: "Edit Data Distribusi",
+    formReturn: "Tambah Data Barang Retur",
+    formStockAdjustment: "Penyesuaian Stok Gudang",
   },
   en: {
     // Header
@@ -93,6 +132,17 @@ const translations = {
     
     // Common
     loading: "Loading...",
+    date: "Date",
+    quantity: "Quantity",
+    method: "Method",
+    status: "Status",
+    nameBuyer: "Buyer Name",
+    searchProduct: "Search Product...",
+    pages: "Pages",
+    of: "of",
+    next: "Next",
+    previous: "Previous",
+    total: "Total",
 
     //Dashboard
     greeting: "Welcome",
@@ -102,8 +152,6 @@ const translations = {
     filterProduct: "Filter Product",
     allProduct: "All Product",
     noData: "No Data to display.",
-    date: "Date",
-    quantity: "Quantity",
     inventory: "Inventory",
     distribution: "Distribution",
     notification: "Notification",
@@ -116,22 +164,53 @@ const translations = {
     totalAdjustment: "Total Adjustment",
     infoDistributionProduct: "Information Distribution Product",
     seeMore: "See More",
-    nameBuyer: "Buyer Name",
     noDataDistribution: "No data distribution",
-    method: "Method",
-    status: "Status",
 
     // inventory page
     inventoryTitle: "Inventory Data Preview",
     inventoryDesc: "showing the current stock quantity.",
-    searchProduct: "Search Product...",
     minimumStock: "Minimum",
     stockNow: "Now",
+    inventoryHistoryTitle: "Incoming Goods History",
+
+    // product nav
+    inventoryBtn: "Inventory Product",
+    distributionBtn: "Distribution Product",
+    returnBtn: "Return Product",
+    stockAdjustmentBtn: "Stock Adjustment",
 
     // buttons
     addProduct: "Add Product",
     addInventoryData: "Incoming Goods",
-    historyData: "History Data",
+    historyData: "Data History",
+    saveBtn: "Save",
+    saveDesc: "Saving data...",
+
+    //form
+    requiredField: "Required field",
+    productName: "Product Name",
+    productCategory: "Product Category",
+    productUnit: "Product Unit",
+    productSize: "Product Size",
+    productPackage: "Product Package",
+    productMinimumStock: "Minimum Stock",
+    productDescription: "Product Description",
+    productImage: "Product Image",
+    expiredDate: "Expired Date",
+    note: "Notes",
+    notesDesc: "Type something (optional)",
+    chooseProduct: "Choose Product",
+    choose: "Choose",
+    imageDesc: "Leave blank if you don't want to change the image",
+
+    //form title
+    formEditProduct: "Edit Product",
+    formInventory: "Add Incoming Goods",
+    formEditInventory: "Edit Incoming Goods",
+    formDistribution: "Add Distribution",
+    formEditDistribution: "Edit Distribution",
+    formReturn: "Add Return",
+    formStockAdjustment: "Stock Adjustment",
   }
 };
 

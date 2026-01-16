@@ -3,6 +3,7 @@ import IconEditProduct from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
 import { createProduct, updateProduct } from "../../utilities/api/products";
 import { fetchAllKemasan, fetchAllSize, fetchAllNamaProduk } from "../../utilities/api/master-data";
+import { useTranslation } from "../../contexts/localContext";
 
 function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit = false }) {
   const [idNamaProduk, setIdNamaProduk] = useState("");
@@ -16,6 +17,8 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
   const [namaProdukList, setNamaProdukList] = useState([]);
   const [ukuranSatuanList, setUkuranSatuanList] = useState([]);
   const [kemasanList, setKemasanList] = useState([]);
+
+  const t = useTranslation();
 
   useEffect(() => {
     loadDataNamaProduk();
@@ -95,16 +98,16 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
-          <p>{isEdit ? "Edit Barang" : "Tambah Barang"}</p>
+          <p>{isEdit ? t('formEditProduct') : t('addProduct')}</p>
         </div>
         <IconCancel className="icon" onClick={closeFormProduct} />
       </div>
 
       <form className="main-form" onSubmit={handleSubmit}>
         <div className="inputan">
-          <label>Nama Barang</label>
+          <label>{t('productName')}</label>
           <select value={idNamaProduk} onChange={(e) => setIdNamaProduk(e.target.value)} required>
-            <option value="">-- Pilih --</option>
+            <option value="">-- {t('chooseProduct')} --</option>
             {namaProdukList.map((item) => (
               <option key={item.id_nama_produk} value={item.id_nama_produk}>
                 {item.nama_produk}
@@ -126,9 +129,9 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
           </div>
 
           <div className="inputan">
-            <label>Ukuran Satuan</label>
+            <label>{t('productSize')}</label>
             <select value={idUkuranSatuan} onChange={(e) => setIdUkuranSatuan(e.target.value)} required>
-              <option value="">-- Pilih --</option>
+              <option value="">-- {t('choose')} --</option>
               {ukuranSatuanList.map((item) => (
                 <option key={item.id_ukuran_satuan} value={item.id_ukuran_satuan}>
                   {item.nama_ukuran_satuan}
@@ -140,9 +143,9 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
 
         <div className="double-form">
           <div className="inputan">
-            <label>Kemasan</label>
+            <label>{t('productPackage')}</label>
             <select value={idKemasan} onChange={(e) => setIdKemasan(e.target.value)} required>
-              <option value="">-- Pilih --</option>
+              <option value="">-- {t('choose')} --</option>
               {kemasanList.map((item) => (
                 <option key={item.id_kemasan} value={item.id_kemasan}>
                   {item.nama_kemasan}
@@ -152,7 +155,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
           </div>
 
           <div className="inputan">
-            <label>Minimum Stok</label>
+            <label>{t('minimumStock')}</label>
             <input
               type="number"
               placeholder="0"
@@ -164,7 +167,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
         </div>
 
         <div className="inputan">
-          <label>Gambar Barang</label>
+          <label>{t('productImage')}</label>
           <input
             type="file"
             accept="image/*"
@@ -172,14 +175,14 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
           />
           {isEdit && editData?.imageProduk && (
             <p style={{fontSize: "12px", color: "gray", marginTop: "5px"}}>
-              Biarkan kosong jika tidak ingin mengubah gambar
+              {t('imageDesc')}
             </p>
           )}
         </div>
 
         <div className="button">
           <button type="submit" className="base-btn green">
-            {isEdit ? "Perbarui" : "Simpan"}
+            {isEdit ? "Perbarui" : t('saveBtn')}
           </button>
         </div>
       </form>
