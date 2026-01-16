@@ -4,15 +4,6 @@ import { useTranslation } from "../../contexts/localContext";
 
 function NotificationSide({ expiringProducts = [] }) {
   const t = useTranslation();
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
-  };
 
   // Get appropriate label based on days until expired
   const getStatusLabel = (days) => {

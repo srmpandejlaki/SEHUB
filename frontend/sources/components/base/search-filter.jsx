@@ -1,7 +1,7 @@
 import React from "react";
 import IconSearch from "../../assets/icon/ic_round-search.svg?react";
 
-function SearchFilter({ value, onChange, placeholder = "Search" }) {
+function SearchFilter({ value, onChange, placeholder}) {
   return (
     <div className="search-filter">
       <div className="search">

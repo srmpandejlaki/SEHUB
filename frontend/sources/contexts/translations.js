@@ -50,11 +50,21 @@ const translations = {
     infoDistributionProduct: "Informasi Distribusi Produk",
     seeMore: "Selengkapnya",
     nameBuyer: "Nama Pemesan",
-    product: "Produk",
     noDataDistribution: "Tidak ada data distribusi",
     method: "Metode",
     status: "Status",
-    quantity: "Jumlah",
+
+    //inventory page
+    inventoryTitle: "Pratinjau Data Inventori",
+    inventoryDesc: "menampilkan jumlah stok saat ini.",
+    searchProduct: "Cari Produk...",
+    minimumStock: "Minimal",
+    stockNow: "Sekarang",
+
+    //buttons
+    addProduct: "Tambah Produk",
+    addInventoryData: "Barang Masuk",
+    historyData: "Riwayat Data",
   },
   en: {
     // Header
@@ -107,11 +117,21 @@ const translations = {
     infoDistributionProduct: "Information Distribution Product",
     seeMore: "See More",
     nameBuyer: "Buyer Name",
-    product: "Product",
     noDataDistribution: "No data distribution",
     method: "Method",
     status: "Status",
-    quantity: "Quantity",
+
+    // inventory page
+    inventoryTitle: "Inventory Data Preview",
+    inventoryDesc: "showing the current stock quantity.",
+    searchProduct: "Search Product...",
+    minimumStock: "Minimum",
+    stockNow: "Now",
+
+    // buttons
+    addProduct: "Add Product",
+    addInventoryData: "Incoming Goods",
+    historyData: "History Data",
   }
 };
 

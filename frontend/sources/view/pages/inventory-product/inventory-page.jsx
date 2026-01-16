@@ -9,6 +9,7 @@ import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconAddProduct from "../../../assets/icon/Vector-3.svg?react";
 import IconTambah from "../../../assets/icon/mdi_add-bold.svg?react";
 import { fetchProductsWithStock } from "../../../utilities/api/products";
+import { useTranslation } from "../../../contexts/localContext";
 
 function InventoryPage({ isAdmin = true }) {
   const [existingData, setExistingData] = useState([]);
@@ -19,6 +20,8 @@ function InventoryPage({ isAdmin = true }) {
   const [editingData, setEditingData] = useState(null);
   const [showFormDis, setFormDis] = useState(false);
   const [editData, setEditData] = useState(null);
+
+  const t = useTranslation();
   
   useEffect(() => {
     loadDataProducts();
@@ -116,33 +119,33 @@ function InventoryPage({ isAdmin = true }) {
       <div className="main-inventory">
         <div className="inventory-display">
           <div className="header-inventory">
-            <p>Pratinjau Data Inventori <br /> <span>menampilkan jumlah stok saat ini.</span></p>
+            <p>{t('inventoryTitle')} <br /> <span>{t('inventoryDesc')}</span></p>
             <div className="buttons">
               {isAdmin && (
                 <div className="button">
                   <div className="base-btn black" onClick={handleOpenFormProduct}>
                     <IconAddProduct className="icon" />
-                    <p>Tambah Produk</p>
+                    <p>{t('addProduct')}</p>
                   </div>
                 </div>
               )}
               {isAdmin && (
                 <div className="button">
                   <div className="base-btn black" onClick={handleOpenFormDis}>
-                    <IconTambah className="icon whiteIcon" />Barang Masuk
+                    <IconTambah className="icon whiteIcon" />{t('addInventoryData')}
                   </div>
                 </div>
               )}
               <div className="button">
                 <div className="base-btn black">
                   <Link to="/product/inventory-history" >
-                    <IconHistory className="icon" /> <p>Riwayat Data</p>
+                    <IconHistory className="icon" /> <p>{t('historyData')}</p>
                   </Link>
                 </div>
               </div>
             </div>
           </div>
-          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
+          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder={t('searchProduct')} />
           <InventoryProduct existingData={filteredProducts} onEdit={isAdmin ? handleEditProduct : null} />
         </div>
         {showFormProduct && (
