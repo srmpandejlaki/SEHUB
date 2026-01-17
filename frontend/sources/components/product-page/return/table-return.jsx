@@ -1,7 +1,7 @@
 import React from "react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
-import { useTranslation } from "../../../contexts/localContext";
+import { useTranslation, useLocalizedDate } from "../../../contexts/localContext";
 
 function TableReturn({ 
   data = [], 
@@ -10,16 +10,7 @@ function TableReturn({
   onPageChange,
 }) {
   const t = useTranslation();
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('id-ID', { 
-      day: 'numeric', 
-      month: 'long', 
-      year: 'numeric' 
-    });
-  };
+  const formatDate = useLocalizedDate();
 
   // Flatten data for table display
   const tableRows = [];

@@ -2,7 +2,7 @@ import React from "react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
 import IconDelete from "../../../assets/icon/material-symbols_delete.svg?react";
-import { useTranslation } from "../../../contexts/localContext";
+import { useTranslation, useDynamicTranslation, useLocalizedDate } from "../../../contexts/localContext";
 
 function TableStockAdjustment({ 
   data = [], 
@@ -13,16 +13,8 @@ function TableStockAdjustment({
   showActions = true
 }) {
   const t = useTranslation();
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('id-ID', { 
-      day: 'numeric', 
-      month: 'long', 
-      year: 'numeric' 
-    });
-  };
+  const dynamicT = useDynamicTranslation();
+  const formatDate = useLocalizedDate();
 
   // Flatten data for table display
   const tableRows = [];
@@ -101,7 +93,7 @@ function TableStockAdjustment({
                     </td>
                     <td>
                       <span className={`status-badge ${row.item?.nama_kondisi?.toLowerCase() || ''}`}>
-                        {row.item?.nama_kondisi || "-"}
+                        {dynamicT('condition', row.item?.nama_kondisi) || "-"}
                       </span>
                     </td>
                     {row.isFirstRow && (

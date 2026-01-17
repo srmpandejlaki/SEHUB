@@ -4,10 +4,11 @@ import DashboardChart from "../../../components/dashboard-page/dashboard-chart";
 import NotificationSide from "../../../components/dashboard-page/notification-side";
 import { fetchPendingDistributions, fetchMonthlyStats, fetchExpiringSoon } from "../../../utilities/api/dashboard";
 import { fetchAllProducts } from "../../../utilities/api/products";
-import { useTranslation } from "../../../contexts/localContext";
+import { useTranslation, useLocalizedDate } from "../../../contexts/localContext";
 
 function DashboardOwner({ user }) {
   const t = useTranslation();
+  const formatDate = useLocalizedDate();
   const [pendingDistributions, setPendingDistributions] = useState([]);
   const [monthlyStats, setMonthlyStats] = useState(null);
   const [products, setProducts] = useState([]);
@@ -17,12 +18,7 @@ function DashboardOwner({ user }) {
 
   // Get current date formatted
   const getCurrentDate = () => {
-    const now = new Date();
-    return now.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
+    return formatDate(new Date());
   };
 
   useEffect(() => {

@@ -700,12 +700,18 @@ const dynamicTranslations = {
       'rusak': 'Rusak',
       'expired': 'Expired',
       'cacat': 'Cacat',
+      'sesuai': 'SESUAI',
+      'lebih': 'LEBIH',
+      'kurang': 'KURANG',
     },
     en: {
       'baik': 'Good',
       'rusak': 'Damaged',
       'expired': 'Expired',
       'cacat': 'Defective',
+      'sesuai': 'SATISFIED',
+      'lebih': 'MORE',
+      'kurang': 'LESS',
     }
   }
 };
