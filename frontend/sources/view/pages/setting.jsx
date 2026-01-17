@@ -10,8 +10,10 @@ import {
   fetchAllMetodePengiriman, createNewMetodePengiriman, updateMetodePengiriman, deleteMetodePengiriman,
   fetchAllStatusPengiriman, createNewStatusPengiriman, updateStatusPengiriman, deleteStatusPengiriman
 } from "../../utilities/api/master-data";
+import { useTranslation } from "../../contexts/localContext";
 
 function SettingPage() {
+  const t = useTranslation();
   const [showFormUser, setFormUser] = useState(false);
   const [existingData, setExistingData] = useState([]);
   const [editData, setEditData] = useState(null);
@@ -331,10 +333,10 @@ function SettingPage() {
         {showNotifDelete && (
           <div className="overlay">
             <div className="notif-base notif-delete">
-              <p>Anda yakin<br/>ingin menghapus pengguna ini?</p>
+              <p>{t('deleteUserConfirm')}</p>
               <div className="buttons">
-                <button className="base-btn cancel" onClick={closeNotifDelete}>Batal</button>
-                <button className="base-btn red" onClick={() => handleDeleteUser(selectedDeleteId)}>Hapus</button>
+                <button className="base-btn cancel" onClick={closeNotifDelete}>{t('cancel')}</button>
+                <button className="base-btn red" onClick={() => handleDeleteUser(selectedDeleteId)}>{t('delete')}</button>
               </div>
             </div>
           </div>
