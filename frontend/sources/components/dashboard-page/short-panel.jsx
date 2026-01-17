@@ -51,7 +51,7 @@ function ShortPanel({ statistics }) {
                 <IconCountProduct className="icon" />
               </div>
               <div className="item-info">
-                <p className="value">{totalProducts} unit</p>
+                <p className="value">{totalProducts} {t('unit')}</p>
               </div>
             </div>
           </div>
@@ -64,7 +64,7 @@ function ShortPanel({ statistics }) {
                 <IconIncoming className="icon" />
               </div>
               <div className="item-info">
-                <p className="value">{monthlySummary.totalBarangMasuk} unit</p>
+                <p className="value">{monthlySummary.totalBarangMasuk} {t('unit')}</p>
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@ function ShortPanel({ statistics }) {
                 <IconDistribution className="icon" />
               </div>
               <div className="item-info">
-                <p className="value">{monthlySummary.totalDistribusi} unit</p>
+                <p className="value">{monthlySummary.totalDistribusi} {t('unit')}</p>
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@ function ShortPanel({ statistics }) {
                 <IconReturn className="icon" />
               </div>
               <div className="item-info">
-                <p className="value">{monthlySummary.totalReturn} unit</p>
+                <p className="value">{monthlySummary.totalReturn} {t('unit')}</p>
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@ function ShortPanel({ statistics }) {
                 <IconAdjustment className="icon" />
               </div>
               <div className="item-info">
-                <p className="value">{monthlySummary.totalPenyesuaian} kali</p>
+                <p className="value">{monthlySummary.totalPenyesuaian} {t('kali')}</p>
               </div>
             </div>
           </div>

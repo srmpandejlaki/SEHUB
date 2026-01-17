@@ -63,6 +63,8 @@ const translations = {
     infoDistributionProduct: "Informasi Distribusi Produk",
     seeMore: "Selengkapnya",
     noDataDistribution: "Tidak ada data distribusi",
+    unit: "unit",
+    kali: "kali",
 
     //inventory page
     inventoryTitle: "Pratinjau Data Inventori",
@@ -355,6 +357,8 @@ const translations = {
     infoDistributionProduct: "Information Distribution Product",
     seeMore: "See More",
     noDataDistribution: "No data distribution",
+    unit: "units",
+    kali: "times",
 
     // inventory page
     inventoryTitle: "Inventory Data Preview",
