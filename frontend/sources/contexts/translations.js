@@ -30,13 +30,17 @@ const translations = {
     quantity: "Jumlah",
     method: "Metode",
     status: "Status",
+    total: "Total",
+    shipmentMethod: "Metode Pengiriman",
+    shipmentStatus: "Status Pengiriman",
     nameBuyer: "Nama Pemesan",
+    productCode: "Kode Produk",
     searchProduct: "Cari Produk...",
+    searchDistribution: "Cari Data Distribusi...",
     pages: "Halaman",
     of: "dari",
     previous: "Sebelumnya",
     next: "Selanjutnya",
-    total: "Total",
 
     //Dashboard
     greeting: "Selamat Datang",
@@ -67,6 +71,11 @@ const translations = {
     stockNow: "Sekarang",
     inventoryHistoryTitle: "Riwayat Barang Masuk",
 
+    //distribution page
+    distributionTitle: "Pratinjau Data Distribusi",
+    distributionDesc: "menampilkan data distribusi dengan status pengiriman Diproses dan Dalam Perjalanan.",
+    distributionHistoryTitle: "Riwayat Distribusi",
+
     //product nav
     inventoryBtn: "Inventori Produk",
     distributionBtn: "Distribusi Produk",
@@ -75,10 +84,12 @@ const translations = {
 
     //buttons
     addProduct: "Tambah Produk",
+    addData: "Tambah Data",
     addInventoryData: "Barang Masuk",
     historyData: "Riwayat Data",
     saveBtn: "Simpan",
     saveDesc: "Menyimpan data...",
+    reportBtn: "Laporan",
 
     //form
     productName: "Nama Produk",
@@ -136,13 +147,17 @@ const translations = {
     quantity: "Quantity",
     method: "Method",
     status: "Status",
+    total: "Total",
+    shipmentMethod: "Shipment Method",
+    shipmentStatus: "Shipment Status",
     nameBuyer: "Buyer Name",
+    productCode: "Product Code",
     searchProduct: "Search Product...",
-    pages: "Pages",
+    searchDistribution: "Search Distribution Data...",
+    pages: "Page",
     of: "of",
     next: "Next",
     previous: "Previous",
-    total: "Total",
 
     //Dashboard
     greeting: "Welcome",
@@ -173,6 +188,11 @@ const translations = {
     stockNow: "Now",
     inventoryHistoryTitle: "Incoming Goods History",
 
+    // distribution page
+    distributionTitle: "Distribution Data Preview",
+    distributionDesc: "showing the current distribution data with shipment status of Processed and In Transit.",
+    distributionHistoryTitle: "Distribution History",
+
     // product nav
     inventoryBtn: "Inventory Product",
     distributionBtn: "Distribution Product",
@@ -181,10 +201,12 @@ const translations = {
 
     // buttons
     addProduct: "Add Product",
+    addData: "Add Data",
     addInventoryData: "Incoming Goods",
     historyData: "Data History",
     saveBtn: "Save",
     saveDesc: "Saving data...",
+    reportBtn: "Report",
 
     //form
     requiredField: "Required field",

@@ -11,6 +11,7 @@ import IconKeterangan from "../../../assets/icon/fluent_text-description-ltr-20-
 import IconDropDown from "../../../assets/icon/material-symbols_arrow-drop-down-rounded.svg?react";
 import { fetchProductsWithStock } from "../../../utilities/api/products";
 import { createDistribution } from "../../../utilities/api/distribution";
+import { useTranslation } from "../../../contexts/localContext";
 
 function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], statusPengiriman = [] }) {
   const [products, setProducts] = useState([]);
@@ -20,6 +21,8 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
   const [selectedStatus, setSelectedStatus] = useState("");
   const [catatan, setCatatan] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const t = useTranslation();
   
   // Product items state
   const [productItems, setProductItems] = useState([{ id_produk: "", jumlah: "" }]);
@@ -145,14 +148,14 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
-          <p>Tambah Data Distribusi</p>
+        <p>{t('formDistribution')}</p>
         </div>
         <IconCancel className="icon" onClick={onCloseForm} />
       </div>
       <form className="main-form" onSubmit={handleSubmit}>
         <div className="left-side">
           <div className="inputan">
-            <label><IconKalender className="greenIcon" /> Hari/Tanggal</label>
+            <label><IconKalender className="greenIcon" /> {t('date')}</label>
             <input 
               type="date" 
               value={tanggalDistribusi}
@@ -161,7 +164,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
             />
           </div>
           <div className="inputan">
-            <label><IconPerson className="greenIcon" /> Nama Pemesan</label>
+            <label><IconPerson className="greenIcon" /> {t('nameBuyer')}</label>
             <input 
               type="text" 
               placeholder="Masukkan nama pemesan"
@@ -171,7 +174,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
             />
           </div>
           <div className="inputan">
-            <label><IconDistribution className="greenIcon" /> Metode Pengiriman</label>
+            <label><IconDistribution className="greenIcon" /> {t('shipmentMethod')}</label>
             <select 
               value={selectedMetode}
               onChange={(e) => setSelectedMetode(e.target.value)}
@@ -186,7 +189,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
             </select>
           </div>
           <div className="inputan">
-            <label><IconStatus className="greenIcon" /> Status</label>
+            <label><IconStatus className="greenIcon" /> {t('shipmentStatus')}</label>
             <select 
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
@@ -211,7 +214,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                 <div className="double-form" key={index}>
                   <div className="inputan-double">
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
+                      <label><IconBotol1 className="greenIcon" /> {t('productName')}</label>
                       {productItems.length > 1 && (
                         <div className="iconPointer" onClick={() => removeProductItem(index)}>
                           <IconCancel className="redIcon" width="18" />
@@ -239,7 +242,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                     </select>
                   </div>
                   <div className="inputan">
-                    <label><IconBotol2 className="greenIcon" /> Jumlah</label>
+                    <label><IconBotol2 className="greenIcon" /> {t('quantity')}</label>
                     <input 
                       type="number" 
                       placeholder="0" 
@@ -259,7 +262,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                 </div>
               );
             })}
-            <p className="add-product-link" onClick={addProductItem}>+ Tambah Produk</p>
+            <p className="add-product-link" onClick={addProductItem}>+ {t('addProduct')}</p>
             
             <div className="detail-product">
               <div className="detail-container">
@@ -288,7 +291,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                         );
                       })}
                       <tr className="total">
-                        <td className="text-end" style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Total</td>
+                        <td className="text-end" style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{t('total')}</td>
                         <td className="counting" style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{totalJumlah}</td>
                       </tr>
                     </tbody>
@@ -297,7 +300,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
               </div>
             </div>
             <div className="inputan">
-              <label><IconKeterangan className="greenIcon" /> Keterangan</label>
+              <label><IconKeterangan className="greenIcon" /> {t('note')}</label>
               <input 
                 type="text" 
                 placeholder="Ketik sesuatu (opsional)" 

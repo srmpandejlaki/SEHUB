@@ -2,6 +2,7 @@ import React from "react";
 import IconEdit from "../../../assets/icon/flowbite_edit-outline.svg?react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
+import { useTranslation } from "../../../contexts/localContext";
 
 function TableDistribution({ 
   data = [], 
@@ -14,6 +15,7 @@ function TableDistribution({
   disableStatusSelect = false,
   showActions = true
 }) {
+  const t = useTranslation();
 
   const formatDate = (dateString) => {
     if (!dateString) return "-";
@@ -70,14 +72,14 @@ function TableDistribution({
           <thead>
             <tr>
               <th className="center">No</th>
-              <th>Hari/Tanggal</th>
-              <th className="center">Nama Pemesan</th>
-              <th>Kode Produk</th>
-              <th>Produk</th>
-              <th className="center">Jumlah</th>
-              <th className="center">Total</th>
-              <th>Metode Pengiriman</th>
-              <th className="center">Status</th>
+              <th>{t('date')}</th>
+              <th className="center">{t('nameBuyer')}</th>
+              <th>{t('productCode')}</th>
+              <th>{t('productName')}</th>
+              <th className="center">{t('quantity')}</th>
+              <th className="center">{t('total')}</th>
+              <th>{t('shipmentMethod')}</th>
+              <th className="center">{t('shipmentStatus')}</th>
               {showActions && (
                 <th></th>
               )}
@@ -160,7 +162,7 @@ function TableDistribution({
       </div>
       <div className="pagination-display">
         <div className="pages-count">
-          <p>Halaman {currentPage} dari {totalPages}</p>
+          <p>{t('pages')} {currentPage} {t('of')} {totalPages}</p>
         </div>
         <div className="pagination">
           <div 
@@ -169,14 +171,14 @@ function TableDistribution({
             onClick={() => currentPage > 1 && onPageChange && onPageChange(currentPage - 1)}
           >
             <IconPanahKiri className="blackIcon"/>
-            <p>Sebelumnya</p>
+            <p>{t('previous')}</p>
           </div>
           <div 
             className="right"
             style={{ cursor: currentPage < totalPages ? 'pointer' : 'not-allowed', opacity: currentPage < totalPages ? 1 : 0.5 }}
             onClick={() => currentPage < totalPages && onPageChange && onPageChange(currentPage + 1)}
           >
-            <p>Setelahnya</p>
+            <p>{t('next')}</p>
             <IconPanahKanan className="blackIcon"/>
           </div>
         </div>

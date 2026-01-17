@@ -8,6 +8,7 @@ import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconTambah from "../../../assets/icon/mdi_add-bold.svg?react";
 import { checkInventoryExists } from "../../../utilities/api/inventory";
 import { BASE_URL } from "../../../utilities";
+import { useTranslation } from "../../../contexts/localContext";
 
 function DistributionPage({ isAdmin = true }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +23,8 @@ function DistributionPage({ isAdmin = true }) {
   
   // Reload trigger for DistributionProduct
   const [reloadTrigger, setReloadTrigger] = useState(0);
+
+  const t = useTranslation();
   
   useEffect(() => {
     loadMasterData();
@@ -74,7 +77,7 @@ function DistributionPage({ isAdmin = true }) {
       <div className="main-inventory">
         <div className="inventory-display">
           <div className="header-distribution">
-            <p>Pratinjau Data Distribusi <br /><span>menampilkan data distribusi dengan status pengiriman Diproses dan Dalam Perjalanan.</span></p>
+            <p>{t('distributionTitle')} <br /><span>{t('distributionDesc')}</span></p>
             <div className="buttons">
               <div className="button">
                 {isAdmin && (
@@ -82,22 +85,22 @@ function DistributionPage({ isAdmin = true }) {
                     className={`base-btn ${!hasInventoryData ? 'disabled' : 'black'}`}
                     onClick={handleOpenFormDis}
                     style={!hasInventoryData ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
-                    title={!hasInventoryData ? "Tambahkan data barang masuk terlebih dahulu" : "Tambah Data"}
+                    title={!hasInventoryData ? "Tambahkan data barang masuk terlebih dahulu" : t("addData")}
                   >
-                    <IconTambah className="icon whiteIcon" />Tambah Data
+                    <IconTambah className="icon whiteIcon" />{t("addData")}
                   </div>
                 )}
               </div>
               <div className="button">
                 <div className="base-btn black">
                   <Link to="/product/distribution-history" >
-                    <IconHistory className="icon" />Riwayat Data
+                    <IconHistory className="icon" />{t("historyData")}
                   </Link>
                 </div>
               </div>
             </div>
           </div>
-          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari data distribusi..." />
+          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder={t("searchDistribution")} />
           <DistributionProduct searchQuery={searchQuery} reloadTrigger={reloadTrigger} showActions={isAdmin} />
         </div>
         {/* Form Tambah Distribusi */}
