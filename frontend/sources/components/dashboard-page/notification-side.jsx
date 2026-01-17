@@ -7,17 +7,17 @@ function NotificationSide({ expiringProducts = [] }) {
 
   // Get appropriate label based on days until expired
   const getStatusLabel = (days) => {
-    if (days < 0) return { text: "Sudah Kadaluarsa!", color: "$danger" };
-    if (days === 0) return { text: "Kadaluarsa Hari Ini!", color: "redText" };
-    if (days <= 7) return { text: "Peringatan!", color: "redText" };
-    return { text: "Perhatian", color: "orangeText" };
+    if (days < 0) return { text: t('alreadyExpired'), color: "$danger" };
+    if (days === 0) return { text: t('expiredToday'), color: "redText" };
+    if (days <= 7) return { text: t('warning'), color: "redText" };
+    return { text: t('attention'), color: "orangeText" };
   };
 
   // Get expiry message
   const getExpiryMessage = (days) => {
-    if (days < 0) return `sudah kadaluarsa ${Math.abs(days)} hari yang lalu`;
-    if (days === 0) return "kadaluarsa hari ini";
-    return `akan kadaluarsa dalam ${days} hari`;
+    if (days < 0) return t('expiredAgo').replace('{days}', Math.abs(days));
+    if (days === 0) return t('expiresToday');
+    return t('expiresIn').replace('{days}', days);
   };
 
   return(

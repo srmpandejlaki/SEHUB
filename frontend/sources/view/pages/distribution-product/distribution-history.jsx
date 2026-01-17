@@ -133,7 +133,7 @@ function DistributionHistoryPage({ isAdmin = true }) {
         </div>
         
         {loading ? (
-          <p>Memuat data...</p>
+          <p>{t('loading')}</p>
         ) : (
           <TableDistribution 
             data={paginatedData}

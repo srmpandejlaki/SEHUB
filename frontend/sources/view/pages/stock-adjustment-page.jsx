@@ -5,11 +5,13 @@ import FormStockAdjustment from "../../components/product-page/stock-adjustment/
 import IconLaporan from "../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllAdjustments } from "../../utilities/api/stock-adjustment";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "../../contexts/localContext";
 
 function StockAdjustmentPage({ isAdmin = true }) {
   const [adjustments, setAdjustments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const t = useTranslation();
   
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,25 +58,25 @@ function StockAdjustmentPage({ isAdmin = true }) {
       <NavProduct />
       <div className="main-stock-adjustment">
         <div className="header-stock-adjustment">
-          <p>Riwayat Penyesuaian Stok Gudang</p>
+          <p>{t('stockAdjustmentHistory')}</p>
           {isAdmin && (
             <div className="adjustment-controls">
               <button className="base-btn green" onClick={handleOpenForm}>
-                + Mulai Penyesuaian
+                {t('startAdjustment')}
               </button>
             </div>
           )}
           {!isAdmin && (
             <div className="button">
               <NavLink to="/laporan/penyesuaian">
-                <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                <button className="base-btn black"> <IconLaporan className="icon" />{t('reportBtn')}</button>
               </NavLink>
             </div>
           )}
         </div>
 
         {loading ? (
-          <p>Memuat data...</p>
+          <p>{t('loading')}</p>
         ) : (
           <TableStockAdjustment 
             data={paginatedData}
@@ -99,3 +101,4 @@ function StockAdjustmentPage({ isAdmin = true }) {
 }
 
 export default StockAdjustmentPage;
+

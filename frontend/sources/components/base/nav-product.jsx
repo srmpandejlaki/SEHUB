@@ -2,28 +2,30 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import IconInventoryProduct from "../../assets/icon/material-symbols_inventory.svg?react";
 import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?react";
+import { useTranslation } from "../../contexts/localContext";
 
 function NavProduct({ user }) {
   const isAdmin = user?.is_admin === true;
+  const t = useTranslation();
 
   const menus = [
     {
-      label: "Inventori Produk",
+      label: t('inventoryBtn'),
       path: "/product/inventory",
       icon: <IconInventoryProduct className="icon nav-btn" />,
     },
     {
-      label: "Distribusi Produk",
+      label: t('distributionBtn'),
       path: "/product/distribution",
       icon: <IconDistribution className="icon nav-btn" />,
     },
     {
-      label: "Produk Retur",
+      label: t('returnBtn'),
       path: "/product/return",
       icon: <IconDistribution className="icon nav-btn" />,
     },
     {
-      label: "Penyesuaian Stok Gudang",
+      label: t('stockAdjustmentBtn'),
       path: "/product/stock-adjustment",
       icon: <IconInventoryProduct className="icon nav-btn" />,
     },
@@ -49,3 +51,4 @@ function NavProduct({ user }) {
 }
 
 export default NavProduct;
+

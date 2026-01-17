@@ -115,6 +115,39 @@ const translations = {
     formEditDistribution: "Edit Data Distribusi",
     formReturn: "Tambah Data Barang Retur",
     formStockAdjustment: "Penyesuaian Stok Gudang",
+
+    // Return page
+    returnListTitle: "Daftar Produk Retur",
+    returnListDesc: "Produk yang dikembalikan sehingga masuk kembali ke stok gudang",
+    damagedListTitle: "🚫 Daftar Produk Rusak",
+    damagedListDesc: "Produk yang dikembalikan karena rusak (tidak ditambahkan ke stok gudang)",
+    noDamagedData: "Tidak ada data barang rusak",
+    deleteConfirmReturn: "Apakah Anda yakin ingin menghapus data return ini?",
+    deleteReturnSuccess: "Data return berhasil dihapus",
+    deleteReturnFailed: "Gagal menghapus data return",
+
+    // Notification
+    expiredToday: "Kadaluarsa Hari Ini!",
+    alreadyExpired: "Sudah Kadaluarsa!",
+    warning: "Peringatan!",
+    attention: "Perhatian",
+    expiredAgo: "sudah kadaluarsa {days} hari yang lalu",
+    expiresToday: "kadaluarsa hari ini",
+    expiresIn: "akan kadaluarsa dalam {days} hari",
+
+    // Distribution validation
+    noInventoryData: "Tidak dapat membuat data distribusi. Silakan tambahkan data barang masuk terlebih dahulu di menu Inventori.",
+    addInventoryFirst: "Tambahkan data barang masuk terlebih dahulu",
+
+    // Stock Adjustment
+    stockAdjustmentTitle: "Penyesuaian Stok Gudang",
+    stockAdjustmentDesc: "Kelola dan sesuaikan stok produk di gudang",
+    stockAdjustmentHistory: "Riwayat Penyesuaian Stok Gudang",
+    startAdjustment: "+ Mulai Penyesuaian",
+    loadingInventory: "Memuat data inventori...",
+    tryAgain: "Coba Lagi",
+    fetchError: "Gagal mengambil data dari server.",
+    loadError: "Terjadi kesalahan saat memuat data.",
   },
   en: {
     // Header
@@ -233,6 +266,39 @@ const translations = {
     formEditDistribution: "Edit Distribution",
     formReturn: "Add Return",
     formStockAdjustment: "Stock Adjustment",
+
+    // Return page
+    returnListTitle: "Return Product List",
+    returnListDesc: "Products that are returned and added back to warehouse stock",
+    damagedListTitle: "🚫 Damaged Product List",
+    damagedListDesc: "Products that are returned due to damage (not added to warehouse stock)",
+    noDamagedData: "No damaged product data",
+    deleteConfirmReturn: "Are you sure you want to delete this return data?",
+    deleteReturnSuccess: "Return data deleted successfully",
+    deleteReturnFailed: "Failed to delete return data",
+
+    // Notification
+    expiredToday: "Expires Today!",
+    alreadyExpired: "Already Expired!",
+    warning: "Warning!",
+    attention: "Attention",
+    expiredAgo: "expired {days} days ago",
+    expiresToday: "expires today",
+    expiresIn: "will expire in {days} days",
+
+    // Distribution validation
+    noInventoryData: "Cannot create distribution data. Please add incoming goods data first in the Inventory menu.",
+    addInventoryFirst: "Add incoming goods data first",
+
+    // Stock Adjustment
+    stockAdjustmentTitle: "Stock Adjustment",
+    stockAdjustmentDesc: "Manage and adjust product stock in warehouse",
+    stockAdjustmentHistory: "Stock Adjustment History",
+    startAdjustment: "+ Start Adjustment",
+    loadingInventory: "Loading inventory data...",
+    tryAgain: "Try Again",
+    fetchError: "Failed to fetch data from server.",
+    loadError: "An error occurred while loading data.",
   }
 };
 

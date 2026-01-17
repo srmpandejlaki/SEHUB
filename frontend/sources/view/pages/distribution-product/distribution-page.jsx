@@ -57,7 +57,7 @@ function DistributionPage({ isAdmin = true }) {
   const handleOpenFormDis = () => {
     if (!isAdmin) return;
     if (!hasInventoryData) {
-      alert("Tidak dapat membuat data distribusi. Silakan tambahkan data barang masuk terlebih dahulu di menu Inventori.");
+      alert(t('noInventoryData'));
       return;
     }
     setFormDis(true);

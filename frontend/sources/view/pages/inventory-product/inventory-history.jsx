@@ -107,7 +107,7 @@ function InventoryHistoryPage({ isAdmin = true }) {
             {!isAdmin && (
               <div className="button">
                 <NavLink to="/laporan/inventori">
-                  <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                  <button className="base-btn black"> <IconLaporan className="icon" />{t('reportBtn')}</button>
                 </NavLink>
               </div>
             )}
@@ -116,7 +116,7 @@ function InventoryHistoryPage({ isAdmin = true }) {
 
         {loading ? (
           <div className="loading-container" style={{ padding: "2rem", textAlign: "center", color: "#666" }}>
-            <p>Memuat data inventori...</p>
+            <p>{t('loadingInventory')}</p>
           </div>
         ) : error ? (
           <div className="error-container" style={{ padding: "2rem", textAlign: "center", color: "#dc2626" }}>
@@ -133,7 +133,7 @@ function InventoryHistoryPage({ isAdmin = true }) {
                 cursor: "pointer"
               }}
             >
-              Coba Lagi
+              {t('tryAgain')}
             </button>
           </div>
         ) : (
