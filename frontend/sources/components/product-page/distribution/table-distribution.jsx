@@ -2,7 +2,7 @@ import React from "react";
 import IconEdit from "../../../assets/icon/flowbite_edit-outline.svg?react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
-import { useTranslation } from "../../../contexts/localContext";
+import { useTranslation, useDynamicTranslation } from "../../../contexts/localContext";
 
 function TableDistribution({ 
   data = [], 
@@ -16,6 +16,7 @@ function TableDistribution({
   showActions = true
 }) {
   const t = useTranslation();
+  const td = useDynamicTranslation();
 
   const formatDate = (dateString) => {
     if (!dateString) return "-";
@@ -127,7 +128,7 @@ function TableDistribution({
                   {row.isFirstRow && (
                     <>
                       <td className="center" rowSpan={row.rowSpan}>{row.total}</td>
-                      <td rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
+                      <td rowSpan={row.rowSpan}>{td('shippingMethod', row.nama_metode) || "-"}</td>
                       {/* <td rowSpan={row.rowSpan}>{row.catatan_distribusi || "-"}</td> */}
                       <td rowSpan={row.rowSpan}>
                         <select 
@@ -138,7 +139,7 @@ function TableDistribution({
                         >
                           {statusPengiriman.map((status) => (
                             <option key={status.id_status} value={status.id_status}>
-                              {status.nama_status}
+                              {td('shippingStatus', status.nama_status)}
                             </option>
                           ))}
                         </select>

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { getTranslation } from './translations';
+import { getTranslation, getDynamicTranslation } from './translations';
 
 const LocaleContext = React.createContext();
 
@@ -19,6 +19,13 @@ export const useLocale = () => {
 export const useTranslation = () => {
   const { locale } = useLocale();
   return (key) => getTranslation(locale, key);
+};
+
+// Helper hook to translate dynamic database values
+// Categories: 'shippingMethod', 'shippingStatus', 'position', 'condition'
+export const useDynamicTranslation = () => {
+  const { locale } = useLocale();
+  return (category, value) => getDynamicTranslation(locale, category, value);
 };
 
 export default LocaleContext;

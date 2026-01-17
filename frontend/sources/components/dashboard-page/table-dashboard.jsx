@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import IconInfoTable from "../../assets/icon/mdi_information-outline.svg?react";
-import { useTranslation } from "../../contexts/localContext";
+import { useTranslation, useDynamicTranslation } from "../../contexts/localContext";
 
 function DashboardTable({ pendingDistributions = [] }) {
   const t = useTranslation();
+  const td = useDynamicTranslation();
   const formatDate = (dateString) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
@@ -91,8 +92,8 @@ function DashboardTable({ pendingDistributions = [] }) {
                   <td className="center">{row.item?.jumlah || "-"}</td>
                   {row.isFirstRow && (
                     <>
-                      <td className="center" rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
-                      <td rowSpan={row.rowSpan}>{row.nama_status || "-"}</td>
+                      <td className="center" rowSpan={row.rowSpan}>{td('shippingMethod', row.nama_metode) || "-"}</td>
+                      <td rowSpan={row.rowSpan}>{td('shippingStatus', row.nama_status) || "-"}</td>
                     </>
                   )}
                 </tr>

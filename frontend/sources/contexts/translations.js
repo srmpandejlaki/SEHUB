@@ -590,4 +590,144 @@ export const getTranslation = (locale, key) => {
   return translations[locale]?.[key] || translations['id'][key] || key;
 };
 
+// Dynamic data translations - for translating database values
+// Keys are Indonesian values (stored in DB), values are translations
+const dynamicTranslations = {
+  // Shipping Methods (Metode Pengiriman)
+  shippingMethod: {
+    id: {
+      'ekspres': 'Ekspres',
+      'reguler': 'Reguler',
+      'same day': 'Same Day',
+      'instant': 'Instant',
+      'kargo': 'Kargo',
+      'pickup': 'Pickup',
+      'kurir': 'Kurir',
+      'pengantaran langsung': 'Pengantaran Langsung',
+      'jasa kurir': 'Jasa Kurir',
+      'pengambilan di tempat': 'Pengambilan di Tempat',
+    },
+    en: {
+      'ekspres': 'Express',
+      'reguler': 'Regular',
+      'same day': 'Same Day',
+      'instant': 'Instant',
+      'kargo': 'Cargo',
+      'pickup': 'Pickup',
+      'kurir': 'Courier',
+      'pengantaran langsung': 'Direct Delivery',
+      'jasa kurir': 'Courier Service',
+      'pengambilan di tempat': 'Pickup at Location',
+    }
+  },
+  
+  // Shipping Status (Status Pengiriman)
+  shippingStatus: {
+    id: {
+      'diproses': 'Diproses',
+      'dikirim': 'Dikirim',
+      'selesai': 'Selesai',
+      'dibatalkan': 'Dibatalkan',
+      'pending': 'Pending',
+      'dikemas': 'Dikemas',
+      'dalam perjalanan': 'Dalam Perjalanan',
+      'tiba di tujuan': 'Tiba di Tujuan',
+      'diterima': 'Diterima',
+      'gagal': 'Gagal',
+    },
+    en: {
+      'diproses': 'Processing',
+      'dikirim': 'Shipped',
+      'selesai': 'Completed',
+      'dibatalkan': 'Cancelled',
+      'pending': 'Pending',
+      'dikemas': 'Packed',
+      'dalam perjalanan': 'In Transit',
+      'tiba di tujuan': 'Arrived',
+      'diterima': 'Received',
+      'gagal': 'Failed',
+    }
+  },
+
+  // User Positions (Jabatan)
+  position: {
+    id: {
+      'manajer': 'Manajer',
+      'supervisor': 'Supervisor',
+      'staff': 'Staff',
+      'admin': 'Admin',
+      'gudang': 'Gudang',
+      'kasir': 'Kasir',
+      'sales': 'Sales',
+      'marketing': 'Marketing',
+      'hrd': 'HRD',
+      'finance': 'Finance',
+      'it': 'IT',
+      'direktur': 'Direktur',
+      'owner': 'Owner',
+      'ceo': 'CEO',
+      'coo': 'COO',
+      'cfo': 'CFO',
+      'karyawan': 'Karyawan',
+      'pemilik perusahaan': 'Pemilik Perusahaan',
+    },
+    en: {
+      'manajer': 'Manager',
+      'supervisor': 'Supervisor',
+      'staff': 'Staff',
+      'admin': 'Admin',
+      'gudang': 'Warehouse',
+      'kasir': 'Cashier',
+      'sales': 'Sales',
+      'marketing': 'Marketing',
+      'hrd': 'HRD',
+      'finance': 'Finance',
+      'it': 'IT',
+      'direktur': 'Director',
+      'owner': 'Owner',
+      'ceo': 'CEO',
+      'coo': 'COO',
+      'cfo': 'CFO',
+      'karyawan': 'Employee',
+      'pemilik perusahaan': 'Owner',
+    }
+  },
+
+  // Product Condition (Kondisi Produk)
+  condition: {
+    id: {
+      'baik': 'Baik',
+      'rusak': 'Rusak',
+      'expired': 'Expired',
+      'cacat': 'Cacat',
+    },
+    en: {
+      'baik': 'Good',
+      'rusak': 'Damaged',
+      'expired': 'Expired',
+      'cacat': 'Defective',
+    }
+  }
+};
+
+/**
+ * Translates dynamic data from database based on current locale
+ * @param {string} locale - Current locale ('id' or 'en')
+ * @param {string} category - Category of translation ('shippingMethod', 'shippingStatus', 'position', 'condition')
+ * @param {string} value - The value to translate (Indonesian value from database)
+ * @returns {string} - Translated value or original value if not found
+ */
+export const getDynamicTranslation = (locale, category, value) => {
+  if (!value) return value;
+  
+  const lowerValue = value.toLowerCase().trim();
+  const categoryTranslations = dynamicTranslations[category];
+  
+  if (!categoryTranslations) return value;
+  
+  const translations = categoryTranslations[locale] || categoryTranslations['id'];
+  return translations[lowerValue] || value;
+};
+
 export default translations;
+

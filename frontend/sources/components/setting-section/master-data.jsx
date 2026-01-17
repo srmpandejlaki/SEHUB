@@ -4,7 +4,7 @@ import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?r
 import IconStatus from "../../assets/icon/fluent_status-12-regular.svg?react";
 import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconDelete from "../../assets/icon/material-symbols_delete.svg?react";
-import { useTranslation } from "../../contexts/localContext";
+import { useTranslation, useDynamicTranslation } from "../../contexts/localContext";
 
 function MasterData({ 
   existingSize, existingKemasan, existingNamaProduk, 
@@ -18,6 +18,7 @@ function MasterData({
   onEditStatus, onDeleteStatus
 }) {
   const t = useTranslation();
+  const dynamicT = useDynamicTranslation();
   const [newSizeName, setNewSizeName] = useState("");
   const [newKemasanName, setNewKemasanName] = useState("");
   const [newNamaProdukName, setNewNamaProdukName] = useState("");
@@ -233,7 +234,7 @@ function MasterData({
               <ul>
                 {existingMetodePengiriman.map((item) => (
                   <li key={item.id_metode_pengiriman} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>{item.nama_metode}</span>
+                    <span>{dynamicT('shippingMethod', item.nama_metode)}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditMetode(item)} />
                       <IconDelete className="iconPointer redIcon" width="16" onClick={() => onDeleteMetode(item)} />
@@ -274,7 +275,7 @@ function MasterData({
               <ul>
                 {existingStatusPengiriman.map((item) => (
                   <li key={item.id_status} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>{item.nama_status}</span>
+                    <span>{dynamicT('shippingStatus', item.nama_status)}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditStatus(item)} />
                       <IconDelete className="iconPointer redIcon" width="16" onClick={() => onDeleteStatus(item)} />
