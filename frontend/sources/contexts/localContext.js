@@ -28,4 +28,39 @@ export const useDynamicTranslation = () => {
   return (category, value) => getDynamicTranslation(locale, category, value);
 };
 
+// Helper hook for locale-aware date formatting
+// Returns a function that formats dates based on current locale
+export const useLocalizedDate = () => {
+  const { locale } = useLocale();
+  const dateLocale = locale === 'en' ? 'en-US' : 'id-ID';
+  
+  return (dateString, options = {}) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    const defaultOptions = {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      ...options
+    };
+    return date.toLocaleDateString(dateLocale, defaultOptions);
+  };
+};
+
+// Format date with short month (numeric/short format)
+export const useLocalizedDateShort = () => {
+  const { locale } = useLocale();
+  const dateLocale = locale === 'en' ? 'en-US' : 'id-ID';
+  
+  return (dateString) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    return date.toLocaleDateString(dateLocale, {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  };
+};
+
 export default LocaleContext;

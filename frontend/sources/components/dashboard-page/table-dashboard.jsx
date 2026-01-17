@@ -1,20 +1,12 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import IconInfoTable from "../../assets/icon/mdi_information-outline.svg?react";
-import { useTranslation, useDynamicTranslation } from "../../contexts/localContext";
+import { useTranslation, useDynamicTranslation, useLocalizedDate } from "../../contexts/localContext";
 
 function DashboardTable({ pendingDistributions = [] }) {
   const t = useTranslation();
   const td = useDynamicTranslation();
-  const formatDate = (dateString) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
-  };
+  const formatDate = useLocalizedDate();
 
   const tableRows = [];
   pendingDistributions.forEach((dist, distIndex) => {

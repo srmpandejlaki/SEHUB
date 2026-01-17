@@ -2,7 +2,7 @@ import React from "react";
 import IconEdit from "../../../assets/icon/flowbite_edit-outline.svg?react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
-import { useTranslation, useDynamicTranslation } from "../../../contexts/localContext";
+import { useTranslation, useDynamicTranslation, useLocalizedDate } from "../../../contexts/localContext";
 
 function TableDistribution({ 
   data = [], 
@@ -17,16 +17,7 @@ function TableDistribution({
 }) {
   const t = useTranslation();
   const td = useDynamicTranslation();
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('id-ID', { 
-      day: 'numeric', 
-      month: 'long', 
-      year: 'numeric' 
-    });
-  };
+  const formatDate = useLocalizedDate();
 
   const handleStatusChange = async (id_distribusi, newStatus) => {
     if (onStatusChange) {

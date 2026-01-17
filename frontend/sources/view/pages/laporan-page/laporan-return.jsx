@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import NavLaporan from "../../../components/base/nav-laporan";
 import { fetchReportProducts } from "../../../utilities/api/report";
 import { generatePDFReport } from "../../../utilities/pdf-generator";
-import { useTranslation } from "../../../contexts/localContext";
+import { useTranslation, useLocalizedDateShort } from "../../../contexts/localContext";
 
 function LaporanReturn() {
   const t = useTranslation();
+  const formatDate = useLocalizedDateShort();
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -52,15 +53,6 @@ function LaporanReturn() {
       setData([]);
     }
     setLoading(false);
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "-";
-    return new Date(dateString).toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric"
-    });
   };
 
   // Filter data by date range

@@ -3,7 +3,7 @@ import DashboardTable from "../../components/dashboard-page/table-dashboard";
 import NotificationSide from "../../components/dashboard-page/notification-side";
 import ShortPanel from "../../components/dashboard-page/short-panel";
 import { fetchDashboardStatistics, fetchExpiringSoon, fetchPendingDistributions } from "../../utilities/api/dashboard";
-import { useTranslation } from "../../contexts/localContext";
+import { useTranslation, useLocalizedDate } from "../../contexts/localContext";
 
 function DashboardPage({ user }) {
   const [statistics, setStatistics] = useState(null);
@@ -11,15 +11,11 @@ function DashboardPage({ user }) {
   const [pendingDistributions, setPendingDistributions] = useState([]);
   const [loading, setLoading] = useState(true);
   const t = useTranslation();
+  const formatDate = useLocalizedDate();
 
   // Get current date formatted
   const getCurrentDate = () => {
-    const now = new Date();
-    return now.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
+    return formatDate(new Date());
   };
 
   useEffect(() => {
