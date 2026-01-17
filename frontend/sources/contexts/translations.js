@@ -166,6 +166,52 @@ const translations = {
 
     // Pagination - Alternative
     afterThis: "Setelahnya",
+
+    // Nav Laporan
+    reportInventory: "Laporan Inventori",
+    reportDistribution: "Laporan Distribusi",
+    reportReturn: "Laporan Return",
+    reportStockAdjustment: "Laporan Penyesuaian Stok",
+
+    // Report Pages - Common
+    downloadCSV: "📄 Unduh CSV",
+    downloadPDF: "📄 Unduh PDF",
+    dateFrom: "Dari:",
+    dateTo: "Sampai:",
+    reset: "✕ Reset",
+    showingData: "Menampilkan {filtered} dari {total} data",
+    noData: "Tidak ada data",
+    allTime: "Semua Waktu",
+    start: "Awal",
+    end: "Akhir",
+    unitSuffix: "unit",
+    productSuffix: "produk",
+    itemSuffix: "item",
+    buyerSuffix: "pemesan",
+
+    // Report Recap Labels
+    totalData: "Total Data:",
+    totalIncoming: "Total Barang Masuk:",
+    totalOutgoing: "Total Barang Keluar:",
+    totalReturn: "Total Return:",
+    totalProducts: "Jumlah Produk:",
+    totalBuyers: "Jumlah Pemesan:",
+    uniqueProducts: "Produk Unik:",
+    stockShort: "Stok Kurang:",
+    stockExcess: "Stok Lebih:",
+
+    // Report Page Titles
+    reportInventoryTitle: "Laporan Inventori Produk",
+    reportDistributionTitle: "Laporan Distribusi Produk",
+    reportReturnTitle: "Laporan Barang Retur",
+    reportAdjustmentTitle: "Laporan Penyesuaian Stok Gudang (Tidak Sesuai)",
+
+    // Report Table Headers
+    size: "Ukuran",
+    packaging: "Kemasan",
+    buyer: "Pemesan",
+    expiredDateShort: "Kadaluwarsa",
+    noMatchingData: "Tidak ada data tidak sesuai",
   },
   en: {
     // Header
@@ -335,6 +381,52 @@ const translations = {
 
     // Pagination - Alternative
     afterThis: "Next",
+
+    // Nav Laporan
+    reportInventory: "Inventory Report",
+    reportDistribution: "Distribution Report",
+    reportReturn: "Return Report",
+    reportStockAdjustment: "Stock Adjustment Report",
+
+    // Report Pages - Common
+    downloadCSV: "📄 Download CSV",
+    downloadPDF: "📄 Download PDF",
+    dateFrom: "From:",
+    dateTo: "To:",
+    reset: "✕ Reset",
+    showingData: "Showing {filtered} of {total} data",
+    noData: "No data",
+    allTime: "All Time",
+    start: "Start",
+    end: "End",
+    unitSuffix: "units",
+    productSuffix: "products",
+    itemSuffix: "items",
+    buyerSuffix: "buyers",
+
+    // Report Recap Labels
+    totalData: "Total Data:",
+    totalIncoming: "Total Incoming:",
+    totalOutgoing: "Total Outgoing:",
+    totalReturn: "Total Return:",
+    totalProducts: "Total Products:",
+    totalBuyers: "Total Buyers:",
+    uniqueProducts: "Unique Products:",
+    stockShort: "Stock Short:",
+    stockExcess: "Stock Excess:",
+
+    // Report Page Titles
+    reportInventoryTitle: "Product Inventory Report",
+    reportDistributionTitle: "Product Distribution Report",
+    reportReturnTitle: "Product Return Report",
+    reportAdjustmentTitle: "Stock Adjustment Report (Discrepancies)",
+
+    // Report Table Headers
+    size: "Size",
+    packaging: "Packaging",
+    buyer: "Buyer",
+    expiredDateShort: "Expiry Date",
+    noMatchingData: "No discrepancy data",
   }
 };
 

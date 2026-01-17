@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import NavLaporan from "../../../components/base/nav-laporan";
 import { fetchReportProducts } from "../../../utilities/api/report";
 import { generatePDFReport } from "../../../utilities/pdf-generator";
+import { useTranslation } from "../../../contexts/localContext";
 
 function LaporanDistribusi() {
+  const t = useTranslation();
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -169,14 +171,14 @@ function LaporanDistribusi() {
       <NavLaporan />
       <div className="main-laporan">
         <div className="laporan-header">
-          <h3>Laporan Distribusi Produk</h3>
+          <h3>{t('reportDistributionTitle')}</h3>
           <div className="laporan-actions">
             <select 
               value={selectedProduct} 
               onChange={(e) => setSelectedProduct(e.target.value)}
               className="filter-select"
             >
-              <option value="">Semua Produk</option>
+              <option value="">{t('allProduct')}</option>
               {products.map((p) => (
                 <option key={p.id_produk} value={p.id_produk}>
                   {p.id_produk} - {p.nama_produk}
@@ -184,10 +186,10 @@ function LaporanDistribusi() {
               ))}
             </select>
             <button className="btn-download" onClick={downloadCSV}>
-              📄 Unduh CSV
+              {t('downloadCSV')}
             </button>
             <button className="btn-download" onClick={downloadPDF}>
-              📄 Unduh PDF
+              {t('downloadPDF')}
             </button>
           </div>
         </div>
@@ -195,7 +197,7 @@ function LaporanDistribusi() {
         <div className="date-range-filter">
           <div className="date-inputs">
             <label>
-              Dari:
+              {t('dateFrom')}
               <input 
                 type="date" 
                 value={startDate}
@@ -203,7 +205,7 @@ function LaporanDistribusi() {
               />
             </label>
             <label>
-              Sampai:
+              {t('dateTo')}
               <input 
                 type="date" 
                 value={endDate}
@@ -212,13 +214,13 @@ function LaporanDistribusi() {
             </label>
             {(startDate || endDate) && (
               <button className="btn-clear" onClick={clearDateFilter}>
-                ✕ Reset
+                {t('reset')}
               </button>
             )}
           </div>
           {(startDate || endDate) && (
             <span className="filter-info">
-              Menampilkan {filteredData.length} dari {data.length} data
+              {t('showingData').replace('{filtered}', filteredData.length).replace('{total}', data.length)}
             </span>
           )}
         </div>
@@ -226,46 +228,46 @@ function LaporanDistribusi() {
         {/* Recap Section */}
         <div className="recap-section">
           <div className="recap-item">
-            <span className="recap-label">Total Data:</span>
+            <span className="recap-label">{t('totalData')}</span>
             <span className="recap-value">{recap.totalData}</span>
           </div>
           <div className="recap-item">
-            <span className="recap-label">Total Barang Keluar:</span>
-            <span className="recap-value">{recap.totalJumlah} unit</span>
+            <span className="recap-label">{t('totalOutgoing')}</span>
+            <span className="recap-value">{recap.totalJumlah} {t('unitSuffix')}</span>
           </div>
           <div className="recap-item">
-            <span className="recap-label">Jumlah Produk:</span>
-            <span className="recap-value">{recap.produkUnik} produk</span>
+            <span className="recap-label">{t('totalProducts')}</span>
+            <span className="recap-value">{recap.produkUnik} {t('productSuffix')}</span>
           </div>
           <div className="recap-item">
-            <span className="recap-label">Jumlah Pemesan:</span>
-            <span className="recap-value">{recap.pemesanUnik} pemesan</span>
+            <span className="recap-label">{t('totalBuyers')}</span>
+            <span className="recap-value">{recap.pemesanUnik} {t('buyerSuffix')}</span>
           </div>
         </div>
 
         <div className="laporan-table-container">
           {loading ? (
-            <p className="loading">Memuat data...</p>
+            <p className="loading">{t('loading')}</p>
           ) : (
             <>
               <table className="laporan-table">
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Tanggal</th>
-                    <th>Kode Produk</th>
-                    <th>Nama Produk</th>
-                    <th>Ukuran</th>
-                    <th>Kemasan</th>
-                    <th>Jumlah</th>
-                    <th>Pemesan</th>
-                    <th>Catatan</th>
+                    <th>{t('date')}</th>
+                    <th>{t('productCode')}</th>
+                    <th>{t('productName')}</th>
+                    <th>{t('size')}</th>
+                    <th>{t('packaging')}</th>
+                    <th>{t('quantity')}</th>
+                    <th>{t('buyer')}</th>
+                    <th>{t('note')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {paginatedData.length === 0 ? (
                     <tr>
-                      <td colSpan="9" className="no-data">Tidak ada data</td>
+                      <td colSpan="9" className="no-data">{t('noData')}</td>
                     </tr>
                   ) : (
                     paginatedData.map((row, index) => (
@@ -286,13 +288,13 @@ function LaporanDistribusi() {
               </table>
               {totalPages > 1 && (
                 <div className="pagination">
-                  <span>Halaman {currentPage} dari {totalPages} ({filteredData.length} data)</span>
+                  <span>{t('pages')} {currentPage} {t('of')} {totalPages} ({filteredData.length} data)</span>
                   <div className="pagination-buttons">
                     <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>
-                      Sebelumnya
+                      {t('previous')}
                     </button>
                     <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>
-                      Selanjutnya
+                      {t('next')}
                     </button>
                   </div>
                 </div>
