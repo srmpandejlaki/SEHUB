@@ -2,6 +2,7 @@ import React from "react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
 import IconDelete from "../../../assets/icon/material-symbols_delete.svg?react";
+import { useTranslation } from "../../../contexts/localContext";
 
 function TableStockAdjustment({ 
   data = [], 
@@ -11,6 +12,8 @@ function TableStockAdjustment({
   onPageChange,
   showActions = true
 }) {
+  const t = useTranslation();
+
   const formatDate = (dateString) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
@@ -52,19 +55,19 @@ function TableStockAdjustment({
           <thead>
             <tr>
               <th className="center">No</th>
-              <th>Tanggal</th>
-              <th>Produk</th>
-              <th className="center">Stok Sistem</th>
-              <th className="center">Stok Gudang</th>
-              <th className="center">Selisih</th>
-              <th>Kondisi</th>
-              <th className="center">Catatan</th>
+              <th>{t('date')}</th>
+              <th>{t('product')}</th>
+              <th className="center">{t('systemStock')}</th>
+              <th className="center">{t('warehouseStock')}</th>
+              <th className="center">{t('difference')}</th>
+              <th>{t('condition')}</th>
+              <th className="center">{t('note')}</th>
             </tr>
           </thead>
           <tbody>
             {tableRows.length === 0 ? (
               <tr>
-                <td colSpan="9" className="center">Tidak ada data penyesuaian stok</td>
+                <td colSpan="9" className="center">{t('noStockAdjustmentData')}</td>
               </tr>
             ) : (
               tableRows.map((row, index) => {
@@ -115,7 +118,7 @@ function TableStockAdjustment({
       </div>
       <div className="pagination-display">
         <div className="pages-count">
-          <p>Halaman {currentPage} dari {totalPages}</p>
+          <p>{t('pages')} {currentPage} {t('of')} {totalPages}</p>
         </div>
         <div className="pagination">
           <div 
@@ -124,14 +127,14 @@ function TableStockAdjustment({
             onClick={() => currentPage > 1 && onPageChange && onPageChange(currentPage - 1)}
           >
             <IconPanahKiri className="blackIcon"/>
-            <p>Sebelumnya</p>
+            <p>{t('previous')}</p>
           </div>
           <div 
             className="right"
             style={{ cursor: currentPage < totalPages ? 'pointer' : 'not-allowed', opacity: currentPage < totalPages ? 1 : 0.5 }}
             onClick={() => currentPage < totalPages && onPageChange && onPageChange(currentPage + 1)}
           >
-            <p>Setelahnya</p>
+            <p>{t('next')}</p>
             <IconPanahKanan className="blackIcon"/>
           </div>
         </div>
@@ -141,3 +144,4 @@ function TableStockAdjustment({
 }
 
 export default TableStockAdjustment;
+

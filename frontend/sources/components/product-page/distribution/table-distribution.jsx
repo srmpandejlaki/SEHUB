@@ -88,7 +88,7 @@ function TableDistribution({
           <tbody>
             {tableRows.length === 0 ? (
               <tr>
-                <td colSpan="11" className="center">Tidak ada data distribusi</td>
+                <td colSpan="11" className="center">{t('noDataDistribution')}</td>
               </tr>
             ) : (
               tableRows.map((row, index) => (

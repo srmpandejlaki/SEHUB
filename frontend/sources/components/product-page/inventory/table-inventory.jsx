@@ -32,7 +32,7 @@ function TableInventory({
           <tbody>
             {existingData.length === 0 ? (
               <tr>
-                <td colSpan={showActions ? "7" : "6"} className="no-data">Belum ada data.</td>
+                <td colSpan={showActions ? "7" : "6"} className="no-data">{t('noInventoryDataTable')}</td>
               </tr>
             ) : (
               existingData.map((item, index) => (

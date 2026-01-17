@@ -148,6 +148,24 @@ const translations = {
     tryAgain: "Coba Lagi",
     fetchError: "Gagal mengambil data dari server.",
     loadError: "Terjadi kesalahan saat memuat data.",
+
+    // Table Headers - Return
+    returnDate: "Tanggal Return",
+    buyerNameDistribution: "Nama Pemesan (Distribusi)",
+    noReturnData: "Tidak ada data return",
+
+    // Table Headers - Stock Adjustment
+    systemStock: "Stok Sistem",
+    warehouseStock: "Stok Gudang",
+    difference: "Selisih",
+    condition: "Kondisi",
+    noStockAdjustmentData: "Tidak ada data penyesuaian stok",
+
+    // Table Headers - Inventory
+    noInventoryDataTable: "Belum ada data.",
+
+    // Pagination - Alternative
+    afterThis: "Setelahnya",
   },
   en: {
     // Header
@@ -299,6 +317,24 @@ const translations = {
     tryAgain: "Try Again",
     fetchError: "Failed to fetch data from server.",
     loadError: "An error occurred while loading data.",
+
+    // Table Headers - Return
+    returnDate: "Return Date",
+    buyerNameDistribution: "Buyer Name (Distribution)",
+    noReturnData: "No return data",
+
+    // Table Headers - Stock Adjustment
+    systemStock: "System Stock",
+    warehouseStock: "Warehouse Stock",
+    difference: "Difference",
+    condition: "Condition",
+    noStockAdjustmentData: "No stock adjustment data",
+
+    // Table Headers - Inventory
+    noInventoryDataTable: "No data available.",
+
+    // Pagination - Alternative
+    afterThis: "Next",
   }
 };
 
