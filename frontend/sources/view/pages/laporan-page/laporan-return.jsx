@@ -115,7 +115,7 @@ function LaporanReturn() {
     link.click();
   };
 
-  const downloadPDF = () => {
+  const downloadPDF = async () => {
     const columns = ["No", "Tanggal", "Kode Produk", "Nama Produk", "Ukuran", "Kemasan", "Jumlah", "Catatan"];
     const tableData = filteredData.map((row, i) => [
       i + 1,
@@ -138,7 +138,7 @@ function LaporanReturn() {
       { label: "Produk Unik", value: `${recap.produkUnik} produk` }
     ];
 
-    generatePDFReport({
+    await generatePDFReport({
       title: "Laporan Return Barang",
       dateRange: dateRangeStr,
       columns,

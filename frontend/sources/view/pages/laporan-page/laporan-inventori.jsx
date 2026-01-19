@@ -118,7 +118,7 @@ function LaporanInventori() {
   };
 
   // Download PDF
-  const downloadPDF = () => {
+  const downloadPDF = async () => {
     const columns = ["No", "Tanggal", "Kode", "Nama Produk", "Ukuran", "Kemasan", "Jumlah", "Kadaluwarsa", "Catatan"];
     const tableData = filteredData.map((row, i) => [
       i + 1,
@@ -128,22 +128,22 @@ function LaporanInventori() {
       `${row.ukuran_produk || ""}${row.nama_ukuran_satuan || ""}`,
       row.nama_kemasan || "-",
       row.jumlah,
-      formatDate(row.tanggal_expired),
+      formatDate(row.tanggal_kadaluwarsa),
       row.catatan || "-"
     ]);
 
-    const dateRangeStr = (startDate || endDate) 
-      ? `${formatDate(startDate) || "Awal"} s/d ${formatDate(endDate) || "Akhir"}`
-      : "Semua Waktu";
+    const dateRangeStr = startDate && endDate
+      ? `${formatDate(startDate)} - ${formatDate(endDate)}`
+      : "";
 
     const recapData = [
-      { label: "Total Data", value: recap.totalData },
+      // { label: "Total Data", value: recap.totalData },
       { label: "Total Barang Masuk", value: `${recap.totalJumlah} unit` },
-      { label: "Jumlah Produk", value: `${recap.produkUnik} produk` }
+      // { label: "Jumlah Produk", value: `${recap.produkUnik} produk` }
     ];
 
-    generatePDFReport({
-      title: "Laporan Inventori (Barang Masuk)",
+    await generatePDFReport({
+      title: "Laporan Inventori Produk",
       dateRange: dateRangeStr,
       columns,
       data: tableData,

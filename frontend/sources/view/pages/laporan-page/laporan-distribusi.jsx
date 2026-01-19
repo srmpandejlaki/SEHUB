@@ -119,7 +119,7 @@ function LaporanDistribusi() {
   };
 
   // Download PDF
-  const downloadPDF = () => {
+  const downloadPDF = async () => {
     const columns = ["No", "Tanggal", "Kode", "Nama Produk", "Ukuran", "Kemasan", "Jumlah", "Kadaluwarsa", "Catatan"];
     const tableData = filteredData.map((row, i) => [
       i + 1,
@@ -143,7 +143,7 @@ function LaporanDistribusi() {
       { label: "Jumlah Produk", value: `${recap.produkUnik} produk` }
     ];
 
-    generatePDFReport({
+    await generatePDFReport({
       title: "Laporan Distribusi Produk",
       dateRange: dateRangeStr,
       columns,

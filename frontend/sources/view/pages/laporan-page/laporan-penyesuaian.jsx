@@ -122,7 +122,7 @@ function LaporanPenyesuaian() {
     link.click();
   };
 
-  const downloadPDF = () => {
+  const downloadPDF = async () => {
     const columns = ["No", "Tanggal", "Kode", "Nama Produk", "Ukuran", "Kemasan", "Stok Sistem", "Stok Gudang", "Selisih", "Kondisi", "Catatan"];
     const tableData = filteredData.map((row, i) => [
       i + 1,
@@ -150,7 +150,7 @@ function LaporanPenyesuaian() {
       { label: "Total Selisih Lebih", value: `${recap.totalSelisihLebih} unit` }
     ];
 
-    generatePDFReport({
+    await generatePDFReport({
       title: "Laporan Penyesuaian Stok",
       dateRange: dateRangeStr,
       columns,
