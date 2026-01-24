@@ -408,7 +408,7 @@ function SettingPage() {
       <div className="main-danger-zone" style={{ marginTop: '20px', padding: '20px', background: '#fff5f5', borderRadius: '8px', border: '1px solid #fed7d7' }}>
         <h4 style={{ color: '#c53030', marginBottom: '10px' }}>{t('dangerZone') || 'Zona Bahaya'}</h4>
         <p style={{ color: '#742a2a', marginBottom: '15px', fontSize: '14px' }}>
-          {t('deleteAllDataDesc') || 'Hapus semua data produk, inventori, distribusi, return, dan penyesuaian stok. Data pengguna dan master data tidak akan dihapus.'}
+          {t('deleteAllDataDesc') || 'Hapus semua data inventori, distribusi, return, dan penyesuaian stok. Data pengguna dan master data tidak akan dihapus.'}
         </p>
         <button 
           className="base-btn red"

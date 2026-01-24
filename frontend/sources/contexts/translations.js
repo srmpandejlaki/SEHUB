@@ -296,7 +296,7 @@ const translations = {
     // Delete All Data
     dangerZone: "Zona Bahaya",
     deleteAllData: "🗑️ Hapus Semua Data",
-    deleteAllDataDesc: "Hapus semua data produk, inventori, distribusi, return, dan penyesuaian stok. Data pengguna dan master data tidak akan dihapus.",
+    deleteAllDataDesc: "Hapus semua data inventori, distribusi, return, dan penyesuaian stok. Data pengguna dan master data tidak akan dihapus.",
     deleteAllConfirmTitle: "⚠️ Konfirmasi Hapus Semua Data",
     deleteAllConfirmMessage: "Apakah Anda yakin ingin menghapus SEMUA data? Tindakan ini tidak dapat dibatalkan!",
     deleteAll: "Hapus Semua",
@@ -602,7 +602,7 @@ const translations = {
     // Delete All Data
     dangerZone: "Danger Zone",
     deleteAllData: "🗑️ Delete All Data",
-    deleteAllDataDesc: "Delete all product, inventory, distribution, return, and stock adjustment data. User and master data will not be deleted.",
+    deleteAllDataDesc: "Delete all inventory, distribution, return, and stock adjustment data. User and master data will not be deleted.",
     deleteAllConfirmTitle: "⚠️ Confirm Delete All Data",
     deleteAllConfirmMessage: "Are you sure you want to delete ALL data? This action cannot be undone!",
     deleteAll: "Delete All",
