@@ -1,5 +1,5 @@
-import db from "../config/db.js";
-import bcrypt from "bcrypt";
+import db from "../config/db-sqlite.js";
+import bcrypt from "bcryptjs";
 
 const SALT_ROUNDS = 10;
 

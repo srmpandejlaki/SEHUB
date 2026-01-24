@@ -1,4 +1,4 @@
-import db from "../config/db.js";
+import db from "../config/db-sqlite.js";
 import getOrCreateProductCode from "../utils/generateId.js";
 
 const ProductModel = {

@@ -4,6 +4,9 @@ import dotenv from 'dotenv';
 import path from "path";
 import { fileURLToPath } from "url";
 
+// Initialize SQLite database
+import initializeDatabase from './config/initDb.js';
+
 import routerUsers from './routes/UserRoute.js';
 import routerProducts from './routes/ProductRoute.js';
 import routerInventory from './routes/InventoryRoute.js';
@@ -15,6 +18,9 @@ import routerStockAdjustment from './routes/StockAdjustmentRoute.js';
 import routerReport from './routes/ReportRoute.js';
 
 dotenv.config();
+
+// Initialize database tables
+initializeDatabase();
 
 const app = express();
 
@@ -45,4 +51,5 @@ app.use('/api/sehub/report', routerReport);
 app.listen(process.env.PORT || 5000, () => {
   console.log("Server berjalan di port", process.env.PORT || 5000);
 });
+
 
