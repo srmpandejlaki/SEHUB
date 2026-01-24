@@ -292,6 +292,17 @@ const translations = {
     deletePackagingConfirm: "Hapus kemasan \"{name}\"?",
     deleteMethodConfirm: "Hapus metode \"{name}\"?",
     deleteStatusConfirm: "Hapus status \"{name}\"?",
+
+    // Delete All Data
+    dangerZone: "Zona Bahaya",
+    deleteAllData: "🗑️ Hapus Semua Data",
+    deleteAllDataDesc: "Hapus semua data produk, inventori, distribusi, return, dan penyesuaian stok. Data pengguna dan master data tidak akan dihapus.",
+    deleteAllConfirmTitle: "⚠️ Konfirmasi Hapus Semua Data",
+    deleteAllConfirmMessage: "Apakah Anda yakin ingin menghapus SEMUA data? Tindakan ini tidak dapat dibatalkan!",
+    deleteAll: "Hapus Semua",
+    deleting: "Menghapus...",
+    deleteAllSuccess: "Semua data berhasil dihapus!",
+    deleteAllFailed: "Gagal menghapus data",
   },
   en: {
     // Header
@@ -587,6 +598,17 @@ const translations = {
     deletePackagingConfirm: "Delete packaging \"{name}\"?",
     deleteMethodConfirm: "Delete method \"{name}\"?",
     deleteStatusConfirm: "Delete status \"{name}\"?",
+
+    // Delete All Data
+    dangerZone: "Danger Zone",
+    deleteAllData: "🗑️ Delete All Data",
+    deleteAllDataDesc: "Delete all product, inventory, distribution, return, and stock adjustment data. User and master data will not be deleted.",
+    deleteAllConfirmTitle: "⚠️ Confirm Delete All Data",
+    deleteAllConfirmMessage: "Are you sure you want to delete ALL data? This action cannot be undone!",
+    deleteAll: "Delete All",
+    deleting: "Deleting...",
+    deleteAllSuccess: "All data deleted successfully!",
+    deleteAllFailed: "Failed to delete data",
   }
 };
 

@@ -50,11 +50,7 @@
 }
 
 .red {
-  color: custom.$danger;
-
-  &:hover {
-    background-color: custom.$danger;
-  }
+  color: custom.$color-primary;
 }
 
 .cancel {

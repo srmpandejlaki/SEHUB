@@ -214,4 +214,15 @@ routerMasterData.delete("/metode-pengiriman/:id", async (req, res) => {
   }
 });
 
+// Delete all data except users
+routerMasterData.delete("/delete-all-data", async (req, res) => {
+  try {
+    const result = await MasterDataModel.deleteAllDataExceptUsers();
+    res.json(result);
+  } catch (error) {
+    console.error('Error deleting all data:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 export default routerMasterData;
