@@ -146,18 +146,29 @@ const MasterDataModel = {
       await client.query('BEGIN');
       
       // Delete in order to respect foreign key constraints
-      // First delete child tables, then parent tables
-      await client.query('DELETE FROM detail_barang_masuk');
+      // Delete the most dependent tables first, then parent tables
+      
+      // First, delete return-related data (return_barang_detail references detail_distribusi)
+      await client.query('DELETE FROM return_barang_detail');
+      await client.query('DELETE FROM return_barang');
+      
+      // Then delete distribution details
       await client.query('DELETE FROM detail_distribusi');
-      await client.query('DELETE FROM detail_return');
-      await client.query('DELETE FROM penyesuaian_stok');
-      await client.query('DELETE FROM return');
       await client.query('DELETE FROM distribusi');
+      
+      // Delete return and inventory details
+      await client.query('DELETE FROM detail_barang_masuk');
+      await client.query('DELETE FROM penyesuaian_stok_detail');
+      await client.query('DELETE FROM return_barang_detail');
+      
+      // Delete parent tables
+      await client.query('DELETE FROM penyesuaian_stok');
+      await client.query('DELETE FROM return_barang');
       await client.query('DELETE FROM barang_masuk');
-      await client.query('DELETE FROM produk');
       
       // Note: We keep master data (nama_produk, ukuran_satuan, kemasan, metode_pengiriman, status_pengiriman)
       // and pengguna table intact
+      // and product table too
       
       await client.query('COMMIT');
       return { success: true, message: 'All data deleted successfully except users' };
