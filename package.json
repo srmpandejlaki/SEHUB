@@ -37,7 +37,11 @@
       {
         "from": "backend",
         "to": "backend",
-        "filter": ["**/*", "!node_modules/**/*"]
+        "filter": ["**/*"]
+      },
+      {
+        "from": "build",
+        "to": "build"
       }
     ],
     "win": {

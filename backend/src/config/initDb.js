@@ -204,10 +204,12 @@ export async function initializeDatabase() {
   // Create default admin user if none exists
   const existingUsers = await db.query('SELECT COUNT(*) as count FROM pengguna');
   if (existingUsers.rows[0]?.count === 0) {
-    // Note: Using plain text for initial password, should be hashed in production
+    // Import bcryptjs to hash password
+    const bcrypt = await import('bcryptjs');
+    const hashedPassword = await bcrypt.default.hash('admin123', 10);
     await db.query(
       "INSERT INTO pengguna (nama_pengguna, email, kata_sandi, jabatan, is_admin) VALUES (?, ?, ?, ?, ?)",
-      ['Admin', 'admin@sehub.com', '$2b$10$XQxBtKvvxPt.0xV.N1rQxOQXl.PqrGWpN7TmP1YJPGOQhqOt.VbKe', 'Administrator', 1]
+      ['Admin', 'admin@sehub.com', hashedPassword, 'Administrator', 1]
     );
     console.log('Created default admin user: admin@sehub.com / admin123');
   }
