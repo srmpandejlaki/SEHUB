@@ -44,7 +44,6 @@ const DistributionModel = {
       ORDER BY d.tanggal_distribusi DESC, d.id_distribusi DESC, dd.id_detail_distribusi ASC
     `);
 
-    // Group by id_distribusi
     // Group by id_distribusi (use Map to preserve SQL order)
     const grouped = new Map();
 
@@ -81,13 +80,9 @@ const DistributionModel = {
   },
 
   create: async (tanggal_distribusi, nama_pemesan, id_metode_pengiriman, id_status, catatan_distribusi, products) => {
-    const client = await db.connect();
-
     try {
-      await client.query("BEGIN");
-
       // 1. Insert ke distribusi
-      const insertDistribusi = await client.query(
+      const insertDistribusi = await db.query(
         `INSERT INTO distribusi (tanggal_distribusi, nama_pemesan, id_metode_pengiriman, id_status, catatan_distribusi) 
          VALUES ($1, $2, $3, $4, $5) RETURNING id_distribusi`,
         [tanggal_distribusi, nama_pemesan, id_metode_pengiriman, id_status, catatan_distribusi]
@@ -96,29 +91,24 @@ const DistributionModel = {
       const id_distribusi = insertDistribusi.rows[0].id_distribusi;
 
       // 2. Insert ke detail_distribusi dan deduct dari inventory menggunakan FEFO
-      const insertItemsQuery = `
-        INSERT INTO detail_distribusi
-        (id_distribusi, id_produk, jumlah_barang_distribusi)
-        VALUES ($1, $2, $3)
-        RETURNING *;
-      `;
-
       const insertedItems = [];
 
       for (const item of products) {
         // Insert detail_distribusi
-        const result = await client.query(insertItemsQuery, [
-          id_distribusi,
-          item.id_produk,
-          item.jumlah
-        ]);
+        const result = await db.query(
+          `INSERT INTO detail_distribusi
+          (id_distribusi, id_produk, jumlah_barang_distribusi)
+          VALUES ($1, $2, $3)
+          RETURNING *`,
+          [id_distribusi, item.id_produk, item.jumlah]
+        );
         insertedItems.push(result.rows[0]);
 
         // FEFO: Deduct from inventory starting with earliest expiry
         let remainingToDeduct = parseInt(item.jumlah);
 
         // Get inventory items sorted by expiry date (FEFO - earliest first)
-        const inventoryItems = await client.query(
+        const inventoryItems = await db.query(
           `SELECT id_detail_barang_masuk, stok_sekarang, tanggal_expired
            FROM detail_barang_masuk
            WHERE id_produk = $1 AND stok_sekarang > 0
@@ -133,7 +123,7 @@ const DistributionModel = {
           const deductAmount = Math.min(currentStock, remainingToDeduct);
 
           // Update the inventory item
-          await client.query(
+          await db.query(
             `UPDATE detail_barang_masuk 
              SET stok_sekarang = stok_sekarang - $1
              WHERE id_detail_barang_masuk = $2`,
@@ -150,30 +140,21 @@ const DistributionModel = {
         }
       }
 
-      await client.query("COMMIT");
-
       return {
         id_distribusi,
         items: insertedItems
       };
 
     } catch (err) {
-      await client.query("ROLLBACK");
+      console.error('Error creating distribution:', err);
       throw err;
-
-    } finally {
-      client.release();
     }
   },
 
   update: async (id_distribusi, tanggal_distribusi, nama_pemesan, id_metode_pengiriman, id_status, catatan_distribusi, products) => {
-    const client = await db.connect();
-
     try {
-      await client.query("BEGIN");
-
       // 1. Restore Stock from OLD Items (Reverse FEFO)
-      const oldItems = await client.query(
+      const oldItems = await db.query(
         `SELECT id_produk, jumlah_barang_distribusi FROM detail_distribusi WHERE id_distribusi = $1`,
         [id_distribusi]
       );
@@ -183,7 +164,7 @@ const DistributionModel = {
 
         // Find batches with missing stock (stok_sekarang < jumlah_barang_masuk)
         // Fill earliest holes first (mirrors FEFO logic)
-        const candidateBatches = await client.query(
+        const candidateBatches = await db.query(
           `SELECT id_detail_barang_masuk, jumlah_barang_masuk, stok_sekarang 
            FROM detail_barang_masuk 
            WHERE id_produk = $1 AND stok_sekarang < jumlah_barang_masuk
@@ -197,7 +178,7 @@ const DistributionModel = {
           const deficit = batch.jumlah_barang_masuk - batch.stok_sekarang;
           const restoreAmount = Math.min(amountToRestore, deficit);
 
-          await client.query(
+          await db.query(
             `UPDATE detail_barang_masuk 
              SET stok_sekarang = stok_sekarang + $1 
              WHERE id_detail_barang_masuk = $2`,
@@ -209,7 +190,7 @@ const DistributionModel = {
       }
 
       // 2. Update Header
-      const updateDistribusi = await client.query(
+      const updateDistribusi = await db.query(
         `UPDATE distribusi 
         SET tanggal_distribusi = $1, nama_pemesan = $2, id_metode_pengiriman = $3, id_status = $4, catatan_distribusi = $5 
         WHERE id_distribusi = $6 
@@ -222,33 +203,29 @@ const DistributionModel = {
       }
 
       // 3. Delete old details
-      await client.query(
+      await db.query(
         `DELETE FROM detail_distribusi WHERE id_distribusi = $1`,
         [id_distribusi]
       );
 
       // 4. Insert NEW details and Deduct Stock (FEFO)
       const insertedItems = [];
-      const insertItemQuery = `
-        INSERT INTO detail_distribusi
-        (id_distribusi, id_produk, jumlah_barang_distribusi)
-        VALUES ($1, $2, $3)
-        RETURNING *;
-      `;
 
       for (const item of products) {
         // Insert record
-        const result = await client.query(insertItemQuery, [
-          id_distribusi,
-          item.id_produk,
-          item.jumlah
-        ]);
+        const result = await db.query(
+          `INSERT INTO detail_distribusi
+          (id_distribusi, id_produk, jumlah_barang_distribusi)
+          VALUES ($1, $2, $3)
+          RETURNING *`,
+          [id_distribusi, item.id_produk, item.jumlah]
+        );
         insertedItems.push(result.rows[0]);
 
         // FEFO Deduction
         let remainingToDeduct = parseInt(item.jumlah);
 
-        const inventoryItems = await client.query(
+        const inventoryItems = await db.query(
           `SELECT id_detail_barang_masuk, stok_sekarang, tanggal_expired
            FROM detail_barang_masuk
            WHERE id_produk = $1 AND stok_sekarang > 0
@@ -262,7 +239,7 @@ const DistributionModel = {
           const currentStock = invItem.stok_sekarang;
           const deductAmount = Math.min(currentStock, remainingToDeduct);
 
-          await client.query(
+          await db.query(
             `UPDATE detail_barang_masuk 
              SET stok_sekarang = stok_sekarang - $1
              WHERE id_detail_barang_masuk = $2`,
@@ -277,8 +254,6 @@ const DistributionModel = {
         }
       }
 
-      await client.query("COMMIT");
-
       return {
         id_distribusi,
         updated_distribusi: updateDistribusi.rows[0],
@@ -286,11 +261,8 @@ const DistributionModel = {
       };
 
     } catch (err) {
-      await client.query("ROLLBACK");
+      console.error('Error updating distribution:', err);
       throw err;
-
-    } finally {
-      client.release();
     }
   },
 
@@ -308,24 +280,18 @@ const DistributionModel = {
   },
 
   delete: async (id_distribusi) => {
-    const client = await db.connect();
-
     try {
-      await client.query("BEGIN");
-
       // Hapus detail dulu
-      await client.query(
+      await db.query(
         `DELETE FROM detail_distribusi WHERE id_distribusi = $1`,
         [id_distribusi]
       );
 
       // Hapus distribusi
-      const result = await client.query(
+      const result = await db.query(
         `DELETE FROM distribusi WHERE id_distribusi = $1 RETURNING *`,
         [id_distribusi]
       );
-
-      await client.query("COMMIT");
 
       if (result.rows.length === 0) {
         return null;
@@ -334,11 +300,8 @@ const DistributionModel = {
       return result.rows[0];
 
     } catch (err) {
-      await client.query("ROLLBACK");
+      console.error('Error deleting distribution:', err);
       throw err;
-
-    } finally {
-      client.release();
     }
   },
 };

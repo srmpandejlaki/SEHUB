@@ -65,6 +65,13 @@ export async function initializeDatabase() {
     )
   `);
 
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS kondisi_stok (
+      id_kondisi_stok INTEGER PRIMARY KEY AUTOINCREMENT,
+      nama_kondisi TEXT NOT NULL
+    )
+  `);
+
   // ========== PRODUCT TABLE ==========
   
   db.exec(`
@@ -88,20 +95,20 @@ export async function initializeDatabase() {
   db.exec(`
     CREATE TABLE IF NOT EXISTS barang_masuk (
       id_barang_masuk INTEGER PRIMARY KEY AUTOINCREMENT,
-      tanggal DATE NOT NULL,
-      catatan TEXT,
+      tanggal_masuk DATE NOT NULL,
+      catatan_barang_masuk TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
   db.exec(`
     CREATE TABLE IF NOT EXISTS detail_barang_masuk (
-      id_detail INTEGER PRIMARY KEY AUTOINCREMENT,
+      id_detail_barang_masuk INTEGER PRIMARY KEY AUTOINCREMENT,
       id_barang_masuk INTEGER,
       id_produk TEXT,
-      jumlah INTEGER NOT NULL,
-      tanggal_kadaluwarsa DATE,
-      catatan TEXT,
+      jumlah_barang_masuk INTEGER NOT NULL,
+      stok_sekarang INTEGER NOT NULL,
+      tanggal_expired DATE,
       FOREIGN KEY (id_barang_masuk) REFERENCES barang_masuk(id_barang_masuk) ON DELETE CASCADE,
       FOREIGN KEY (id_produk) REFERENCES produk(id_produk)
     )
@@ -112,7 +119,7 @@ export async function initializeDatabase() {
   db.exec(`
     CREATE TABLE IF NOT EXISTS distribusi (
       id_distribusi INTEGER PRIMARY KEY AUTOINCREMENT,
-      tanggal DATE NOT NULL,
+      tanggal_distribusi DATE NOT NULL,
       nama_pemesan TEXT,
       id_metode_pengiriman INTEGER,
       id_status INTEGER,
@@ -127,10 +134,10 @@ export async function initializeDatabase() {
     CREATE TABLE IF NOT EXISTS detail_distribusi (
       id_detail_distribusi INTEGER PRIMARY KEY AUTOINCREMENT,
       id_distribusi INTEGER,
-      id_detail_barang_masuk INTEGER,
-      jumlah INTEGER NOT NULL,
+      id_produk TEXT,
+      jumlah_barang_distribusi INTEGER NOT NULL,
       FOREIGN KEY (id_distribusi) REFERENCES distribusi(id_distribusi) ON DELETE CASCADE,
-      FOREIGN KEY (id_detail_barang_masuk) REFERENCES detail_barang_masuk(id_detail)
+      FOREIGN KEY (id_produk) REFERENCES produk(id_produk)
     )
   `);
 
@@ -139,19 +146,18 @@ export async function initializeDatabase() {
   db.exec(`
     CREATE TABLE IF NOT EXISTS return_barang (
       id_return INTEGER PRIMARY KEY AUTOINCREMENT,
-      tanggal DATE NOT NULL,
-      catatan TEXT,
+      tanggal_return DATE NOT NULL,
+      catatan_return TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
   db.exec(`
     CREATE TABLE IF NOT EXISTS return_barang_detail (
-      id_return_detail INTEGER PRIMARY KEY AUTOINCREMENT,
+      id_return_barang_detail INTEGER PRIMARY KEY AUTOINCREMENT,
       id_return INTEGER,
       id_detail_distribusi INTEGER,
-      jumlah INTEGER NOT NULL,
-      catatan TEXT,
+      jumlah_barang_return INTEGER NOT NULL,
       FOREIGN KEY (id_return) REFERENCES return_barang(id_return) ON DELETE CASCADE,
       FOREIGN KEY (id_detail_distribusi) REFERENCES detail_distribusi(id_detail_distribusi)
     )
@@ -161,25 +167,24 @@ export async function initializeDatabase() {
   
   db.exec(`
     CREATE TABLE IF NOT EXISTS penyesuaian_stok (
-      id_penyesuaian INTEGER PRIMARY KEY AUTOINCREMENT,
-      tanggal DATE NOT NULL,
-      catatan TEXT,
+      id_penyesuaian_stok INTEGER PRIMARY KEY AUTOINCREMENT,
+      tanggal_penyesuaian DATE NOT NULL,
+      catatan_penyesuaian TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
   db.exec(`
     CREATE TABLE IF NOT EXISTS penyesuaian_stok_detail (
-      id_penyesuaian_detail INTEGER PRIMARY KEY AUTOINCREMENT,
-      id_penyesuaian INTEGER,
-      id_detail_barang_masuk INTEGER,
+      id_detail_penyesuaian INTEGER PRIMARY KEY AUTOINCREMENT,
+      id_penyesuaian_stok INTEGER,
+      id_produk TEXT,
+      id_kondisi_stok INTEGER,
       stok_sistem INTEGER NOT NULL,
       stok_gudang INTEGER NOT NULL,
-      id_kondisi INTEGER,
-      catatan TEXT,
-      FOREIGN KEY (id_penyesuaian) REFERENCES penyesuaian_stok(id_penyesuaian) ON DELETE CASCADE,
-      FOREIGN KEY (id_detail_barang_masuk) REFERENCES detail_barang_masuk(id_detail),
-      FOREIGN KEY (id_kondisi) REFERENCES kondisi(id_kondisi)
+      FOREIGN KEY (id_penyesuaian_stok) REFERENCES penyesuaian_stok(id_penyesuaian_stok) ON DELETE CASCADE,
+      FOREIGN KEY (id_produk) REFERENCES produk(id_produk),
+      FOREIGN KEY (id_kondisi_stok) REFERENCES kondisi_stok(id_kondisi_stok)
     )
   `);
 

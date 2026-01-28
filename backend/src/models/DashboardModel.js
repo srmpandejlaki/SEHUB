@@ -52,13 +52,13 @@ const DashboardModel = {
         k.nama_kemasan,
         dbm.stok_sekarang as jumlah_barang_masuk,
         dbm.tanggal_expired,
-        (dbm.tanggal_expired - CURRENT_DATE) as days_until_expired
+        CAST(julianday(dbm.tanggal_expired) - julianday(date('now')) AS INTEGER) as days_until_expired
       FROM detail_barang_masuk dbm
       JOIN produk p ON dbm.id_produk = p.id_produk
       JOIN nama_produk n ON p.id_nama_produk = n.id_nama_produk
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
-      WHERE dbm.tanggal_expired <= CURRENT_DATE + CAST($1 AS INTEGER)
+      WHERE dbm.tanggal_expired <= date('now', '+' || $1 || ' days')
         AND dbm.stok_sekarang > 0
       ORDER BY dbm.tanggal_expired ASC
     `, [daysAhead]);
