@@ -178,8 +178,8 @@ const StockAdjustmentModel = {
           await db.query(
             `INSERT INTO detail_barang_masuk 
              (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
-             VALUES ($1, $2, $3, $3, $4)`,
-            [insertStock.rows[0].id_barang_masuk, id_produk, selisih, expiryDate]
+             VALUES ($1, $2, $3, $4, $5)`,
+            [insertStock.rows[0].id_barang_masuk, id_produk, selisih, selisih, expiryDate]
           );
 
         } else if (selisih < 0) {

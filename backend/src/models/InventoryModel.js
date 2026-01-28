@@ -79,9 +79,9 @@ const InventoryModel = {
         const result = await db.query(
           `INSERT INTO detail_barang_masuk
           (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
-          VALUES ($1, $2, $3, $3, $4)
+          VALUES ($1, $2, $3, $4, $5)
           RETURNING *`,
-          [id_barang_masuk, item.id_produk, item.jumlah, item.tanggal_expired]
+          [id_barang_masuk, item.id_produk, item.jumlah, item.jumlah, item.tanggal_expired]
         );
         insertedItems.push(result.rows[0]);
       }

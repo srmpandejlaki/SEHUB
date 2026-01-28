@@ -4,10 +4,10 @@ const DashboardModel = {
   // Get dashboard statistics
   getStatistics: async () => {
     // Count total products
-    const productCount = await db.query("SELECT COUNT(*) FROM produk");
+    const productCount = await db.query("SELECT COUNT(*) AS count FROM produk");
     
     // Count unique customers (nama_pemesan from distribusi)
-    const customerCount = await db.query("SELECT COUNT(DISTINCT nama_pemesan) FROM distribusi");
+    const customerCount = await db.query("SELECT COUNT(DISTINCT nama_pemesan) AS count FROM distribusi");
     
     // Get products with current stock (directly from detail_barang_masuk since FEFO modifies it)
     const productsWithStock = await db.query(`

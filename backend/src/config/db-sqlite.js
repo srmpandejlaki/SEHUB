@@ -57,12 +57,21 @@ async function initDb() {
   return db;
 }
 
-// Save database to file
+// Save database to file (async to prevent UI blocking)
 function saveDb() {
   if (db) {
-    const data = db.export();
-    const buffer = Buffer.from(data);
-    fs.writeFileSync(dbPath, buffer);
+    try {
+      const data = db.export();
+      const buffer = Buffer.from(data);
+      // Use async write to prevent blocking the event loop
+      fs.writeFile(dbPath, buffer, (err) => {
+        if (err) {
+          console.error('Error saving database:', err);
+        }
+      });
+    } catch (error) {
+      console.error('Error exporting database:', error);
+    }
   }
 }
 
@@ -86,10 +95,12 @@ const dbWrapper = {
     
     try {
       // Replace PostgreSQL placeholders ($1, $2, ...) with SQLite placeholders (?, ?, ...)
+      // Note: Must use replaceAll to handle repeated placeholders like $3, $3
       let sqliteQuery = sql;
       let paramIndex = 1;
       while (sqliteQuery.includes(`$${paramIndex}`)) {
-        sqliteQuery = sqliteQuery.replace(`$${paramIndex}`, '?');
+        // Replace ALL occurrences of this placeholder
+        sqliteQuery = sqliteQuery.replaceAll(`$${paramIndex}`, '?');
         paramIndex++;
       }
 

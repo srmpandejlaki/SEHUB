@@ -172,8 +172,8 @@ const ReturnModel = {
             
             const insertResult = await db.query(
               `INSERT INTO detail_barang_masuk (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
-               VALUES ($1, $2, $3, $3, $4) RETURNING *`,
-              [id_barang_masuk, id_produk, item.jumlah_barang_return, tanggal_expired]
+               VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+              [id_barang_masuk, id_produk, item.jumlah_barang_return, item.jumlah_barang_return, tanggal_expired]
             );
             console.log("-> Inserted detail_barang_masuk:", insertResult.rows[0]);
           } else {

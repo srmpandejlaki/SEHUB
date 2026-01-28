@@ -18,7 +18,7 @@ export async function initializeDatabase() {
       email TEXT UNIQUE NOT NULL,
       kata_sandi TEXT NOT NULL,
       jabatan TEXT,
-      is_admin INTEGER DEFAULT 0,
+      is_admin BOOLEAN DEFAULT TRUE,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
@@ -194,9 +194,8 @@ export async function initializeDatabase() {
   const existingStatus = await db.query('SELECT COUNT(*) as count FROM status_pengiriman');
   if (existingStatus.rows[0]?.count === 0) {
     await db.query("INSERT INTO status_pengiriman (nama_status) VALUES (?)", ['Diproses']);
-    await db.query("INSERT INTO status_pengiriman (nama_status) VALUES (?)", ['Dikirim']);
-    await db.query("INSERT INTO status_pengiriman (nama_status) VALUES (?)", ['Selesai']);
-    await db.query("INSERT INTO status_pengiriman (nama_status) VALUES (?)", ['Dibatalkan']);
+    await db.query("INSERT INTO status_pengiriman (nama_status) VALUES (?)", ['Dalam Perjalanan']);
+    await db.query("INSERT INTO status_pengiriman (nama_status) VALUES (?)", ['Diterima']);
   }
 
   // Check and insert default kondisi
