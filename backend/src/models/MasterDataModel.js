@@ -140,43 +140,33 @@ const MasterDataModel = {
 
   // Delete all data except users (pengguna table)
   deleteAllDataExceptUsers: async () => {
-    // Use transaction to ensure all deletions succeed or none
-    const client = await db.connect();
     try {
-      await client.query('BEGIN');
-      
       // Delete in order to respect foreign key constraints
       // Delete the most dependent tables first, then parent tables
       
-      // First, delete return-related data (return_barang_detail references detail_distribusi)
-      await client.query('DELETE FROM return_barang_detail');
-      await client.query('DELETE FROM return_barang');
+      // First, delete return-related data
+      await db.query('DELETE FROM return_barang_detail');
+      await db.query('DELETE FROM return_barang');
+      
+      // Delete stock adjustment details
+      await db.query('DELETE FROM penyesuaian_stok_detail');
+      await db.query('DELETE FROM penyesuaian_stok');
       
       // Then delete distribution details
-      await client.query('DELETE FROM detail_distribusi');
-      await client.query('DELETE FROM distribusi');
+      await db.query('DELETE FROM detail_distribusi');
+      await db.query('DELETE FROM distribusi');
       
-      // Delete return and inventory details
-      await client.query('DELETE FROM detail_barang_masuk');
-      await client.query('DELETE FROM penyesuaian_stok_detail');
-      await client.query('DELETE FROM return_barang_detail');
-      
-      // Delete parent tables
-      await client.query('DELETE FROM penyesuaian_stok');
-      await client.query('DELETE FROM return_barang');
-      await client.query('DELETE FROM barang_masuk');
+      // Delete inventory details
+      await db.query('DELETE FROM detail_barang_masuk');
+      await db.query('DELETE FROM barang_masuk');
       
       // Note: We keep master data (nama_produk, ukuran_satuan, kemasan, metode_pengiriman, status_pengiriman)
-      // and pengguna table intact
-      // and product table too
+      // and pengguna table and produk table intact
       
-      await client.query('COMMIT');
       return { success: true, message: 'All data deleted successfully except users' };
     } catch (error) {
-      await client.query('ROLLBACK');
+      console.error('Error deleting all data:', error);
       throw error;
-    } finally {
-      client.release();
     }
   },
 };

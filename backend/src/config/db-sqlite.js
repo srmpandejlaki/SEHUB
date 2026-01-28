@@ -127,17 +127,22 @@ const dbWrapper = {
                 columns.forEach((col, i) => {
                   row[col] = values[i];
                 });
+                saveDb(); // IMPORTANT: Save after INSERT with RETURNING
+                console.log('Database saved after INSERT RETURNING');
                 return { rows: [row] };
               }
             }
           } else if (queryType === 'UPDATE' || queryType === 'DELETE') {
             // For UPDATE/DELETE with RETURNING, we need to get affected rows before the operation
             // This is a simplified approach - just return empty for now
+            saveDb(); // Save after UPDATE/DELETE with RETURNING
+            console.log('Database saved after UPDATE/DELETE RETURNING');
             return { rows: [], rowCount: db.getRowsModified() };
           }
         }
         
         saveDb(); // Save after modifications
+        console.log('Database saved after', queryType);
         return { rows: [], rowCount: db.getRowsModified() };
       } else {
         // For other queries (CREATE, DROP, etc.)

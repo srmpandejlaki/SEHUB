@@ -30,7 +30,6 @@ const InventoryModel = {
       ORDER BY bm.tanggal_masuk DESC, bm.id_barang_masuk DESC, dbm.id_detail_barang_masuk ASC
     `);
 
-    // Group by id_barang_masuk
     // Group by id_barang_masuk (use Map to preserve SQL order)
     const grouped = new Map();
 
@@ -63,13 +62,9 @@ const InventoryModel = {
   },
 
   create: async (tanggal_masuk, catatan_barang_masuk, products) => {
-    const client = await db.connect();
-
     try {
-      await client.query("BEGIN");
-
       // 1. Insert ke barang_masuk
-      const insertStock = await client.query(
+      const insertStock = await db.query(
         `INSERT INTO barang_masuk (tanggal_masuk, catatan_barang_masuk) 
          VALUES ($1, $2) RETURNING id_barang_masuk`,
         [tanggal_masuk, catatan_barang_masuk]
@@ -78,26 +73,18 @@ const InventoryModel = {
       const id_barang_masuk = insertStock.rows[0].id_barang_masuk;
 
       // 2. Insert ke detail_barang_masuk
-      const insertItemsQuery = `
-        INSERT INTO detail_barang_masuk
-        (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
-        VALUES ($1, $2, $3, $3, $4)
-        RETURNING *;
-      `;
-
       const insertedItems = [];
 
       for (const item of products) {
-        const result = await client.query(insertItemsQuery, [
-          id_barang_masuk,
-          item.id_produk,
-          item.jumlah,
-          item.tanggal_expired
-        ]);
+        const result = await db.query(
+          `INSERT INTO detail_barang_masuk
+          (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
+          VALUES ($1, $2, $3, $3, $4)
+          RETURNING *`,
+          [id_barang_masuk, item.id_produk, item.jumlah, item.tanggal_expired]
+        );
         insertedItems.push(result.rows[0]);
       }
-
-      await client.query("COMMIT");
 
       return {
         id_barang_masuk,
@@ -105,22 +92,15 @@ const InventoryModel = {
       };
 
     } catch (err) {
-      await client.query("ROLLBACK");
+      console.error('Error creating inventory:', err);
       throw err;
-
-    } finally {
-      client.release();
     }
   },
 
   update: async (id_barang_masuk, tanggal_masuk, catatan_barang_masuk, products) => {
-    const client = await db.connect();
-
     try {
-      await client.query("BEGIN");
-
       // 1. Calculate Usage from Old Details (Prevent Phantom Stock)
-      const oldDetails = await client.query(
+      const oldDetails = await db.query(
         `SELECT id_produk, jumlah_barang_masuk, stok_sekarang FROM detail_barang_masuk WHERE id_barang_masuk = $1`,
         [id_barang_masuk]
       );
@@ -133,7 +113,7 @@ const InventoryModel = {
       }
 
       // 2. Update barang_masuk Header
-      const updateStock = await client.query(
+      const updateStock = await db.query(
         `UPDATE barang_masuk 
         SET tanggal_masuk = $1, catatan_barang_masuk = $2 
         WHERE id_barang_masuk = $3 
@@ -146,22 +126,15 @@ const InventoryModel = {
       }
 
       // 3. Delete Old Details
-      await client.query(
+      await db.query(
         `DELETE FROM detail_barang_masuk WHERE id_barang_masuk = $1`,
         [id_barang_masuk]
       );
 
       // 4. Insert New Details with Usage Applied
       const insertedItems = [];
-      const insertItemQuery = `
-        INSERT INTO detail_barang_masuk
-        (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
-        VALUES ($1, $2, $3, $4, $5)
-        RETURNING *;
-      `;
 
       // Sort products by expiry to apply usage FEFO style (apply usage to earliest expiry first)
-      // Create a copy to sort
       const sortedProducts = [...products].sort((a, b) => new Date(a.tanggal_expired) - new Date(b.tanggal_expired));
 
       for (const item of sortedProducts) {
@@ -174,13 +147,13 @@ const InventoryModel = {
          
          const stokSekarang = item.jumlah - usedAmount;
 
-         const result = await client.query(insertItemQuery, [
-             id_barang_masuk, 
-             item.id_produk, 
-             item.jumlah, 
-             stokSekarang, 
-             item.tanggal_expired
-         ]);
+         const result = await db.query(
+           `INSERT INTO detail_barang_masuk
+           (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
+           VALUES ($1, $2, $3, $4, $5)
+           RETURNING *`,
+           [id_barang_masuk, item.id_produk, item.jumlah, stokSekarang, item.tanggal_expired]
+         );
          insertedItems.push(result.rows[0]);
       }
 
@@ -191,8 +164,6 @@ const InventoryModel = {
           }
       }
 
-      await client.query("COMMIT");
-
       return {
         id_barang_masuk,
         updated_stock: updateStock.rows[0],
@@ -200,21 +171,19 @@ const InventoryModel = {
       };
 
     } catch (err) {
-      await client.query("ROLLBACK");
+      console.error('Error updating inventory:', err);
       throw err;
-
-    } finally {
-      client.release();
     }
   },
+
   // Get batches by product ID for detail page
   getBatchesByProduct: async (id_produk) => {
     const result = await db.query(`
       SELECT 
         dbm.id_detail_barang_masuk,
         bm.tanggal_masuk,
-        dbm.jumlah_barang_masuk,     -- Initial Qty
-        dbm.stok_sekarang,           -- Current Stock
+        dbm.jumlah_barang_masuk,
+        dbm.stok_sekarang,
         dbm.tanggal_expired
       FROM detail_barang_masuk dbm
       JOIN barang_masuk bm ON dbm.id_barang_masuk = bm.id_barang_masuk
@@ -227,4 +196,3 @@ const InventoryModel = {
 };
 
 export default InventoryModel;
-
