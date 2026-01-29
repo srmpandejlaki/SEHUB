@@ -57,16 +57,24 @@ async function initDb() {
   return db;
 }
 
+// Flag to track if the database has been modified
+let isDirty = false;
+
 // Save database to file (async to prevent UI blocking)
-function saveDb() {
-  if (db) {
+function saveDb(force = false) {
+  if (db && (isDirty || force)) {
     try {
+      // db.export() is synchronous and can be slow for large databases.
+      // We only call it when forced or periodically via the interval.
       const data = db.export();
       const buffer = Buffer.from(data);
       // Use async write to prevent blocking the event loop
       fs.writeFile(dbPath, buffer, (err) => {
         if (err) {
           console.error('Error saving database:', err);
+        } else {
+          isDirty = false;
+          console.log('Database saved to disk successfully');
         }
       });
     } catch (error) {
@@ -75,15 +83,17 @@ function saveDb() {
   }
 }
 
-// Auto-save every 30 seconds
+// Auto-save every 10 seconds if dirty
 setInterval(() => {
-  saveDb();
-}, 30000);
+  if (isDirty) {
+    saveDb();
+  }
+}, 10000);
 
 // Save on process exit
-process.on('exit', saveDb);
+process.on('exit', () => saveDb(true));
 process.on('SIGINT', () => {
-  saveDb();
+  saveDb(true);
   process.exit();
 });
 
@@ -95,17 +105,16 @@ const dbWrapper = {
     
     try {
       // Replace PostgreSQL placeholders ($1, $2, ...) with SQLite placeholders (?, ?, ...)
-      // Note: Must use replaceAll to handle repeated placeholders like $3, $3
       let sqliteQuery = sql;
       let paramIndex = 1;
       while (sqliteQuery.includes(`$${paramIndex}`)) {
-        // Replace ALL occurrences of this placeholder
         sqliteQuery = sqliteQuery.replaceAll(`$${paramIndex}`, '?');
         paramIndex++;
       }
 
-      // Determine query type
-      const queryType = sql.trim().toUpperCase().split(' ')[0];
+      // Determine query type and table name
+      const sqlUpper = sql.trim().toUpperCase();
+      const queryType = sqlUpper.split(/\s+/)[0];
       
       if (queryType === 'SELECT') {
         const stmt = db.prepare(sqliteQuery);
@@ -120,14 +129,18 @@ const dbWrapper = {
         
         return { rows };
       } else if (queryType === 'INSERT' || queryType === 'UPDATE' || queryType === 'DELETE') {
-        db.run(sqliteQuery, params);
+        let returnRows = [];
         
         // Handle RETURNING clause (common in PostgreSQL)
-        if (sql.toUpperCase().includes('RETURNING')) {
+        const hasReturning = sqlUpper.includes('RETURNING');
+        
+        if (hasReturning) {
           if (queryType === 'INSERT') {
+            db.run(sqliteQuery, params);
+            isDirty = true;
             // Get the last inserted row
             const lastRowId = db.exec('SELECT last_insert_rowid() as id')[0]?.values[0][0];
-            const tableMatch = sql.match(/INSERT INTO\s+(\w+)/i);
+            const tableMatch = sql.match(/INSERT INTO\s+([^\s(]+)/i);
             if (tableMatch && lastRowId) {
               const tableName = tableMatch[1];
               const lastRowResult = db.exec(`SELECT * FROM ${tableName} WHERE rowid = ${lastRowId}`);
@@ -138,27 +151,67 @@ const dbWrapper = {
                 columns.forEach((col, i) => {
                   row[col] = values[i];
                 });
-                saveDb(); // IMPORTANT: Save after INSERT with RETURNING
-                console.log('Database saved after INSERT RETURNING');
-                return { rows: [row] };
+                returnRows = [row];
               }
             }
           } else if (queryType === 'UPDATE' || queryType === 'DELETE') {
-            // For UPDATE/DELETE with RETURNING, we need to get affected rows before the operation
-            // This is a simplified approach - just return empty for now
-            saveDb(); // Save after UPDATE/DELETE with RETURNING
-            console.log('Database saved after UPDATE/DELETE RETURNING');
-            return { rows: [], rowCount: db.getRowsModified() };
+            // For UPDATE/DELETE with RETURNING, find affected rows FIRST if DELETE, or AFTER if UPDATE
+            const tableMatch = sql.match(/(?:UPDATE|FROM)\s+([^\s]+)/i);
+            const wherePos = sqlUpper.indexOf('WHERE');
+            const returningPos = sqlUpper.indexOf('RETURNING');
+            
+            if (tableMatch && wherePos !== -1) {
+              const tableName = tableMatch[1];
+              const whereClause = sql.substring(wherePos, returningPos !== -1 ? returningPos : sql.length);
+              
+              // Map $ placeholders in WHERE clause back to ? for simulation
+              let whereQuery = whereClause;
+              let wpIndex = 1;
+              while (whereQuery.includes(`$${wpIndex}`)) {
+                whereQuery = whereQuery.replaceAll(`$${wpIndex}`, '?');
+                wpIndex++;
+              }
+              
+              // For DELETE, we must fetch BEFORE. For UPDATE, we fetch AFTER to get new values.
+              if (queryType === 'DELETE') {
+                  const selectResult = db.exec(`SELECT * FROM ${tableName} ${whereQuery}`, params);
+                  if (selectResult.length > 0) {
+                      const columns = selectResult[0].columns;
+                      returnRows = selectResult[0].values.map(vals => {
+                          const row = {};
+                          columns.forEach((col, i) => row[col] = vals[i]);
+                          return row;
+                      });
+                  }
+                  db.run(sqliteQuery, params);
+              } else {
+                  // UPDATE
+                  db.run(sqliteQuery, params);
+                  const selectResult = db.exec(`SELECT * FROM ${tableName} ${whereQuery}`, params);
+                  if (selectResult.length > 0) {
+                      const columns = selectResult[0].columns;
+                      returnRows = selectResult[0].values.map(vals => {
+                          const row = {};
+                          columns.forEach((col, i) => row[col] = vals[i]);
+                          return row;
+                      });
+                  }
+              }
+            } else {
+              db.run(sqliteQuery, params);
+            }
+            isDirty = true;
           }
+        } else {
+          db.run(sqliteQuery, params);
+          isDirty = true;
         }
         
-        saveDb(); // Save after modifications
-        console.log('Database saved after', queryType);
-        return { rows: [], rowCount: db.getRowsModified() };
+        return { rows: returnRows, rowCount: db.getRowsModified() };
       } else {
         // For other queries (CREATE, DROP, etc.)
         db.run(sqliteQuery);
-        saveDb();
+        isDirty = true;
         return { rows: [] };
       }
     } catch (error) {

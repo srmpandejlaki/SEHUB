@@ -191,6 +191,27 @@ export async function initializeDatabase() {
   // ========== INSERT DEFAULT DATA ==========
   
   // Check and insert default status pengiriman
+  const existingProductName = await db.query('SELECT COUNT(*) as count FROM nama_produk');
+  if (existingProductName.rows[0]?.count === 0) {
+    await db.query("INSERT INTO nama_produk (nama_produk) VALUES (?)", ['Seho Sirop']);
+    await db.query("INSERT INTO nama_produk (nama_produk) VALUES (?)", ['Seho Granule']);
+    await db.query("INSERT INTO nama_produk (nama_produk) VALUES (?)", ['Seho Solide']);
+  }
+
+  const existingSatuan = await db.query('SELECT COUNT(*) as count FROM ukuran_satuan');
+  if (existingSatuan.rows[0]?.count === 0) {
+    await db.query("INSERT INTO ukuran_satuan (nama_satuan) VALUES (?)", ['ml']);
+    await db.query("INSERT INTO ukuran_satuan (nama_satuan) VALUES (?)", ['kg']);
+    await db.query("INSERT INTO ukuran_satuan (nama_satuan) VALUES (?)", ['g']);
+  }
+
+  const existingKemasan = await db.query('SELECT COUNT(*) as count FROM kemasan');
+  if (existingKemasan.rows[0]?.count === 0) {
+    await db.query("INSERT INTO kemasan (nama_kemasan) VALUES (?)", ['botol']);
+    await db.query("INSERT INTO kemasan (nama_kemasan) VALUES (?)", ['pouch']);
+    await db.query("INSERT INTO kemasan (nama_kemasan) VALUES (?)", ['toples']);
+  }
+
   const existingStatus = await db.query('SELECT COUNT(*) as count FROM status_pengiriman');
   if (existingStatus.rows[0]?.count === 0) {
     await db.query("INSERT INTO status_pengiriman (nama_status) VALUES (?)", ['Diproses']);

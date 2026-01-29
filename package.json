@@ -10,7 +10,7 @@
     "dev": "concurrently \"cd backend && npm start\" \"cd frontend && npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
     "build:frontend": "cd frontend && npm run build",
     "build:backend": "cd backend && npm ci --omit=dev",
-    "build:all": "npm run build:frontend && electron-builder",
+    "build:all": "npm run build:frontend && npm run build:backend && electron-builder",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },

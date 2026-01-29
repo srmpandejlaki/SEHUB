@@ -255,12 +255,9 @@ function SettingPage() {
   };
 
   // Handlers for Master Data Edit/Delete
-  const onEditNamaProduk = async (item) => {
-    const newName = prompt("Edit Nama Produk:", item.nama_produk);
-    if (newName && newName !== item.nama_produk) {
-      await updateNamaProduk(item.id_nama_produk, newName);
-      loadDataNamaProduk();
-    }
+  const onEditNamaProduk = async (id, newName) => {
+    await updateNamaProduk(id, newName);
+    loadDataNamaProduk();
   };
   const onDeleteNamaProduk = async (item) => {
     if (window.confirm(`Hapus produk "${item.nama_produk}"?`)) {
@@ -269,12 +266,9 @@ function SettingPage() {
     }
   };
 
-  const onEditSize = async (item) => {
-    const newName = prompt("Edit Ukuran:", item.nama_ukuran_satuan);
-    if (newName && newName !== item.nama_ukuran_satuan) {
-      await updateSize(item.id_ukuran_satuan, newName);
-      loadDataSize();
-    }
+  const onEditSize = async (id, newName) => {
+    await updateSize(id, newName);
+    loadDataSize();
   };
   const onDeleteSize = async (item) => {
     if (window.confirm(`Hapus ukuran "${item.nama_ukuran_satuan}"?`)) {
@@ -283,12 +277,9 @@ function SettingPage() {
     }
   };
 
-  const onEditKemasan = async (item) => {
-    const newName = prompt("Edit Kemasan:", item.nama_kemasan);
-    if (newName && newName !== item.nama_kemasan) {
-      await updateKemasan(item.id_kemasan, newName);
-      loadDataKemasan();
-    }
+  const onEditKemasan = async (id, newName) => {
+    await updateKemasan(id, newName);
+    loadDataKemasan();
   };
   const onDeleteKemasan = async (item) => {
     if (window.confirm(`Hapus kemasan "${item.nama_kemasan}"?`)) {
@@ -297,12 +288,9 @@ function SettingPage() {
     }
   };
 
-  const onEditMetode = async (item) => {
-    const newName = prompt("Edit Metode:", item.nama_metode);
-    if (newName && newName !== item.nama_metode) {
-      await updateMetodePengiriman(item.id_metode_pengiriman, newName);
-      loadDataMetodePengiriman();
-    }
+  const onEditMetode = async (id, newName) => {
+    await updateMetodePengiriman(id, newName);
+    loadDataMetodePengiriman();
   };
   const onDeleteMetode = async (item) => {
     if (window.confirm(`Hapus metode "${item.nama_metode}"?`)) {
@@ -311,12 +299,9 @@ function SettingPage() {
     }
   };
 
-  const onEditStatus = async (item) => {
-    const newName = prompt("Edit Status:", item.nama_status);
-    if (newName && newName !== item.nama_status) {
-      await updateStatusPengiriman(item.id_status, newName);
-      loadDataStatusPengiriman();
-    }
+  const onEditStatus = async (id, newName) => {
+    await updateStatusPengiriman(id, newName);
+    loadDataStatusPengiriman();
   };
   const onDeleteStatus = async (item) => {
     if (window.confirm(`Hapus status "${item.nama_status}"?`)) {

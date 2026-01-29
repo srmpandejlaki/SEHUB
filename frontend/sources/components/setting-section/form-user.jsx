@@ -15,7 +15,7 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
   const [userEmail, setUserEmail] = useState(editData?.email || "");
   const [userJabatan, setUserJabatan] = useState(editData?.jabatan || "");
   const [userStatus, setUserStatus] = useState(
-    editData?.is_admin === true ? "admin" : editData?.is_admin === false ? "non-admin" : ""
+    !!editData?.is_admin ? "admin" : editData?.is_admin === false || editData?.is_admin === 0 ? "non-admin" : ""
   );
   const [userPassword, setUserPassword] = useState(editData?.kata_sandi || "");
 
