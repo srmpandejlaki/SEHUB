@@ -9,6 +9,7 @@ import IconKeterangan from "../../../assets/icon/fluent_text-description-ltr-20-
 import { fetchAllProducts } from "../../../utilities/api/products";
 import { createInventory, updateInventory } from "../../../utilities/api/inventory";
 import { useTranslation } from "../../../contexts/localContext";
+import { useToast } from "../../../contexts/toastContext";
 
 function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = false }) {
   const [products, setProducts] = useState([]);
@@ -18,6 +19,7 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
   const [productItems, setProductItems] = useState([{ id_produk: "", jumlah: "", tanggal_expired: "" }]);
 
   const t = useTranslation();
+  const { showToast } = useToast();
 
   // Fetch products on mount
   useEffect(() => {
@@ -73,14 +75,14 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
     
     // Validasi field umum
     if (!tanggalMasuk) {
-      alert("Mohon lengkapi tanggal masuk");
+      showToast("Mohon lengkapi tanggal masuk", 'warning');
       return;
     }
 
     // Validasi product items
     const validProducts = productItems.filter(item => item.id_produk && item.jumlah && item.tanggal_expired);
     if (validProducts.length === 0) {
-      alert("Mohon tambahkan minimal satu produk dengan jumlah dan tanggal expired");
+      showToast("Mohon tambahkan minimal satu produk dengan jumlah dan tanggal expired", 'warning');
       return;
     }
 
@@ -106,11 +108,11 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
     setIsSubmitting(false);
 
     if (result) {
-      alert(isEdit ? "Data inventori berhasil diperbarui!" : "Data inventori berhasil disimpan!");
+      showToast(isEdit ? "Data inventori berhasil diperbarui!" : "Data inventori berhasil disimpan!", 'success');
       if (onSuccess) onSuccess();
       onCloseForm();
     } else {
-      alert(isEdit ? "Gagal memperbarui data inventori" : "Gagal menyimpan data inventori");
+      showToast(isEdit ? "Gagal memperbarui data inventori" : "Gagal menyimpan data inventori", 'error');
     }
   };
 

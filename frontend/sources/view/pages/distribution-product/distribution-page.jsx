@@ -9,6 +9,7 @@ import IconTambah from "../../../assets/icon/mdi_add-bold.svg?react";
 import { checkInventoryExists } from "../../../utilities/api/inventory";
 import { BASE_URL } from "../../../utilities";
 import { useTranslation } from "../../../contexts/localContext";
+import { useToast } from "../../../contexts/toastContext";
 
 function DistributionPage({ isAdmin = true }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,6 +26,7 @@ function DistributionPage({ isAdmin = true }) {
   const [reloadTrigger, setReloadTrigger] = useState(0);
 
   const t = useTranslation();
+  const { showToast } = useToast();
   
   useEffect(() => {
     loadMasterData();
@@ -57,7 +59,7 @@ function DistributionPage({ isAdmin = true }) {
   const handleOpenFormDis = () => {
     if (!isAdmin) return;
     if (!hasInventoryData) {
-      alert(t('noInventoryData'));
+      showToast(t('noInventoryData'), 'warning');
       return;
     }
     setFormDis(true);

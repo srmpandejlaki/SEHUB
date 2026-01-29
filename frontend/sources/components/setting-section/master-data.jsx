@@ -7,17 +7,19 @@ import IconDelete from "../../assets/icon/material-symbols_delete.svg?react";
 import IconCheck from "../../assets/icon/weui_done2-filled.svg?react";
 import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
 import { useTranslation, useDynamicTranslation } from "../../contexts/localContext";
+import { useToast } from "../../contexts/toastContext";
 
 // Sub-component for individual master data items with inline editing
 const MasterDataItem = memo(({ item, idField, nameField, onEdit, onDelete, dynamicCategory }) => {
   const t = useTranslation();
   const dynamicT = useDynamicTranslation();
+  const { showToast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(item[nameField]);
 
   const handleSave = async () => {
     if (editValue.trim() === "") {
-      alert(t('fieldEmpty') || "Field cannot be empty");
+      showToast(t('fieldEmpty') || "Field cannot be empty", 'warning');
       return;
     }
     if (editValue !== item[nameField]) {

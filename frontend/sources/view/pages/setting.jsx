@@ -12,9 +12,11 @@ import {
   deleteAllData
 } from "../../utilities/api/master-data";
 import { useTranslation } from "../../contexts/localContext";
+import { useToast } from "../../contexts/toastContext";
 
 function SettingPage() {
   const t = useTranslation();
+  const { showToast } = useToast();
   const [showFormUser, setFormUser] = useState(false);
   const [existingData, setExistingData] = useState([]);
   const [editData, setEditData] = useState(null);
@@ -316,7 +318,7 @@ function SettingPage() {
     try {
       const result = await deleteAllData();
       if (result.success) {
-        alert(t('deleteAllSuccess') || 'Semua data berhasil dihapus!');
+        showToast(t('deleteAllSuccess') || 'Semua data berhasil dihapus!', 'success');
         // Reload all data
         loadDataUsers();
         loadDataSize();
@@ -325,11 +327,11 @@ function SettingPage() {
         loadDataMetodePengiriman();
         loadDataStatusPengiriman();
       } else {
-        alert(t('deleteAllFailed') || 'Gagal menghapus data: ' + (result.error || 'Unknown error'));
+        showToast(t('deleteAllFailed') || 'Gagal menghapus data: ' + (result.error || 'Unknown error'), 'error');
       }
     } catch (error) {
       console.error('Error deleting all data:', error);
-      alert(t('deleteAllFailed') || 'Gagal menghapus data');
+      showToast(t('deleteAllFailed') || 'Gagal menghapus data', 'error');
     } finally {
       setIsDeletingAll(false);
       setShowDeleteAllConfirm(false);

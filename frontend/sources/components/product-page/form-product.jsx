@@ -4,6 +4,7 @@ import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
 import { createProduct, updateProduct } from "../../utilities/api/products";
 import { fetchAllKemasan, fetchAllSize, fetchAllNamaProduk } from "../../utilities/api/master-data";
 import { useTranslation } from "../../contexts/localContext";
+import { useToast } from "../../contexts/toastContext";
 
 function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit = false }) {
   const [idNamaProduk, setIdNamaProduk] = useState("");
@@ -19,6 +20,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
   const [kemasanList, setKemasanList] = useState([]);
 
   const t = useTranslation();
+  const { showToast } = useToast();
 
   useEffect(() => {
     loadDataNamaProduk();
@@ -85,11 +87,11 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
     }
 
     if (result) {
-      alert(isEdit ? "Produk berhasil diperbarui!" : "Produk berhasil ditambahkan!");
+      showToast(isEdit ? "Produk berhasil diperbarui!" : "Produk berhasil ditambahkan!", 'success');
       closeFormProduct();
       if (reloadProducts) reloadProducts();
     } else {
-      alert(isEdit ? "Gagal memperbarui produk" : "Gagal menambahkan produk");
+      showToast(isEdit ? "Gagal memperbarui produk" : "Gagal menambahkan produk", 'error');
     }
   };
 

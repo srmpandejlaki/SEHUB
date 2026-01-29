@@ -12,6 +12,7 @@ import IconDropDown from "../../../assets/icon/material-symbols_arrow-drop-down-
 import { fetchAllProducts } from "../../../utilities/api/products";
 import { updateDistribution } from "../../../utilities/api/distribution";
 import { createReturn, fetchReturnsByDistribution } from "../../../utilities/api/return";
+import { useToast } from "../../../contexts/toastContext";
 
 function FormEditDistribution({ 
   onCloseForm, 
@@ -20,6 +21,7 @@ function FormEditDistribution({
   statusPengiriman = [],
   editData = null 
 }) {
+  const { showToast } = useToast();
   const [products, setProducts] = useState([]);
   const [tanggalDistribusi, setTanggalDistribusi] = useState("");
   const [namaPemesan, setNamaPemesan] = useState("");
@@ -114,13 +116,13 @@ function FormEditDistribution({
     e.preventDefault();
 
     if (!tanggalDistribusi || !namaPemesan || !selectedMetode || !selectedStatus) {
-      alert("Mohon lengkapi semua field yang wajib diisi");
+      showToast("Mohon lengkapi semua field yang wajib diisi", 'warning');
       return;
     }
 
     const validProducts = productItems.filter(item => item.id_produk && item.jumlah);
     if (validProducts.length === 0) {
-      alert("Mohon tambahkan minimal satu produk");
+      showToast("Mohon tambahkan minimal satu produk", 'warning');
       return;
     }
 
@@ -143,11 +145,11 @@ function FormEditDistribution({
     setIsSubmitting(false);
 
     if (result) {
-      alert("Data distribusi berhasil diperbarui!");
+      showToast("Data distribusi berhasil diperbarui!", 'success');
       if (onSuccess) onSuccess();
       onCloseForm();
     } else {
-      alert("Gagal memperbarui data distribusi");
+      showToast("Gagal memperbarui data distribusi", 'error');
     }
   };
 
@@ -183,7 +185,7 @@ function FormEditDistribution({
     e.preventDefault();
 
     if (!tanggalReturn) {
-      alert("Tanggal return wajib diisi");
+      showToast("Tanggal return wajib diisi", 'warning');
       return;
     }
 
@@ -192,15 +194,14 @@ function FormEditDistribution({
     );
 
     if (selectedItems.length === 0) {
-      alert("Pilih minimal satu produk dan isi jumlah return");
+      showToast("Pilih minimal satu produk dan isi jumlah return", 'warning');
       return;
     }
 
     // Validate return quantity
     for (const item of selectedItems) {
       if (item.jumlah_return > item.jumlah_distribusi) {
-        alert(`Jumlah return untuk ${item.nama_produk} 
-          tidak boleh melebihi jumlah distribusi (${item.jumlah_distribusi})`);
+        showToast(`Jumlah return untuk ${item.nama_produk} tidak boleh melebihi jumlah distribusi (${item.jumlah_distribusi})`, 'warning');
         return;
       }
     }
@@ -221,11 +222,11 @@ function FormEditDistribution({
     setIsSubmittingReturn(false);
 
     if (result) {
-      alert("Return barang berhasil dibuat!");
+      showToast("Return barang berhasil dibuat!", 'success');
       setShowReturnForm(false);
       loadExistingReturns();
     } else {
-      alert("Gagal membuat return barang");
+      showToast("Gagal membuat return barang", 'error');
     }
   };
 

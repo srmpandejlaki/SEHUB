@@ -8,9 +8,11 @@ import IconPosition from "../../assets/icon/icon-park-outline_user-positioning.s
 import IconStatus from "../../assets/icon/eos-icons_role-binding-outlined.svg?react";
 import { createUser, updateUser } from "../../utilities/api/user.js";
 import { useTranslation } from "../../contexts/localContext";
+import { useToast } from "../../contexts/toastContext";
 
 function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
   const t = useTranslation();
+  const { showToast } = useToast();
   const [userName, setUserName] = useState(editData?.nama_pengguna || "");
   const [userEmail, setUserEmail] = useState(editData?.email || "");
   const [userJabatan, setUserJabatan] = useState(editData?.jabatan || "");
@@ -23,7 +25,8 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
     e.preventDefault();
 
     if (!userName || !userEmail || !userPassword || !userJabatan || !userStatus) {
-      return alert(t('allFieldsRequired'));
+      showToast(t('allFieldsRequired'), 'warning');
+      return;
     }
 
     const payload = {
@@ -39,7 +42,7 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
     if (isEdit) {
       result = await updateUser(editData?.id_pengguna, payload);
       if (!editData?.id_pengguna) {
-        alert(t('userIdNotFound'));
+        showToast(t('userIdNotFound'), 'error');
         return;
       }
     } else {
@@ -48,11 +51,11 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
     }
 
     if (result) {
-      alert(isEdit ? t('userUpdatedSuccess') : t('userAddedSuccess'));
+      showToast(isEdit ? t('userUpdatedSuccess') : t('userAddedSuccess'), 'success');
       reloadUsers();
       closeFormUser();
     } else {
-      alert(isEdit ? t('updateUserFailed') : t('addUserFailed'));
+      showToast(isEdit ? t('updateUserFailed') : t('addUserFailed'), 'error');
     }
   };
 
