@@ -104,13 +104,9 @@ const dbWrapper = {
     await initDb();
     
     try {
-      // Replace PostgreSQL placeholders ($1, $2, ...) with SQLite placeholders (?, ?, ...)
-      let sqliteQuery = sql;
-      let paramIndex = 1;
-      while (sqliteQuery.includes(`$${paramIndex}`)) {
-        sqliteQuery = sqliteQuery.replaceAll(`$${paramIndex}`, '?');
-        paramIndex++;
-      }
+      // Replace PostgreSQL placeholders ($1, $2, ...) with SQLite placeholders (?1, ?2, ...)
+      // This is crucial for positional binding compatibility
+      const sqliteQuery = sql.replace(/\$(\d+)/g, '?$1');
 
       // Determine query type and table name
       const sqlUpper = sql.trim().toUpperCase();
@@ -156,7 +152,7 @@ const dbWrapper = {
             }
           } else if (queryType === 'UPDATE' || queryType === 'DELETE') {
             // For UPDATE/DELETE with RETURNING, find affected rows FIRST if DELETE, or AFTER if UPDATE
-            const tableMatch = sql.match(/(?:UPDATE|FROM)\s+([^\s]+)/i);
+            const tableMatch = sql.match(/(?:UPDATE|DELETE FROM|FROM)\s+([^\s(]+)/i);
             const wherePos = sqlUpper.indexOf('WHERE');
             const returningPos = sqlUpper.indexOf('RETURNING');
             
@@ -164,38 +160,29 @@ const dbWrapper = {
               const tableName = tableMatch[1];
               const whereClause = sql.substring(wherePos, returningPos !== -1 ? returningPos : sql.length);
               
-              // Map $ placeholders in WHERE clause back to ? for simulation
-              let whereQuery = whereClause;
-              let wpIndex = 1;
-              while (whereQuery.includes(`$${wpIndex}`)) {
-                whereQuery = whereQuery.replaceAll(`$${wpIndex}`, '?');
-                wpIndex++;
-              }
+              // Map $ placeholders in WHERE clause to ?n for simulation
+              const whereQuery = whereClause.replace(/\$(\d+)/g, '?$1');
               
               // For DELETE, we must fetch BEFORE. For UPDATE, we fetch AFTER to get new values.
               if (queryType === 'DELETE') {
-                  const selectResult = db.exec(`SELECT * FROM ${tableName} ${whereQuery}`, params);
-                  if (selectResult.length > 0) {
-                      const columns = selectResult[0].columns;
-                      returnRows = selectResult[0].values.map(vals => {
-                          const row = {};
-                          columns.forEach((col, i) => row[col] = vals[i]);
-                          return row;
-                      });
+                  const selectStmt = db.prepare(`SELECT * FROM ${tableName} ${whereQuery}`);
+                  selectStmt.bind(params);
+                  while (selectStmt.step()) {
+                      returnRows.push(selectStmt.getAsObject());
                   }
+                  selectStmt.free();
+                  
                   db.run(sqliteQuery, params);
               } else {
                   // UPDATE
                   db.run(sqliteQuery, params);
-                  const selectResult = db.exec(`SELECT * FROM ${tableName} ${whereQuery}`, params);
-                  if (selectResult.length > 0) {
-                      const columns = selectResult[0].columns;
-                      returnRows = selectResult[0].values.map(vals => {
-                          const row = {};
-                          columns.forEach((col, i) => row[col] = vals[i]);
-                          return row;
-                      });
+                  
+                  const selectStmt = db.prepare(`SELECT * FROM ${tableName} ${whereQuery}`);
+                  selectStmt.bind(params);
+                  while (selectStmt.step()) {
+                      returnRows.push(selectStmt.getAsObject());
                   }
+                  selectStmt.free();
               }
             } else {
               db.run(sqliteQuery, params);
