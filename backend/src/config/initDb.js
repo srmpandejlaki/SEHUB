@@ -200,9 +200,9 @@ export async function initializeDatabase() {
 
   const existingSatuan = await db.query('SELECT COUNT(*) as count FROM ukuran_satuan');
   if (existingSatuan.rows[0]?.count === 0) {
-    await db.query("INSERT INTO ukuran_satuan (nama_satuan) VALUES (?)", ['ml']);
-    await db.query("INSERT INTO ukuran_satuan (nama_satuan) VALUES (?)", ['kg']);
-    await db.query("INSERT INTO ukuran_satuan (nama_satuan) VALUES (?)", ['g']);
+    await db.query("INSERT INTO ukuran_satuan (nama_ukuran_satuan) VALUES (?)", ['ml']);
+    await db.query("INSERT INTO ukuran_satuan (nama_ukuran_satuan) VALUES (?)", ['kg']);
+    await db.query("INSERT INTO ukuran_satuan (nama_ukuran_satuan) VALUES (?)", ['g']);
   }
 
   const existingKemasan = await db.query('SELECT COUNT(*) as count FROM kemasan');
@@ -210,6 +210,13 @@ export async function initializeDatabase() {
     await db.query("INSERT INTO kemasan (nama_kemasan) VALUES (?)", ['botol']);
     await db.query("INSERT INTO kemasan (nama_kemasan) VALUES (?)", ['pouch']);
     await db.query("INSERT INTO kemasan (nama_kemasan) VALUES (?)", ['toples']);
+  }
+
+  const existingMetode = await db.query('SELECT COUNT(*) as count FROM metode_pengiriman');
+  if (existingMetode.rows[0]?.count === 0) {
+    await db.query("INSERT INTO metode_pengiriman (nama_metode) VALUES (?)", ['Pengantaran Langsung']);
+    await db.query("INSERT INTO metode_pengiriman (nama_metode) VALUES (?)", ['Jasa Kurir']);
+    await db.query("INSERT INTO metode_pengiriman (nama_metode) VALUES (?)", ['Pengambilan di Tempat']);
   }
 
   const existingStatus = await db.query('SELECT COUNT(*) as count FROM status_pengiriman');
