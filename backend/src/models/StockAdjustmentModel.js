@@ -217,7 +217,8 @@ const StockAdjustmentModel = {
 
           // Create distribution record for audit trail
           const metodeRes = await db.query(`SELECT id_metode_pengiriman FROM metode_pengiriman LIMIT 1`);
-          const statusRes = await db.query(`SELECT id_status FROM status_pengiriman LIMIT 1`);
+          // Try to find status "Diterima" specifically (case-insensitive for robustness)
+          const statusRes = await db.query(`SELECT id_status FROM status_pengiriman WHERE UPPER(nama_status) = 'DITERIMA' LIMIT 1`);
 
           let id_metode = metodeRes.rows[0]?.id_metode_pengiriman;
           let id_status = statusRes.rows[0]?.id_status;
@@ -230,6 +231,8 @@ const StockAdjustmentModel = {
           }
 
           if (!id_status) {
+            // Specifically create "Diterima" if it doesn't exist
+            // Don't fallback to whatever status is first in the table
             const newStatus = await db.query(
               `INSERT INTO status_pengiriman (nama_status) VALUES ('Diterima') RETURNING id_status`
             );

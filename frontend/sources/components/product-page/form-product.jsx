@@ -28,14 +28,13 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
     loadDataKemasan();
   }, []);
 
-  // Pre-fill form if editing
   useEffect(() => {
     if (isEdit && editData) {
-      setIdNamaProduk(editData.id_nama_produk || "");
-      setUkuranProduk(editData.ukuranProduk || "");
-      setIdUkuranSatuan(editData.id_ukuran_satuan || "");
-      setIdKemasan(editData.id_kemasan || "");
-      setMinimumStok(editData.stokMinimum || "");
+      setIdNamaProduk(editData.id_nama_produk?.toString() || "");
+      setUkuranProduk(editData.ukuranProduk?.toString() || "");
+      setIdUkuranSatuan(editData.id_ukuran_satuan?.toString() || "");
+      setIdKemasan(editData.id_kemasan?.toString() || "");
+      setMinimumStok(editData.minimumStock?.toString() ?? "");
       // Note: imageProduk stays empty unless user uploads new
     }
   }, [isEdit, editData]);
@@ -111,7 +110,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
           <select value={idNamaProduk} onChange={(e) => setIdNamaProduk(e.target.value)} required>
             <option value="">-- {t('chooseProduct')} --</option>
             {namaProdukList.map((item) => (
-              <option key={item.id_nama_produk} value={item.id_nama_produk}>
+              <option key={item.id_nama_produk} value={item.id_nama_produk.toString()}>
                 {item.nama_produk}
               </option>
             ))}
@@ -135,7 +134,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
             <select value={idUkuranSatuan} onChange={(e) => setIdUkuranSatuan(e.target.value)} required>
               <option value="">-- {t('choose')} --</option>
               {ukuranSatuanList.map((item) => (
-                <option key={item.id_ukuran_satuan} value={item.id_ukuran_satuan}>
+                <option key={item.id_ukuran_satuan} value={item.id_ukuran_satuan.toString()}>
                   {item.nama_ukuran_satuan}
                 </option>
               ))}
@@ -149,7 +148,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
             <select value={idKemasan} onChange={(e) => setIdKemasan(e.target.value)} required>
               <option value="">-- {t('choose')} --</option>
               {kemasanList.map((item) => (
-                <option key={item.id_kemasan} value={item.id_kemasan}>
+                <option key={item.id_kemasan} value={item.id_kemasan.toString()}>
                   {item.nama_kemasan}
                 </option>
               ))}
