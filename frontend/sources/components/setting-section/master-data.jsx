@@ -107,7 +107,7 @@ function MasterData({
             {existingNamaProduk && existingNamaProduk.length > 0 ? (
               <ul>
                 {existingNamaProduk.map((item) => (
-                  <li key={item.id_nama_produk} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <li key={item.id_nama_produk} className="list-master">
                     <span>{item.nama_produk}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditNamaProduk(item)} />
@@ -148,7 +148,7 @@ function MasterData({
             {existingSize && existingSize.length > 0 ? (
               <ul>
                 {existingSize.map((item) => (
-                  <li key={item.id_ukuran_satuan} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <li key={item.id_ukuran_satuan} className="list-master">
                     <span>{item.nama_ukuran_satuan}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditSize(item)} />
@@ -189,7 +189,7 @@ function MasterData({
             {existingKemasan && existingKemasan.length > 0 ? (
               <ul>
                 {existingKemasan.map((item) => (
-                  <li key={item.id_kemasan} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <li key={item.id_kemasan} className="list-master">
                     <span>{item.nama_kemasan}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditKemasan(item)} />
@@ -230,7 +230,7 @@ function MasterData({
             {existingMetodePengiriman && existingMetodePengiriman.length > 0 ? (
               <ul>
                 {existingMetodePengiriman.map((item) => (
-                  <li key={item.id_metode_pengiriman} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <li key={item.id_metode_pengiriman} className="list-master">
                     <span>{item.nama_metode}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditMetode(item)} />
@@ -271,7 +271,7 @@ function MasterData({
             {existingStatusPengiriman && existingStatusPengiriman.length > 0 ? (
               <ul>
                 {existingStatusPengiriman.map((item) => (
-                  <li key={item.id_status} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <li key={item.id_status} className="list-master">
                     <span>{item.nama_status}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditStatus(item)} />

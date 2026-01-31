@@ -1,7 +1,5 @@
 import db from "../config/db.js";
 
-
-
 const MasterDataModel = {
   // Nama Produk
   getAllNamaProduk: async () => {
