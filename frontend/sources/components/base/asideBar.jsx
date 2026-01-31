@@ -6,13 +6,10 @@ import IconHome from "../../assets/icon/Vector-4.svg?react";
 import IconProduct from "../../assets/icon/Vector-7.svg?react";
 import IconSetting from "../../assets/icon/Vector-6.svg?react";
 import IconReport from "../../assets/icon/lsicon_report-filled.svg?react";
-import { useTranslation } from "../../contexts/localContext";
 
 function AsideBar({ user, onLogout }) {
-  const t = useTranslation();
-
   const handleLogout = () => {
-    if (window.confirm(t('logoutConfirm'))) {
+    if (window.confirm("Apakah Anda yakin ingin keluar?")) {
       if (onLogout) {
         onLogout();
       }
@@ -28,7 +25,7 @@ function AsideBar({ user, onLogout }) {
         <div className="nav">
           <div className="menu">
               <IconMenu className="icon whiteIcon" /> 
-              <p>{t('menu')}</p>
+              <p>MENU</p>
           </div>
           <div className="links">
             {/* Menu untuk Admin */}
@@ -36,22 +33,22 @@ function AsideBar({ user, onLogout }) {
               <>
                 <div>
                   <NavLink to="/dashboard" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconHome className="icon whiteIcon" /> {t('home')}
+                    <IconHome className="icon whiteIcon" /> Beranda
                   </NavLink>
                 </div>
                 <div>
                   <NavLink to="/product/inventory" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconProduct className="icon whiteIcon" /> {t('product')}
+                    <IconProduct className="icon whiteIcon" /> Produk
                   </NavLink>
                 </div>
                 <div>
                   <NavLink to="/laporan" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconReport className="icon whiteIcon" /> {t('report')}
+                    <IconReport className="icon whiteIcon" /> Laporan
                   </NavLink>
                 </div>
                 <div>
                   <NavLink to="/setting" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconSetting className="icon whiteIcon" /> {t('settings')}
+                    <IconSetting className="icon whiteIcon" /> Pengaturan
                   </NavLink>
                 </div>
               </>
@@ -61,12 +58,12 @@ function AsideBar({ user, onLogout }) {
               <>
                 <div>
                   <NavLink to="/dashboard-owner" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconHome className="icon whiteIcon" /> {t('home')}
+                    <IconHome className="icon whiteIcon" /> Beranda
                   </NavLink>
                 </div>
                 <div>
                   <NavLink to="/product/inventory" className={({ isActive }) => (isActive ? "active" : "")}>
-                    <IconProduct className="icon whiteIcon" /> {t('product')}
+                    <IconProduct className="icon whiteIcon" /> Produk
                   </NavLink>
                 </div>
               </>
@@ -78,10 +75,10 @@ function AsideBar({ user, onLogout }) {
         {/* Tombol Logout */}
         <div className="logout-section">
           <button className="logout-btn" onClick={handleLogout}>
-            {t('logout')}
+            Keluar
           </button>
         </div>
-        <p>{t('poweredBy')}</p>
+        <p>Powered by : PT. Rumah Seho Nusantara</p>
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?r
 import IconStatus from "../../assets/icon/fluent_status-12-regular.svg?react";
 import IconEdit from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconDelete from "../../assets/icon/material-symbols_delete.svg?react";
-import { useTranslation, useDynamicTranslation } from "../../contexts/localContext";
 
 function MasterData({ 
   existingSize, existingKemasan, existingNamaProduk, 
@@ -17,8 +16,6 @@ function MasterData({
   onEditMetode, onDeleteMetode,
   onEditStatus, onDeleteStatus
 }) {
-  const t = useTranslation();
-  const dynamicT = useDynamicTranslation();
   const [newSizeName, setNewSizeName] = useState("");
   const [newKemasanName, setNewKemasanName] = useState("");
   const [newNamaProdukName, setNewNamaProdukName] = useState("");
@@ -34,7 +31,7 @@ function MasterData({
   const handleAddSize = async (e) => {
     e.preventDefault();
     if (!newSizeName.trim()) {
-      alert(t('sizeEmpty'));
+      alert("Nama ukuran satuan tidak boleh kosong");
       return;
     }
     
@@ -47,7 +44,7 @@ function MasterData({
   const handleAddKemasan = async (e) => {
     e.preventDefault();
     if (!newKemasanName.trim()) {
-      alert(t('packagingEmpty'));
+      alert("Nama kemasan tidak boleh kosong");
       return;
     }
     
@@ -60,7 +57,7 @@ function MasterData({
   const handleAddNamaProduk = async (e) => {
     e.preventDefault();
     if (!newNamaProdukName.trim()) {
-      alert(t('productNameEmpty'));
+      alert("Nama produk tidak boleh kosong");
       return;
     }
     
@@ -73,7 +70,7 @@ function MasterData({
   const handleAddMetodePengiriman = async (e) => {
     e.preventDefault();
     if (!newMetodePengirimanName.trim()) {
-      alert(t('shippingMethodEmpty'));
+      alert("Metode pengiriman tidak boleh kosong");
       return;
     }
     
@@ -86,7 +83,7 @@ function MasterData({
   const handleAddStatusPengiriman = async (e) => {
     e.preventDefault();
     if (!newStatusPengirimanName.trim()) {
-      alert(t('shippingStatusEmpty'));
+      alert("Status pengiriman tidak boleh kosong");
       return;
     }
     
@@ -99,18 +96,18 @@ function MasterData({
   return (
     <div className="master-data">
       <div className="pengantar">
-        <h3>{t('masterDataSettings')}</h3>
+        <h3>Pengaturan Master Data</h3>
       </div>
       <div className="main-data-setting">
         {/* Nama Produk - hardcoded untuk saat ini */}
         <div className="nama-produk">
-          <p className="title"><IconBotol2 className="greenIcon" /><span>{t('productNameList')}</span></p>
-          <p>{t('productNameDesc')}</p>
+          <p className="title"><IconBotol2 className="greenIcon" /><span>Daftar Nama Produk</span></p>
+          <p>Silahkan klik "tambah produk" untuk nama produk baru.</p>
           <div className="list">
             {existingNamaProduk && existingNamaProduk.length > 0 ? (
               <ul>
                 {existingNamaProduk.map((item) => (
-                  <li key={item.id_nama_produk} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <li key={item.id_nama_produk} className="list-master">
                     <span>{item.nama_produk}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditNamaProduk(item)} />
@@ -120,14 +117,14 @@ function MasterData({
                 ))}
               </ul>
             ) : (
-              <p className="no-data">{t('noProductNames')}</p>
+              <p className="no-data">Belum ada daftar nama produk.</p>
             )}
           </div>
           <div className="inputan">
             <form onSubmit={handleAddNamaProduk}>
               <input 
                 type="text" 
-                placeholder={t('enterProductName')} 
+                placeholder="Masukkan nama produk" 
                 value={newNamaProdukName}
                 onChange={(e) => setNewNamaProdukName(e.target.value)}
                 disabled={isSubmittingNamaProduk}
@@ -137,7 +134,7 @@ function MasterData({
                 type="submit"
                 disabled={isSubmittingNamaProduk}
               >
-                {isSubmittingNamaProduk ? t('saving') : t('addProduct')}
+                {isSubmittingNamaProduk ? "Menyimpan..." : "Tambah Produk"}
               </button>
             </form>
           </div>
@@ -145,13 +142,13 @@ function MasterData({
 
         {/* Ukuran Satuan */}
         <div className="ukuran-satuan">
-          <p className="title"><IconBotol2 className="greenIcon" /><span>{t('sizeUnitList')}</span></p>
-          <p>{t('sizeUnitDesc')}</p>
+          <p className="title"><IconBotol2 className="greenIcon" /><span>Daftar Ukuran Satuan</span></p>
+          <p>Silahkan klik "tambah ukuran" untuk membuat ukuran baru.</p>
           <div className="list">
             {existingSize && existingSize.length > 0 ? (
               <ul>
                 {existingSize.map((item) => (
-                  <li key={item.id_ukuran_satuan} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <li key={item.id_ukuran_satuan} className="list-master">
                     <span>{item.nama_ukuran_satuan}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditSize(item)} />
@@ -161,14 +158,14 @@ function MasterData({
                 ))}
               </ul>
             ) : (
-              <p className="no-data">{t('noSizeUnits')}</p>
+              <p className="no-data">Belum ada daftar ukuran satuan.</p>
             )}
           </div>
           <div className="inputan">
             <form onSubmit={handleAddSize}>
               <input 
                 type="text" 
-                placeholder={t('enterSize')} 
+                placeholder="Misal: ml, kg, g" 
                 value={newSizeName}
                 onChange={(e) => setNewSizeName(e.target.value)}
                 disabled={isSubmittingSize}
@@ -178,7 +175,7 @@ function MasterData({
                 type="submit"
                 disabled={isSubmittingSize}
               >
-                {isSubmittingSize ? t('saving') : t('addSize')}
+                {isSubmittingSize ? "Menyimpan..." : "Tambah Ukuran"}
               </button>
             </form>
           </div>
@@ -186,13 +183,13 @@ function MasterData({
 
         {/* Jenis Kemasan */}
         <div className="jenis-kemasan">
-          <p className="title"><IconBotol2 className="greenIcon" /><span>{t('packagingTypeList')}</span></p>
-          <p>{t('packagingTypeDesc')}</p>
+          <p className="title"><IconBotol2 className="greenIcon" /><span>Daftar Jenis Kemasan</span></p>
+          <p>Silahkan klik "tambah kemasan" untuk jenis kemasan baru.</p>
           <div className="list">
             {existingKemasan && existingKemasan.length > 0 ? (
               <ul>
                 {existingKemasan.map((item) => (
-                  <li key={item.id_kemasan} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <li key={item.id_kemasan} className="list-master">
                     <span>{item.nama_kemasan}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditKemasan(item)} />
@@ -202,14 +199,14 @@ function MasterData({
                 ))}
               </ul>
             ) : (
-              <p className="no-data">{t('noPackagingTypes')}</p>
+              <p className="no-data">Belum ada daftar jenis kemasan.</p>
             )}
           </div>
           <div className="inputan">
             <form onSubmit={handleAddKemasan}>
               <input 
                 type="text" 
-                placeholder={t('enterPackaging')} 
+                placeholder="Misal: botol, pouch" 
                 value={newKemasanName}
                 onChange={(e) => setNewKemasanName(e.target.value)}
                 disabled={isSubmittingKemasan}
@@ -219,7 +216,7 @@ function MasterData({
                 type="submit"
                 disabled={isSubmittingKemasan}
               >
-                {isSubmittingKemasan ? t('saving') : t('addPackaging')}
+                {isSubmittingKemasan ? "Menyimpan..." : "Tambah Kemasan"}
               </button>
             </form>
           </div>
@@ -227,14 +224,14 @@ function MasterData({
 
         {/* Metode Pengiriman */}
         <div className="metode-pengiriman">
-          <p className="title"><IconDistribution className="greenIcon" /><span>{t('shippingMethodList')}</span></p>
-          <p>{t('shippingMethodDesc')}</p>
+          <p className="title"><IconDistribution className="greenIcon" /><span>Daftar Metode Pengiriman</span></p>
+          <p>Silahkan klik "tambah metode" untuk metode pengiriman baru.</p>
           <div className="list">
             {existingMetodePengiriman && existingMetodePengiriman.length > 0 ? (
               <ul>
                 {existingMetodePengiriman.map((item) => (
-                  <li key={item.id_metode_pengiriman} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>{dynamicT('shippingMethod', item.nama_metode)}</span>
+                  <li key={item.id_metode_pengiriman} className="list-master">
+                    <span>{item.nama_metode}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditMetode(item)} />
                       <IconDelete className="iconPointer redIcon" width="16" onClick={() => onDeleteMetode(item)} />
@@ -243,14 +240,14 @@ function MasterData({
                 ))}
               </ul>
             ) : (
-              <p className="no-data">{t('noShippingMethods')}</p>
+              <p className="no-data">Belum ada daftar metode pengiriman.</p>
             )}
           </div>
           <div className="inputan">
             <form onSubmit={handleAddMetodePengiriman}>
               <input 
                 type="text" 
-                placeholder={t('enterShippingMethod')} 
+                placeholder="Misal: ekspres, reguler" 
                 value={newMetodePengirimanName}
                 onChange={(e) => setNewMetodePengirimanName(e.target.value)}
                 disabled={isSubmittingMetodePengiriman}
@@ -260,7 +257,7 @@ function MasterData({
                 type="submit"
                 disabled={isSubmittingMetodePengiriman}
               >
-                {isSubmittingMetodePengiriman ? t('saving') : t('addMethod')}
+                {isSubmittingMetodePengiriman ? "Menyimpan..." : "Tambah Metode"}
               </button>
             </form>
           </div>
@@ -268,14 +265,14 @@ function MasterData({
 
         {/* Status Pengiriman */}
         <div className="status-pengiriman">
-          <p className="title"><IconStatus className="greenIcon" /><span>{t('shippingStatusList')}</span></p>
-          <p>{t('shippingStatusDesc')}</p>
+          <p className="title"><IconStatus className="greenIcon" /><span>Daftar Status Pengiriman</span></p>
+          <p>Silahkan klik "tambah status" untuk status pengiriman baru.</p>
           <div className="list">
             {existingStatusPengiriman && existingStatusPengiriman.length > 0 ? (
               <ul>
                 {existingStatusPengiriman.map((item) => (
-                  <li key={item.id_status} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>{dynamicT('shippingStatus', item.nama_status)}</span>
+                  <li key={item.id_status} className="list-master">
+                    <span>{item.nama_status}</span>
                     <div style={{ display: "flex", gap: "5px" }}>
                       <IconEdit className="iconPointer greenIcon" width="16" onClick={() => onEditStatus(item)} />
                       <IconDelete className="iconPointer redIcon" width="16" onClick={() => onDeleteStatus(item)} />
@@ -284,14 +281,14 @@ function MasterData({
                 ))}
               </ul>
             ) : (
-              <p className="no-data">{t('noShippingStatus')}</p>
+              <p className="no-data">Belum ada daftar status pengiriman.</p>
             )}
           </div>
           <div className="inputan">
             <form onSubmit={handleAddStatusPengiriman}>
               <input 
                 type="text" 
-                placeholder={t('enterShippingStatus')} 
+                placeholder="Misal: diproses, selesai" 
                 value={newStatusPengirimanName}
                 onChange={(e) => setNewStatusPengirimanName(e.target.value)}
                 disabled={isSubmittingStatusPengiriman}
@@ -301,7 +298,7 @@ function MasterData({
                 type="submit"
                 disabled={isSubmittingStatusPengiriman}
               >
-                {isSubmittingStatusPengiriman ? t('saving') : t('addStatus')}
+                {isSubmittingStatusPengiriman ? "Menyimpan..." : "Tambah Status"}
               </button>
             </form>
           </div>

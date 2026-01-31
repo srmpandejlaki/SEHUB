@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import IconEditProduct from "../../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../../assets/icon/material-symbols_cancel.svg?react";
-import {
-  fetchInventoryForAdjustment,
-  createAdjustment
-} from "../../../utilities/api/stock-adjustment";
+import { fetchInventoryForAdjustment, createAdjustment } from "../../../utilities/api/stock-adjustment";
 
 function FormStockAdjustment({ onCloseForm, onSuccess }) {
   const [products, setProducts] = useState([]);

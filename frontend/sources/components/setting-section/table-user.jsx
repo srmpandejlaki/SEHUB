@@ -1,21 +1,18 @@
 import React from "react";
 import TdUser from "../../view/templates/user";
-import { useTranslation } from "../../contexts/localContext";
 
 function TableUser({ views, editData, notifDelete }) {
-  const t = useTranslation();
-
   return (
     <div className="table-user">
       <table>
         <thead>
           <tr>
             <th>No.</th>
-            <th>{t('username')}</th>
+            <th>Nama Pengguna</th>
             <th>Email</th>
-            <th>{t('position')}</th>
-            <th>{t('status')}</th>
-            <th></th>
+            <th>Jabatan</th>
+            <th>Status</th>
+            <th>Kata Sandi</th>
             <th></th>
           </tr>
         </thead>
@@ -23,7 +20,7 @@ function TableUser({ views, editData, notifDelete }) {
         <tbody>
           {views.length === 0 ? (
             <tr>
-              <td colSpan="7" className="no-data">{t('noUserData')}</td>
+              <td colSpan="7" className="no-data">Belum ada pengguna.</td>
             </tr>
           ) : (
             views.map((item, index) => (
@@ -48,4 +45,3 @@ function TableUser({ views, editData, notifDelete }) {
 }
 
 export default TableUser;
-
