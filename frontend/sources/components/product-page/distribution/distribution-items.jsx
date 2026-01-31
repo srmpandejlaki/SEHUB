@@ -3,14 +3,12 @@ import TableDistribution from "./table-distribution";
 import FormEditDistribution from "./form-edit-distribution";
 import { fetchAllDistributions, updateDistributionStatus } from "../../../utilities/api/distribution";
 import { BASE_URL } from "../../../utilities";
-import { useTranslation } from "../../../contexts/localContext";
 
 function DistributionProduct({ searchQuery = "", reloadTrigger = 0, showActions = true }) {
   const [distributions, setDistributions] = useState([]);
   const [statusPengiriman, setStatusPengiriman] = useState([]);
   const [metodePengiriman, setMetodePengiriman] = useState([]);
   const [loading, setLoading] = useState(true);
-  const t = useTranslation();
 
   // Edit form state
   const [showFormEdit, setShowFormEdit] = useState(false);
@@ -111,7 +109,7 @@ function DistributionProduct({ searchQuery = "", reloadTrigger = 0, showActions 
   }, [searchQuery]);
 
   if (loading) {
-    return <p>{t('loading')}</p>;
+    return <p>Memuat data...</p>;
   }
 
   return(

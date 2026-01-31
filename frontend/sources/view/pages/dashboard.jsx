@@ -3,19 +3,21 @@ import DashboardTable from "../../components/dashboard-page/table-dashboard";
 import NotificationSide from "../../components/dashboard-page/notification-side";
 import ShortPanel from "../../components/dashboard-page/short-panel";
 import { fetchDashboardStatistics, fetchExpiringSoon, fetchPendingDistributions } from "../../utilities/api/dashboard";
-import { useTranslation, useLocalizedDate } from "../../contexts/localContext";
 
 function DashboardPage({ user }) {
   const [statistics, setStatistics] = useState(null);
   const [expiringProducts, setExpiringProducts] = useState([]);
   const [pendingDistributions, setPendingDistributions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const t = useTranslation();
-  const formatDate = useLocalizedDate();
 
   // Get current date formatted
   const getCurrentDate = () => {
-    return formatDate(new Date());
+    const now = new Date();
+    return now.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
   };
 
   useEffect(() => {
@@ -44,12 +46,12 @@ function DashboardPage({ user }) {
   return (
     <div className="content dashboard">
       <div className="opening">
-        <h3>{t('greeting')}, {user?.nama_pengguna || "Admin!"}!</h3>
+        <h3>Selamat Datang, {user?.nama_pengguna || "Admin!"}!</h3>
         <p>{getCurrentDate()}</p>
       </div>
       {loading ? (
         <div className="container-dashboard">
-          <p>{t('loadingDashboard')}...</p>
+          <p>Memuat data dashboard...</p>
         </div>
       ) : (
         <div className="container-dashboard">

@@ -5,7 +5,6 @@ import TableReturn from "../../components/product-page/return/table-return";
 import IconLaporan from "../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllReturns, deleteReturn } from "../../utilities/api/return";
 import { NavLink } from "react-router-dom";
-import { useTranslation } from "../../contexts/localContext";
 
 function ReturnPage({ isAdmin = true }) {
   const [returns, setReturns] = useState([]);
@@ -13,7 +12,6 @@ function ReturnPage({ isAdmin = true }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [damagedPage, setDamagedPage] = useState(1);
   const itemsPerPage = 10;
-  const t = useTranslation();
 
   useEffect(() => {
     loadData();
@@ -32,13 +30,13 @@ function ReturnPage({ isAdmin = true }) {
 
   const handleDelete = async (id_return) => {
     if (!isAdmin) return;
-    if (window.confirm(t('deleteConfirmReturn'))) {
+    if (window.confirm("Apakah Anda yakin ingin menghapus data return ini?")) {
       const result = await deleteReturn(id_return);
       if (result) {
-        alert(t('deleteReturnSuccess'));
+        alert("Data return berhasil dihapus");
         loadData();
       } else {
-        alert(t('deleteReturnFailed'));
+        alert("Gagal menghapus data return");
       }
     }
   };
@@ -72,9 +70,9 @@ function ReturnPage({ isAdmin = true }) {
         {/* Normal Returns Section */}
         <div className="return-section">
           <div className="header-product-page">
-            <p className="title">{t('returnListTitle')}</p>
+            <p className="title">Daftar Produk Retur</p>
             <p style={{ fontSize: '0.85rem', color: '#666' }}>
-              {t('returnListDesc')}
+              Produk yang dikembalikan sehingga masuk kembali ke stok gudang
             </p>
           </div>
           <div className="distribution-display return-display">
@@ -82,13 +80,13 @@ function ReturnPage({ isAdmin = true }) {
             {!isAdmin && (
               <div className="button">
                 <NavLink to="/laporan/return">
-                  <button className="base-btn black"> <IconLaporan className="icon" />{t('reportBtn')}</button>
+                  <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
                 </NavLink>
               </div>
             )}
           </div>
           {loading ? (
-            <p>{t('loading')}</p>
+            <p>Memuat data...</p>
           ) : (
             <TableReturn 
               data={normalPaginatedData}
@@ -104,16 +102,16 @@ function ReturnPage({ isAdmin = true }) {
         {/* Damaged Goods Section */}
         <div className="return-section damaged-section">
           <div className="header-product-page">
-            <p className="title" style={{ color: '#d32f2f' }}>{t('damagedListTitle')}</p>
+            <p className="title" style={{ color: '#d32f2f' }}>🚫 Daftar Produk Rusak</p>
             <p style={{ fontSize: '0.85rem', color: '#666' }}>
-              {t('damagedListDesc')}
+              Produk yang dikembalikan karena rusak (tidak ditambahkan ke stok gudang)
             </p>
           </div>
           <div className="distribution-display return-display">
             <SearchFilter />
           </div>
           {loading ? (
-            <p>{t('loading')}</p>
+            <p>Memuat data...</p>
           ) : damagedReturns.length === 0 ? (
             <div style={{ 
               padding: '1rem', 
@@ -122,7 +120,7 @@ function ReturnPage({ isAdmin = true }) {
               textAlign: 'center',
               color: '#666'
             }}>
-              {t('noDamagedData')}
+              Tidak ada data barang rusak
             </div>
           ) : (
             <TableReturn 

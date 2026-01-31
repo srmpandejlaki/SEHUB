@@ -2,7 +2,6 @@ import React from "react";
 import IconEdit from "../../../assets/icon/flowbite_edit-outline.svg?react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
-import { useTranslation, useDynamicTranslation, useLocalizedDate } from "../../../contexts/localContext";
 
 function TableDistribution({ 
   data = [], 
@@ -15,9 +14,16 @@ function TableDistribution({
   disableStatusSelect = false,
   showActions = true
 }) {
-  const t = useTranslation();
-  const td = useDynamicTranslation();
-  const formatDate = useLocalizedDate();
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('id-ID', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+  };
 
   const handleStatusChange = async (id_distribusi, newStatus) => {
     if (onStatusChange) {
@@ -64,14 +70,14 @@ function TableDistribution({
           <thead>
             <tr>
               <th className="center">No</th>
-              <th>{t('date')}</th>
-              <th className="center">{t('nameBuyer')}</th>
-              <th>{t('productCode')}</th>
-              <th>{t('productName')}</th>
-              <th className="center">{t('quantity')}</th>
-              <th className="center">{t('total')}</th>
-              <th>{t('shipmentMethod')}</th>
-              <th className="center">{t('shipmentStatus')}</th>
+              <th>Hari/Tanggal</th>
+              <th className="center">Nama Pemesan</th>
+              <th>Kode Produk</th>
+              <th>Produk</th>
+              <th className="center">Jumlah</th>
+              <th className="center">Total</th>
+              <th>Metode Pengiriman</th>
+              <th className="center">Status</th>
               {showActions && (
                 <th></th>
               )}
@@ -80,7 +86,7 @@ function TableDistribution({
           <tbody>
             {tableRows.length === 0 ? (
               <tr>
-                <td colSpan="11" className="center">{t('noDataDistribution')}</td>
+                <td colSpan="11" className="center">Tidak ada data distribusi</td>
               </tr>
             ) : (
               tableRows.map((row, index) => (
@@ -119,7 +125,7 @@ function TableDistribution({
                   {row.isFirstRow && (
                     <>
                       <td className="center" rowSpan={row.rowSpan}>{row.total}</td>
-                      <td rowSpan={row.rowSpan}>{td('shippingMethod', row.nama_metode) || "-"}</td>
+                      <td rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
                       {/* <td rowSpan={row.rowSpan}>{row.catatan_distribusi || "-"}</td> */}
                       <td rowSpan={row.rowSpan}>
                         <select 
@@ -130,7 +136,7 @@ function TableDistribution({
                         >
                           {statusPengiriman.map((status) => (
                             <option key={status.id_status} value={status.id_status}>
-                              {td('shippingStatus', status.nama_status)}
+                              {status.nama_status}
                             </option>
                           ))}
                         </select>
@@ -154,7 +160,7 @@ function TableDistribution({
       </div>
       <div className="pagination-display">
         <div className="pages-count">
-          <p>{t('pages')} {currentPage} {t('of')} {totalPages}</p>
+          <p>Halaman {currentPage} dari {totalPages}</p>
         </div>
         <div className="pagination">
           <div 
@@ -163,14 +169,14 @@ function TableDistribution({
             onClick={() => currentPage > 1 && onPageChange && onPageChange(currentPage - 1)}
           >
             <IconPanahKiri className="blackIcon"/>
-            <p>{t('previous')}</p>
+            <p>Sebelumnya</p>
           </div>
           <div 
             className="right"
             style={{ cursor: currentPage < totalPages ? 'pointer' : 'not-allowed', opacity: currentPage < totalPages ? 1 : 0.5 }}
             onClick={() => currentPage < totalPages && onPageChange && onPageChange(currentPage + 1)}
           >
-            <p>{t('next')}</p>
+            <p>Setelahnya</p>
             <IconPanahKanan className="blackIcon"/>
           </div>
         </div>

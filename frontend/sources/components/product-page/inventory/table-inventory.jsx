@@ -2,7 +2,6 @@ import React from "react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
 import TableInventoryItem from "../../../view/templates/table-inventory-item";
-import { useTranslation } from "../../../contexts/localContext";
 
 function TableInventory({ 
   existingData, 
@@ -12,8 +11,6 @@ function TableInventory({
   onPageChange,
   showActions = true
 }) {
-  const t = useTranslation();
-
   return(
     <div className="table-distribution">
       <div className="table-display">
@@ -21,18 +18,18 @@ function TableInventory({
           <thead>
               <tr>
                   <th className="center">No</th>
-                  <th>{t('date')}</th>
-                  <th>{t('product')}</th>
-                  <th className="center">{t('quantity')}</th>
-                  <th className="center">{t('expiredDate')}</th>
-                  <th>{t('note')}</th>
+                  <th>Hari/Tanggal</th>
+                  <th>Produk</th>
+                  <th className="center">Jumlah</th>
+                  <th className="center">Tanggal Kadaluwarsa</th>
+                  <th>Keterangan</th>
                   {showActions && <th></th>}
               </tr>
           </thead>
           <tbody>
             {existingData.length === 0 ? (
               <tr>
-                <td colSpan={showActions ? "7" : "6"} className="no-data">{t('noInventoryDataTable')}</td>
+                <td colSpan={showActions ? "7" : "6"} className="no-data">Belum ada data.</td>
               </tr>
             ) : (
               existingData.map((item, index) => (
@@ -53,7 +50,7 @@ function TableInventory({
       </div>
       <div className="pagination-display">
         <div className="pages-count">
-          <p>{t('pages')} {currentPage} {t('of')} {totalPages}</p>
+          <p>Halaman {currentPage} dari {totalPages}</p>
         </div>
         <div className="pagination">
           <div 
@@ -62,14 +59,14 @@ function TableInventory({
             onClick={() => currentPage > 1 && onPageChange && onPageChange(currentPage - 1)}
           >
             <IconPanahKiri className="blackIcon"/>
-            <p>{t('previous')}</p>
+            <p>Sebelumnya</p>
           </div>
           <div 
             className="right"
             style={{ cursor: currentPage < totalPages ? 'pointer' : 'not-allowed', opacity: currentPage < totalPages ? 1 : 0.5 }}
             onClick={() => currentPage < totalPages && onPageChange && onPageChange(currentPage + 1)}
           >
-            <p>{t('next')}</p>
+            <p>Setelahnya</p>
             <IconPanahKanan className="blackIcon"/>
           </div>
         </div>

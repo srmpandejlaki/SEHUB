@@ -1,6 +1,4 @@
 import React from "react";
-import { useTranslation } from "../../contexts/localContext";
-
 import {
   LineChart,
   Line,
@@ -13,19 +11,17 @@ import {
 } from "recharts";
 
 function DashboardChart({ monthlyData, products, selectedProduct, onProductChange }) {
-  const t = useTranslation();
-  
   return (
     <div className="dashboard-chart">
       <div className="chart-header">
-        <h4>{t('graphicDashboard')} - {monthlyData?.bulan || t('monthThis')}</h4>
+        <h4>Grafik Inventori & Distribusi - {monthlyData?.bulan || 'Bulan Ini'}</h4>
         <div className="chart-filter">
-          <label>{t('filterProduct')}:</label>
+          <label>Filter Produk:</label>
           <select 
             value={selectedProduct || ''} 
             onChange={(e) => onProductChange(e.target.value || null)}
           >
-            <option value="">{t('allProduct')}</option>
+            <option value="">Keseluruhan</option>
             {products?.map((product) => (
               <option key={product.id_produk} value={product.id_produk}>
                 {product.nama_produk} {product.ukuran_produk}{product.nama_ukuran_satuan}
@@ -36,7 +32,7 @@ function DashboardChart({ monthlyData, products, selectedProduct, onProductChang
       </div>
       
       {!monthlyData || !monthlyData.data || monthlyData.data.length === 0 ? (
-        <p className="no-data">{t('noData')}</p>
+        <p className="no-data">Tidak ada data untuk ditampilkan.</p>
       ) : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart
@@ -47,11 +43,11 @@ function DashboardChart({ monthlyData, products, selectedProduct, onProductChang
             <XAxis 
               dataKey="tanggal" 
               tick={{ fontSize: 12 }}
-              label={{ value: t('date'), position: 'bottom', offset: -5 }}
+              label={{ value: 'Tanggal', position: 'bottom', offset: -5 }}
             />
             <YAxis 
               tick={{ fontSize: 12 }}
-              label={{ value: t('quantity'), angle: -90, position: 'insideLeft' }}
+              label={{ value: 'Jumlah', angle: -90, position: 'insideLeft' }}
             />
             <Tooltip 
               contentStyle={{ 
@@ -59,12 +55,12 @@ function DashboardChart({ monthlyData, products, selectedProduct, onProductChang
                 border: '1px solid #ccc',
                 borderRadius: '8px'
               }}
-              formatter={(value, name) => [value, name === 'inventori' ? t('inventory') : t('distribution')]}
+              formatter={(value, name) => [value, name === 'inventori' ? 'Inventori' : 'Distribusi']}
               labelFormatter={(label) => `Tanggal ${label}`}
             />
             <Legend 
               wrapperStyle={{ paddingTop: '20px' }}
-              formatter={(value) => value === 'inventori' ? t('inventory') : t('distribution')}
+              formatter={(value) => value === 'inventori' ? 'Inventori' : 'Distribusi'}
             />
             <Line
               type="monotone"
