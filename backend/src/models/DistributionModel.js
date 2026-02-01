@@ -281,13 +281,49 @@ const DistributionModel = {
 
   delete: async (id_distribusi) => {
     try {
-      // Hapus detail dulu
+      // 1. Restore Stock from OLD Items (Reverse FEFO) before deleting them
+      const oldItems = await db.query(
+        `SELECT id_produk, jumlah_barang_distribusi FROM detail_distribusi WHERE id_distribusi = $1`,
+        [id_distribusi]
+      );
+
+      for (const item of oldItems.rows) {
+        let amountToRestore = item.jumlah_barang_distribusi;
+
+        // Find batches with missing stock (stok_sekarang < jumlah_barang_masuk)
+        // Fill earliest holes first (mirrors FEFO logic)
+        const candidateBatches = await db.query(
+          `SELECT id_detail_barang_masuk, jumlah_barang_masuk, stok_sekarang 
+           FROM detail_barang_masuk 
+           WHERE id_produk = $1 AND stok_sekarang < jumlah_barang_masuk
+           ORDER BY tanggal_expired ASC`,
+          [item.id_produk]
+        );
+
+        for (const batch of candidateBatches.rows) {
+          if (amountToRestore <= 0) break;
+
+          const deficit = batch.jumlah_barang_masuk - batch.stok_sekarang;
+          const restoreAmount = Math.min(amountToRestore, deficit);
+
+          await db.query(
+            `UPDATE detail_barang_masuk 
+             SET stok_sekarang = stok_sekarang + $1 
+             WHERE id_detail_barang_masuk = $2`,
+            [restoreAmount, batch.id_detail_barang_masuk]
+          );
+          
+          amountToRestore -= restoreAmount;
+        }
+      }
+
+      // 2. Hapus detail
       await db.query(
         `DELETE FROM detail_distribusi WHERE id_distribusi = $1`,
         [id_distribusi]
       );
 
-      // Hapus distribusi
+      // 3. Hapus distribusi
       const result = await db.query(
         `DELETE FROM distribusi WHERE id_distribusi = $1 RETURNING *`,
         [id_distribusi]

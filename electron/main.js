@@ -167,17 +167,22 @@ function createWindow() {
     show: false
   });
 
+  const indexPath = path.join(__dirname, '..', 'frontend', 'dist', 'index.html');
+  
   if (isDev) {
-    mainWindow.loadURL('http://localhost:5173');
+    mainWindow.loadURL('http://localhost:5173').catch((err) => {
+      console.log('Dev server not reachable, falling back to build files:', err.message);
+      if (fs.existsSync(indexPath)) {
+        mainWindow.loadFile(indexPath);
+      } else {
+        console.error('Frontend build not found at:', indexPath);
+      }
+    });
     mainWindow.webContents.openDevTools();
   } else {
-    const indexPath = path.join(__dirname, '..', 'frontend', 'dist', 'index.html');
     console.log('Loading frontend from:', indexPath);
     console.log('Frontend exists:', fs.existsSync(indexPath));
     mainWindow.loadFile(indexPath);
-    
-    // Open DevTools in production for debugging
-    // mainWindow.webContents.openDevTools();
   }
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {

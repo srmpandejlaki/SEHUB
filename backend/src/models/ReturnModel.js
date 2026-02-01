@@ -202,21 +202,77 @@ const ReturnModel = {
   // Delete return
   delete: async (id_return) => {
     try {
-      // Delete details first
+      // 1. Get return info and items before deleting
+      const returnData = await db.query(
+        "SELECT * FROM return_barang WHERE id_return = $1",
+        [id_return]
+      );
+      if (returnData.rows.length === 0) return null;
+
+      const isDamaged = returnData.rows[0].catatan_return && 
+                        returnData.rows[0].catatan_return.toLowerCase().trim() === "barang rusak";
+
+      const returnItems = await db.query(
+        "SELECT * FROM return_barang_detail WHERE id_return = $1",
+        [id_return]
+      );
+
+      // 2. If not damaged, attempt to remove associated inventory addition
+      if (!isDamaged && returnItems.rows.length > 0) {
+        // Find a candidate barang_masuk through the first item
+        const firstItem = returnItems.rows[0];
+        const distDetail = await db.query(
+          "SELECT id_produk FROM detail_distribusi WHERE id_detail_distribusi = $1",
+          [firstItem.id_detail_distribusi]
+        );
+
+        if (distDetail.rows.length > 0) {
+          const id_produk = distDetail.rows[0].id_produk;
+          
+          // Find the id_barang_masuk that matches
+          const candidate = await db.query(
+            `SELECT bm.id_barang_masuk 
+             FROM barang_masuk bm
+             JOIN detail_barang_masuk dbm ON bm.id_barang_masuk = dbm.id_barang_masuk
+             WHERE bm.tanggal_masuk = $1 
+               AND bm.catatan_barang_masuk = 'return barang'
+               AND dbm.id_produk = $2
+               AND dbm.jumlah_barang_masuk = $3
+             LIMIT 1`,
+            [returnData.rows[0].tanggal_return, id_produk, firstItem.jumlah_barang_return]
+          );
+
+          if (candidate.rows.length > 0) {
+            const id_barang_masuk = candidate.rows[0].id_barang_masuk;
+            
+            // Optional: check if anything from this entry has been used
+            const usedCheck = await db.query(
+              "SELECT COUNT(*) as count FROM detail_barang_masuk WHERE id_barang_masuk = $1 AND stok_sekarang < jumlah_barang_masuk",
+              [id_barang_masuk]
+            );
+
+            if (parseInt(usedCheck.rows[0].count) > 0) {
+              console.log(`WARNING: Deleting return ${id_return} but associated inventory ${id_barang_masuk} has been partially distributed. Stock counts might become inconsistent.`);
+            }
+
+            // Delete the inventory header (will cascade to details)
+            await db.query("DELETE FROM barang_masuk WHERE id_barang_masuk = $1", [id_barang_masuk]);
+            console.log(`-> Removed inventory entry ${id_barang_masuk} associated with return ${id_return}`);
+          }
+        }
+      }
+
+      // 3. Delete details
       await db.query(
         `DELETE FROM return_barang_detail WHERE id_return = $1`,
         [id_return]
       );
 
-      // Delete return
+      // 4. Delete return
       const result = await db.query(
         `DELETE FROM return_barang WHERE id_return = $1 RETURNING *`,
         [id_return]
       );
-
-      if (result.rows.length === 0) {
-        return null;
-      }
 
       return result.rows[0];
 

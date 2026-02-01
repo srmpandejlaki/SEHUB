@@ -109,3 +109,24 @@ export const fetchPendingDistributions = async () => {
     return [];
   }
 };
+
+// GET monthly summary
+export const fetchMonthlySummary = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}dashboard/monthly-summary`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      console.error("Gagal fetch monthly summary:", response.status);
+      return null;
+    }
+
+    const data = await response.json();
+    return data?.data || null;
+  } catch (error) {
+    console.error("Error fetchMonthlySummary:", error);
+    return null;
+  }
+};
