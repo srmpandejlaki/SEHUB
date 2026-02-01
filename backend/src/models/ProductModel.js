@@ -1,4 +1,4 @@
-import db from "../config/db.js";
+import db from "../config/db-sqlite.js";
 import getOrCreateProductCode from "../utils/generateId.js";
 
 const ProductModel = {
@@ -79,6 +79,9 @@ const ProductModel = {
     const result = await db.query(`
       SELECT 
         p.id_produk,
+        p.id_nama_produk,
+        p.id_ukuran_satuan,
+        p.id_kemasan,
         p.ukuran_produk,
         p.stok_minimum,
         p.path_gambar,

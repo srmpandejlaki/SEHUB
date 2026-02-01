@@ -1,4 +1,4 @@
-import db from "../config/db.js";
+import db from "../config/db-sqlite.js";
 
 const StockAdjustmentModel = {
   // Get all stock adjustments with details
@@ -107,8 +107,8 @@ const StockAdjustmentModel = {
   },
 
   // Get or create kondisi_stok
-  getOrCreateKondisiStok: async (client, nama_kondisi) => {
-    const existing = await client.query(
+  getOrCreateKondisiStok: async (nama_kondisi) => {
+    const existing = await db.query(
       `SELECT id_kondisi_stok FROM kondisi_stok WHERE nama_kondisi = $1`,
       [nama_kondisi]
     );
@@ -117,7 +117,7 @@ const StockAdjustmentModel = {
       return existing.rows[0].id_kondisi_stok;
     }
     
-    const result = await client.query(
+    const result = await db.query(
       `INSERT INTO kondisi_stok (nama_kondisi) VALUES ($1) RETURNING id_kondisi_stok`,
       [nama_kondisi]
     );
@@ -126,14 +126,11 @@ const StockAdjustmentModel = {
 
   // Create new stock adjustment (tanggal otomatis dari sistem)
   create: async (catatan_penyesuaian, items) => {
-    const client = await db.connect();
     const today = new Date().toISOString().split('T')[0];
 
     try {
-      await client.query("BEGIN");
-
       // 1. Insert penyesuaian_stok
-      const insertPs = await client.query(
+      const insertPs = await db.query(
         `INSERT INTO penyesuaian_stok (tanggal_penyesuaian, catatan_penyesuaian) 
          VALUES ($1, $2) RETURNING id_penyesuaian_stok`,
         [today, catatan_penyesuaian]
@@ -153,10 +150,10 @@ const StockAdjustmentModel = {
         if (selisih > 0) kondisi = "LEBIH";
         else if (selisih < 0) kondisi = "KURANG";
         
-        const id_kondisi_stok = await StockAdjustmentModel.getOrCreateKondisiStok(client, kondisi);
+        const id_kondisi_stok = await StockAdjustmentModel.getOrCreateKondisiStok(kondisi);
 
         // Insert detail
-        const result = await client.query(
+        const result = await db.query(
           `INSERT INTO penyesuaian_stok_detail 
            (id_penyesuaian_stok, id_produk, id_kondisi_stok, stok_gudang, stok_sistem)
            VALUES ($1, $2, $3, $4, $5)
@@ -167,7 +164,7 @@ const StockAdjustmentModel = {
         // Create inventory or distribution adjustment if needed
         if (selisih > 0) {
           // Stock di gudang lebih banyak - buat data barang masuk
-          const insertStock = await client.query(
+          const insertStock = await db.query(
             `INSERT INTO barang_masuk (tanggal_masuk, catatan_barang_masuk) 
              VALUES ($1, $2) RETURNING id_barang_masuk`,
             [today, 'penyesuaian stok gudang']
@@ -178,11 +175,11 @@ const StockAdjustmentModel = {
           defaultExpiry.setFullYear(defaultExpiry.getFullYear() + 1);
           const expiryDate = defaultExpiry.toISOString().split('T')[0];
 
-          await client.query(
+          await db.query(
             `INSERT INTO detail_barang_masuk 
              (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
-             VALUES ($1, $2, $3, $3, $4)`,
-            [insertStock.rows[0].id_barang_masuk, id_produk, selisih, expiryDate]
+             VALUES ($1, $2, $3, $4, $5)`,
+            [insertStock.rows[0].id_barang_masuk, id_produk, selisih, selisih, expiryDate]
           );
 
         } else if (selisih < 0) {
@@ -191,7 +188,7 @@ const StockAdjustmentModel = {
           let remainingToDeduct = amountToDeduct;
 
           // Get inventory items sorted by expiry date (FEFO - earliest first)
-          const inventoryItems = await client.query(
+          const inventoryItems = await db.query(
             `SELECT id_detail_barang_masuk, stok_sekarang, tanggal_expired
              FROM detail_barang_masuk
              WHERE id_produk = $1 AND stok_sekarang > 0
@@ -206,7 +203,7 @@ const StockAdjustmentModel = {
             const deductAmount = Math.min(currentStock, remainingToDeduct);
 
             // Update the inventory item
-            await client.query(
+            await db.query(
               `UPDATE detail_barang_masuk 
                SET stok_sekarang = stok_sekarang - $1
                WHERE id_detail_barang_masuk = $2`,
@@ -219,34 +216,37 @@ const StockAdjustmentModel = {
           }
 
           // Create distribution record for audit trail
-          const metodeRes = await client.query(`SELECT id_metode_pengiriman FROM metode_pengiriman LIMIT 1`);
-          const statusRes = await client.query(`SELECT id_status FROM status_pengiriman LIMIT 1`);
+          const metodeRes = await db.query(`SELECT id_metode_pengiriman FROM metode_pengiriman LIMIT 1`);
+          // Try to find status "Diterima" specifically (case-insensitive for robustness)
+          const statusRes = await db.query(`SELECT id_status FROM status_pengiriman WHERE UPPER(nama_status) = 'DITERIMA' LIMIT 1`);
 
           let id_metode = metodeRes.rows[0]?.id_metode_pengiriman;
           let id_status = statusRes.rows[0]?.id_status;
 
           if (!id_metode) {
-            const newMetode = await client.query(
+            const newMetode = await db.query(
               `INSERT INTO metode_pengiriman (nama_metode) VALUES ('Default') RETURNING id_metode_pengiriman`
             );
             id_metode = newMetode.rows[0].id_metode_pengiriman;
           }
 
           if (!id_status) {
-            const newStatus = await client.query(
+            // Specifically create "Diterima" if it doesn't exist
+            // Don't fallback to whatever status is first in the table
+            const newStatus = await db.query(
               `INSERT INTO status_pengiriman (nama_status) VALUES ('Diterima') RETURNING id_status`
             );
             id_status = newStatus.rows[0].id_status;
           }
 
-          const insertDist = await client.query(
+          const insertDist = await db.query(
             `INSERT INTO distribusi (tanggal_distribusi, nama_pemesan, id_metode_pengiriman, id_status, catatan_distribusi) 
              VALUES ($1, $2, $3, $4, $5) 
              RETURNING id_distribusi`,
             [today, 'Sistem - Penyesuaian Stok', id_metode, id_status, 'Penyesuaian Stok Gudang']
           );
 
-          await client.query(
+          await db.query(
             `INSERT INTO detail_distribusi (id_distribusi, id_produk, jumlah_barang_distribusi)
              VALUES ($1, $2, $3)`,
             [insertDist.rows[0].id_distribusi, id_produk, amountToDeduct]
@@ -256,8 +256,6 @@ const StockAdjustmentModel = {
         insertedItems.push(result.rows[0]);
       }
 
-      await client.query("COMMIT");
-
       return {
         id_penyesuaian_stok,
         tanggal_penyesuaian: today,
@@ -265,10 +263,8 @@ const StockAdjustmentModel = {
       };
 
     } catch (err) {
-      await client.query("ROLLBACK");
+      console.error('Error creating stock adjustment:', err);
       throw err;
-    } finally {
-      client.release();
     }
   }
 };

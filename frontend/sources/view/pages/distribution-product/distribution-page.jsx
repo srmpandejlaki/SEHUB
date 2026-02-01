@@ -8,6 +8,8 @@ import IconHistory from "../../../assets/icon/ri_file-history-line.svg?react";
 import IconTambah from "../../../assets/icon/mdi_add-bold.svg?react";
 import { checkInventoryExists } from "../../../utilities/api/inventory";
 import { BASE_URL } from "../../../utilities";
+import { useTranslation } from "../../../contexts/localContext";
+import { useToast } from "../../../contexts/toastContext";
 
 function DistributionPage({ isAdmin = true }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,6 +56,7 @@ function DistributionPage({ isAdmin = true }) {
   const handleOpenFormDis = () => {
     if (!isAdmin) return;
     if (!hasInventoryData) {
+      showToast(t('noInventoryData'), 'warning');
       alert("Tidak dapat membuat data distribusi. Silakan tambahkan data barang masuk terlebih dahulu di menu Inventori.");
       return;
     }

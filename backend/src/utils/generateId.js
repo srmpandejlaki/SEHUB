@@ -1,4 +1,4 @@
-import db from "../config/db.js";
+import db from "../config/db-sqlite.js";
 
 async function getOrCreateProductCode(id_nama_produk) {
   // 1. Cek apakah id_nama_produk sudah ada di tabel produk
@@ -16,7 +16,7 @@ async function getOrCreateProductCode(id_nama_produk) {
 
   // 2. Jika belum ada, cari kode tertinggi yang sudah dipakai
   const allProducts = await db.query(
-    "SELECT DISTINCT SUBSTRING(id_produk FROM 3 FOR 2) as code FROM produk WHERE id_produk LIKE 'LS%'"
+    "SELECT DISTINCT SUBSTR(id_produk, 3, 2) as code FROM produk WHERE id_produk LIKE 'LS%'"
   );
 
   if (allProducts.rows.length === 0) {

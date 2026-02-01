@@ -3,6 +3,8 @@ import IconEditProduct from "../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../assets/icon/material-symbols_cancel.svg?react";
 import { createProduct, updateProduct } from "../../utilities/api/products";
 import { fetchAllKemasan, fetchAllSize, fetchAllNamaProduk } from "../../utilities/api/master-data";
+import { useTranslation } from "../../contexts/localContext";
+import { useToast } from "../../contexts/toastContext";
 
 function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit = false }) {
   const [idNamaProduk, setIdNamaProduk] = useState("");
@@ -17,20 +19,22 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
   const [ukuranSatuanList, setUkuranSatuanList] = useState([]);
   const [kemasanList, setKemasanList] = useState([]);
 
+  const t = useTranslation();
+  const { showToast } = useToast();
+
   useEffect(() => {
     loadDataNamaProduk();
     loadDataSize();
     loadDataKemasan();
   }, []);
 
-  // Pre-fill form if editing
   useEffect(() => {
     if (isEdit && editData) {
-      setIdNamaProduk(editData.id_nama_produk || "");
-      setUkuranProduk(editData.ukuranProduk || "");
-      setIdUkuranSatuan(editData.id_ukuran_satuan || "");
-      setIdKemasan(editData.id_kemasan || "");
-      setMinimumStok(editData.stokMinimum || "");
+      setIdNamaProduk(editData.id_nama_produk?.toString() || "");
+      setUkuranProduk(editData.ukuranProduk?.toString() || "");
+      setIdUkuranSatuan(editData.id_ukuran_satuan?.toString() || "");
+      setIdKemasan(editData.id_kemasan?.toString() || "");
+      setMinimumStok(editData.minimumStock?.toString() ?? "");
       // Note: imageProduk stays empty unless user uploads new
     }
   }, [isEdit, editData]);
@@ -82,11 +86,11 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
     }
 
     if (result) {
-      alert(isEdit ? "Produk berhasil diperbarui!" : "Produk berhasil ditambahkan!");
+      showToast(isEdit ? "Produk berhasil diperbarui!" : "Produk berhasil ditambahkan!", 'success');
       closeFormProduct();
       if (reloadProducts) reloadProducts();
     } else {
-      alert(isEdit ? "Gagal memperbarui produk" : "Gagal menambahkan produk");
+      showToast(isEdit ? "Gagal memperbarui produk" : "Gagal menambahkan produk", 'error');
     }
   };
 
@@ -106,7 +110,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
           <select value={idNamaProduk} onChange={(e) => setIdNamaProduk(e.target.value)} required>
             <option value="">-- Pilih --</option>
             {namaProdukList.map((item) => (
-              <option key={item.id_nama_produk} value={item.id_nama_produk}>
+              <option key={item.id_nama_produk} value={item.id_nama_produk.toString()}>
                 {item.nama_produk}
               </option>
             ))}
@@ -130,7 +134,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
             <select value={idUkuranSatuan} onChange={(e) => setIdUkuranSatuan(e.target.value)} required>
               <option value="">-- Pilih --</option>
               {ukuranSatuanList.map((item) => (
-                <option key={item.id_ukuran_satuan} value={item.id_ukuran_satuan}>
+                <option key={item.id_ukuran_satuan} value={item.id_ukuran_satuan.toString()}>
                   {item.nama_ukuran_satuan}
                 </option>
               ))}
@@ -144,7 +148,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
             <select value={idKemasan} onChange={(e) => setIdKemasan(e.target.value)} required>
               <option value="">-- Pilih --</option>
               {kemasanList.map((item) => (
-                <option key={item.id_kemasan} value={item.id_kemasan}>
+                <option key={item.id_kemasan} value={item.id_kemasan.toString()}>
                   {item.nama_kemasan}
                 </option>
               ))}

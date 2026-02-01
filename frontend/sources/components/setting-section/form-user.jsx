@@ -7,13 +7,19 @@ import IconPassword from "../../assets/icon/mdi_password-outline.svg?react";
 import IconPosition from "../../assets/icon/icon-park-outline_user-positioning.svg?react";
 import IconStatus from "../../assets/icon/eos-icons_role-binding-outlined.svg?react";
 import { createUser, updateUser } from "../../utilities/api/user.js";
+import { useTranslation } from "../../contexts/localContext";
+import { useToast } from "../../contexts/toastContext";
+
+function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
+  const t = useTranslation();
+  const { showToast } = useToast();
 
 function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
   const [userName, setUserName] = useState(editData?.nama_pengguna || "");
   const [userEmail, setUserEmail] = useState(editData?.email || "");
   const [userJabatan, setUserJabatan] = useState(editData?.jabatan || "");
   const [userStatus, setUserStatus] = useState(
-    editData?.is_admin === true ? "admin" : editData?.is_admin === false ? "non-admin" : ""
+    !!editData?.is_admin ? "admin" : editData?.is_admin === false || editData?.is_admin === 0 ? "non-admin" : ""
   );
   const [userPassword, setUserPassword] = useState(editData?.kata_sandi || "");
 
@@ -21,6 +27,8 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
     e.preventDefault();
 
     if (!userName || !userEmail || !userPassword || !userJabatan || !userStatus) {
+      showToast(t('allFieldsRequired'), 'warning');
+      return;
       return alert("Semua field wajib diisi!");
     }
 
@@ -37,6 +45,7 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
     if (isEdit) {
       result = await updateUser(editData?.id_pengguna, payload);
       if (!editData?.id_pengguna) {
+        showToast(t('userIdNotFound'), 'error');
         alert("ID user tidak ditemukan!");
         return;
       }
@@ -46,11 +55,11 @@ function FormUser({ closeFormUser, reloadUsers, editData, isEdit }) {
     }
 
     if (result) {
-      alert(isEdit ? "User berhasil diperbarui!" : "User berhasil ditambahkan!");
+      showToast(isEdit ? t('userUpdatedSuccess') : t('userAddedSuccess'), 'success');
       reloadUsers();
       closeFormUser();
     } else {
-      alert(isEdit ? "Gagal memperbarui user" : "Gagal menambahkan user");
+      showToast(isEdit ? t('updateUserFailed') : t('addUserFailed'), 'error');
     }
   };
 

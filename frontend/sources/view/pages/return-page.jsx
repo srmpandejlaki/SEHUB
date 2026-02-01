@@ -5,6 +5,8 @@ import TableReturn from "../../components/product-page/return/table-return";
 import IconLaporan from "../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllReturns, deleteReturn } from "../../utilities/api/return";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "../../contexts/localContext";
+import { useToast } from "../../contexts/toastContext";
 
 function ReturnPage({ isAdmin = true }) {
   const [returns, setReturns] = useState([]);
@@ -12,6 +14,8 @@ function ReturnPage({ isAdmin = true }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [damagedPage, setDamagedPage] = useState(1);
   const itemsPerPage = 10;
+  const t = useTranslation();
+  const { showToast } = useToast();
 
   useEffect(() => {
     loadData();
@@ -33,6 +37,10 @@ function ReturnPage({ isAdmin = true }) {
     if (window.confirm("Apakah Anda yakin ingin menghapus data return ini?")) {
       const result = await deleteReturn(id_return);
       if (result) {
+        showToast(t('deleteReturnSuccess'), 'success');
+        loadData();
+      } else {
+        showToast(t('deleteReturnFailed'), 'error');
         alert("Data return berhasil dihapus");
         loadData();
       } else {

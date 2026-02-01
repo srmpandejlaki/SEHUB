@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import IconEditProduct from "../../../assets/icon/flowbite_edit-outline.svg?react";
 import IconCancel from "../../../assets/icon/material-symbols_cancel.svg?react";
+import {
+  fetchInventoryForAdjustment,
+  createAdjustment
+} from "../../../utilities/api/stock-adjustment";
+import { useToast } from "../../../contexts/toastContext";
 import { fetchInventoryForAdjustment, createAdjustment } from "../../../utilities/api/stock-adjustment";
 
 function FormStockAdjustment({ onCloseForm, onSuccess }) {
+  const { showToast } = useToast();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -110,7 +116,7 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
       .filter(Boolean);
 
     if (items.length === 0) {
-      alert("Mohon isi minimal satu data penyesuaian");
+      showToast("Mohon isi minimal satu data penyesuaian", 'warning');
       return;
     }
 
@@ -127,10 +133,10 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
     setIsSubmitting(false);
 
     if (result?.success) {
-      alert("Penyesuaian stok berhasil!");
+      showToast("Penyesuaian stok berhasil!", 'success');
       onSuccess?.();
     } else {
-      alert("Gagal menyimpan penyesuaian stok");
+      showToast("Gagal menyimpan penyesuaian stok", 'error');
     }
   };
 

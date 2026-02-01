@@ -11,6 +11,8 @@ import IconKeterangan from "../../../assets/icon/fluent_text-description-ltr-20-
 import IconDropDown from "../../../assets/icon/material-symbols_arrow-drop-down-rounded.svg?react";
 import { fetchProductsWithStock } from "../../../utilities/api/products";
 import { createDistribution } from "../../../utilities/api/distribution";
+import { useTranslation } from "../../../contexts/localContext";
+import { useToast } from "../../../contexts/toastContext";
 
 function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], statusPengiriman = [] }) {
   const [products, setProducts] = useState([]);
@@ -20,6 +22,9 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
   const [selectedStatus, setSelectedStatus] = useState("");
   const [catatan, setCatatan] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const t = useTranslation();
+  const { showToast } = useToast();
   
   // Product items state
   const [productItems, setProductItems] = useState([{ id_produk: "", jumlah: "" }]);
@@ -87,19 +92,19 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
 
     // Validasi
     if (!tanggalDistribusi || !namaPemesan || !selectedMetode || !selectedStatus) {
-      alert("Mohon lengkapi semua field yang wajib diisi");
+      showToast("Mohon lengkapi semua field yang wajib diisi", 'warning');
       return;
     }
 
     const validProducts = productItems.filter(item => item.id_produk && item.jumlah);
     if (validProducts.length === 0) {
-      alert("Mohon tambahkan minimal satu produk");
+      showToast("Mohon tambahkan minimal satu produk", 'warning');
       return;
     }
 
     // Check stock
     if (hasOverStockItems()) {
-      alert("Jumlah produk melebihi stok yang tersedia. Silakan periksa kembali.");
+      showToast("Jumlah produk melebihi stok yang tersedia. Silakan periksa kembali.", 'warning');
       return;
     }
 
@@ -122,11 +127,11 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
     setIsSubmitting(false);
 
     if (result) {
-      alert("Data distribusi berhasil disimpan!");
+      showToast("Data distribusi berhasil disimpan!", 'success');
       if (onSuccess) onSuccess();
       onCloseForm();
     } else {
-      alert("Gagal menyimpan data distribusi");
+      showToast("Gagal menyimpan data distribusi", 'error');
     }
   };
 

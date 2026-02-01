@@ -1,13 +1,13 @@
-import db from "../config/db.js";
+import db from "../config/db-sqlite.js";
 
 const DashboardModel = {
   // Get dashboard statistics
   getStatistics: async () => {
     // Count total products
-    const productCount = await db.query("SELECT COUNT(*) FROM produk");
+    const productCount = await db.query("SELECT COUNT(*) AS count FROM produk");
     
     // Count unique customers (nama_pemesan from distribusi)
-    const customerCount = await db.query("SELECT COUNT(DISTINCT nama_pemesan) FROM distribusi");
+    const customerCount = await db.query("SELECT COUNT(DISTINCT nama_pemesan) AS count FROM distribusi");
     
     // Get products with current stock (directly from detail_barang_masuk since FEFO modifies it)
     const productsWithStock = await db.query(`
@@ -52,13 +52,13 @@ const DashboardModel = {
         k.nama_kemasan,
         dbm.stok_sekarang as jumlah_barang_masuk,
         dbm.tanggal_expired,
-        (dbm.tanggal_expired - CURRENT_DATE) as days_until_expired
+        CAST(julianday(dbm.tanggal_expired) - julianday(date('now')) AS INTEGER) as days_until_expired
       FROM detail_barang_masuk dbm
       JOIN produk p ON dbm.id_produk = p.id_produk
       JOIN nama_produk n ON p.id_nama_produk = n.id_nama_produk
       LEFT JOIN ukuran_satuan us ON p.id_ukuran_satuan = us.id_ukuran_satuan
       LEFT JOIN kemasan k ON p.id_kemasan = k.id_kemasan
-      WHERE dbm.tanggal_expired <= CURRENT_DATE + CAST($1 AS INTEGER)
+      WHERE dbm.tanggal_expired <= date('now', '+' || $1 || ' days')
         AND dbm.stok_sekarang > 0
       ORDER BY dbm.tanggal_expired ASC
     `, [daysAhead]);

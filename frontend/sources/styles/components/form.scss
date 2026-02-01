@@ -31,7 +31,7 @@ label {
 }
 
 .form-product, .form-user {
-  width: 300px;
+  min-width: 300px;
 }
 
 .form-data-inventori {
@@ -61,6 +61,7 @@ label {
     grid-template-columns: 200px 100px;
     gap: 0.5rem;
     justify-content: center;
+    margin:0;
 
     p {
       font-size: 0.8rem;
@@ -126,9 +127,11 @@ label {
   border-radius: 8px;
   padding: 1rem;
   
-  /* Constrain container height */
-  max-height: 450px;
   overflow: hidden; /* Hide overflow of container, let children scroll */
+}
+
+.form-product, .form-data-distribution, .form-data-inventori {
+  max-height: 500px;
 }
 
 .form-header {

@@ -1,4 +1,4 @@
-import db from "../config/db.js";
+import db from "../config/db-sqlite.js";
 
 const ReturnModel = {
   // Get all returns with details
@@ -91,13 +91,9 @@ const ReturnModel = {
 
   // Create new return
   create: async (tanggal_return, catatan_return, items) => {
-    const client = await db.connect();
-
     try {
-      await client.query("BEGIN");
-
       // Insert return_barang
-      const insertReturn = await client.query(
+      const insertReturn = await db.query(
         `INSERT INTO return_barang (tanggal_return, catatan_return) 
          VALUES ($1, $2) RETURNING id_return`,
         [tanggal_return, catatan_return]
@@ -109,7 +105,7 @@ const ReturnModel = {
       const insertedItems = [];
 
       for (const item of items) {
-        const result = await client.query(
+        const result = await db.query(
           `INSERT INTO return_barang_detail (id_return, id_detail_distribusi, jumlah_barang_return)
            VALUES ($1, $2, $3)
            RETURNING *`,
@@ -119,7 +115,6 @@ const ReturnModel = {
       }
 
       // Check if this is NOT a damaged goods return
-      // If catatan_return is not "barang rusak", add items to inventory
       const isDamaged = catatan_return && catatan_return.toLowerCase().trim() === "barang rusak";
       console.log("=== RETURN BARANG DEBUG ===");
       console.log("catatan_return:", catatan_return);
@@ -130,7 +125,7 @@ const ReturnModel = {
         console.log("-> Creating barang_masuk entry for non-damaged return");
         
         // Create barang_masuk entry with "return barang" note
-        const insertInventory = await client.query(
+        const insertInventory = await db.query(
           `INSERT INTO barang_masuk (tanggal_masuk, catatan_barang_masuk) 
            VALUES ($1, $2) RETURNING id_barang_masuk`,
           [tanggal_return, "return barang"]
@@ -144,7 +139,7 @@ const ReturnModel = {
           console.log("-> Processing item:", item);
           
           // Get product id from detail_distribusi
-          const productInfo = await client.query(
+          const productInfo = await db.query(
             `SELECT id_produk FROM detail_distribusi WHERE id_detail_distribusi = $1`,
             [item.id_detail_distribusi]
           );
@@ -155,8 +150,7 @@ const ReturnModel = {
             console.log("-> id_produk:", id_produk);
             
             // Get the latest expiry date from existing inventory for this product
-            // If no inventory exists, use current date + 1 year as fallback
-            const expiryInfo = await client.query(
+            const expiryInfo = await db.query(
               `SELECT tanggal_expired FROM detail_barang_masuk 
                WHERE id_produk = $1 
                ORDER BY tanggal_expired DESC 
@@ -176,10 +170,10 @@ const ReturnModel = {
             }
             console.log("-> tanggal_expired:", tanggal_expired);
             
-            const insertResult = await client.query(
+            const insertResult = await db.query(
               `INSERT INTO detail_barang_masuk (id_barang_masuk, id_produk, jumlah_barang_masuk, stok_sekarang, tanggal_expired)
-               VALUES ($1, $2, $3, $3, $4) RETURNING *`,
-              [id_barang_masuk, id_produk, item.jumlah_barang_return, tanggal_expired]
+               VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+              [id_barang_masuk, id_produk, item.jumlah_barang_return, item.jumlah_barang_return, tanggal_expired]
             );
             console.log("-> Inserted detail_barang_masuk:", insertResult.rows[0]);
           } else {
@@ -191,8 +185,6 @@ const ReturnModel = {
       }
       console.log("=== END RETURN DEBUG ===");
 
-      await client.query("COMMIT");
-
       return {
         id_return,
         tanggal_return,
@@ -202,33 +194,25 @@ const ReturnModel = {
       };
 
     } catch (err) {
-      await client.query("ROLLBACK");
+      console.error('Error creating return:', err);
       throw err;
-    } finally {
-      client.release();
     }
   },
 
   // Delete return
   delete: async (id_return) => {
-    const client = await db.connect();
-
     try {
-      await client.query("BEGIN");
-
       // Delete details first
-      await client.query(
+      await db.query(
         `DELETE FROM return_barang_detail WHERE id_return = $1`,
         [id_return]
       );
 
       // Delete return
-      const result = await client.query(
+      const result = await db.query(
         `DELETE FROM return_barang WHERE id_return = $1 RETURNING *`,
         [id_return]
       );
-
-      await client.query("COMMIT");
 
       if (result.rows.length === 0) {
         return null;
@@ -237,10 +221,8 @@ const ReturnModel = {
       return result.rows[0];
 
     } catch (err) {
-      await client.query("ROLLBACK");
+      console.error('Error deleting return:', err);
       throw err;
-    } finally {
-      client.release();
     }
   },
 };

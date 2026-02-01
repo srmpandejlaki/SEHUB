@@ -15,12 +15,12 @@ function TdUser({ no, id_pengguna, nama_pengguna, email, jabatan, is_admin, kata
 
       <td>
         <div className="status-column">
-          {is_admin === true ? (
+          {!!is_admin ? (
             <IconAdmin className="icon greenIcon" />
           ) : (
             <IconOwner className="icon blueIcon" />
           )}
-          <p>{is_admin === true ? "Admin" : "Non-Admin"}</p>
+          <p>{!!is_admin ? t('admin') : t('nonAdmin')}</p>
         </div>
       </td>
 
