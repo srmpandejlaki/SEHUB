@@ -1,12 +1,17 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import IconInfoTable from "../../assets/icon/mdi_information-outline.svg?react";
-import { useTranslation, useDynamicTranslation, useLocalizedDate } from "../../contexts/localContext";
 
 function DashboardTable({ pendingDistributions = [] }) {
-  const t = useTranslation();
-  const td = useDynamicTranslation();
-  const formatDate = useLocalizedDate();
+  const formatDate = (dateString) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+  };
 
   const tableRows = [];
   pendingDistributions.forEach((dist, distIndex) => {
@@ -36,10 +41,10 @@ function DashboardTable({ pendingDistributions = [] }) {
       <div className="descTable">
         <div className="title-table">
           <IconInfoTable className="icon whiteIcon" />
-          <p>{t('infoDistributionProduct')}</p>
+          <p>Informasi Distribusi Produk</p>
         </div>
         <div className="btn-tbl-detail base-btn">
-          <Link to="/product/distribution" >{t('seeMore')}</Link>
+          <Link to="/product/distribution" >Selengkapnya</Link>
         </div>
       </div>
       <div className="table-dashboard">
@@ -47,18 +52,18 @@ function DashboardTable({ pendingDistributions = [] }) {
           <thead>
               <tr>
                   <th className="center">No</th>
-                  <th>{t('date')}</th>
-                  <th className="center">{t('nameBuyer')}</th>
-                  <th className="center">{t('product')}</th>
-                  <th className="center">{t('quantity')}</th>
-                  <th className="center">{t('method')}</th>
-                  <th className="center">{t('status')}</th>
+                  <th>Hari/Tanggal</th>
+                  <th className="center">Nama Pemesan</th>
+                  <th className="center">Produk</th>
+                  <th className="center">Jumlah</th>
+                  <th className="center">Metode</th>
+                  <th className="center">Status</th>
               </tr>
           </thead>
           <tbody>
             {tableRows.length === 0 ? (
               <tr>
-                <td colSpan="8" className="center">{t('noDataDistribution')}</td>
+                <td colSpan="8" className="center">Belum ada data distribusi</td>
               </tr>
             ) : (
               tableRows.map((row, index) => (
@@ -84,8 +89,8 @@ function DashboardTable({ pendingDistributions = [] }) {
                   <td className="center">{row.item?.jumlah || "-"}</td>
                   {row.isFirstRow && (
                     <>
-                      <td className="center" rowSpan={row.rowSpan}>{td('shippingMethod', row.nama_metode) || "-"}</td>
-                      <td rowSpan={row.rowSpan}>{td('shippingStatus', row.nama_status) || "-"}</td>
+                      <td className="center" rowSpan={row.rowSpan}>{row.nama_metode || "-"}</td>
+                      <td rowSpan={row.rowSpan}>{row.nama_status || "-"}</td>
                     </>
                   )}
                 </tr>

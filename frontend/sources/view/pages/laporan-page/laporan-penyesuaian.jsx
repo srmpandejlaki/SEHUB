@@ -2,11 +2,8 @@ import React, { useState, useEffect } from "react";
 import NavLaporan from "../../../components/base/nav-laporan";
 import { fetchReportProducts } from "../../../utilities/api/report";
 import { generatePDFReport } from "../../../utilities/pdf-generator";
-import { useTranslation, useLocalizedDateShort } from "../../../contexts/localContext";
 
 function LaporanPenyesuaian() {
-  const t = useTranslation();
-  const formatDate = useLocalizedDateShort();
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -55,6 +52,15 @@ function LaporanPenyesuaian() {
       setData([]);
     }
     setLoading(false);
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
+    });
   };
 
   // Filter data by date range
@@ -122,7 +128,7 @@ function LaporanPenyesuaian() {
     link.click();
   };
 
-  const downloadPDF = async () => {
+  const downloadPDF = () => {
     const columns = ["No", "Tanggal", "Kode", "Nama Produk", "Ukuran", "Kemasan", "Stok Sistem", "Stok Gudang", "Selisih", "Kondisi", "Catatan"];
     const tableData = filteredData.map((row, i) => [
       i + 1,
@@ -150,7 +156,7 @@ function LaporanPenyesuaian() {
       { label: "Total Selisih Lebih", value: `${recap.totalSelisihLebih} unit` }
     ];
 
-    await generatePDFReport({
+    generatePDFReport({
       title: "Laporan Penyesuaian Stok",
       dateRange: dateRangeStr,
       columns,
@@ -170,14 +176,14 @@ function LaporanPenyesuaian() {
       <NavLaporan />
       <div className="main-laporan">
         <div className="laporan-header">
-          <h3>{t('reportAdjustmentTitle')}</h3>
+          <h3>Laporan Penyesuaian Stok Gudang (Tidak Sesuai)</h3>
           <div className="laporan-actions">
             <select 
               value={selectedProduct} 
               onChange={(e) => setSelectedProduct(e.target.value)}
               className="filter-select"
             >
-              <option value="">{t('allProduct')}</option>
+              <option value="">Semua Produk</option>
               {products.map((p) => (
                 <option key={p.id_produk} value={p.id_produk}>
                   {p.id_produk} - {p.nama_produk}
@@ -185,10 +191,10 @@ function LaporanPenyesuaian() {
               ))}
             </select>
             <button className="btn-download" onClick={downloadCSV} style={{ marginRight: "10px" }}>
-              {t('downloadCSV')}
+              📄 Unduh CSV
             </button>
             <button className="btn-download" onClick={downloadPDF}>
-              {t('downloadPDF')}
+              📄 Unduh PDF
             </button>
           </div>
         </div>
@@ -196,7 +202,7 @@ function LaporanPenyesuaian() {
         <div className="date-range-filter">
           <div className="date-inputs">
             <label>
-              {t('dateFrom')}
+              Dari:
               <input 
                 type="date" 
                 value={startDate}
@@ -204,7 +210,7 @@ function LaporanPenyesuaian() {
               />
             </label>
             <label>
-              {t('dateTo')}
+              Sampai:
               <input 
                 type="date" 
                 value={endDate}
@@ -213,13 +219,13 @@ function LaporanPenyesuaian() {
             </label>
             {(startDate || endDate) && (
               <button className="btn-clear" onClick={clearDateFilter}>
-                {t('reset')}
+                ✕ Reset
               </button>
             )}
           </div>
           {(startDate || endDate) && (
             <span className="filter-info">
-              {t('showingData').replace('{filtered}', filteredData.length).replace('{total}', data.length)}
+              Menampilkan {filteredData.length} dari {data.length} data
             </span>
           )}
         </div>
@@ -227,44 +233,44 @@ function LaporanPenyesuaian() {
         {/* Recap Section */}
         <div className="recap-section">
           <div className="recap-item">
-            <span className="recap-label">{t('totalData')}</span>
+            <span className="recap-label">Total Data:</span>
             <span className="recap-value">{recap.totalData}</span>
           </div>
           <div className="recap-item kurang">
-            <span className="recap-label">{t('stockShort')}</span>
-            <span className="recap-value">{recap.totalKurang} {t('itemSuffix')} (-{recap.totalSelisihKurang} {t('unitSuffix')})</span>
+            <span className="recap-label">Stok Kurang:</span>
+            <span className="recap-value">{recap.totalKurang} item (-{recap.totalSelisihKurang} unit)</span>
           </div>
           <div className="recap-item lebih">
-            <span className="recap-label">{t('stockExcess')}</span>
-            <span className="recap-value">{recap.totalLebih} {t('itemSuffix')} (+{recap.totalSelisihLebih} {t('unitSuffix')})</span>
+            <span className="recap-label">Stok Lebih:</span>
+            <span className="recap-value">{recap.totalLebih} item (+{recap.totalSelisihLebih} unit)</span>
           </div>
         </div>
 
         <div className="laporan-table-container">
           {loading ? (
-            <p className="loading">{t('loading')}</p>
+            <p className="loading">Memuat data...</p>
           ) : (
             <>
               <table className="laporan-table">
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>{t('date')}</th>
-                    <th>{t('productCode')}</th>
-                    <th>{t('productName')}</th>
-                    <th>{t('size')}</th>
-                    <th>{t('packaging')}</th>
-                    <th>{t('systemStock')}</th>
-                    <th>{t('warehouseStock')}</th>
-                    <th>{t('difference')}</th>
-                    <th>{t('condition')}</th>
-                    <th>{t('note')}</th>
+                    <th>Tanggal</th>
+                    <th>Kode Produk</th>
+                    <th>Nama Produk</th>
+                    <th>Ukuran</th>
+                    <th>Kemasan</th>
+                    <th>Stok Sistem</th>
+                    <th>Stok Gudang</th>
+                    <th>Selisih</th>
+                    <th>Kondisi</th>
+                    <th>Catatan</th>
                   </tr>
                 </thead>
                 <tbody>
                   {paginatedData.length === 0 ? (
                     <tr>
-                      <td colSpan="11" className="no-data">{t('noMatchingData')}</td>
+                      <td colSpan="11" className="no-data">Tidak ada data tidak sesuai</td>
                     </tr>
                   ) : (
                     paginatedData.map((row, index) => {
@@ -292,13 +298,13 @@ function LaporanPenyesuaian() {
               </table>
               {totalPages > 1 && (
                 <div className="pagination">
-                  <span>{t('pages')} {currentPage} {t('of')} {totalPages} ({filteredData.length} data)</span>
+                  <span>Halaman {currentPage} dari {totalPages} ({filteredData.length} data)</span>
                   <div className="pagination-buttons">
                     <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>
-                      {t('previous')}
+                      Sebelumnya
                     </button>
                     <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>
-                      {t('next')}
+                      Selanjutnya
                     </button>
                   </div>
                 </div>

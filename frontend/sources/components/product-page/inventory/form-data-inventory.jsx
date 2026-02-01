@@ -138,13 +138,13 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
-          <p>{isEdit ? t("formEditInventory") : t("formInventory")}</p>
+          <p>{isEdit ? "Edit Data Barang Masuk" : "Tambah Data Barang Masuk"}</p>
         </div>
         <IconCancel className="icon" onClick={onCloseForm} />
       </div>
       <form className="main-form" onSubmit={handleSubmit}>
         <div className="inputan">
-          <label><IconKalender className="greenIcon" /> {t('date')}</label>
+          <label><IconKalender className="greenIcon" /> Hari/Tanggal Masuk</label>
           <input 
             type="date" 
             value={tanggalMasuk}
@@ -157,7 +157,7 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
         <div className="product-item-row" key={index}>
           <div className="inputan">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <label><IconBotol1 className="greenIcon" /> {t('productName')}</label>
+              <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
               {productItems.length > 1 && (
                 <div className="iconPointer" onClick={() => removeProductItem(index)}>
                   <IconCancel className="redIcon" width="18" />
@@ -169,7 +169,7 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
               onChange={(e) => updateProductItem(index, "id_produk", e.target.value)}
               required
             >
-              <option value="">-- {t('chooseProduct')} --</option>
+              <option value="">-- Pilih Produk --</option>
               {getAvailableProducts(index).map((product) => (
                 <option key={product.id_produk} value={product.id_produk}>
                   {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan}
@@ -187,7 +187,7 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
           </div>
           <div className="double-form">
             <div className="inputan-double">
-              <label className="longText"><IconExpiredDate className="greenIcon" /> {t('expiredDate')}</label>
+              <label><IconExpiredDate className="greenIcon" /> Expired Date</label>
               <input 
                 type="date" 
                 value={item.tanggal_expired}
@@ -196,7 +196,7 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
               />
             </div>
             <div className="inputan">
-              <label><IconBotol2 className="greenIcon" /> {t('quantity')}</label>
+              <label><IconBotol2 className="greenIcon" /> Jumlah</label>
               <input 
                 type="number" 
                 placeholder="0" 
@@ -211,13 +211,13 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
         </div>
         ))}
         
-        <p className="add-product-link" onClick={handleAddProduct}>+ {t('addProduct')}</p>
+        <p className="add-product-link" onClick={handleAddProduct}>+ Tambah Produk</p>
         
         <div className="inputan">
-          <label><IconKeterangan className="greenIcon" /> {t('note')}</label>
+          <label><IconKeterangan className="greenIcon" /> Keterangan</label>
           <input 
             type="text" 
-            placeholder={t('notesDesc')} 
+            placeholder="Ketik sesuatu (opsional)" 
             value={catatan}
             onChange={(e) => setCatatan(e.target.value)}
           />
@@ -228,7 +228,7 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
             className="base-btn green"
             disabled={isSubmitting}
           >
-            {isSubmitting ? t('saveDesc') : t('saveBtn')}
+            {isSubmitting ? "Menyimpan..." : "Simpan"}
           </button>
         </div>
       </form>

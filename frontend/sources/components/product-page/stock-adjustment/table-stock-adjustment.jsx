@@ -2,19 +2,22 @@ import React from "react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
 import IconDelete from "../../../assets/icon/material-symbols_delete.svg?react";
-import { useTranslation, useDynamicTranslation, useLocalizedDate } from "../../../contexts/localContext";
 
 function TableStockAdjustment({ 
   data = [], 
-  onDelete,
   currentPage = 1,
   totalPages = 1,
-  onPageChange,
-  showActions = true
+  onPageChange
 }) {
-  const t = useTranslation();
-  const dynamicT = useDynamicTranslation();
-  const formatDate = useLocalizedDate();
+  const formatDate = (dateString) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('id-ID', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+  };
 
   // Flatten data for table display
   const tableRows = [];
@@ -47,19 +50,19 @@ function TableStockAdjustment({
           <thead>
             <tr>
               <th className="center">No</th>
-              <th>{t('date')}</th>
-              <th>{t('product')}</th>
-              <th className="center">{t('systemStock')}</th>
-              <th className="center">{t('warehouseStock')}</th>
-              <th className="center">{t('difference')}</th>
-              <th>{t('condition')}</th>
-              <th className="center">{t('note')}</th>
+              <th>Tanggal</th>
+              <th>Produk</th>
+              <th className="center">Stok Sistem</th>
+              <th className="center">Stok Gudang</th>
+              <th className="center">Selisih</th>
+              <th>Kondisi</th>
+              <th className="center">Catatan</th>
             </tr>
           </thead>
           <tbody>
             {tableRows.length === 0 ? (
               <tr>
-                <td colSpan="9" className="center">{t('noStockAdjustmentData')}</td>
+                <td colSpan="9" className="center">Tidak ada data penyesuaian stok</td>
               </tr>
             ) : (
               tableRows.map((row, index) => {
@@ -93,7 +96,7 @@ function TableStockAdjustment({
                     </td>
                     <td>
                       <span className={`status-badge ${row.item?.nama_kondisi?.toLowerCase() || ''}`}>
-                        {dynamicT('condition', row.item?.nama_kondisi) || "-"}
+                        {row.item?.nama_kondisi || "-"}
                       </span>
                     </td>
                     {row.isFirstRow && (
@@ -110,7 +113,7 @@ function TableStockAdjustment({
       </div>
       <div className="pagination-display">
         <div className="pages-count">
-          <p>{t('pages')} {currentPage} {t('of')} {totalPages}</p>
+          <p>Halaman {currentPage} dari {totalPages}</p>
         </div>
         <div className="pagination">
           <div 
@@ -119,14 +122,14 @@ function TableStockAdjustment({
             onClick={() => currentPage > 1 && onPageChange && onPageChange(currentPage - 1)}
           >
             <IconPanahKiri className="blackIcon"/>
-            <p>{t('previous')}</p>
+            <p>Sebelumnya</p>
           </div>
           <div 
             className="right"
             style={{ cursor: currentPage < totalPages ? 'pointer' : 'not-allowed', opacity: currentPage < totalPages ? 1 : 0.5 }}
             onClick={() => currentPage < totalPages && onPageChange && onPageChange(currentPage + 1)}
           >
-            <p>{t('next')}</p>
+            <p>Setelahnya</p>
             <IconPanahKanan className="blackIcon"/>
           </div>
         </div>
@@ -136,4 +139,3 @@ function TableStockAdjustment({
 }
 
 export default TableStockAdjustment;
-
