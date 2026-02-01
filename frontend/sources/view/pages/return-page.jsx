@@ -34,17 +34,13 @@ function ReturnPage({ isAdmin = true }) {
 
   const handleDelete = async (id_return) => {
     if (!isAdmin) return;
-    if (window.confirm("Apakah Anda yakin ingin menghapus data return ini?")) {
+    if (window.confirm(t('deleteConfirmReturn'))) {
       const result = await deleteReturn(id_return);
       if (result) {
         showToast(t('deleteReturnSuccess'), 'success');
         loadData();
       } else {
         showToast(t('deleteReturnFailed'), 'error');
-        alert("Data return berhasil dihapus");
-        loadData();
-      } else {
-        alert("Gagal menghapus data return");
       }
     }
   };
@@ -78,9 +74,9 @@ function ReturnPage({ isAdmin = true }) {
         {/* Normal Returns Section */}
         <div className="return-section">
           <div className="header-product-page">
-            <p className="title">Daftar Produk Retur</p>
+            <p className="title">{t('returnListTitle')}</p>
             <p style={{ fontSize: '0.85rem', color: '#666' }}>
-              Produk yang dikembalikan sehingga masuk kembali ke stok gudang
+              {t('returnListDesc')}
             </p>
           </div>
           <div className="distribution-display return-display">
@@ -88,13 +84,13 @@ function ReturnPage({ isAdmin = true }) {
             {!isAdmin && (
               <div className="button">
                 <NavLink to="/laporan/return">
-                  <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                  <button className="base-btn black"> <IconLaporan className="icon" />{t('reportBtn')}</button>
                 </NavLink>
               </div>
             )}
           </div>
           {loading ? (
-            <p>Memuat data...</p>
+            <p>{t('loading')}</p>
           ) : (
             <TableReturn 
               data={normalPaginatedData}
@@ -110,16 +106,16 @@ function ReturnPage({ isAdmin = true }) {
         {/* Damaged Goods Section */}
         <div className="return-section damaged-section">
           <div className="header-product-page">
-            <p className="title" style={{ color: '#d32f2f' }}>🚫 Daftar Produk Rusak</p>
+            <p className="title" style={{ color: '#d32f2f' }}>{t('damagedListTitle')}</p>
             <p style={{ fontSize: '0.85rem', color: '#666' }}>
-              Produk yang dikembalikan karena rusak (tidak ditambahkan ke stok gudang)
+              {t('damagedListDesc')}
             </p>
           </div>
           <div className="distribution-display return-display">
             <SearchFilter />
           </div>
           {loading ? (
-            <p>Memuat data...</p>
+            <p>{t('loading')}</p>
           ) : damagedReturns.length === 0 ? (
             <div style={{ 
               padding: '1rem', 
@@ -128,7 +124,7 @@ function ReturnPage({ isAdmin = true }) {
               textAlign: 'center',
               color: '#666'
             }}>
-              Tidak ada data barang rusak
+              {t('noDamagedData')}
             </div>
           ) : (
             <TableReturn 

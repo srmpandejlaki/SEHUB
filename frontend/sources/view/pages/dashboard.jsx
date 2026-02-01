@@ -11,15 +11,12 @@ function DashboardPage({ user }) {
   const [pendingDistributions, setPendingDistributions] = useState([]);
   const [monthlySummary, setMonthlySummary] = useState(null);
   const [loading, setLoading] = useState(true);
+  const t = useTranslation();
+  const formatDate = useLocalizedDate();
 
   // Get current date formatted
   const getCurrentDate = () => {
-    const now = new Date();
-    return now.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
+    return formatDate(new Date());
   };
 
   useEffect(() => {
@@ -50,12 +47,12 @@ function DashboardPage({ user }) {
   return (
     <div className="content dashboard">
       <div className="opening">
-        <h3>Selamat Datang, {user?.nama_pengguna || "Admin!"}!</h3>
+        <h3>{t('greeting')}, {user?.nama_pengguna || "Admin!"}!</h3>
         <p>{getCurrentDate()}</p>
       </div>
       {loading ? (
         <div className="container-dashboard">
-          <p>Memuat data dashboard...</p>
+          <p>{t('loadingDashboard')}...</p>
         </div>
       ) : (
         <div className="container-dashboard">

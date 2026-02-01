@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import logoSehub from "../../assets/public/sehub.png";
 import coverLogin from "../../assets/public/cover-login.png";
 import { loginUser } from "../../utilities/api/user";
+import { useTranslation } from "../../contexts/localContext";
+import LanguageToggle from "../../components/base/LanguageToggle";
 
 function LoginPage({ onLoginSuccess }) {
   const [email, setEmail] = useState("");
@@ -10,12 +12,13 @@ function LoginPage({ onLoginSuccess }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const t = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!email || !password) {
-      setErrorMessage("Email dan password wajib diisi");
+      setErrorMessage(t('emailPasswordRequired'));
       return;
     }
 
@@ -52,9 +55,12 @@ function LoginPage({ onLoginSuccess }) {
         <img src={coverLogin} alt="Produk L' Arbre Seho" />
       </div>
       <div className="login-section">
+        <div className="login-lang-toggle">
+          <LanguageToggle />
+        </div>
         <div className="login-text">
           <img src={logoSehub} alt="Logo SEHUB" />
-          <h3 className="center-text">Aplikasi Pengelolaan Inventori dan Distribusi Produk L' Arbre Seho<br />PT. Rumah Seho Nusantara</h3>
+          <h3 className="center-text">{t('loginTitle')}<br />{t('loginSubtitle')}</h3>
         </div>
         <form className="login-form" onSubmit={handleSubmit}>
           {errorMessage && (
@@ -63,22 +69,22 @@ function LoginPage({ onLoginSuccess }) {
             </div>
           )}
           <div className="inputan">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('email')}</label>
             <input 
               type="email" 
               id="email"
-              placeholder="Masukkan email" 
+              placeholder={t('emailPlaceholder')} 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isLoading}
             />
           </div>
           <div className="inputan">
-            <label htmlFor="password">Kata Sandi</label>
+            <label htmlFor="password">{t('password')}</label>
             <input 
               type="password" 
               id="password"
-              placeholder="Masukkan kata sandi" 
+              placeholder={t('passwordPlaceholder')} 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
@@ -90,7 +96,7 @@ function LoginPage({ onLoginSuccess }) {
               className="login-btn"
               disabled={isLoading}
             >
-              <p>{isLoading ? "Memproses..." : "Masuk"}</p>
+              <p>{isLoading ? t('processing') : t('login')}</p>
             </button>
           </div>
         </form>

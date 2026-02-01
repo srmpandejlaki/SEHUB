@@ -8,7 +8,8 @@ import {
   fetchAllKemasan, createNewKemasan, updateKemasan, deleteKemasan,
   fetchAllNamaProduk, createNewNamaProduk, updateNamaProduk, deleteNamaProduk,
   fetchAllMetodePengiriman, createNewMetodePengiriman, updateMetodePengiriman, deleteMetodePengiriman,
-  fetchAllStatusPengiriman, createNewStatusPengiriman, updateStatusPengiriman, deleteStatusPengiriman
+  fetchAllStatusPengiriman, createNewStatusPengiriman, updateStatusPengiriman, deleteStatusPengiriman,
+  deleteAllData
 } from "../../utilities/api/master-data";
 import { useTranslation } from "../../contexts/localContext";
 import { useToast } from "../../contexts/toastContext";
@@ -16,8 +17,6 @@ import { useToast } from "../../contexts/toastContext";
 function SettingPage() {
   const t = useTranslation();
   const { showToast } = useToast();
-
-function SettingPage() {
   const [showFormUser, setFormUser] = useState(false);
   const [existingData, setExistingData] = useState([]);
   const [editData, setEditData] = useState(null);
@@ -30,6 +29,10 @@ function SettingPage() {
   const [existingNamaProduk, setExistingNamaProduk] = useState([]);
   const [existingMetodePengiriman, setExistingMetodePengiriman] = useState([]);
   const [existingStatusPengiriman, setExistingStatusPengiriman] = useState([]);
+  
+  // Delete all data state
+  const [showDeleteAllConfirm, setShowDeleteAllConfirm] = useState(false);
+  const [isDeletingAll, setIsDeletingAll] = useState(false);
 
   useEffect(() => {
     loadDataUsers();
@@ -348,10 +351,10 @@ function SettingPage() {
         {showNotifDelete && (
           <div className="overlay">
             <div className="notif-base notif-delete">
-              <p>Anda yakin<br/>ingin menghapus pengguna ini?</p>
+              <p>{t('deleteUserConfirm')}</p>
               <div className="buttons">
-                <button className="base-btn cancel" onClick={closeNotifDelete}>Batal</button>
-                <button className="base-btn red" onClick={() => handleDeleteUser(selectedDeleteId)}>Hapus</button>
+                <button className="base-btn cancel" onClick={closeNotifDelete}>{t('cancel')}</button>
+                <button className="base-btn red" onClick={() => handleDeleteUser(selectedDeleteId)}>{t('delete')}</button>
               </div>
             </div>
           </div>
@@ -387,6 +390,50 @@ function SettingPage() {
           onEditStatus={onEditStatus} onDeleteStatus={onDeleteStatus}
         />
       </div>
+
+      {/* Delete All Data Section */}
+      <div className="main-danger-zone" style={{ marginTop: '20px', padding: '20px', background: '#fff5f5', borderRadius: '8px', border: '1px solid #fed7d7' }}>
+        <h4 style={{ color: '#c53030', marginBottom: '10px' }}>{t('dangerZone') || 'Zona Bahaya'}</h4>
+        <p style={{ color: '#742a2a', marginBottom: '15px', fontSize: '14px' }}>
+          {t('deleteAllDataDesc') || 'Hapus semua data inventori, distribusi, return, dan penyesuaian stok. Data pengguna dan master data tidak akan dihapus.'}
+        </p>
+        <button 
+          className="base-btn red"
+          onClick={() => setShowDeleteAllConfirm(true)}
+          style={{ background: '#c53030', color: 'white', padding: '10px 20px', borderRadius: '6px', cursor: 'pointer' }}
+        >
+          {t('deleteAllData') || '🗑️ Hapus Semua Data'}
+        </button>
+      </div>
+
+      {/* Delete All Confirmation Modal */}
+      {showDeleteAllConfirm && (
+        <div className="overlay">
+          <div className="notif-base notif-delete" style={{ maxWidth: '400px', top: '165%', right: '42%' }}>
+            <h4 style={{ color: '#c53030', marginBottom: '10px' }}>{t('deleteAllConfirmTitle') || '⚠️ Konfirmasi Hapus Semua Data'}</h4>
+            <p style={{ marginBottom: '15px', fontSize: '14px' }}>
+              {t('deleteAllConfirmMessage') || 'Apakah Anda yakin ingin menghapus SEMUA data? Tindakan ini tidak dapat dibatalkan!'}
+            </p>
+            <div className="buttons">
+              <button 
+                className="base-btn cancel" 
+                onClick={() => setShowDeleteAllConfirm(false)}
+                disabled={isDeletingAll}
+              >
+                {t('cancel')}
+              </button>
+              <button 
+                className="base-btn red" 
+                onClick={handleDeleteAllData}
+                disabled={isDeletingAll}
+                style={{ background: '#c53030' }}
+              >
+                {isDeletingAll ? (t('deleting') || 'Menghapus...') : (t('deleteAll') || 'Hapus Semua')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

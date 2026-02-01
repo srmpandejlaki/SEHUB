@@ -1,21 +1,16 @@
 import React from "react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
+import { useTranslation, useLocalizedDate } from "../../../contexts/localContext";
+
 function TableReturn({ 
   data = [], 
   currentPage = 1,
   totalPages = 1,
-  onPageChange
+  onPageChange,
 }) {
-  const formatDate = (dateString) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('id-ID', { 
-      day: 'numeric', 
-      month: 'long', 
-      year: 'numeric' 
-    });
-  };
+  const t = useTranslation();
+  const formatDate = useLocalizedDate();
 
   // Flatten data for table display
   const tableRows = [];
@@ -54,18 +49,18 @@ function TableReturn({
           <thead>
             <tr>
               <th className="center">No</th>
-              <th>Tanggal Return</th>
-              <th>Produk</th>
-              <th className="center">Jumlah</th>
-              <th className="center">Total</th>
-              <th>Nama Pemesan (Distribusi)</th>
-              <th>Keterangan</th>
+              <th>{t('returnDate')}</th>
+              <th>{t('product')}</th>
+              <th className="center">{t('quantity')}</th>
+              <th className="center">{t('total')}</th>
+              <th>{t('buyerNameDistribution')}</th>
+              <th>{t('note')}</th>
             </tr>
           </thead>
           <tbody>
             {tableRows.length === 0 ? (
               <tr>
-                <td colSpan="8" className="center">Tidak ada data return</td>
+                <td colSpan="8" className="center">{t('noReturnData')}</td>
               </tr>
             ) : (
               tableRows.map((row, index) => (
@@ -112,7 +107,7 @@ function TableReturn({
       </div>
       <div className="pagination-display">
         <div className="pages-count">
-          <p>Halaman {currentPage} dari {totalPages}</p>
+          <p>{t('pages')} {currentPage} {t('of')} {totalPages}</p>
         </div>
         <div className="pagination">
           <div 
@@ -121,14 +116,14 @@ function TableReturn({
             onClick={() => currentPage > 1 && onPageChange && onPageChange(currentPage - 1)}
           >
             <IconPanahKiri className="blackIcon"/>
-            <p>Sebelumnya</p>
+            <p>{t('previous')}</p>
           </div>
           <div 
             className="right"
             style={{ cursor: currentPage < totalPages ? 'pointer' : 'not-allowed', opacity: currentPage < totalPages ? 1 : 0.5 }}
             onClick={() => currentPage < totalPages && onPageChange && onPageChange(currentPage + 1)}
           >
-            <p>Setelahnya</p>
+            <p>{t('next')}</p>
             <IconPanahKanan className="blackIcon"/>
           </div>
         </div>

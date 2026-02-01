@@ -365,3 +365,26 @@ export const deleteStatusPengiriman = async (id) => {
     return false;
   }
 };
+
+// ========== DELETE ALL DATA ==========
+export const deleteAllData = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}master/delete-all-data`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => null);
+      console.error("Delete all data failed:", err || response.statusText);
+      return { success: false, error: err?.error || "Failed to delete data" };
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error deleteAllData:", error);
+    return { success: false, error: error.message };
+  }
+};
+

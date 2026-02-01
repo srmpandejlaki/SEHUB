@@ -192,8 +192,8 @@ const DashboardModel = {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     
-    const startDate = `${firstDay.getFullYear()}-${String(firstDay.getMonth() + 1).padStart(2, '0')}-${String(firstDay.getDate()).padStart(2, '0')}`;
-    const endDate = `${lastDay.getFullYear()}-${String(lastDay.getMonth() + 1).padStart(2, '0')}-${String(lastDay.getDate()).padStart(2, '0')}`;
+    const startDate = firstDay.toISOString().split('T')[0];
+    const endDate = lastDay.toISOString().split('T')[0];
 
     // Build queries with optional product filter
     let inventoryQuery, distributionQuery;
@@ -288,8 +288,8 @@ const DashboardModel = {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     
-    const startDate = `${firstDay.getFullYear()}-${String(firstDay.getMonth() + 1).padStart(2, '0')}-${String(firstDay.getDate()).padStart(2, '0')}`;
-    const endDate = `${lastDay.getFullYear()}-${String(lastDay.getMonth() + 1).padStart(2, '0')}-${String(lastDay.getDate()).padStart(2, '0')}`;
+    const startDate = firstDay.toISOString().split('T')[0];
+    const endDate = lastDay.toISOString().split('T')[0];
 
     // Total incoming this month
     const incomingResult = await db.query(`

@@ -7,10 +7,13 @@ import IconLaporan from "../../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllDistributions, updateDistributionStatus } from "../../../utilities/api/distribution";
 import { BASE_URL } from "../../../utilities";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "../../../contexts/localContext";
 
 function DistributionHistoryPage({ isAdmin = true }) {
   const [showFormEdit, setShowFormEdit] = useState(false);
   const [editingData, setEditingData] = useState(null);
+
+  const t = useTranslation();
   
   // Data state
   const [distributions, setDistributions] = useState([]);
@@ -116,13 +119,13 @@ function DistributionHistoryPage({ isAdmin = true }) {
       <NavProduct />
       <div className="main-distribution">
         <div className="header-distribution-history">
-          <p>Riwayat Data Distribusi Produk</p>
+          <p>{t("distributionHistoryTitle")}</p>
           <div className="distribution-display">
-            <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari distribusi..." />
+            <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder={t("searchDistribution")} />
             {!isAdmin && (
               <div className="button">
                 <NavLink to="/laporan/distribusi">
-                  <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
+                  <button className="base-btn black"> <IconLaporan className="icon" />{t("reportBtn")}</button>
                 </NavLink>
               </div>
             )}
@@ -130,7 +133,7 @@ function DistributionHistoryPage({ isAdmin = true }) {
         </div>
         
         {loading ? (
-          <p>Memuat data...</p>
+          <p>{t('loading')}</p>
         ) : (
           <TableDistribution 
             data={paginatedData}

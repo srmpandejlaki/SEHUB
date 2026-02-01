@@ -89,8 +89,7 @@ const MasterDataSection = memo(({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!newStatusPengirimanName.trim()) {
-      alert("Status pengiriman tidak boleh kosong");
+    if (!newValue.trim()) {
       return;
     }
     setIsSubmitting(true);
@@ -160,7 +159,7 @@ function MasterData({
   return (
     <div className="master-data">
       <div className="pengantar">
-        <h3>Pengaturan Master Data</h3>
+        <h3>{t('masterDataSettings')}</h3>
       </div>
       <div className="main-data-setting">
         

@@ -1,5 +1,7 @@
 import db from "../config/db-sqlite.js";
 
+
+
 const MasterDataModel = {
   // Nama Produk
   getAllNamaProduk: async () => {
