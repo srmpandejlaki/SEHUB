@@ -4,8 +4,7 @@ import ProductItems from "../../components/product-page/product-items";
 import NavProduct from "../../components/base/nav-product";
 import { fetchAllProducts } from "../../utilities/api/products";
 
-function ProductPage({ isAdmin = true }) {
-  const [showFormProduct, setFormProduct] = useState(false);
+function ProductPage() {
   const [existingData, setExistingData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -38,20 +37,6 @@ function ProductPage({ isAdmin = true }) {
     } catch (error) {
       console.error("Gagal memuat data produk:", error);
     }
-  };
-
-  const reloadProducts = () => {
-    loadDataProducts();
-  };
-
-  const handleOpenFormProduct = () => {
-    if (!isAdmin) return;
-    setFormProduct(true);
-  };
-
-  const handleCloseFormProduct = () => {
-    setFormProduct(false);
-    loadDataProducts();
   };
 
   // Filter products by search query

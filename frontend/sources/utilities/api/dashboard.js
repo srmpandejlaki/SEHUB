@@ -110,7 +110,7 @@ export const fetchPendingDistributions = async () => {
   }
 };
 
-// GET monthly summary
+// GET monthly summary (total incoming and distribution this month)
 export const fetchMonthlySummary = async () => {
   try {
     const response = await fetch(`${BASE_URL}dashboard/monthly-summary`, {

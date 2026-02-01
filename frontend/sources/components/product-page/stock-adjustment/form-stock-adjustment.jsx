@@ -6,6 +6,7 @@ import {
   createAdjustment
 } from "../../../utilities/api/stock-adjustment";
 import { useToast } from "../../../contexts/toastContext";
+import { fetchInventoryForAdjustment, createAdjustment } from "../../../utilities/api/stock-adjustment";
 
 function FormStockAdjustment({ onCloseForm, onSuccess }) {
   const { showToast } = useToast();

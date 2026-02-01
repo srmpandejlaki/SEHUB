@@ -2,29 +2,26 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import IconInventoryProduct from "../../assets/icon/material-symbols_inventory.svg?react";
 import IconDistribution from "../../assets/icon/lsicon_distribution-filled.svg?react";
-import { useTranslation } from "../../contexts/localContext";
 
 function NavLaporan() {
-  const t = useTranslation();
-
   const menus = [
     {
-      label: t('reportInventory'),
+      label: "Laporan Inventori",
       path: "/laporan/inventori",
       icon: <IconInventoryProduct className="icon" />,
     },
     {
-      label: t('reportDistribution'),
+      label: "Laporan Distribusi",
       path: "/laporan/distribusi",
       icon: <IconDistribution className="icon" />,
     },
     {
-      label: t('reportReturn'),
+      label: "Laporan Return",
       path: "/laporan/return",
       icon: <IconDistribution className="icon" />,
     },
     {
-      label: t('reportStockAdjustment'),
+      label: "Laporan Penyesuaian Stok",
       path: "/laporan/penyesuaian",
       icon: <IconInventoryProduct className="icon" />,
     },
@@ -47,4 +44,3 @@ function NavLaporan() {
 }
 
 export default NavLaporan;
-

@@ -6,14 +6,11 @@ import FormDataInventory from "../../../components/product-page/inventory/form-d
 import IconLaporan from "../../../assets/icon/lsicon_report-outline.svg?react";
 import { fetchAllInventoryData } from "../../../utilities/api/inventory";
 import { NavLink } from "react-router-dom";
-import { useTranslation } from "../../../contexts/localContext";
 
 function InventoryHistoryPage({ isAdmin = true }) {
   const [existingData, setExistingData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  const t = useTranslation();
   
   // Edit state
   const [showFormEdit, setShowFormEdit] = useState(false);
@@ -101,13 +98,13 @@ function InventoryHistoryPage({ isAdmin = true }) {
       <NavProduct />
       <div className="main-distribution">
         <div className="header-distribution-history">
-          <p>{t('inventoryHistoryTitle')}</p>
+          <p>Riwayat Barang Masuk</p>
           <div className="distribution-display">
-            <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder={t('searchProduct')} />
+            <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
             {!isAdmin && (
               <div className="button">
                 <NavLink to="/laporan/inventori">
-                  <button className="base-btn black"> <IconLaporan className="icon" />{t('reportBtn')}</button>
+                  <button className="base-btn black"> <IconLaporan className="icon" />Laporan</button>
                 </NavLink>
               </div>
             )}
@@ -116,7 +113,7 @@ function InventoryHistoryPage({ isAdmin = true }) {
 
         {loading ? (
           <div className="loading-container" style={{ padding: "2rem", textAlign: "center", color: "#666" }}>
-            <p>{t('loadingInventory')}</p>
+            <p>Memuat data inventori...</p>
           </div>
         ) : error ? (
           <div className="error-container" style={{ padding: "2rem", textAlign: "center", color: "#dc2626" }}>
@@ -133,7 +130,7 @@ function InventoryHistoryPage({ isAdmin = true }) {
                 cursor: "pointer"
               }}
             >
-              {t('tryAgain')}
+              Coba Lagi
             </button>
           </div>
         ) : (
