@@ -48,8 +48,6 @@ const DashboardModel = {
         p.ukuran_produk,
         us.nama_ukuran_satuan,
         k.nama_kemasan,
-        us.nama_ukuran_satuan,
-        k.nama_kemasan,
         dbm.stok_sekarang as jumlah_barang_masuk,
         dbm.tanggal_expired,
         (dbm.tanggal_expired - CURRENT_DATE) as days_until_expired

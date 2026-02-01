@@ -216,13 +216,73 @@ const ReturnModel = {
     try {
       await client.query("BEGIN");
 
-      // Delete details first
+      // 1. Get return details to find associated barang_masuk
+      const returnItems = await client.query(
+        `SELECT rd.id_detail_distribusi, rd.jumlah_barang_return, r.tanggal_return 
+         FROM return_barang_detail rd
+         JOIN return_barang r ON rd.id_return = r.id_return
+         WHERE rd.id_return = $1`,
+        [id_return]
+      );
+
+      // 2. For each item, find and delete the corresponding detail_barang_masuk entry
+      // This only applies if it was a non-damaged return (which creates BM entry)
+      for (const item of returnItems.rows) {
+        // Find the product ID
+        const productInfo = await client.query(
+          `SELECT id_produk FROM detail_distribusi WHERE id_detail_distribusi = $1`,
+          [item.id_detail_distribusi]
+        );
+
+        if (productInfo.rows.length > 0) {
+          const { id_produk } = productInfo.rows[0];
+
+          // Find the detail_barang_masuk entry created for this return
+          // Match by id_produk, jumlah, and original return date
+          const bmToDelete = await client.query(
+            `SELECT dbm.id_barang_masuk, dbm.id_detail_barang_masuk 
+             FROM detail_barang_masuk dbm
+             JOIN barang_masuk bm ON dbm.id_barang_masuk = bm.id_barang_masuk
+             WHERE dbm.id_produk = $1 
+               AND dbm.jumlah_barang_masuk = $2 
+               AND bm.tanggal_masuk = $3
+               AND bm.catatan_barang_masuk = 'return barang'
+             LIMIT 1`,
+            [id_produk, item.jumlah_barang_return, item.tanggal_return]
+          );
+
+          if (bmToDelete.rows.length > 0) {
+            const { id_barang_masuk, id_detail_barang_masuk } = bmToDelete.rows[0];
+
+            // Delete detail
+            await client.query(
+              `DELETE FROM detail_barang_masuk WHERE id_detail_barang_masuk = $1`,
+              [id_detail_barang_masuk]
+            );
+
+            // Delete header if no other details remain
+            const otherDetails = await client.query(
+              `SELECT COUNT(*) FROM detail_barang_masuk WHERE id_barang_masuk = $1`,
+              [id_barang_masuk]
+            );
+
+            if (parseInt(otherDetails.rows[0].count) === 0) {
+              await client.query(
+                `DELETE FROM barang_masuk WHERE id_barang_masuk = $1`,
+                [id_barang_masuk]
+              );
+            }
+          }
+        }
+      }
+
+      // 3. Delete details first
       await client.query(
         `DELETE FROM return_barang_detail WHERE id_return = $1`,
         [id_return]
       );
 
-      // Delete return
+      // 4. Delete return
       const result = await client.query(
         `DELETE FROM return_barang WHERE id_return = $1 RETURNING *`,
         [id_return]
