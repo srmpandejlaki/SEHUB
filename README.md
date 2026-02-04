@@ -1,7 +1,10 @@
 # SEHUB+
 ### Aplikasi Pengelolaan Stok dan Distribusi Produk Gula Aren Berbasis Web
-
-<p>Aplikasi ini dibangun untuk membantu PT. Rumah Seho Nusantara dalam melakukan digitalisasi data dan pengelolaan stok dan distribusi produk L'Arbre Seho.</p><br/>
+<br/>
+<p align="center" >
+  <img src="frontend/sources/assets/Macbook-Air-localhost (1).png" width="600" />
+</p>
+<p align="center" >Aplikasi ini dibangun untuk membantu PT. Rumah Seho Nusantara dalam melakukan<br/>digitalisasi data dan pengelolaan stok dan distribusi produk L'Arbre Seho.</p><br/>
 
 ## ✨Fitur
 <p>
