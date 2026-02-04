@@ -3,28 +3,42 @@
 
 <p>Aplikasi ini dibangun untuk membantu PT. Rumah Seho Nusantara dalam melakukan digitalisasi data dan pengelolaan stok dan distribusi produk L'Arbre Seho.</p><br/>
 
-## Fitur
-<p>Aplikasi ini hanya digunakan dalam lingkup internal perusahaan sehingga hanya memiliki dua tipe pengguna, yaitu karyawan sebagai admin dan owner atau pemilik perusahaan.<br/>
-  Berikut ini merupakan yang dapat dilakukan oleh aplikasi SEHUB+.
+## ✨Fitur
+<p>
+  Aplikasi ini hanya digunakan dalam lingkup internal perusahaan dengan dua tipe pengguna, yaitu Admin dan Owner. <br/>Berikut ini merupakan yang dapat dilakukan oleh aplikasi 
+  SEHUB+.
 </p>
-<ol>
-  <li>Autentikasi Pengguna</li>
-  <li>Menghitung akumulasi jumlah produk, total barang masuk, total barang yang didistribusi, total barang yang dikembalikan, dan total dilakukannya penyesuaian stok gudang pada bulan berjalan.</li>
-  <li>Memberikan notifikasi terkait stok produk yang akan kadaluwarsa dalam waktu 30 hari kedepan.</li>
-  <li>Menampilkan jumlah stok setiap produk secara real-time.</li>
-  <li>Ketika ada data pengembalian barang:
-    <ul>
-      <li>Data yang memiliki catatan "barang rusak" akan tersimpan sebagai daftar barang rusak.</li>
-      <li>Diluar catatan "barang rusak" data akan tersimpan sebagai barang yang dikembalikan dan sistem secara otomatis menambah jumlah barang tersebut ke inventori produk.</li>
-    </ul>
-  </li>
-  <li>Saat melakukan penyesuaian stok gudang:
-    <ul>
-      <li>Membuat data barang masuk secara otomatis ketika jumlah stok gudang lebih banyak dari jumlah data pada aplikasi.</li>
-      <li>Membuat data distribusi barang secara otomatis ketika jumlah stok gudang lebih sedikit dari jumlah data pada aplikasi.</li>
-    </ul>
-  </li>
-  <li>Menghitung total barang masuk dan barang yang didistribusi per hari pada bulan berjalan untuk ditampilkan pada grafik.</li>
-  <li>Mengunduh laporan dengan format csv dan pdf.</li>
-  <li>Menggunakan dua bahasa, yaitu Bahasa Indonesia dan Bahasa Inggris.</li>
-</ol>
+🔐 Autentikasi pengguna (Admin & Owner) <br/>
+📦 Manajemen stok produk secara real-time <br/>
+🔄 Pencatatan barang masuk, distribusi, dan pengembalian <br/>
+⚖️ Penyesuaian stok gudang otomatis <br/>
+⏰ Notifikasi produk mendekati kadaluwarsa (30 hari) <br/>
+📊 Visualisasi data barang masuk & distribusi per bulan <br/>
+📄 Unduh laporan (CSV & PDF) <br/>
+🌐 Dukungan multi-bahasa (ID & EN) <br/><br/>
+
+## 🛠️Tech Stack
+****Frontend**** HTML   SCSS   React Vite <br/>
+Dependencies  jspdf  jspdf-autotable  react-toastify  recharts uuid 
+
+****Backend**** Express.Js <br/>
+
+****Database**** PostgreSQL <br/><br/>
+
+## ⚙️ Instalasi & Menjalankan Project
+1. Clone Repository<br/>
+   git clone https://github.com/srmpandejlaki/SEHUB.git
+2. Frontend Setup<br/>
+   cd frontend<br/>
+   npm install<br/>
+   npm run dev
+4. Backend Setup<br/>
+   cd backend<br/>
+   npm install<br/>
+   npm run start
+5. Database Setup<br/>
+   *pastikan postgre sudah terinstall di leptop/komputer<br/>
+   buat file .env di folder ...
+6. Running<br/>
+   -> path frontend : npm run dev<br/>
+   -> path backend : npm run start<br/>
