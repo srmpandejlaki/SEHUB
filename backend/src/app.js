@@ -19,9 +19,6 @@ import routerReport from './routes/ReportRoute.js';
 
 dotenv.config();
 
-// Initialize database tables
-initializeDatabase();
-
 const app = express();
 
 // untuk handle path absolut
@@ -47,9 +44,13 @@ app.use('/api/sehub/return', routerReturn);
 app.use('/api/sehub/stock-adjustment', routerStockAdjustment);
 app.use('/api/sehub/report', routerReport);
 
-// start server
-app.listen(process.env.PORT || 5000, () => {
-  console.log("Server berjalan di port", process.env.PORT || 5000);
-});
+// Initialize database and start server
+(async () => {
+  await initializeDatabase();
+  
+  app.listen(process.env.PORT || 5000, () => {
+    console.log("Server berjalan di port", process.env.PORT || 5000);
+  });
+})();
 
 
