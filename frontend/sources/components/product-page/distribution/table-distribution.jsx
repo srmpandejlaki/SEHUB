@@ -125,8 +125,8 @@ function TableDistribution({
                         <select 
                           value={row.id_status || ""}
                           onChange={(e) => handleStatusChange(row.id_distribusi, e.target.value)}
-                          disabled={disableStatusSelect}
-                          style={disableStatusSelect ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
+                          disabled={disableStatusSelect || row.is_adjustment}
+                          style={(disableStatusSelect || row.is_adjustment) ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
                         >
                           {statusPengiriman.map((status) => (
                             <option key={status.id_status} value={status.id_status}>
@@ -137,11 +137,13 @@ function TableDistribution({
                       </td>
                       {showActions && (
                       <td rowSpan={row.rowSpan}>
-                        <IconEdit 
-                          className="icon greenIcon" 
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => onEdit && onEdit(row)}
-                        />
+                        {!row.is_adjustment && (
+                          <IconEdit 
+                            className="icon greenIcon" 
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => onEdit && onEdit(row)}
+                          />
+                        )}
                       </td>
                       )}
                     </>

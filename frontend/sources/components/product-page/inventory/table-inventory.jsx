@@ -43,6 +43,7 @@ function TableInventory({
                   items={item.items}
                   id_barang_masuk={item.id_barang_masuk}
                   catatan={item.catatan_barang_masuk}
+                  isAdjustment={item.is_adjustment}
                   onEdit={onEdit}
                   showActions={showActions}
                 />

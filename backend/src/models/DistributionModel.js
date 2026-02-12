@@ -58,6 +58,7 @@ const DistributionModel = {
           id_status: row.id_status,
           nama_status: row.nama_status,
           catatan_distribusi: row.catatan_distribusi,
+          is_adjustment: row.nama_pemesan === 'Sistem - Penyesuaian Stok',
           items: []
         });
       }

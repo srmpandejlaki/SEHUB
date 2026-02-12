@@ -39,6 +39,7 @@ const InventoryModel = {
           id_barang_masuk: row.id_barang_masuk,
           tanggal_masuk: row.tanggal_masuk,
           catatan_barang_masuk: row.catatan_barang_masuk,
+          is_adjustment: row.catatan_barang_masuk === 'penyesuaian stok gudang',
           items: []
         });
       }
