@@ -1,16 +1,13 @@
 import React from "react";
 import IconPanahKiri from "../../../assets/icon/carbon_next-filled.svg?react";
 import IconPanahKanan from "../../../assets/icon/carbon_next-filled-right.svg?react";
-import IconDelete from "../../../assets/icon/material-symbols_delete.svg?react";
 import { useTranslation, useDynamicTranslation, useLocalizedDate } from "../../../contexts/localContext";
 
 function TableStockAdjustment({ 
   data = [], 
-  onDelete,
   currentPage = 1,
   totalPages = 1,
   onPageChange,
-  showActions = true
 }) {
   const t = useTranslation();
   const dynamicT = useDynamicTranslation();

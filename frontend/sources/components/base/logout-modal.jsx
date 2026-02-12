@@ -1,7 +1,10 @@
 import React from "react";
+import { useTranslation } from "../../contexts/localContext";
 
 function LogoutModal({ isOpen, onConfirm, onCancel, message, confirmText, cancelText }) {
   if (!isOpen) return null;
+
+  const t = useTranslation();
 
   return (
     <div className="logout-modal-overlay" onClick={onCancel}>
@@ -16,10 +19,10 @@ function LogoutModal({ isOpen, onConfirm, onCancel, message, confirmText, cancel
         <p className="logout-modal-message">{message}</p>
         <div className="logout-modal-buttons">
           <button className="logout-modal-btn cancel" onClick={onCancel}>
-            {cancelText || "Batal"}
+            {cancelText || t('cancel')}
           </button>
           <button className="logout-modal-btn confirm" onClick={onConfirm}>
-            {confirmText || "Ya, Keluar"}
+            {confirmText || t('yess')}
           </button>
         </div>
       </div>

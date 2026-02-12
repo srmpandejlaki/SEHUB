@@ -6,9 +6,12 @@ import {
   createAdjustment
 } from "../../../utilities/api/stock-adjustment";
 import { useToast } from "../../../contexts/toastContext";
+import { useTranslation } from "../../../contexts/localContext";
+import ConfirmationModal from "../../base/confirmation-modal";
 
 function FormStockAdjustment({ onCloseForm, onSuccess }) {
   const { showToast } = useToast();
+  const t = useTranslation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -99,7 +102,10 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
     return selisih.toString();
   };
 
-  const handleSubmit = async () => {
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [itemsToSubmit, setItemsToSubmit] = useState([]);
+
+  const handleSubmitClick = () => {
     const items = Object.keys(adjustmentData)
       .map(id_produk => {
         const data = adjustmentData[id_produk];
@@ -119,16 +125,14 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
       return;
     }
 
-    if (
-      !window.confirm(
-        `Akan dilakukan penyesuaian untuk ${items.length} produk. Lanjutkan?`
-      )
-    ) {
-      return;
-    }
+    setItemsToSubmit(items);
+    setShowConfirmModal(true);
+  };
 
+  const handleConfirmSubmit = async () => {
+    setShowConfirmModal(false);
     setIsSubmitting(true);
-    const result = await createAdjustment(catatan || null, items);
+    const result = await createAdjustment(catatan || null, itemsToSubmit);
     setIsSubmitting(false);
 
     if (result?.success) {
@@ -235,12 +239,22 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
       <div className="form-footer">
         <button
           className="base-btn green"
-          onClick={handleSubmit}
+          onClick={handleSubmitClick}
           disabled={isSubmitting || loading}
         >
-          {isSubmitting ? "Menyimpan..." : "Sesuaikan Sekarang"}
+          {isSubmitting ? t('saving') : "Sesuaikan Sekarang"}
         </button>
       </div>
+
+      {/* CONFIRMATION MODAL */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onConfirm={handleConfirmSubmit}
+        onCancel={() => setShowConfirmModal(false)}
+        title={t('adjustConfirmTitle')}
+        message={t('adjustConfirmMessage').replace('{count}', itemsToSubmit.length)}
+        confirmText={t('yesAdjust')}
+      />
     </div>
   );
 }

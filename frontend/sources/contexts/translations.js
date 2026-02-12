@@ -41,6 +41,8 @@ const translations = {
     of: "dari",
     previous: "Sebelumnya",
     next: "Selanjutnya",
+    cancel: "Batal",
+    yess: "Ya, Logout",
 
     //Dashboard
     greeting: "Selamat Datang",
@@ -146,6 +148,9 @@ const translations = {
     stockAdjustmentDesc: "Kelola dan sesuaikan stok produk di gudang",
     stockAdjustmentHistory: "Riwayat Penyesuaian Stok Gudang",
     startAdjustment: "+ Mulai Penyesuaian",
+    adjustConfirmTitle: "Konfirmasi Penyesuaian Stok",
+    adjustConfirmMessage: "Akan dilakukan penyesuaian untuk {count} produk. Lanjutkan?",
+    yesAdjust: "Ya, Sesuaikan",
     loadingInventory: "Memuat data inventori...",
     tryAgain: "Coba Lagi",
     fetchError: "Gagal mengambil data dari server.",
@@ -346,6 +351,8 @@ const translations = {
     of: "of",
     next: "Next",
     previous: "Previous",
+    cancel: "Cancel",
+    yess: "Yes, Logout",
 
     //Dashboard
     greeting: "Welcome",
@@ -452,6 +459,9 @@ const translations = {
     stockAdjustmentDesc: "Manage and adjust product stock in warehouse",
     stockAdjustmentHistory: "Stock Adjustment History",
     startAdjustment: "+ Start Adjustment",
+    adjustConfirmTitle: "Stock Adjustment Confirmation",
+    adjustConfirmMessage: "We will perform adjustment for {count} products. Continue?",
+    yesAdjust: "Yes, Adjust",
     loadingInventory: "Loading inventory data...",
     tryAgain: "Try Again",
     fetchError: "Failed to fetch data from server.",
