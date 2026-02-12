@@ -24,14 +24,20 @@
   grid-area: dashboard-table;
   // max-height: 300px;
 
-  .table-dashboard {
-    min-height: 320px;
-    max-height: 320px;
-  }
-
+  
   .title-table {
     color: custom.$color-primary;
   }
+}
+
+.table-dashboard {
+  min-height: 320px;
+  max-height: 320px;
+}
+
+.dashboard-owner .table-dashboard {
+  min-height: 130px;
+  max-height: 320px;
 }
 
 .notification-side {

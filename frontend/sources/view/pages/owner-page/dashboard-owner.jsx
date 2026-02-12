@@ -83,7 +83,7 @@ function DashboardOwner({ user }) {
           <p>{t('loadingDashboard')}</p>
         </div>
       ) : (
-        <div className="container-dashboard">
+        <div className="container-dashboard dashboard-owner">
           <DashboardChart 
             monthlyData={monthlyStats} 
             products={products}
