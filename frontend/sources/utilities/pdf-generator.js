@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import logoImage from "../assets/public/logo-rsn.jpg";
+import logoImage from "../assets/public/logo-larbreseho.png";
 
 // Company Information for Letterhead
 const COMPANY_INFO = {
