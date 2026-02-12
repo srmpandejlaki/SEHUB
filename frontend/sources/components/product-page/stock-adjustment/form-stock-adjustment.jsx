@@ -121,7 +121,7 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
       .filter(Boolean);
 
     if (items.length === 0) {
-      showToast("Mohon isi minimal satu data penyesuaian", 'warning');
+      showToast(t('fillOneAdjustment'), 'warning');
       return;
     }
 
@@ -136,10 +136,10 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
     setIsSubmitting(false);
 
     if (result?.success) {
-      showToast("Penyesuaian stok berhasil!", 'success');
+      showToast(t('successAdjustment'), 'success');
       onSuccess?.();
     } else {
-      showToast("Gagal menyimpan penyesuaian stok", 'error');
+      showToast(t('failedAdjustment'), 'error');
     }
   };
 
@@ -148,7 +148,7 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
-          <p>Penyesuaian Stok Gudang</p>
+          <p>{t('stockAdjustmentTitle')}</p>
         </div>
         <IconCancel
           className="icon"
@@ -177,18 +177,18 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
             <table className="adjustment-table">
               <thead>
                 <tr>
-                  <th className="center">Stok Sistem</th>
-                  <th className="center">Sesuai</th>
-                  <th>Jumlah di Gudang</th>
-                  <th>Alasan Tidak Sesuai</th>
-                  <th className="center">Stok Gudang</th>
+                  <th className="center">{t('systemStock')}</th>
+                  <th className="center">{t('satisfied')}</th>
+                  <th>{t('warehouseStockAmount')}</th>
+                  <th>{t('reasonForDiscrepancy')}</th>
+                  <th className="center">{t('warehouseStock')}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td className="center">
                     {adjustmentData[product.id_produk]?.stokSistem}{" "}
-                    botol
+                    {t('unit')}
                   </td>
                   <td className="center">
                     <input
@@ -225,12 +225,12 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
 
         {/* CATATAN */}
         <div className="catatan-section">
-          <label>Catatan Penyesuaian (opsional)</label>
+          <label>{t('adjustmentNote')}</label>
           <input
             type="text"
             value={catatan}
             onChange={e => setCatatan(e.target.value)}
-            placeholder="Masukkan catatan..."
+            placeholder={t('adjustPlaceholder')}
           />
         </div>
       </div>
@@ -242,7 +242,7 @@ function FormStockAdjustment({ onCloseForm, onSuccess }) {
           onClick={handleSubmitClick}
           disabled={isSubmitting || loading}
         >
-          {isSubmitting ? t('saving') : "Sesuaikan Sekarang"}
+          {isSubmitting ? t('saving') : t('adjustNow')}
         </button>
       </div>
 

@@ -75,14 +75,14 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
     
     // Validasi field umum
     if (!tanggalMasuk) {
-      showToast("Mohon lengkapi tanggal masuk", 'warning');
+      showToast(t('dateRequired'), 'warning');
       return;
     }
 
     // Validasi product items
     const validProducts = productItems.filter(item => item.id_produk && item.jumlah && item.tanggal_expired);
     if (validProducts.length === 0) {
-      showToast("Mohon tambahkan minimal satu produk dengan jumlah dan tanggal expired", 'warning');
+      showToast(t('minOneProductWithDate'), 'warning');
       return;
     }
 
@@ -108,11 +108,11 @@ function FormDataInventory({ onCloseForm, onSuccess, editData = null, isEdit = f
     setIsSubmitting(false);
 
     if (result) {
-      showToast(isEdit ? "Data inventori berhasil diperbarui!" : "Data inventori berhasil disimpan!", 'success');
+      showToast(isEdit ? t('updateSuccess') : t('addSuccess'), 'success');
       if (onSuccess) onSuccess();
       onCloseForm();
     } else {
-      showToast(isEdit ? "Gagal memperbarui data inventori" : "Gagal menyimpan data inventori", 'error');
+      showToast(isEdit ? t('updateFailed') : t('addFailed'), 'error');
     }
   };
 

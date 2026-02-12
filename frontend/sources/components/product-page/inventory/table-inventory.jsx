@@ -20,7 +20,7 @@ function TableInventory({
         <table>
           <thead>
               <tr>
-                  <th className="center">No</th>
+                  <th className="center">{t('no')}</th>
                   <th>{t('date')}</th>
                   <th>{t('product')}</th>
                   <th className="center">{t('quantity')}</th>

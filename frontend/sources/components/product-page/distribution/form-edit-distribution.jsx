@@ -13,6 +13,7 @@ import { fetchAllProducts } from "../../../utilities/api/products";
 import { updateDistribution } from "../../../utilities/api/distribution";
 import { createReturn, fetchReturnsByDistribution } from "../../../utilities/api/return";
 import { useToast } from "../../../contexts/toastContext";
+import { useTranslation, useDynamicTranslation } from "../../../contexts/localContext";
 
 function FormEditDistribution({ 
   onCloseForm, 
@@ -22,6 +23,8 @@ function FormEditDistribution({
   editData = null 
 }) {
   const { showToast } = useToast();
+  const t = useTranslation();
+  const td = useDynamicTranslation();
   const [products, setProducts] = useState([]);
   const [tanggalDistribusi, setTanggalDistribusi] = useState("");
   const [namaPemesan, setNamaPemesan] = useState("");
@@ -116,13 +119,13 @@ function FormEditDistribution({
     e.preventDefault();
 
     if (!tanggalDistribusi || !namaPemesan || !selectedMetode || !selectedStatus) {
-      showToast("Mohon lengkapi semua field yang wajib diisi", 'warning');
+      showToast(t('allFieldsRequired'), 'warning');
       return;
     }
 
     const validProducts = productItems.filter(item => item.id_produk && item.jumlah);
     if (validProducts.length === 0) {
-      showToast("Mohon tambahkan minimal satu produk", 'warning');
+      showToast(t('minOneProduct'), 'warning');
       return;
     }
 
@@ -145,11 +148,11 @@ function FormEditDistribution({
     setIsSubmitting(false);
 
     if (result) {
-      showToast("Data distribusi berhasil diperbarui!", 'success');
+      showToast(t('distributeSuccess'), 'success');
       if (onSuccess) onSuccess();
       onCloseForm();
     } else {
-      showToast("Gagal memperbarui data distribusi", 'error');
+      showToast(t('distributeFailed'), 'error');
     }
   };
 
@@ -185,7 +188,7 @@ function FormEditDistribution({
     e.preventDefault();
 
     if (!tanggalReturn) {
-      showToast("Tanggal return wajib diisi", 'warning');
+      showToast(t('dateReturnRequired'), 'warning');
       return;
     }
 
@@ -194,14 +197,14 @@ function FormEditDistribution({
     );
 
     if (selectedItems.length === 0) {
-      showToast("Pilih minimal satu produk dan isi jumlah return", 'warning');
+      showToast(t('minOneReturn'), 'warning');
       return;
     }
 
     // Validate return quantity
     for (const item of selectedItems) {
       if (item.jumlah_return > item.jumlah_distribusi) {
-        showToast(`Jumlah return untuk ${item.nama_produk} tidak boleh melebihi jumlah distribusi (${item.jumlah_distribusi})`, 'warning');
+        showToast(t('returnQtyError').replace('{name}', item.nama_produk).replace('{max}', item.jumlah_distribusi), 'warning');
         return;
       }
     }
@@ -222,11 +225,11 @@ function FormEditDistribution({
     setIsSubmittingReturn(false);
 
     if (result) {
-      showToast("Return barang berhasil dibuat!", 'success');
+      showToast(t('returnSuccess'), 'success');
       setShowReturnForm(false);
       loadExistingReturns();
     } else {
-      showToast("Gagal membuat return barang", 'error');
+      showToast(t('returnFailed'), 'error');
     }
   };
 
@@ -237,7 +240,7 @@ function FormEditDistribution({
       <div className="form-header">
         <div>
           <IconEditProduct className="icon darkGreenIcon" />
-          <p>Edit Data Distribusi</p>
+          <p>{t('formEditDistribution')}</p>
         </div>
         <IconCancel className="icon" onClick={onCloseForm} />
       </div>
@@ -247,12 +250,12 @@ function FormEditDistribution({
         <div className="return-form-overlay">
           <div className="return-form-container">
             <div className="form-header">
-              <p>Form Return Barang</p>
+              <p>{t('returnFormTitle')}</p>
               <IconCancel className="icon" onClick={handleCloseReturnForm} />
             </div>
             <form className="return-form" onSubmit={handleSubmitReturn}>
               <div className="inputan">
-                <label><IconKalender className="greenIcon" /> Tanggal Return</label>
+                <label><IconKalender className="greenIcon" /> {t('returnDate')}</label>
                 <input 
                   type="date" 
                   value={tanggalReturn}
@@ -262,7 +265,7 @@ function FormEditDistribution({
               </div>
               
               <div className="return-items-list">
-                <p className="label">Pilih Produk yang Direturn:</p>
+                <p className="label">{t('selectReturnedProduct')}</p>
                 {returnItems.map((item, index) => (
                   <div className="return-item" key={index}>
                     <label className="checkbox-container">
@@ -274,11 +277,11 @@ function FormEditDistribution({
                       <span className="product-name">
                         {item.nama_produk} {item.ukuran_produk}{item.nama_ukuran_satuan}
                       </span>
-                      <span className="original-qty">(Distribusi: {item.jumlah_distribusi})</span>
+                      <span className="original-qty">({t('distribution')}: {item.jumlah_distribusi})</span>
                     </label>
                     {item.selected && (
                       <div className="return-qty">
-                        <label>Jumlah Return:</label>
+                        <label>{t('returnAmount')}</label>
                         <input 
                           type="number"
                           min="1"
@@ -294,10 +297,10 @@ function FormEditDistribution({
               </div>
 
               <div className="inputan">
-                <label><IconKeterangan className="greenIcon" /> Catatan Return</label>
+                <label><IconKeterangan className="greenIcon" /> {t('returnNote')}</label>
                 <input 
                   type="text"
-                  placeholder="Alasan return (opsional)"
+                  placeholder={t('returnReasonPlaceholder')}
                   value={catatanReturn}
                   onChange={(e) => setCatatanReturn(e.target.value)}
                 />
@@ -309,7 +312,7 @@ function FormEditDistribution({
                   className="base-btn green"
                   disabled={isSubmittingReturn}
                 >
-                  {isSubmittingReturn ? "Menyimpan..." : "Simpan Return"}
+                  {isSubmittingReturn ? t('saving') : t('saveReturn')}
                 </button>
               </div>
             </form>
@@ -320,7 +323,7 @@ function FormEditDistribution({
       <form className="main-form" onSubmit={handleSubmit}>
         <div className="left-side">
           <div className="inputan">
-            <label><IconKalender className="greenIcon" /> Hari/Tanggal</label>
+            <label><IconKalender className="greenIcon" /> {t('date')}</label>
             <input 
               type="date" 
               value={tanggalDistribusi}
@@ -329,10 +332,10 @@ function FormEditDistribution({
             />
           </div>
           <div className="inputan">
-            <label><IconPerson className="greenIcon" /> Nama Pemesan</label>
+            <label><IconPerson className="greenIcon" /> {t('nameBuyer')}</label>
             <input 
               type="text" 
-              placeholder="Masukkan nama pemesan"
+              placeholder={t('buyerPlaceholder')}
               value={namaPemesan}
               onChange={(e) => setNamaPemesan(e.target.value)}
               required
@@ -345,10 +348,10 @@ function FormEditDistribution({
               onChange={(e) => setSelectedMetode(e.target.value)}
               required
             >
-              <option value="">-- Pilih Metode --</option>
+              <option value="">{t('selectMethod')}</option>
               {metodePengiriman.map((metode) => (
                 <option key={metode.id_metode_pengiriman} value={metode.id_metode_pengiriman}>
-                  {metode.nama_metode}
+                  {td('shippingMethod', metode.nama_metode)}
                 </option>
               ))}
             </select>
@@ -360,10 +363,10 @@ function FormEditDistribution({
               onChange={(e) => setSelectedStatus(e.target.value)}
               required
             >
-              <option value="">-- Pilih Status --</option>
+              <option value="">{t('selectStatus')}</option>
               {statusPengiriman.map((status) => (
                 <option key={status.id_status} value={status.id_status}>
-                  {status.nama_status}
+                  {td('shippingStatus', status.nama_status)}
                 </option>
               ))}
             </select>
@@ -372,11 +375,11 @@ function FormEditDistribution({
           {/* Existing Returns Display */}
           {existingReturns.length > 0 && (
             <div className="existing-returns">
-              <p className="label">Riwayat Return:</p>
+              <p className="label">{t('returnHistory')}</p>
               <ul>
                 {existingReturns.map((ret, idx) => (
                   <li key={idx}>
-                    {ret.nama_produk} - {ret.jumlah_barang_return} unit 
+                    {ret.nama_produk} - {ret.jumlah_barang_return} {t('unit')} 
                     ({new Date(ret.tanggal_return).toLocaleDateString("id-ID")})
                   </li>
                 ))}
@@ -390,7 +393,7 @@ function FormEditDistribution({
               <div className="double-form" key={index}>
                 <div className="inputan-double">
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <label><IconBotol1 className="greenIcon" /> Nama Produk</label>
+                    <label><IconBotol1 className="greenIcon" /> {t('productName')}</label>
                     {productItems.length > 1 && (
                       <div className="iconPointer" onClick={() => removeProductItem(index)}>
                         <IconCancel className="redIcon" width="18" />
@@ -402,7 +405,7 @@ function FormEditDistribution({
                     onChange={(e) => updateProductItem(index, "id_produk", e.target.value)}
                     required
                   >
-                    <option value="">-- Pilih Produk --</option>
+                    <option value="">{t('chooseProduct')}</option>
                     {getAvailableProducts(index).map((product) => (
                       <option key={product.id_produk} value={product.id_produk}>
                         {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan}
@@ -418,7 +421,7 @@ function FormEditDistribution({
                   </select>
                 </div>
                 <div className="inputan">
-                  <label><IconBotol2 className="greenIcon" /> Jumlah</label>
+                  <label><IconBotol2 className="greenIcon" /> {t('quantity')}</label>
                   <input 
                     type="number" 
                     placeholder="0" 
@@ -430,12 +433,12 @@ function FormEditDistribution({
                 </div>
               </div>
             ))}
-            <p className="add-product-link" onClick={addProductItem}>+ Tambah Produk</p>
+            <p className="add-product-link" onClick={addProductItem}>+ {t('addProduct')}</p>
             
             <div className="detail-product">
               <div className="detail-container">
                 <div className="head-detail">
-                  <p>Detail Produk</p>
+                  <p>{t('productDetail') || "Detail Produk"}</p>
                   <IconDropDown className="blackIcon" /> 
                 </div>
                 <div className="display-detail">
@@ -453,7 +456,7 @@ function FormEditDistribution({
                         );
                       })}
                       <tr className="total">
-                        <td className="text-end">Total</td>
+                        <td className="text-end">{t('total')}</td>
                         <td className="counting">{totalJumlah}</td>
                       </tr>
                     </tbody>
@@ -462,10 +465,10 @@ function FormEditDistribution({
               </div>
             </div>
             <div className="inputan">
-              <label><IconKeterangan className="greenIcon" /> Keterangan</label>
+              <label><IconKeterangan className="greenIcon" /> {t('note')}</label>
               <input 
                 type="text" 
-                placeholder="Ketik sesuatu (opsional)" 
+                placeholder={t('notesDesc')} 
                 value={catatan}
                 onChange={(e) => setCatatan(e.target.value)}
               />
@@ -477,14 +480,14 @@ function FormEditDistribution({
               className="base-btn orange"
               onClick={handleOpenReturnForm}
             >
-              Return Barang
+              {t('returnBtn')}
             </button>
             <button 
               type="submit" 
               className="base-btn green"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
+              {isSubmitting ? t('saving') : t('saveChanges')}
             </button>
           </div>
         </div>

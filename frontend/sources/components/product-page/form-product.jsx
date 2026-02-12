@@ -86,11 +86,11 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
     }
 
     if (result) {
-      showToast(isEdit ? "Produk berhasil diperbarui!" : "Produk berhasil ditambahkan!", 'success');
+      showToast(isEdit ? t('updateSuccess') : t('addSuccess'), 'success');
       closeFormProduct();
       if (reloadProducts) reloadProducts();
     } else {
-      showToast(isEdit ? "Gagal memperbarui produk" : "Gagal menambahkan produk", 'error');
+      showToast(isEdit ? t('updateFailed') : t('addFailed'), 'error');
     }
   };
 
@@ -119,7 +119,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
 
         <div className="double-form">
           <div className="inputan">
-            <label>Berat Barang</label>
+            <label>{t('weight')}</label>
             <input
               type="text"
               placeholder="0"
@@ -183,7 +183,7 @@ function FormProduct({ closeFormProduct, reloadProducts, editData = null, isEdit
 
         <div className="button">
           <button type="submit" className="base-btn green">
-            {isEdit ? "Perbarui" : t('saveBtn')}
+            {isEdit ? t('updateBtn') : t('saveBtn')}
           </button>
         </div>
       </form>

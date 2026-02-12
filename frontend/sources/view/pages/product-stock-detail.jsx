@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import NavProduct from "../../components/base/nav-product";
 import IconBack from "../../assets/icon/material-symbols_cancel.svg?react";
+import { useTranslation } from "../../contexts/localContext";
 
 function ProductStockDetail() {
+  const t = useTranslation();
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate(); // For back button
@@ -52,7 +54,7 @@ function ProductStockDetail() {
             style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", color: "#666" }}
           >
             <IconBack className="blackIcon" />
-            <span>Kembali</span>
+            <span>{t('back')}</span>
           </div>
         </div>
 
@@ -81,36 +83,36 @@ function ProductStockDetail() {
         </div>
 
         <div className="batches-table-container" style={{ background: "white", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 5px rgba(0,0,0,0.05)" }}>
-          <h3 style={{ marginBottom: "15px" }}>Riwayat Stok (Per Batch)</h3>
+          <h3 style={{ marginBottom: "15px" }}>{t('stockHistoryPerBatch')}</h3>
           
           {loading ? (
-             <p>Memuat data stok...</p>
+             <p>{t('loadingStockData')}</p>
           ) : (
             <table className="laporan-table" style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid #eee", textAlign: "left", height: "40px" }}>
                   <th style={{ padding: "10px" }}>No</th>
-                  <th style={{ padding: "10px" }}>Tanggal Masuk</th>
-                  <th style={{ padding: "10px" }}>Jumlah Awal</th>
-                  <th style={{ padding: "10px", color: "var(--primary)" }}>Stok Sekarang</th>
-                  <th style={{ padding: "10px" }}>Tanggal Kadaluwarsa</th>
-                  <th style={{ padding: "10px" }}>Status</th>
+                  <th style={{ padding: "10px" }}>{t('date')}</th>
+                  <th style={{ padding: "10px" }}>{t('initialAmount')}</th>
+                  <th style={{ padding: "10px", color: "var(--primary)" }}>{t('stockNow')}</th>
+                  <th style={{ padding: "10px" }}>{t('expiredDate')}</th>
+                  <th style={{ padding: "10px" }}>{t('status')}</th>
                 </tr>
               </thead>
               <tbody>
                 {batches.length === 0 ? (
                   <tr>
-                    <td colSpan="6" style={{ padding: "20px", textAlign: "center", color: "#888" }}>Belum ada riwayat stok.</td>
+                    <td colSpan="6" style={{ padding: "20px", textAlign: "center", color: "#888" }}>{t('noStockHistory')}</td>
                   </tr>
                 ) : (
                   batches.map((batch, index) => {
                      const isExpired = new Date(batch.tanggal_expired) < new Date();
                      const isOut = batch.stok_sekarang <= 0;
-                     let status = "Tersedia";
+                     let status = t('available');
                      let color = "green";
                      
-                     if (isOut) { status = "Habis"; color = "red"; }
-                     else if (isExpired) { status = "Kadaluwarsa"; color = "orange"; }
+                     if (isOut) { status = t('outOfStock'); color = "red"; }
+                     else if (isExpired) { status = t('expired'); color = "orange"; }
 
                      return (
                       <tr key={index} style={{ borderBottom: "1px solid #f9f9f9", height: "40px" }}>

@@ -85,7 +85,7 @@ function LaporanReturn() {
   const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
   const downloadCSV = () => {
-    const headers = ["No", "Tanggal", "Kode Produk", "Nama Produk", "Ukuran", "Kemasan", "Jumlah", "Catatan"];
+    const headers = [t('no'), t('date'), t('productCode'), t('productName'), t('size'), t('packaging'), t('quantity'), t('note')];
     const csvData = filteredData.map((row, i) => [
       i + 1,
       formatDate(row.tanggal),
@@ -116,7 +116,7 @@ function LaporanReturn() {
   };
 
   const downloadPDF = async () => {
-    const columns = ["No", "Tanggal", "Kode Produk", "Nama Produk", "Ukuran", "Kemasan", "Jumlah", "Catatan"];
+    const columns = [t('no'), t('date'), t('productCode'), t('productName'), t('size'), t('packaging'), t('quantity'), t('note')];
     const tableData = filteredData.map((row, i) => [
       i + 1,
       formatDate(row.tanggal),
@@ -236,7 +236,7 @@ function LaporanReturn() {
               <table className="laporan-table">
                 <thead>
                   <tr>
-                    <th>No</th>
+                    <th>{t('no')}</th>
                     <th>{t('date')}</th>
                     <th>{t('productCode')}</th>
                     <th>{t('productName')}</th>

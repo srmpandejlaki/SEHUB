@@ -3,8 +3,10 @@ import SearchFilter from "../../components/base/search-filter";
 import ProductItems from "../../components/product-page/product-items";
 import NavProduct from "../../components/base/nav-product";
 import { fetchAllProducts } from "../../utilities/api/products";
+import { useTranslation } from "../../contexts/localContext";
 
 function ProductPage({ isAdmin = true }) {
+  const t = useTranslation();
   const [showFormProduct, setFormProduct] = useState(false);
   const [existingData, setExistingData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -70,9 +72,9 @@ function ProductPage({ isAdmin = true }) {
       <div className="main-product">
         <div className="product-display">
           <div className="header-product-page">
-            <p className="title">Daftar Produk L' Arbre Seho</p>
+            <p className="title">{t('productListTitle')}</p>
           </div>
-          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder="Cari produk..." />
+          <SearchFilter value={searchQuery} onChange={setSearchQuery} placeholder={t('searchPlaceholder')} />
           <ProductItems products={filteredProducts} />
         </div>
       </div>

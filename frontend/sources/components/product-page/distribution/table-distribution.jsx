@@ -63,7 +63,7 @@ function TableDistribution({
         <table>
           <thead>
             <tr>
-              <th className="center">No</th>
+              <th className="center">{t('no')}</th>
               <th>{t('date')}</th>
               <th className="center">{t('nameBuyer')}</th>
               <th>{t('productCode')}</th>

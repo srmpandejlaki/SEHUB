@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import ProductItem from "../../view/templates/product";
+import { useTranslation } from "../../contexts/localContext";
 
 function ProductItems({ products }) {
   const navigate = useNavigate();
+  const t = useTranslation();
 
   return (
     <div className="product-items">
       {products.length === 0 ? (
-        <p className="no-data">Belum ada produk.</p>
+        <p className="no-data">{t('noProducts')}</p>
       ) : (
         products.map((item) => (
           <div 

@@ -92,19 +92,19 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
 
     // Validasi
     if (!tanggalDistribusi || !namaPemesan || !selectedMetode || !selectedStatus) {
-      showToast("Mohon lengkapi semua field yang wajib diisi", 'warning');
+      showToast(t('allFieldsRequired'), 'warning');
       return;
     }
 
     const validProducts = productItems.filter(item => item.id_produk && item.jumlah);
     if (validProducts.length === 0) {
-      showToast("Mohon tambahkan minimal satu produk", 'warning');
+      showToast(t('minOneProduct'), 'warning');
       return;
     }
 
     // Check stock
     if (hasOverStockItems()) {
-      showToast("Jumlah produk melebihi stok yang tersedia. Silakan periksa kembali.", 'warning');
+      showToast(t('generalOverStockError'), 'warning');
       return;
     }
 
@@ -127,11 +127,11 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
     setIsSubmitting(false);
 
     if (result) {
-      showToast("Data distribusi berhasil disimpan!", 'success');
+      showToast(t('distributeSuccess'), 'success');
       if (onSuccess) onSuccess();
       onCloseForm();
     } else {
-      showToast("Gagal menyimpan data distribusi", 'error');
+      showToast(t('distributeFailed'), 'error');
     }
   };
 
@@ -169,7 +169,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
             <label><IconPerson className="greenIcon" /> {t('nameBuyer')}</label>
             <input 
               type="text" 
-              placeholder="Masukkan nama pemesan"
+              placeholder={t('buyerPlaceholder')}
               value={namaPemesan}
               onChange={(e) => setNamaPemesan(e.target.value)}
               required
@@ -182,7 +182,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
               onChange={(e) => setSelectedMetode(e.target.value)}
               required
             >
-              <option value="">-- Pilih Metode --</option>
+              <option value="">{t('selectMethod')}</option>
               {metodePengiriman.map((metode) => (
                 <option key={metode.id_metode_pengiriman} value={metode.id_metode_pengiriman}>
                   {metode.nama_metode}
@@ -197,7 +197,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
               onChange={(e) => setSelectedStatus(e.target.value)}
               required
             >
-              <option value="">-- Pilih Status --</option>
+              <option value="">{t('selectStatus')}</option>
               {statusPengiriman.map((status) => (
                 <option key={status.id_status} value={status.id_status}>
                   {status.nama_status}
@@ -228,7 +228,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                       onChange={(e) => updateProductItem(index, "id_produk", e.target.value)}
                       required
                     >
-                      <option value="">-- Pilih Produk --</option>
+                      <option value="">{t('chooseProduct')}</option>
                       {getAvailableProducts(index).map((product) => (
                         <option key={product.id_produk} value={product.id_produk}>
                           {product.nama_produk} - {product.ukuran_produk}{product.nama_ukuran_satuan}
@@ -257,7 +257,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
                     />
                     {overStock && (
                       <p style={{ color: '#d32f2f', fontSize: '0.75rem', margin: '0.25rem 0 0 0' }}>
-                        ⚠️ Melebihi stok! (Tersedia: {stock})
+                        {t('overStockError').replace('{stock}', stock)}
                       </p>
                     )}
                   </div>
@@ -269,7 +269,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
             <div className="detail-product">
               <div className="detail-container">
                 <div className="head-detail">
-                  <p style={{ fontSize: '11px' }}>Jumlah Stok Tersedia di Sistem</p>
+                  <p style={{ fontSize: '11px' }}>{t('availableStockInSystem')}</p>
                   <IconDropDown className="blackIcon" /> 
                 </div>
                 <div className="display-detail">
@@ -305,7 +305,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
               <label><IconKeterangan className="greenIcon" /> {t('note')}</label>
               <input 
                 type="text" 
-                placeholder="Ketik sesuatu (opsional)" 
+                placeholder={t('notesDesc')} 
                 value={catatan}
                 onChange={(e) => setCatatan(e.target.value)}
               />
@@ -318,7 +318,7 @@ function FormDataDistribution({ onCloseForm, onSuccess, metodePengiriman = [], s
               disabled={isSubmitting || hasOverStockItems()}
               style={hasOverStockItems() ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
             >
-              {isSubmitting ? "Menyimpan..." : "Simpan"}
+              {isSubmitting ? t('saving') : t('saveBtn')}
             </button>
           </div>
         </div>
