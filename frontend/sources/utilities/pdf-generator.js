@@ -6,7 +6,7 @@ import logoImage from "../assets/public/logo-larbreseho.png";
 const COMPANY_INFO = {
   name: "PT. Rumah Seho Nusantara",
   brand: "L'Arbre Seho",
-  phone: "+62 895 2952 9897",
+  phone: "+62 896 9888 2428",
   address: "Jl. Poluan I, Kakaskasen Dua, Kec. Tomohon Utara, Kota Tomohon, Sulawesi Utara",
   email: "rumahseho.nusantara@gmail.com",
   website: "www.palmlarbreseho.com"
@@ -82,7 +82,7 @@ export const generatePDFReport = async ({
   // Contact Info - smaller font
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
-  doc.text(`Telp: ${COMPANY_INFO.phone}  |  Email: ${COMPANY_INFO.email}`, textStartX, yPos + 21);
+  doc.text(`Telp: ${COMPANY_INFO.phone}  |  Email: ${COMPANY_INFO.email}  |  Website: ${COMPANY_INFO.website}`, textStartX, yPos + 21);
   doc.text(`Alamat: ${COMPANY_INFO.address}`, textStartX, yPos + 26);
   
   yPos += 35;
