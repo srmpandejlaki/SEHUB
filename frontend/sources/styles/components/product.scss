@@ -3,7 +3,8 @@
 .product-page, .distribution-history, .dashboard, .stock-adjustment-page, .laporan-page {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
+  gap: 1rem;
 }
 
 .inventory-display, .product-display .title, .header-distribution-history, .header-product-page {
@@ -154,4 +155,9 @@
 
 .return-display {
   margin-bottom: 1rem;
+}
+
+.table-stock-adjustment .table-display {
+  min-height: 320px;
+  max-height: 320px;
 }
