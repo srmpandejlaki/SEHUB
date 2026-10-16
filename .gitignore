@@ -18,6 +18,8 @@ dist-ssr
 # Environment
 .env
 
+public/
+
 # Database (local only)
 backend/src/data/*.db
 

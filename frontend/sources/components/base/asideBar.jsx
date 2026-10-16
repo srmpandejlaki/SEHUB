@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import logoSehub from "../../assets/public/sehub.png";
 import IconMenu from "../../assets/icon/Vector-5.svg?react";
 import IconHome from "../../assets/icon/Vector-4.svg?react";
@@ -12,6 +12,10 @@ import LogoutModal from "./logout-modal";
 function AsideBar({ user, onLogout }) {
   const t = useTranslation();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const location = useLocation();
+  const pathname = location.pathname;
+
+  const isProductPage = pathname.startsWith("/product");
 
   const handleLogoutClick = () => {
     setShowLogoutModal(true);
@@ -50,7 +54,7 @@ function AsideBar({ user, onLogout }) {
                     </NavLink>
                   </div>
                   <div>
-                    <NavLink to="/product/inventory" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <NavLink to="/product/inventory" className={isProductPage ? "active" : ""}>
                       <IconProduct className="icon whiteIcon" /> {t('product')}
                     </NavLink>
                   </div>
